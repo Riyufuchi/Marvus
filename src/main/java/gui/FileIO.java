@@ -35,9 +35,11 @@ public class FileIO extends Window
 	
 	public FileIO(boolean export)
 	{
-		super("FileIO", 225, 175, true, false, false);
+		super("FileIO", 225, 175, true, true, false);
 		this.export = export;
 		this.dtf = null;
+		if(export)
+			ok.setText("Export data");
 		setTitle(getTitle() + " - " + ok.getText());
 	}
 
@@ -74,10 +76,7 @@ public class FileIO extends Window
 	
 	private void createButtons()
 	{
-		if(export)
-			ok = new JButton("Export data");
-		else
-			ok = new JButton("Import data");
+		ok = new JButton("Import data");
 		cancel = new JButton("Cancel");
 		ok.setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
 		ok.setFont(Values.FONT_MAIN);
@@ -135,7 +134,7 @@ public class FileIO extends Window
 					try 
 					{
 						importNow();
-					}catch(NullPointerException e1)
+					}catch(NullPointerException | IllegalArgumentException e1)
 					{
 						new ErrorWindow("NullPtr", e1.getMessage());
 					}
@@ -158,7 +157,7 @@ public class FileIO extends Window
 
 	private void exportNow()
 	{
-		if (!(pathToFile.getText()).equals("") && !(fileName.getText().isBlank()))
+		if (!(fileName.getText().isBlank() && !list.isEmpty()))
 		{
 			switch (comboBoxes[0].getSelectedIndex())
 			{
@@ -169,7 +168,7 @@ public class FileIO extends Window
 		}
 	}
 
-	private void importNow() throws NullPointerException
+	private void importNow() throws NullPointerException, IllegalArgumentException
 	{
 		//list = new LinkedList<>();
 		if(dtf == null)
