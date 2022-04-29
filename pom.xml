@@ -4,6 +4,14 @@
 	<artifactId>Marvus</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>MoneyTable</name>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
