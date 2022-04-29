@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
@@ -17,8 +15,9 @@ import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 11.04.2022
- * @author riyufuchi
+ * Last Edit: 30.04.2022
+ * 
+ * @author Riyufuchi
  *
  */
 @SuppressWarnings("serial")
@@ -108,46 +107,33 @@ public class FileIO extends Window
 	
 	private void createEvents()
 	{
-		comboBoxes[1].addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
+		comboBoxes[1].addActionListener(event -> {
+			if(comboBoxes[1].getSelectedIndex() == 1)
+				pathToFile.setEnabled(true);
+			else
 			{
-				if(comboBoxes[1].getSelectedIndex() == 1)
-					pathToFile.setEnabled(true);
-				else
+				pathToFile.setEnabled(false);
+				pathToFile.setText("data/");
+			}
+		});
+		if(export)
+		{
+			ok.addActionListener(event -> { exportNow(); safelyClose(); });
+		}
+		else
+		{
+			ok.addActionListener(event -> { 
+				try 
 				{
-					pathToFile.setEnabled(false);
-					pathToFile.setText("data/");
+					importNow();
+				}catch(NullPointerException | IllegalArgumentException e1)
+				{
+					new ErrorWindow("NullPtr", e1.getMessage());
 				}
-			}
-			
-		});
-		ok.addActionListener(new ActionListener() 
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				if(export)
-					exportNow();
-				else
-					try 
-					{
-						importNow();
-					}catch(NullPointerException | IllegalArgumentException e1)
-					{
-						new ErrorWindow("NullPtr", e1.getMessage());
-					}
 				safelyClose();
-			}
-		});
-		cancel.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent evt) 
-			{
-				safelyClose();
-			}
-		});
+			});
+		}
+		cancel.addActionListener(event -> safelyClose());
 	}
 	
 	private void safelyClose()

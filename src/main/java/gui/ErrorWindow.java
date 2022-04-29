@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -10,9 +11,10 @@ import utils.Values;
 
 /**
  * Created On: 13.07.2020
- * Last Edit: 11.04.2022
+ * Last Edit: 30.04.2022
+ * 
  * @author Riyufuchi
- * @version 1.2
+ * @version 1.3
  * @since 1.0
  */
 
@@ -48,6 +50,7 @@ public class ErrorWindow extends Window
 		errorMessageLabel.setLineWrap(true);
 		errorMessageLabel.setWrapStyleWord(true);
 		errorMessageLabel.setBackground(Values.DEFAULT_PANE_BACKGROUND);
+		errorMessageLabel.setForeground(Color.LIGHT_GRAY);
 		errorMessageLabel.setFont(Values.FONT_MAIN);
 		content.add(errorMessageLabel, getGBC(0,0));
 	}

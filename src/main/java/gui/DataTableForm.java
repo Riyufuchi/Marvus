@@ -1,7 +1,6 @@
 package gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -9,6 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 import utils.JMenuCreator;
 import utils.Values;
@@ -17,12 +17,12 @@ import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 29.04.2022
+ * Last Edit: 30.04.2022
+ * 
  * @author Riyufuchi
- *
  */
 @SuppressWarnings("serial")
-public class DataTableForm extends Window
+public final class DataTableForm extends Window
 {
 	private DataBox dataBox;
 	private JTextField[][] textFields;
@@ -31,7 +31,6 @@ public class DataTableForm extends Window
 	{
 		super("Data table form", width, height, false, true, true);
 		this.dataBox = new DataBox();
-		//loadData(Persistance.loadFromCVS("data.cvs"));
 	}
 
 	@Override
@@ -49,13 +48,6 @@ public class DataTableForm extends Window
 		{
 			super.dispose();
 		}
-	}
-	
-	private void sort()
-	{
-		dataBox.sort();
-		getPane().removeAll();
-		loadData((LinkedList<Money>) dataBox.getList());
 	}
 
 	public final void loadData(LinkedList<Money> data) throws NullPointerException, IllegalArgumentException
@@ -84,9 +76,13 @@ public class DataTableForm extends Window
 			for(int i = 0; i < textFields[0].length; i++)
 			{
 				textFields[x][i] = new JTextField();
-				textFields[x][i].setEnabled(false);
+				//textFields[x][i].setEnabled(false);
+				textFields[x][i].setEditable(false);
+				textFields[x][i].setBackground(Color.DARK_GRAY);
+				textFields[x][i].setForeground(Color.LIGHT_GRAY);
 				textFields[x][i].setText(listData[i]);
 				textFields[x][i].setFont(Values.FONT_MAIN);
+				textFields[x][i].setBorder(new LineBorder(Color.GRAY));
 				pane.add(textFields[x][i], getGBC( i + year, y + 1));
 			}
 			y++;
@@ -98,72 +94,33 @@ public class DataTableForm extends Window
 	{
 		JMenuCreator jmc = new JMenuCreator(Values.DTF_MENU, Values.DTF_MENU_ITEMS, 3);
 		JMenuItem[] jmi = jmc.getMenuItem();
-		for (int i = 0; i < jmi.length; i++) {
-			switch (jmi[i].getName()) {
-			case "About":
-				jmi[i].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						new ErrorWindow("About", "This is money manager.\nVersion: " + Values.VERSION + "\n"
-								+ "Created by Riyufuchi.\n"
-								+ "Free libs under OpenSource lincention are used (I thnink), however my code is not under OpenSource licention.");
-					}
-				});
-				break;
-			case "Exit":
-				jmi[i].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						System.exit(0);
-					}
-				});
-				break;
-			case "Export":
-				jmi[i].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						new FileIO(true);
-					}
-				});
-				break;
-			case "Import":
-				jmi[i].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						importData();
-					}
-				});
-				break;
-		case "Refresh/Load":
-			jmi[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					refresh();
-				}
-			});
-			break;
-		case "Count":
-			jmi[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					count();
-				}
-			});
-			break;
+		for (int i = 0; i < jmi.length; i++)
+		{
+			switch (jmi[i].getName())
+			{
+				case "About" -> jmi[i].addActionListener(event -> about());
+				case "Exit" -> jmi[i].addActionListener(event -> System.exit(0));
+				case "Export"-> jmi[i].addActionListener(event -> new FileIO(true));
+				case "Import" -> jmi[i].addActionListener(event -> new FileIO(false).setImportDestination(this));
+				case "Refresh/Load" -> jmi[i].addActionListener(event -> refresh());
+				case "Count" -> jmi[i].addActionListener(event -> new Counter(dataBox));
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
 	}
 	
-	private void count()
-	{
-		new Counter(dataBox);
-	}
-	
-	private void importData()
-	{
-		new FileIO(false).setImportDestination(this);
-	}
-	
 	private void refresh()
 	{
-		sort();
+		dataBox.sort();
+		getPane().removeAll();
+		loadData((LinkedList<Money>) dataBox.getList());
 		repaint();
 		revalidate();
 	}
-
+	
+	private void about()
+	{
+		new ErrorWindow("About", "This is money manager.\nVersion: " + Values.VERSION + "\nCreated by Riyufuchi.\n"
+			+ "Free libs under OpenSource lincention are used (I thnink), however my code is not under OpenSource licention.");
+	}
 }

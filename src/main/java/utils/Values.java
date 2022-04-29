@@ -14,8 +14,8 @@ public class Values
 															{"Default", "Custom"}};
 	//Visuals
 	public static final Color DEFAULT_BUTTON_BACKGROUND = new Color(214,217,223);
-	//public static final Color DEFAULT_BUTTON_FOREGROUND = new Color(0,0,0);
-	public static final Color DEFAULT_PANE_BACKGROUND = new Color(192,192,192);
+	//public static final Color DEFAULT_PANE_BACKGROUND = new Color(192,192,192);
+	public static final Color DEFAULT_PANE_BACKGROUND = new Color(64,64,64);
 	//Fonts
 	public static final Font FONT_MAIN = new Font("Dialog.plain", Font.BOLD, 18);
 	public static final Font FONT_LABEL = javax.swing.UIManager.getDefaults().getFont("Label.font");
