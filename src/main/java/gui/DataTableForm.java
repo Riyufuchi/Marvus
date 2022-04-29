@@ -58,10 +58,12 @@ public class DataTableForm extends Window
 		loadData((LinkedList<Money>) dataBox.getList());
 	}
 
-	public final void loadData(LinkedList<Money> data) throws NullPointerException
+	public final void loadData(LinkedList<Money> data) throws NullPointerException, IllegalArgumentException
 	{
 		if(data == null)
 			throw new NullPointerException();
+		if(data.isEmpty())
+			throw new IllegalArgumentException("Inputed datalist is emtpy");
 		dataBox.setList(data);
 		textFields = new JTextField[data.size()][2];
 		String[] listData = data.get(0).getDataArray();

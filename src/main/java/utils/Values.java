@@ -10,7 +10,7 @@ public class Values
 	public static final String[] DTF_MENU = {"File", "Operations", "Tools", "Help"};
 	public static final String[] DTF_MENU_ITEMS = {"Create", "Export", "Import", "Exit", "", "Count", "Add", "Edit", "Delete", "Refresh/Load","", "Highest and Lowest savings", "", "About"};
 	public static final String[] FIO_LABELS = {"File type:", "Path type:", "File name:", "Actual path:"};
-	public static final String[][] FIO_COMBO_BOX_ITEMS = {  {".cvs", ".xml", ".dat"},
+	public static final String[][] FIO_COMBO_BOX_ITEMS = {  {".csv", ".xml", ".dat"},
 															{"Default", "Custom"}};
 	//Visuals
 	public static final Color DEFAULT_BUTTON_BACKGROUND = new Color(214,217,223);
