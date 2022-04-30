@@ -10,14 +10,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import utils.Helper;
 import utils.Values;
 
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 11.04.2022
- * @author riyufuchi
- *
+ * Last Edit: 30.04.2022
+ * 
+ * @author Riyufuchi
  */
 @SuppressWarnings("serial")
 public abstract class Window extends JFrame
@@ -71,7 +72,16 @@ public abstract class Window extends JFrame
 		this.dispose();
 	}
 	
-	protected GridBagConstraints getGBC(int x, int y)
+	protected void createLabels(String[] texts)
+	{
+		int max = texts.length;
+		for(int i = 0; i < max; i++)
+		{
+			contentPane.add(Helper.newLabel(texts[i]), getGBC(0, i));
+		}
+	}
+	
+	protected final GridBagConstraints getGBC(int x, int y)
 	{
 		gbc.gridx = x;
 		gbc.gridy = y;

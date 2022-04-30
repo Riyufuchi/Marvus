@@ -14,7 +14,7 @@ import utils.Values;
  * Last Edit: 30.04.2022
  * 
  * @author Riyufuchi
- * @version 1.3
+ * @version 1.4
  * @since 1.0
  */
 
@@ -23,23 +23,16 @@ public class ErrorWindow extends Window
 {
 	private JTextArea errorMessageLabel;
 	
+	public ErrorWindow(ErrorCause error, String errorMessage)
+	{
+		super(error.text, 400, 300, true, true, false);
+		this.errorMessageLabel.setText(errorMessage);
+	}
+	
 	public ErrorWindow(String title, String errorMessage)
 	{
 		super(title, 400, 300, true, true, false);
 		this.errorMessageLabel.setText(errorMessage);
-		super.addComponentListener(new ComponentAdapter() 
-		{
-			public void componentResized(ComponentEvent componentEvent) 
-			{
-				resize();
-			}
-		});
-	}
-
-	public void componentResized(ComponentEvent componentEvent) 
-	{
-		errorMessageLabel.setBounds(0, 0, (int)(getWidth() * 0.90), getHeight());
-		this.repaint();
 	}
 	
 	@Override
@@ -52,6 +45,13 @@ public class ErrorWindow extends Window
 		errorMessageLabel.setBackground(Values.DEFAULT_PANE_BACKGROUND);
 		errorMessageLabel.setForeground(Color.LIGHT_GRAY);
 		errorMessageLabel.setFont(Values.FONT_MAIN);
+		super.addComponentListener(new ComponentAdapter() 
+		{
+			public void componentResized(ComponentEvent componentEvent) 
+			{
+				resize();
+			}
+		});
 		content.add(errorMessageLabel, getGBC(0,0));
 	}
 	

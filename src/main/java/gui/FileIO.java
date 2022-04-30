@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -18,14 +17,11 @@ import workData.Money;
  * Last Edit: 30.04.2022
  * 
  * @author Riyufuchi
- *
  */
 @SuppressWarnings("serial")
 public class FileIO extends Window
 {
-
 	private JButton cancel, ok;
-	private JLabel[] labels;
 	private JComboBox<String>[] comboBoxes;
 	private JTextField fileName, pathToFile;
 	private LinkedList<Money> list;
@@ -34,7 +30,7 @@ public class FileIO extends Window
 	
 	public FileIO(boolean export)
 	{
-		super("FileIO", 225, 175, true, true, false);
+		super("FileIO", 260, 210, true, true, false);
 		this.export = export;
 		this.dtf = null;
 		if(export)
@@ -48,7 +44,7 @@ public class FileIO extends Window
 		createComboBoxes(content);
 		createTextFields();
 		createButtons();
-		createLabels(content);
+		createLabels(Values.FIO_LABELS);
 		createEvents();
 		content.add(fileName, getGBC(1, 2));
 		content.add(pathToFile, getGBC(1, 3));
@@ -85,24 +81,11 @@ public class FileIO extends Window
 	
 	private void createTextFields()
 	{
-		fileName = new JTextField();
+		fileName = new JTextField("data");
 		fileName.setFont(Values.FONT_MAIN);
-		fileName.setText("data");
-		pathToFile = new JTextField();
-		pathToFile.setText("data/");
+		pathToFile = new JTextField("data/");
 		pathToFile.setEnabled(false);
 		pathToFile.setFont(Values.FONT_MAIN);
-	}
-	
-	private void createLabels(JPanel content)
-	{
-		labels = new JLabel[Values.FIO_LABELS.length];
-		for(int i = 0; i < labels.length; i++)
-		{
-			labels[i] = new JLabel();
-			labels[i].setText(Values.FIO_LABELS[i]);
-			content.add(labels[i], getGBC( 0, i));
-		}
 	}
 	
 	private void createEvents()
@@ -128,7 +111,7 @@ public class FileIO extends Window
 					importNow();
 				}catch(NullPointerException | IllegalArgumentException e1)
 				{
-					new ErrorWindow("NullPtr", e1.getMessage());
+					new ErrorWindow(ErrorCause.INERNAL, e1.getMessage());
 				}
 				safelyClose();
 			});

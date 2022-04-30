@@ -1,8 +1,10 @@
 package utils;
 
+import java.awt.Color;
 import java.util.Objects;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -10,11 +12,11 @@ import javax.swing.border.Border;
 /**
  * Copyright Header
  * 
- * Project: ODB Manager
  * Created On: 20.04.2022
- * Last Edit: 20.04.2022
+ * Last Edit: 30.04.2022
+ * 
  * @author Riyufuchi
- * @version 1.0
+ * @version 1.1
  * @since 1.0 
  */
 
@@ -28,6 +30,14 @@ public class Helper
 	public static void makeBorder(JComponent control, Border border)
 	{
 		control.setBorder(border);
+	}
+	
+	public static JLabel newLabel(String text)
+	{
+		JLabel label = new JLabel(text);
+		label.setFont(Values.FONT_MAIN);
+		label.setForeground(Color.LIGHT_GRAY);
+		return label;
 	}
 	
 	public static String checkDoubleFormat(String text) throws NullPointerException, IllegalArgumentException

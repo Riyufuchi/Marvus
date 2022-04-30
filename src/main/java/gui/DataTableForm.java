@@ -29,7 +29,7 @@ public final class DataTableForm extends Window
 	
 	public DataTableForm(int width, int height)
 	{
-		super("Data table form", width, height, false, true, true);
+		super("Marvus - Datatable", width, height, false, true, true);
 		this.dataBox = new DataBox();
 	}
 
@@ -64,6 +64,7 @@ public final class DataTableForm extends Window
 		int year = 0;
 		JPanel pane = getPane();
 		int y = 0;
+		LineBorder lb = new LineBorder(Color.GRAY);
 		for(int x = 0; x < textFields.length; x++)
 		{
 			listData = it.next().getDataArray();
@@ -75,14 +76,13 @@ public final class DataTableForm extends Window
 			}
 			for(int i = 0; i < textFields[0].length; i++)
 			{
-				textFields[x][i] = new JTextField();
+				textFields[x][i] = new JTextField(listData[i]);
 				//textFields[x][i].setEnabled(false);
 				textFields[x][i].setEditable(false);
 				textFields[x][i].setBackground(Color.DARK_GRAY);
 				textFields[x][i].setForeground(Color.LIGHT_GRAY);
-				textFields[x][i].setText(listData[i]);
 				textFields[x][i].setFont(Values.FONT_MAIN);
-				textFields[x][i].setBorder(new LineBorder(Color.GRAY));
+				textFields[x][i].setBorder(lb);
 				pane.add(textFields[x][i], getGBC( i + year, y + 1));
 			}
 			y++;
@@ -93,9 +93,11 @@ public final class DataTableForm extends Window
 	private void setupJMenu()
 	{
 		JMenuCreator jmc = new JMenuCreator(Values.DTF_MENU, Values.DTF_MENU_ITEMS, 3);
+		jmc.getJMenuBar().setBackground(Color.LIGHT_GRAY);
 		JMenuItem[] jmi = jmc.getMenuItem();
 		for (int i = 0; i < jmi.length; i++)
 		{
+			jmi[i].setBackground(Color.LIGHT_GRAY);
 			switch (jmi[i].getName())
 			{
 				case "About" -> jmi[i].addActionListener(event -> about());
@@ -111,6 +113,8 @@ public final class DataTableForm extends Window
 	
 	private void refresh()
 	{
+		if(dataBox.isEmpty())
+			return;
 		dataBox.sort();
 		getPane().removeAll();
 		loadData((LinkedList<Money>) dataBox.getList());

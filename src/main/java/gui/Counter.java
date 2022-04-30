@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
@@ -31,7 +30,6 @@ public class Counter extends Window
 {
 	private JButton ok, cancel;
 	private DataBox dataBox;
-	private JLabel[] labels;
 	private JTextField[] textFields;
 	private Calculations cals;
 	private boolean dataOk;
@@ -54,20 +52,18 @@ public class Counter extends Window
 		}
 		catch (NullPointerException | IOException e)
 		{
-			new ErrorWindow(Error.IO.text, e.getMessage());
+			new ErrorWindow(ErrorCause.IO, e.getMessage());
 		}
-		createTextFilds(content);
 	}
 	
-	private void createTextFilds(JPanel content)
+	private void createTextFilds(JPanel content, int x, String[] actions)
 	{
-		if(labels == null)
-			return;
-		textFields = new JTextField[labels.length];
+		textFields = new JTextField[x];
 		int i;
 		for(i = 0; i < textFields.length; i++)
 		{
-			textFields[i] = new JTextField();
+			textFields[i] = new JTextField("0");
+			textFields[i].setName(actions[i]);
 			textFields[i].setFont(Values.FONT_MAIN);
 			content.add(textFields[i], getGBC(1, i));
 		}
@@ -79,20 +75,18 @@ public class Counter extends Window
 		LinkedList<String> labelTexts = (LinkedList<String>) Persistance.loadFromCVS("data/counter.csv");
 		Iterator<String> it = labelTexts.iterator();
 		String[] texts;
-		labels = new JLabel[labelTexts.size()];
-		int i;
-		for(i = 0; i < labels.length; i++)
+		String[] actions = new String[labelTexts.size()];
+		int i = 0;
+		while(it.hasNext())
 		{
 			texts = it.next().split(";");
-			labels[i] = new JLabel();
-			labels[i].setText(texts[0]);
-			labels[i].setName(texts[1]);
-			labels[i].setForeground(Color.LIGHT_GRAY);
-			labels[i].setFont(Values.FONT_MAIN);
-			content.add(labels[i], getGBC(0, i));
+			actions[i] = texts[1];
+			content.add(Helper.newLabel(texts[0]), getGBC(0, i));
+			i++;
 		}
 		content.add(cancel, getGBC(0, i));
 		content.add(ok, getGBC(1, i));
+		createTextFilds(content, i, actions);
 	}
 	
 	private void createButtons()
@@ -124,14 +118,14 @@ public class Counter extends Window
 			try
 			{
 					for(int x = 0; x < max; x++)
-						if(labels[x].getName().equals("-"))
+						if(textFields[x].getName().equals("-"))
 							cals.add("-" + Helper.checkDoubleFormat(textFields[x].getText()));
 						else
 							cals.add(Helper.checkDoubleFormat(textFields[x].getText()));
 			}
 			catch(NullPointerException | IllegalArgumentException e)
 			{
-				new ErrorWindow(Error.INERNAL.toString(), e.getMessage());
+				new ErrorWindow(ErrorCause.INERNAL, e.getMessage());
 			}
 			dataBox.add(new Money(cals.getSum().toString(), textFields[max].getText()));
 			this.dispose();

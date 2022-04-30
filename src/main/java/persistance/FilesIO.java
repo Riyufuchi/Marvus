@@ -12,15 +12,14 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import gui.ErrorCause;
 import gui.ErrorWindow;
 import workData.Money;
 
 /**
- * Copyright Header
- * 
- * Project: ODB Manager
  * Created On: 02.07.2021
  * Last Edit: 02.07.2021
+ * 
  * @author Riyufuchi
  * @version 1.0
  * @since 1.3.1 
@@ -40,7 +39,7 @@ public class FilesIO
 		}
 		catch(IOException e)
 		{
-			new ErrorWindow("IO Error", e.getMessage());
+			new ErrorWindow(ErrorCause.IO, e.getMessage());
 		}
 		new ErrorWindow("Export completed", "File saved to path: " + path);
 	}
@@ -61,7 +60,7 @@ public class FilesIO
 		}
 		catch(IOException e)
 		{
-			new ErrorWindow("IO Error", e.getMessage());
+			new ErrorWindow(ErrorCause.IO, e.getMessage());
 		}
 		return l;
 	}
@@ -79,7 +78,7 @@ public class FilesIO
 		}
 		catch (IOException e) 
 		{
-			new ErrorWindow("IO error", e.getMessage());
+			new ErrorWindow(ErrorCause.IO, e.getMessage());
 		}
 		new ErrorWindow("Export completed", "File saved to path: " + path);
 	}
@@ -102,7 +101,7 @@ public class FilesIO
 		}
 		catch (IOException e) 
 		{
-			new ErrorWindow("IO error", e.getMessage());
+			new ErrorWindow(ErrorCause.IO, e.getMessage());
 		}
 		return l;
 	}
