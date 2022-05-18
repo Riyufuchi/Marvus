@@ -16,12 +16,11 @@ import persistance.Persistance;
 import utils.Helper;
 import utils.Values;
 import workData.Calculations;
-import workData.DataBox;
 import workData.Money;
 
 /**
  * Created On: 20.04.2022
- * Last Edit: 30.04.2022
+ * Last Edit: 18.05.2022
  * 
  * @author Riyufuchi
  */
@@ -29,15 +28,15 @@ import workData.Money;
 public class Counter extends Window
 {
 	private JButton ok, cancel;
-	private DataBox dataBox;
+	private DataTableForm dtf;
 	private JTextField[] textFields;
 	private Calculations cals;
 	private boolean dataOk;
 
-	public Counter(DataBox dataBox)
+	public Counter(DataTableForm dtf)
 	{
 		super("Counter", 100, 200, true, true, false);
-		this.dataBox = dataBox;
+		this.dtf = dtf;
 		this.dataOk = true;
 		this.cals = new Calculations();
 	}
@@ -62,7 +61,7 @@ public class Counter extends Window
 		int i;
 		for(i = 0; i < textFields.length; i++)
 		{
-			textFields[i] = new JTextField("0");
+			textFields[i] = new JTextField("0.0");
 			textFields[i].setName(actions[i]);
 			textFields[i].setFont(Values.FONT_MAIN);
 			content.add(textFields[i], getGBC(1, i));
@@ -102,7 +101,6 @@ public class Counter extends Window
 	
 	private void calculate()
 	{
-		
 		resetBorders();
 		for(int i = 0; i < textFields.length; i++)
 		{
@@ -113,7 +111,7 @@ public class Counter extends Window
 			}
 		}
 		final int max = textFields.length - 1;
-		if(dataOk)
+		if(dataOk && dtf != null)
 		{
 			try
 			{
@@ -127,7 +125,8 @@ public class Counter extends Window
 			{
 				new ErrorWindow(ErrorCause.INERNAL, e.getMessage());
 			}
-			dataBox.add(new Money(cals.getSum().toString(), textFields[max].getText()));
+			dtf.getDataBox().add(new Money(cals.getSum().toString(), textFields[max].getText()));
+			dtf.refresh();
 			this.dispose();
 		}
 		repaint();
@@ -136,9 +135,7 @@ public class Counter extends Window
 	private void resetBorders()
 	{
 		for(int i = 0; i < 0; i++)
-		{
 			Helper.makeBorder(textFields[i], Helper.defaultTextFieldBorder());
-		}
 		repaint();
 	}
 }

@@ -7,8 +7,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
-public class HelperTest {
-
+public class HelperTest
+{
 	@Rule
 	public TestName testName = new TestName();
 	
@@ -41,7 +41,7 @@ public class HelperTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testDoubleFormat04()
+	public void testDoubleFormat03()
 	{
 		print(testName.getMethodName());
 		Helper.checkDoubleFormat(" .o");
@@ -49,9 +49,16 @@ public class HelperTest {
 	}
 	
 	@Test
-	public void testDoubleFormat03()
+	public void testDoubleFormat04()
 	{
 		print(testName.getMethodName());
 		assertEquals("207.3", Helper.checkDoubleFormat(" 20o7., .3 "));
+	}
+	
+	@Test
+	public void testDoubleFormat05()
+	{
+		print(testName.getMethodName());
+		assertEquals("10.50", Helper.checkDoubleFormat(" 10,.50"));
 	}
 }

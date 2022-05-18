@@ -8,7 +8,7 @@ public class Values
 	public static final String VERSION = "0.0.1";
 	//Window contents
 	public static final String[] DTF_MENU = {"File", "Data", "Sort by", "Help"};
-	public static final String[] DTF_MENU_ITEMS = {"Create", "Export", "Import", "Exit", "", "Count", "Add", "Edit", "Delete", "Refresh/Load","", "Date", "Hightest to lowest", "", "About"};
+	public static final String[] DTF_MENU_ITEMS = {"Create", "Export", "Import", "Exit", "", "Count", "Add", "Edit", "Delete", "Refresh", "", "Date", "Hightest to lowest", "", "About"};
 	public static final String[] FIO_LABELS = {"File type:", "Path type:", "File name:", "Actual path:"};
 	public static final String[][] FIO_COMBO_BOX_ITEMS = {  {".csv", ".xml", ".dat"},
 															{"Default", "Custom"}};

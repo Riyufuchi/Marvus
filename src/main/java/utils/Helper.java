@@ -13,10 +13,10 @@ import javax.swing.border.Border;
  * Copyright Header
  * 
  * Created On: 20.04.2022
- * Last Edit: 30.04.2022
+ * Last Edit: 01.05.2022
  * 
  * @author Riyufuchi
- * @version 1.1
+ * @version 1.2
  * @since 1.0 
  */
 
@@ -46,7 +46,7 @@ public class Helper
 		if(text.isBlank() || !text.matches(".*\\d.*"))
 			throw new IllegalArgumentException();
 		if(text.contains(","))
-			text.replace(",", ".");
+			text = text.replace(",", ".");
 		char[] number = new char[text.length()];
 		boolean dot = false;
 		int index = 0;

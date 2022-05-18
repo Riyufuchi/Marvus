@@ -17,7 +17,7 @@ import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 30.04.2022
+ * Last Edit: 18.05.2022
  * 
  * @author Riyufuchi
  */
@@ -43,7 +43,7 @@ public final class DataTableForm extends Window
 	@Override
 	protected void onClose()
 	{
-		int confirm = JOptionPane.showOptionDialog(null, "Close Application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		int confirm = JOptionPane.showOptionDialog(this, "Close Application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		if (confirm == 0)
 		{
 			super.dispose();
@@ -57,6 +57,7 @@ public final class DataTableForm extends Window
 		if(data.isEmpty())
 			throw new IllegalArgumentException("Inputed datalist is emtpy");
 		dataBox.setList(data);
+		getPane().removeAll();
 		textFields = new JTextField[data.size()][2];
 		String[] listData = data.get(0).getDataArray();
 		char oldDate = listData[1].charAt(listData[1].length()-1);
@@ -87,7 +88,7 @@ public final class DataTableForm extends Window
 			}
 			y++;
 		}
-		repaint();
+		revalidate();
 	}
 	
 	private void setupJMenu()
@@ -102,20 +103,31 @@ public final class DataTableForm extends Window
 			{
 				case "About" -> jmi[i].addActionListener(event -> about());
 				case "Exit" -> jmi[i].addActionListener(event -> System.exit(0));
-				case "Export"-> jmi[i].addActionListener(event -> new FileIO(true));
-				case "Import" -> jmi[i].addActionListener(event -> new FileIO(false).setImportDestination(this));
-				case "Refresh/Load" -> jmi[i].addActionListener(event -> refresh());
-				case "Count" -> jmi[i].addActionListener(event -> new Counter(dataBox));
+				case "Export"-> jmi[i].addActionListener(event -> new FileIO(true, this));
+				case "Import" -> jmi[i].addActionListener(event -> new FileIO(false, this));
+				case "Refresh" -> jmi[i].addActionListener(event -> refresh());
+				case "Count" -> jmi[i].addActionListener(event -> new Counter(this));
+				case "Date" -> jmi[i].addActionListener(event -> sort());
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
 	}
 	
-	private void refresh()
+	private void sort()
 	{
 		if(dataBox.isEmpty())
 			return;
 		dataBox.sort();
+		refresh();
+	}
+	
+	public DataBox getDataBox()
+	{
+		return dataBox;
+	}
+	
+	public void refresh()
+	{
 		getPane().removeAll();
 		loadData((LinkedList<Money>) dataBox.getList());
 		repaint();

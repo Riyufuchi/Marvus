@@ -1,7 +1,5 @@
 package gui;
 
-import java.util.LinkedList;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -10,11 +8,10 @@ import javax.swing.JTextField;
 import persistance.FilesIO;
 import persistance.XML;
 import utils.Values;
-import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 30.04.2022
+ * Last Edit: 18.05.2022
  * 
  * @author Riyufuchi
  */
@@ -24,17 +21,17 @@ public class FileIO extends Window
 	private JButton cancel, ok;
 	private JComboBox<String>[] comboBoxes;
 	private JTextField fileName, pathToFile;
-	private LinkedList<Money> list;
 	private DataTableForm dtf;
 	private final boolean export;
 	
-	public FileIO(boolean export)
+	public FileIO(boolean export, DataTableForm dtf)
 	{
 		super("FileIO", 260, 210, true, true, false);
 		this.export = export;
-		this.dtf = null;
+		this.dtf = dtf;
 		if(export)
 			ok.setText("Export data");
+		createEvents();
 		setTitle(getTitle() + " - " + ok.getText());
 	}
 
@@ -45,7 +42,6 @@ public class FileIO extends Window
 		createTextFields();
 		createButtons();
 		createLabels(Values.FIO_LABELS);
-		createEvents();
 		content.add(fileName, getGBC(1, 2));
 		content.add(pathToFile, getGBC(1, 3));
 		content.add(ok, getGBC(1, 4));
@@ -109,7 +105,8 @@ public class FileIO extends Window
 				try 
 				{
 					importNow();
-				}catch(NullPointerException | IllegalArgumentException e1)
+				}
+				catch(NullPointerException | IllegalArgumentException e1)
 				{
 					new ErrorWindow(ErrorCause.INERNAL, e1.getMessage());
 				}
@@ -126,13 +123,13 @@ public class FileIO extends Window
 
 	private void exportNow()
 	{
-		if (!(fileName.getText().isBlank() && !list.isEmpty()))
+		if (!(fileName.getText().isBlank() && !dtf.getDataBox().isEmpty()))
 		{
 			switch (comboBoxes[0].getSelectedIndex())
 			{
-				case 0 -> { FilesIO.saveToCVS(getPath(), list); }
-				case 1 -> { new XML(getPath(), "MoneyExport", "Money").exportXML(list); }
-				case 2 -> { FilesIO.writeBinary(getPath(), list); }
+				case 0 -> { FilesIO.saveToCVS(getPath(), dtf.getDataBox().getList()); }
+				case 1 -> { new XML(getPath(), "MoneyExport", "Money").exportXML(dtf.getDataBox().getList()); }
+				case 2 -> { FilesIO.writeBinary(getPath(), dtf.getDataBox().getList()); }
 			}
 		}
 	}
@@ -148,7 +145,8 @@ public class FileIO extends Window
 			{
 				case 0 -> {
 					//list = FilesIO.loadFromCVS(getPath());
-					dtf.loadData(FilesIO.loadFromCVS(getPath()));
+					//dtf.set(FilesIO.loadFromCVS(getPath()));
+					dtf.getDataBox().setList(FilesIO.loadFromCVS(getPath()));
 				}
 				case 1 -> {
 					XML xml = new XML(getPath(), "MoneyExport", "Money");
@@ -162,31 +160,15 @@ public class FileIO extends Window
 		}
 	}
 	
-	//SETTERS
-	
-	public void setList(LinkedList<Money> list) throws NullPointerException
-	{
-		if(list == null)
-			throw new NullPointerException();
-		this.list = list;
-	}
-	
-	public void setImportDestination(DataTableForm dtf) throws NullPointerException
-	{
-		if(dtf == null)
-			throw new NullPointerException();
-		this.dtf = dtf;
-	}
-
 	//GETTERS
 	
-	public String getPath()
+	private String getPath()
 	{
 		switch(comboBoxes[1].getSelectedIndex())
 		{
 			case 0 -> { return "data/" + fileName.getText() + comboBoxes[0].getSelectedItem(); }
 			case 1 -> { return pathToFile.getText() + fileName.getText() + comboBoxes[0].getSelectedItem();}
+			default -> { return ""; }
 		}
-		return "";
 	}
 }
