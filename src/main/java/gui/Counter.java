@@ -7,12 +7,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import persistance.Persistance;
+import utils.FactoryComponent;
 import utils.Helper;
 import utils.Values;
 import workData.Calculations;
@@ -20,14 +20,13 @@ import workData.Money;
 
 /**
  * Created On: 20.04.2022
- * Last Edit: 18.05.2022
+ * Last Edit: 14.07.2022
  * 
  * @author Riyufuchi
  */
 @SuppressWarnings("serial")
 public class Counter extends Window
 {
-	private JButton ok, cancel;
 	private DataTableForm dtf;
 	private JTextField[] textFields;
 	private Calculations cals;
@@ -44,7 +43,6 @@ public class Counter extends Window
 	@Override
 	protected void setComponents(JPanel content)
 	{
-		createButtons();
 		try
 		{
 			createLabels(content);
@@ -80,23 +78,12 @@ public class Counter extends Window
 		{
 			texts = it.next().split(";");
 			actions[i] = texts[1];
-			content.add(Helper.newLabel(texts[0]), getGBC(0, i));
+			content.add(FactoryComponent.newLabel(texts[0]), getGBC(0, i));
 			i++;
 		}
-		content.add(cancel, getGBC(0, i));
-		content.add(ok, getGBC(1, i));
+		content.add(FactoryComponent.createButton("Cancel", event -> this.dispose()), getGBC(0, i));
+		content.add(FactoryComponent.createButton("Calculate", event -> calculate()), getGBC(1, i));
 		createTextFilds(content, i, actions);
-	}
-	
-	private void createButtons()
-	{
-		ok = new JButton("Calculate");
-		cancel = new JButton("Cancel");
-		ok.setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
-		ok.setFont(Values.FONT_MAIN);
-		ok.addActionListener(event -> calculate());
-		cancel.setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
-		cancel.setFont(Values.FONT_MAIN);
 	}
 	
 	private void calculate()
@@ -115,11 +102,11 @@ public class Counter extends Window
 		{
 			try
 			{
-					for(int x = 0; x < max; x++)
-						if(textFields[x].getName().equals("-"))
-							cals.add("-" + Helper.checkDoubleFormat(textFields[x].getText()));
-						else
-							cals.add(Helper.checkDoubleFormat(textFields[x].getText()));
+				for(int x = 0; x < max; x++)
+					if(textFields[x].getName().equals("-"))
+						cals.add("-" + Helper.checkDoubleFormat(textFields[x].getText()));
+					else
+						cals.add(Helper.checkDoubleFormat(textFields[x].getText()));
 			}
 			catch(NullPointerException | IllegalArgumentException e)
 			{
@@ -135,7 +122,7 @@ public class Counter extends Window
 	private void resetBorders()
 	{
 		for(int i = 0; i < 0; i++)
-			Helper.makeBorder(textFields[i], Helper.defaultTextFieldBorder());
+			textFields[i].setBorder(Values.TEXTFIELD_DEFAULT_BORDER);
 		repaint();
 	}
 }

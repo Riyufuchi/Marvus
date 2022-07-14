@@ -7,11 +7,12 @@ import javax.swing.JTextField;
 
 import persistance.FilesIO;
 import persistance.XML;
+import utils.FactoryComponent;
 import utils.Values;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 18.05.2022
+ * Last Edit: 14.07.2022
  * 
  * @author Riyufuchi
  */
@@ -40,8 +41,9 @@ public class FileIO extends Window
 	{
 		createComboBoxes(content);
 		createTextFields();
-		createButtons();
 		createLabels(Values.FIO_LABELS);
+		ok = FactoryComponent.createButton("Import data", null);
+		cancel = FactoryComponent.createButton("Cancel", null);
 		content.add(fileName, getGBC(1, 2));
 		content.add(pathToFile, getGBC(1, 3));
 		content.add(ok, getGBC(1, 4));
@@ -63,16 +65,6 @@ public class FileIO extends Window
 			}
 			content.add(comboBoxes[i], getGBC(1, i));
 		}
-	}
-	
-	private void createButtons()
-	{
-		ok = new JButton("Import data");
-		cancel = new JButton("Cancel");
-		ok.setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
-		ok.setFont(Values.FONT_MAIN);
-		cancel.setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
-		cancel.setFont(Values.FONT_MAIN);
 	}
 	
 	private void createTextFields()
@@ -147,6 +139,7 @@ public class FileIO extends Window
 					//list = FilesIO.loadFromCVS(getPath());
 					//dtf.set(FilesIO.loadFromCVS(getPath()));
 					dtf.getDataBox().setList(FilesIO.loadFromCVS(getPath()));
+					dtf.refresh();
 				}
 				case 1 -> {
 					XML xml = new XML(getPath(), "MoneyExport", "Money");

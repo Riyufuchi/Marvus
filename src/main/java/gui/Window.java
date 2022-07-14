@@ -10,13 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import utils.Helper;
+import utils.FactoryComponent;
 import utils.Values;
 
-
 /**
- * Created On: 11.04.2022
- * Last Edit: 30.04.2022
+ * Created On: 11.04.2022<br>
+ * Last Edit: 12.07.2022
  * 
  * @author Riyufuchi
  */
@@ -39,13 +38,13 @@ public abstract class Window extends JFrame
 		this.gbc = new GridBagConstraints();
 		this.gbc.fill = GridBagConstraints.HORIZONTAL;
 		this.contentPane = new JPanel(null);
-		this.getPane().setBackground(Values.DEFAULT_PANE_BACKGROUND);
-		this.getPane().setLayout(new GridBagLayout());
+		this.contentPane.setBackground(Values.DEFAULT_PANE_BACKGROUND);
+		this.contentPane.setLayout(new GridBagLayout());
 
-		setComponents(getPane());
+		setComponents(contentPane);
 
-		this.getPane().revalidate();
-		this.scrollPane = new JScrollPane(getPane());
+		this.contentPane.revalidate();
+		this.scrollPane = new JScrollPane(contentPane);
 		this.add(scrollPane);
 		this.pack();
 		this.setAlwaysOnTop(alwaysOnTop);
@@ -77,10 +76,17 @@ public abstract class Window extends JFrame
 		int max = texts.length;
 		for(int i = 0; i < max; i++)
 		{
-			contentPane.add(Helper.newLabel(texts[i]), getGBC(0, i));
+			contentPane.add(FactoryComponent.newLabel(texts[i]), getGBC(0, i));
 		}
 	}
 	
+	/**
+	 * Set position of the component
+	 * 
+	 * @param x - column position
+	 * @param y - row position
+	 * @return modified instance of GridBagConstraints
+	 */
 	protected final GridBagConstraints getGBC(int x, int y)
 	{
 		gbc.gridx = x;
@@ -91,7 +97,7 @@ public abstract class Window extends JFrame
 	/**
 	 * @return the contentPane
 	 */
-	public JPanel getPane() {
+	protected JPanel getPane() {
 		return contentPane;
 	}
 }
