@@ -19,7 +19,7 @@ public final class Settings extends Window
 	
 	public Settings()
 	{
-		super("Preferences", 320, 260, true, false, false);
+		super("Preferences", 330, 210, true, true, false);
 		createOptions(getPane());
 	}
 
