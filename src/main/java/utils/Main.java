@@ -1,15 +1,16 @@
 package utils;
 
 import gui.DataTableForm;
+import helpers.Helper;
 
 /**
  * Copyright Header
  * 
  * Created On: 20.04.2022
- * Last Edit: 14.07.2022
+ * Last Edit: 17.07.2022
  * 
  * @author Riyufuchi
- * @version 1.1
+ * @version 1.2
  * @since 1.0 
  */
 
@@ -17,6 +18,7 @@ public class Main
 {	
 	public static void main(String[] args) 
 	{
+		Helper.setUI(Values.themeID = 2);
 		new DataTableForm(800, 600);
 	}
 }

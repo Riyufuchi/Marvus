@@ -11,11 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import utils.FactoryComponent;
-import utils.Values;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 12.07.2022
+ * Last Edit: 17.07.2022
  * 
  * @author Riyufuchi
  */
@@ -37,9 +36,7 @@ public abstract class Window extends JFrame
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.gbc = new GridBagConstraints();
 		this.gbc.fill = GridBagConstraints.HORIZONTAL;
-		this.contentPane = new JPanel(null);
-		this.contentPane.setBackground(Values.DEFAULT_PANE_BACKGROUND);
-		this.contentPane.setLayout(new GridBagLayout());
+		this.contentPane = FactoryComponent.newPane(new GridBagLayout());
 
 		setComponents(contentPane);
 

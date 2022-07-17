@@ -12,7 +12,7 @@ import utils.Values;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 14.07.2022
+ * Last Edit: 17.07.2022
  * 
  * @author Riyufuchi
  */
@@ -56,9 +56,7 @@ public class FileIO extends Window
 		comboBoxes = new JComboBox[2];
 		for (int i = 0; i < comboBoxes.length; i++)
 		{
-			comboBoxes[i] = new JComboBox<>();
-			comboBoxes[i].setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
-			comboBoxes[i].setFont(Values.FONT_MAIN);
+			comboBoxes[i] = FactoryComponent.<String>createCombobox();
 			for (int l = 0; l < Values.FIO_COMBO_BOX_ITEMS[i].length; l++)
 			{
 				comboBoxes[i].addItem(Values.FIO_COMBO_BOX_ITEMS[i][l]);
@@ -69,11 +67,9 @@ public class FileIO extends Window
 	
 	private void createTextFields()
 	{
-		fileName = new JTextField("data");
-		fileName.setFont(Values.FONT_MAIN);
-		pathToFile = new JTextField("data/");
+		fileName = FactoryComponent.newTextField("data");
+		pathToFile = FactoryComponent.newTextField("data/");
 		pathToFile.setEnabled(false);
-		pathToFile.setFont(Values.FONT_MAIN);
 	}
 	
 	private void createEvents()

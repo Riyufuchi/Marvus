@@ -7,6 +7,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
+import helpers.Helper;
+
 public class HelperTest
 {
 	@Rule

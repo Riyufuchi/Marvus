@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import helpers.GuiHelper;
 import utils.JMenuCreator;
 import utils.Values;
 import workData.DataBox;
@@ -17,7 +17,7 @@ import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 14.07.2022
+ * Last Edit: 17.07.2022
  * 
  * @author Riyufuchi
  */
@@ -43,17 +43,14 @@ public final class DataTableForm extends Window
 	@Override
 	protected void onClose()
 	{
-		int confirm = JOptionPane.showOptionDialog(this, "Close Application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-		if (confirm == 0)
-		{
+		if(GuiHelper.yesNoDialog(this, "Exit application?", "Exit confirmation") == 0)
 			super.dispose();
-		}
 	}
 
 	public final void loadData(LinkedList<Money> data) throws NullPointerException, IllegalArgumentException
 	{
 		if(data == null)
-			throw new NullPointerException();
+			throw new NullPointerException("Inputed datalist was null");
 		if(data.isEmpty())
 			throw new IllegalArgumentException("Inputed datalist is emtpy");
 		dataBox.setList(data);
@@ -130,7 +127,12 @@ public final class DataTableForm extends Window
 	public void refresh()
 	{
 		getPane().removeAll();
-		loadData((LinkedList<Money>) dataBox.getList());
+		try {
+			loadData((LinkedList<Money>) dataBox.getList());
+		} catch (NullPointerException | IllegalArgumentException e) {
+			GuiHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
+			//new ErrorWindow(ErrorCause.INERNAL, e.getMessage());
+		}
 		repaint();
 		revalidate();
 	}

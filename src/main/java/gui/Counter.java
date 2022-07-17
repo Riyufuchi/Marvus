@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import helpers.Helper;
 import persistance.Persistance;
 import utils.FactoryComponent;
-import utils.Helper;
 import utils.Values;
 import workData.Calculations;
 import workData.Money;
