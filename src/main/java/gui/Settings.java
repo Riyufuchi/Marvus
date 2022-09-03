@@ -3,13 +3,12 @@ package gui;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import helpers.Helper;
 import utils.FactoryComponent;
 import utils.Values;
 
 /**
  * Created On: 14.07.2022
- * Last Edit: 17.07.2022
+ * Last Edit: 04.09.2022
  * 
  * @author Riyufuchi
  */
@@ -39,29 +38,19 @@ public final class Settings extends Window
 	
 	private void createOptions(JPanel panel)
 	{
-		String[] themesOptions = {"Default", "System matching", "Nimbus"};
-		themes = FactoryComponent.<String>createCombobox();
-		for (int l = 0; l < themesOptions.length; l++)
-		{
-			themes.addItem(themesOptions[l]);
-		}
+		String[] themesOptions = {"Default", "System matching", "Nimbus", "Dark Nimbus"};
+		themes = FactoryComponent.<String>createCombobox(themesOptions);
+		/*for (int l = 0; l < themesOptions.length; l++)
+			themes.addItem(themesOptions[l]);*/
 		themes.setSelectedIndex(Values.themeID);
 		panel.add(themes, getGBC(1,0));
 		
 		String[] dateFormatOptions = {"dd.mm.yyyy", "mm.dd.yyyy"};
-		dateFormat = FactoryComponent.<String>createCombobox();
-		for (int l = 0; l < dateFormatOptions.length; l++)
-		{
-			dateFormat.addItem(dateFormatOptions[l]);
-		}
+		dateFormat = FactoryComponent.<String>createCombobox(dateFormatOptions);
 		panel.add(dateFormat, getGBC(1,1));
 		
 		String[] colorOptions = {"Theme colored", "Dark mode"};
-		backgroundColor = FactoryComponent.<String>createCombobox();
-		for (int l = 0; l < colorOptions.length; l++)
-		{
-			backgroundColor.addItem(colorOptions[l]);
-		}
+		backgroundColor = FactoryComponent.<String>createCombobox(colorOptions);
 		panel.add(backgroundColor, getGBC(1,2));
 	}
 	
@@ -70,6 +59,6 @@ public final class Settings extends Window
 	 */
 	private void applyPreferences()
 	{
-		Helper.setUI(themes.getSelectedIndex());
+		//Helper.setUI(themes.getSelectedIndex());
 	}
 }

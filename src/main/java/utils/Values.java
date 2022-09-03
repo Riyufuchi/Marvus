@@ -19,10 +19,13 @@ public class Values
 	public static final Color DEFAULT_BUTTON_BACKGROUND = new Color(214,217,223);
 	//public static final Color DEFAULT_PANE_BACKGROUND = new Color(192,192,192);
 	public static final Color DEFAULT_PANE_BACKGROUND = new Color(64,64,64);
+	public static final Color LIGHT_LABEL = Color.LIGHT_GRAY;
 	//Borders
 	public static final Border TEXTFIELD_DEFAULT_BORDER = new JTextField().getBorder();
 	//Fonts
 	public static final Font FONT_MAIN = new Font("Dialog.plain", Font.BOLD, 18);
+	public static final Font FONT_MAIN_SMALL = new Font("Dialog.plain", Font.BOLD, 16);
+	public static final Font FONT_MAIN_TINY = new Font("Dialog.plain", Font.BOLD, 12);
 	public static final Font FONT_LABEL = javax.swing.UIManager.getDefaults().getFont("Label.font");
 	//XML money
 	public static final String SUM = "sum";

@@ -12,7 +12,7 @@ import utils.Values;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 17.07.2022
+ * Last Edit: 04.09.2022
  * 
  * @author Riyufuchi
  */
@@ -56,11 +56,9 @@ public class FileIO extends Window
 		comboBoxes = new JComboBox[2];
 		for (int i = 0; i < comboBoxes.length; i++)
 		{
-			comboBoxes[i] = FactoryComponent.<String>createCombobox();
-			for (int l = 0; l < Values.FIO_COMBO_BOX_ITEMS[i].length; l++)
-			{
-				comboBoxes[i].addItem(Values.FIO_COMBO_BOX_ITEMS[i][l]);
-			}
+			comboBoxes[i] = FactoryComponent.<String>createCombobox(Values.FIO_COMBO_BOX_ITEMS[i]);
+			/*for (int l = 0; l < Values.FIO_COMBO_BOX_ITEMS[i].length; l++)
+				comboBoxes[i].addItem(Values.FIO_COMBO_BOX_ITEMS[i][l]);*/
 			content.add(comboBoxes[i], getGBC(1, i));
 		}
 	}

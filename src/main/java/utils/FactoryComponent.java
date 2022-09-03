@@ -17,26 +17,26 @@ public class FactoryComponent
 		JButton button = new JButton(text);
 		if(Values.themeID == 0)
 			button.setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
-		button.setFont(Values.FONT_MAIN);
+		//button.setFont(Values.FONT_MAIN);
 		button.addActionListener(al);
 		return button;
 	}
 	
-	public static <E> JComboBox<E> createCombobox()
+	public static <E> JComboBox<E> createCombobox(E[] items)
 	{
-		JComboBox<E> comboBox = new JComboBox<>();
+		JComboBox<E> comboBox = new JComboBox<>(items);
 		if(Values.themeID == 0)
 			comboBox.setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
-		comboBox.setFont(Values.FONT_MAIN);
+		//comboBox.setFont(Values.FONT_MAIN);
 		return comboBox;
 	}
 	
 	public static JLabel newLabel(String text)
 	{
 		JLabel label = new JLabel(text);
-		if(Values.themeID == 0 || Values.darkBackground)
+		if(Values.themeID == 0 || Values.darkBackground || Values.themeID == 3)
 			label.setForeground(Color.LIGHT_GRAY);
-		label.setFont(Values.FONT_MAIN);
+		//label.setFont(Values.FONT_MAIN);
 		return label;
 	}
 	
@@ -52,7 +52,7 @@ public class FactoryComponent
 	public static JTextField newTextField(String defaultText)
 	{
 		JTextField textField = new JTextField(defaultText);
-		textField.setFont(Values.FONT_MAIN);
+		//textField.setFont(Values.FONT_MAIN);
 		return textField;
 	}
 }

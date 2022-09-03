@@ -17,7 +17,7 @@ import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 17.07.2022
+ * Last Edit: 04.09.2022
  * 
  * @author Riyufuchi
  */
@@ -106,6 +106,7 @@ public final class DataTableForm extends Window
 				case "Count" -> jmi[i].addActionListener(event -> new Counter(this));
 				case "Date" -> jmi[i].addActionListener(event -> sort());
 				case "Preferences" -> jmi[i].addActionListener(event -> new Settings());
+				default -> jmi[i].addActionListener(event -> GuiHelper.informationDialog(this, "This functionality is not implemented yet", "Info"));
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
@@ -114,7 +115,10 @@ public final class DataTableForm extends Window
 	private void sort()
 	{
 		if(dataBox.isEmpty())
+		{
+			GuiHelper.errorDialog(this, "No data to sort", "Sort error");
 			return;
+		}
 		dataBox.sort();
 		refresh();
 	}
