@@ -17,21 +17,21 @@ import java.util.Objects;
 
 /**
  * Created On: 20.04.2022
- * Last Edit: 20.04.2022
+ * Last Edit: 06.09.2022
  * @author Riyufuchi
- * @version 1.0
+ * @version 1.1
  * @since 1.0 
  */
 public final class Persistance
 {
 	/**
 	 * 
-	 * @param path path with file name and .cvs as file format
-	 * @param data data[x][y] - x colums, y - data to be formated to cvs and saved as line
+	 * @param path path with file name and .csv as file format
+	 * @param data data[x][y] - x columns, y - data to be formated to csv and saved as line
 	 * @throws IOException
 	 * @throws NullPointerException
 	 */
-	public static void saveToCVS(String path, String[][] data) throws IOException, NullPointerException
+	public static void saveToCSV(String path, String[][] data) throws IOException, NullPointerException
 	{
 		Objects.requireNonNull(path);
 		Objects.requireNonNull(data);
@@ -44,11 +44,11 @@ public final class Persistance
 	 
 	/**
 	 * 
-	 * @param path path with file name and .cvs as file format
+	 * @param path path with file name and .csv as file format
 	 * @return list of loaded lines
 	 * @throws IOException
 	 */
-	public static List<String> loadFromCVS(String path) throws IOException, NullPointerException
+	public static List<String> loadFromCSV(String path) throws IOException, NullPointerException
 	{
 		Objects.requireNonNull(path);
 		List<String> l = new LinkedList<>();

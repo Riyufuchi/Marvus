@@ -69,7 +69,7 @@ public class Counter extends Window
 	
 	private void createLabels(JPanel content) throws NullPointerException, IOException
 	{
-		LinkedList<String> labelTexts = (LinkedList<String>) Persistance.loadFromCVS("data/counter.csv");
+		LinkedList<String> labelTexts = (LinkedList<String>) Persistance.loadFromCSV("data/counter.csv");
 		Iterator<String> it = labelTexts.iterator();
 		String[] texts;
 		String[] actions = new String[labelTexts.size()];

@@ -5,6 +5,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import helpers.Helper;
 import persistance.FilesIO;
 import persistance.XML;
 import utils.FactoryComponent;
@@ -12,7 +13,7 @@ import utils.Values;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 04.09.2022
+ * Last Edit: 06.09.2022
  * 
  * @author Riyufuchi
  */
@@ -27,7 +28,7 @@ public class FileIO extends Window
 	
 	public FileIO(boolean export, DataTableForm dtf)
 	{
-		super("FileIO", 260, 210, true, true, false);
+		super("FileIO", 260, 210, false, true, false);
 		this.export = export;
 		this.dtf = dtf;
 		if(export)
@@ -111,12 +112,13 @@ public class FileIO extends Window
 	{
 		if (!(fileName.getText().isBlank() && !dtf.getDataBox().isEmpty()))
 		{
-			switch (comboBoxes[0].getSelectedIndex())
-			{
-				case 0 -> { FilesIO.saveToCVS(getPath(), dtf.getDataBox().getList()); }
-				case 1 -> { new XML(getPath(), "MoneyExport", "Money").exportXML(dtf.getDataBox().getList()); }
-				case 2 -> { FilesIO.writeBinary(getPath(), dtf.getDataBox().getList()); }
-			}
+			if(Helper.overwriteProtection(getPath()))
+				switch (comboBoxes[0].getSelectedIndex())
+				{
+					case 0 -> { FilesIO.saveToCSV(getPath(), dtf.getDataBox().getList()); }
+					case 1 -> { new XML(getPath(), "MoneyExport", "Money").exportXML(dtf.getDataBox().getList()); }
+					case 2 -> { FilesIO.writeBinary(getPath(), dtf.getDataBox().getList()); }
+				}
 		}
 	}
 
@@ -132,7 +134,7 @@ public class FileIO extends Window
 				case 0 -> {
 					//list = FilesIO.loadFromCVS(getPath());
 					//dtf.set(FilesIO.loadFromCVS(getPath()));
-					dtf.getDataBox().setList(FilesIO.loadFromCVS(getPath()));
+					dtf.getDataBox().setList(FilesIO.loadFromCSV(getPath()));
 					dtf.refresh();
 				}
 				case 1 -> {

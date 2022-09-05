@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import helpers.GuiHelper;
+import helpers.Helper;
 import utils.JMenuCreator;
 import utils.Values;
 import workData.DataBox;
@@ -17,7 +18,7 @@ import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 04.09.2022
+ * Last Edit: 06.09.2022
  * 
  * @author Riyufuchi
  */
@@ -106,6 +107,7 @@ public final class DataTableForm extends Window
 				case "Count" -> jmi[i].addActionListener(event -> new Counter(this));
 				case "Date" -> jmi[i].addActionListener(event -> sort());
 				case "Preferences" -> jmi[i].addActionListener(event -> new Settings());
+				case "Backup" -> jmi[i].addActionListener(event -> Helper.backup(this));
 				default -> jmi[i].addActionListener(event -> GuiHelper.informationDialog(this, "This functionality is not implemented yet", "Info"));
 			}
 		}
@@ -116,7 +118,7 @@ public final class DataTableForm extends Window
 	{
 		if(dataBox.isEmpty())
 		{
-			GuiHelper.errorDialog(this, "No data to sort", "Sort error");
+			GuiHelper.warningDialog(this, "No data to sort", "Sort error");
 			return;
 		}
 		dataBox.sort();
