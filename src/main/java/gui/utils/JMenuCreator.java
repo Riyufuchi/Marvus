@@ -1,4 +1,4 @@
-package utils;
+package gui.utils;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;

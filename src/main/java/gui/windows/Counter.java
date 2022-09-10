@@ -1,4 +1,4 @@
-package gui;
+package gui.windows;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -11,12 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import general.helpers.Helper;
+import general.persistance.Persistance;
+import general.utils.Calculations;
 import gui.info.AppFonts;
 import gui.info.ComponentParts;
-import helpers.Helper;
-import persistance.Persistance;
-import utils.FactoryComponent;
-import workData.Calculations;
+import gui.utils.FactoryComponent;
 import workData.Money;
 
 /**

@@ -1,4 +1,4 @@
-package helpers;
+package gui.utils;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
  * Created On: 17.07.2022<br>
  * Last Edit: 06.09.2022
  */
-public class GuiHelper 
+public class DialogHelper 
 {
 	public static int yesNoDialog(JFrame parentFrame, String message, String title)
 	{

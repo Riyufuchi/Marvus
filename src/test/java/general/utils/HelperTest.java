@@ -1,13 +1,13 @@
-package utils;
+package general.utils;
 
+import static general.utils.TestCounter.counter;
 import static org.junit.Assert.*;
-import static utils.TestCounter.counter;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
-import helpers.Helper;
+import general.helpers.Helper;
 
 public class HelperTest
 {

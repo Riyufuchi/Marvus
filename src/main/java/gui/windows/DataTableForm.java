@@ -1,4 +1,4 @@
-package gui;
+package gui.windows;
 
 import java.awt.Color;
 import java.util.Iterator;
@@ -10,11 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import general.helpers.Helper;
 import gui.info.AppFonts;
 import gui.info.AppTexts;
-import helpers.GuiHelper;
-import helpers.Helper;
-import utils.JMenuCreator;
+import gui.utils.DialogHelper;
+import gui.utils.JMenuCreator;
 import workData.DataBox;
 import workData.Money;
 
@@ -34,7 +34,7 @@ public final class DataTableForm extends Window
 	{
 		super("Marvus - Datatable", width, height, false, true, true);
 		Consumer<Exception> con = e -> {
-			GuiHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
+			DialogHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
 		};
 
 		this.dataBox = new DataBox(con, AppTexts.DATE_FORMAT_OPTIONS[1]);
@@ -50,7 +50,7 @@ public final class DataTableForm extends Window
 	@Override
 	protected void onClose()
 	{
-		if(GuiHelper.yesNoDialog(this, "Exit application?", "Exit confirmation") == 0)
+		if(DialogHelper.yesNoDialog(this, "Exit application?", "Exit confirmation") == 0)
 			super.dispose();
 	}
 
@@ -114,7 +114,7 @@ public final class DataTableForm extends Window
 				case "Date" -> jmi[i].addActionListener(event -> sort());
 				case "Preferences" -> jmi[i].addActionListener(event -> new Settings());
 				case "Backup" -> jmi[i].addActionListener(event -> Helper.backup(this));
-				default -> jmi[i].addActionListener(event -> GuiHelper.informationDialog(this, "This functionality is not implemented yet", "Info"));
+				default -> jmi[i].addActionListener(event -> DialogHelper.informationDialog(this, "This functionality is not implemented yet", "Info"));
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
@@ -124,7 +124,7 @@ public final class DataTableForm extends Window
 	{
 		if(dataBox.isEmpty())
 		{
-			GuiHelper.warningDialog(this, "No data to sort", "Sort error");
+			DialogHelper.warningDialog(this, "No data to sort", "Sort error");
 			return;
 		}
 		dataBox.sort();
@@ -142,7 +142,7 @@ public final class DataTableForm extends Window
 		try {
 			loadData((LinkedList<Money>) dataBox.getList());
 		} catch (NullPointerException | IllegalArgumentException e) {
-			GuiHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
+			DialogHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
 			//new ErrorWindow(ErrorCause.INERNAL, e.getMessage());
 		}
 		repaint();

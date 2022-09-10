@@ -1,4 +1,4 @@
-package helpers;
+package gui.utils;
 
 import java.awt.Color;
 
@@ -6,10 +6,10 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import gui.ErrorWindow;
+import general.utils.Values;
 import gui.info.AppColors;
 import gui.info.AppFonts;
-import utils.Values;
+import gui.windows.ErrorWindow;
 
 /**
  * Created On: 04.09.2022<br>

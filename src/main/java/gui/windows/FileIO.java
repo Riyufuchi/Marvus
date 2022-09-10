@@ -1,16 +1,16 @@
-package gui;
+package gui.windows;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import general.helpers.Helper;
+import general.persistance.FilesIO;
+import general.persistance.XML;
 import gui.info.AppTexts;
-import helpers.GuiHelper;
-import helpers.Helper;
-import persistance.FilesIO;
-import persistance.XML;
-import utils.FactoryComponent;
+import gui.utils.FactoryComponent;
+import gui.utils.DialogHelper;
 
 /**
  * Created On: 11.04.2022
@@ -117,7 +117,7 @@ public class FileIO extends Window
 			{
 				if(dtf.getDataBox().isEmpty())
 				{
-					GuiHelper.warningDialog(dtf, "No data to export", "Export error");
+					DialogHelper.warningDialog(dtf, "No data to export", "Export error");
 					return;
 				}
 				switch (comboBoxes[0].getSelectedIndex())

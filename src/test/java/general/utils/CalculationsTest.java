@@ -1,10 +1,8 @@
-package utils;
+package general.utils;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
-import workData.Calculations;
 
 public class CalculationsTest
 {

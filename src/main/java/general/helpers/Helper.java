@@ -1,11 +1,12 @@
-package helpers;
+package general.helpers;
 
 import java.io.File;
 import java.util.Objects;
 
-import gui.DataTableForm;
-import persistance.FilesIO;
-import persistance.XML;
+import general.persistance.FilesIO;
+import general.persistance.XML;
+import gui.utils.DialogHelper;
+import gui.windows.DataTableForm;
 
 /**
  * Copyright Header
@@ -24,7 +25,7 @@ public class Helper
 	{
 		File file = new File(path);
 		if(file.exists())
-			if (GuiHelper.yesNoDialog(null, path + " already exist.\nDo you want to overwrite this file?", "File already exists") == 0)
+			if (DialogHelper.yesNoDialog(null, path + " already exist.\nDo you want to overwrite this file?", "File already exists") == 0)
 				return true;
 			else
 				return false;
@@ -35,10 +36,10 @@ public class Helper
 	{
 		if(dtf.getDataBox().getList().isEmpty())
 		{
-			GuiHelper.warningDialog(dtf, "No data to backup", "Backup error");
+			DialogHelper.warningDialog(dtf, "No data to backup", "Backup error");
 			return;
 		}
-		if(GuiHelper.yesNoDialog(dtf, "Are you sure?\nThis action will overwrite existing backups.", "Backup creation") == 1)
+		if(DialogHelper.yesNoDialog(dtf, "Are you sure?\nThis action will overwrite existing backups.", "Backup creation") == 1)
 			return;
 		String path = "data/backups/backup";
 		File folder = new File(path.substring(0, path.lastIndexOf("/")));

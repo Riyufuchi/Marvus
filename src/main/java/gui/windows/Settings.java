@@ -1,11 +1,11 @@
-package gui;
+package gui.windows;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import general.utils.Values;
 import gui.info.AppTexts;
-import utils.FactoryComponent;
-import utils.Values;
+import gui.utils.FactoryComponent;
 
 /**
  * Created On: 14.07.2022

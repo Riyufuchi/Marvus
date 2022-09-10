@@ -1,4 +1,4 @@
-package gui;
+package gui.windows;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import utils.FactoryComponent;
+import gui.utils.FactoryComponent;
 
 /**
  * Created On: 11.04.2022<br>

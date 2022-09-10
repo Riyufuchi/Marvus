@@ -1,4 +1,4 @@
-package persistance;
+package general.persistance;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import helpers.GuiHelper;
+import gui.utils.DialogHelper;
 import workData.Money;
 
 /**
@@ -38,9 +38,9 @@ public class FilesIO
 		}
 		catch(IOException e)
 		{
-			GuiHelper.errorDialog(null, e.getMessage(), e.getClass().getSimpleName());
+			DialogHelper.errorDialog(null, e.getMessage(), e.getClass().getSimpleName());
 		}
-		GuiHelper.informationDialog(null, "File saved to: " + path, "Export to .CSV completed");
+		DialogHelper.informationDialog(null, "File saved to: " + path, "Export to .CSV completed");
 	}
 	
 	public static LinkedList<Money> loadFromCSV(String path)
@@ -59,7 +59,7 @@ public class FilesIO
 		}
 		catch(IOException e)
 		{
-			GuiHelper.errorDialog(null, e.getMessage(), e.getClass().getSimpleName());
+			DialogHelper.errorDialog(null, e.getMessage(), e.getClass().getSimpleName());
 		}
 		return l;
 	}
@@ -77,9 +77,9 @@ public class FilesIO
 		}
 		catch (IOException e)
 		{
-			GuiHelper.errorDialog(null, e.getMessage(), e.getClass().getSimpleName());
+			DialogHelper.errorDialog(null, e.getMessage(), e.getClass().getSimpleName());
 		}
-		GuiHelper.informationDialog(null, "File saved to: " + path, "Export to binary completed");
+		DialogHelper.informationDialog(null, "File saved to: " + path, "Export to binary completed");
 	}
 	
 	public static LinkedList<Money> loadBinary(String path)
@@ -100,7 +100,7 @@ public class FilesIO
 		}
 		catch (IOException e)
 		{
-			GuiHelper.errorDialog(null, e.getMessage(), e.getClass().getSimpleName());
+			DialogHelper.errorDialog(null, e.getMessage(), e.getClass().getSimpleName());
 		}
 		return l;
 	}

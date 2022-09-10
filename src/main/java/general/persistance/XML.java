@@ -1,4 +1,4 @@
-package persistance;
+package general.persistance;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,8 +28,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import gui.ErrorWindow;
-import utils.Values;
+import general.utils.Values;
+import gui.windows.ErrorWindow;
 import workData.Money;
 
 /**

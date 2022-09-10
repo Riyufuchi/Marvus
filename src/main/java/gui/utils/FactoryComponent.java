@@ -1,4 +1,4 @@
-package utils;
+package gui.utils;
 
 import java.awt.Color;
 import java.awt.LayoutManager;
@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import general.utils.Values;
 import gui.info.AppColors;
 
 public class FactoryComponent

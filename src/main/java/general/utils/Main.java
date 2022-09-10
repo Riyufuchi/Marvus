@@ -1,7 +1,7 @@
-package utils;
+package general.utils;
 
-import gui.DataTableForm;
-import helpers.CustomizeUI;
+import gui.utils.CustomizeUI;
+import gui.windows.DataTableForm;
 
 /**
  * Copyright Header
