@@ -3,22 +3,24 @@ package gui;
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.function.Consumer;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import gui.info.AppFonts;
+import gui.info.AppTexts;
 import helpers.GuiHelper;
 import helpers.Helper;
 import utils.JMenuCreator;
-import utils.Values;
 import workData.DataBox;
 import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 06.09.2022
+ * Last Edit: 10.09.2022
  * 
  * @author Riyufuchi
  */
@@ -31,7 +33,11 @@ public final class DataTableForm extends Window
 	public DataTableForm(int width, int height)
 	{
 		super("Marvus - Datatable", width, height, false, true, true);
-		this.dataBox = new DataBox();
+		Consumer<Exception> con = e -> {
+			GuiHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
+		};
+
+		this.dataBox = new DataBox(con, AppTexts.DATE_FORMAT_OPTIONS[1]);
 	}
 
 	@Override
@@ -80,7 +86,7 @@ public final class DataTableForm extends Window
 				textFields[x][i].setEditable(false);
 				textFields[x][i].setBackground(Color.DARK_GRAY);
 				textFields[x][i].setForeground(Color.LIGHT_GRAY);
-				textFields[x][i].setFont(Values.FONT_MAIN);
+				textFields[x][i].setFont(AppFonts.MAIN);
 				textFields[x][i].setBorder(lb);
 				pane.add(textFields[x][i], getGBC( i + year, y + 1));
 			}
@@ -91,7 +97,7 @@ public final class DataTableForm extends Window
 	
 	private void setupJMenu()
 	{
-		JMenuCreator jmc = new JMenuCreator(Values.DTF_MENU, Values.DTF_MENU_ITEMS, 3);
+		JMenuCreator jmc = new JMenuCreator(AppTexts.DTF_MENU, AppTexts.DTF_MENU_ITEMS, 3);
 		jmc.getJMenuBar().setBackground(Color.LIGHT_GRAY);
 		JMenuItem[] jmi = jmc.getMenuItem();
 		for (int i = 0; i < jmi.length; i++)
@@ -145,7 +151,7 @@ public final class DataTableForm extends Window
 	
 	private void about()
 	{
-		new ErrorWindow("About", "This is money manager.\nVersion: " + Values.VERSION + "\nCreated by Riyufuchi.\n"
+		new ErrorWindow("About", "This is money manager.\nVersion: " + AppTexts.VERSION + "\nCreated by Riyufuchi.\n"
 			+ "Free libs under OpenSource lincention are used (I thnink), however my code is not under OpenSource licention.");
 	}
 }

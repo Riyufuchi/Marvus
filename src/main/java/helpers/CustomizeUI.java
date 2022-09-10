@@ -7,36 +7,38 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import gui.ErrorWindow;
+import gui.info.AppColors;
+import gui.info.AppFonts;
 import utils.Values;
 
 /**
  * Created On: 04.09.2022<br>
- * Last Edit: 04.09.2022
+ * Last Edit: 10.09.2022
  */
 public class CustomizeUI
 {
 	private static void setFont()
 	{
-		UIManager.getLookAndFeelDefaults().put("Button.font", Values.FONT_MAIN);
-		UIManager.getLookAndFeelDefaults().put("TextField.font", Values.FONT_MAIN);
-		UIManager.getLookAndFeelDefaults().put("ComboBox.font", Values.FONT_MAIN);
-		UIManager.getLookAndFeelDefaults().put("Label.font", Values.FONT_MAIN);
-		UIManager.getLookAndFeelDefaults().put("OptionPane.messageFont", Values.FONT_MAIN_SMALL);
-		UIManager.getLookAndFeelDefaults().put("Menu.font", Values.FONT_MAIN_TINY);
-		UIManager.getLookAndFeelDefaults().put("MenuItem.font", Values.FONT_MAIN_TINY);
+		UIManager.getLookAndFeelDefaults().put("Button.font", AppFonts.MAIN);
+		UIManager.getLookAndFeelDefaults().put("TextField.font", AppFonts.MAIN);
+		UIManager.getLookAndFeelDefaults().put("ComboBox.font", AppFonts.MAIN);
+		UIManager.getLookAndFeelDefaults().put("Label.font", AppFonts.MAIN);
+		UIManager.getLookAndFeelDefaults().put("OptionPane.messageFont", AppFonts.MAIN_SMALL);
+		UIManager.getLookAndFeelDefaults().put("Menu.font", AppFonts.MAIN_TINY);
+		UIManager.getLookAndFeelDefaults().put("MenuItem.font", AppFonts.MAIN_TINY);
 	}
 	
 	private static void setDarkNimbus()
 	{
-		UIManager.put("nimbusBase", Values.DEFAULT_PANE_BACKGROUND);
+		UIManager.put("nimbusBase", AppColors.DEFAULT_PANE_BACKGROUND);
 		//Foregrounds
 		//UIManager.put("Button.foreground", Values.LIGHT_LABEL);
-		UIManager.put("OptionPane.messageForeground", Values.LIGHT_LABEL);
+		UIManager.put("OptionPane.messageForeground", AppColors.LIGHT_LABEL);
 		UIManager.getLookAndFeelDefaults().put("ComboBox:\"ComboBox.listRenderer\"[Selected].textForeground", Color.BLACK);
 		//Backgrounds
-		UIManager.put("TextField.background", Values.LIGHT_LABEL);
-		UIManager.getLookAndFeelDefaults().put("ComboBox:\"ComboBox.listRenderer\".background", Values.LIGHT_LABEL);
-		UIManager.getLookAndFeelDefaults().put("background", Values.DEFAULT_PANE_BACKGROUND);
+		UIManager.put("TextField.background", AppColors.LIGHT_LABEL);
+		UIManager.getLookAndFeelDefaults().put("ComboBox:\"ComboBox.listRenderer\".background", AppColors.LIGHT_LABEL);
+		UIManager.getLookAndFeelDefaults().put("background", AppColors.DEFAULT_PANE_BACKGROUND);
 	}
 	
 	private static void setNimbusTheme() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException
@@ -85,5 +87,6 @@ public class CustomizeUI
 		{
 			new ErrorWindow(ex.getMessage(), ex.getLocalizedMessage());
 		}
+		Values.themeID = option;
 	}
 }

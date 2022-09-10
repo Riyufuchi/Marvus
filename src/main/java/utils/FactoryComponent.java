@@ -10,13 +10,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import gui.info.AppColors;
+
 public class FactoryComponent
 {
 	public static JButton createButton(String text, ActionListener al)
 	{
 		JButton button = new JButton(text);
 		if(Values.themeID == 0)
-			button.setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
+			button.setBackground(AppColors.DEFAULT_BUTTON_BACKGROUND);
 		//button.setFont(Values.FONT_MAIN);
 		button.addActionListener(al);
 		return button;
@@ -26,7 +28,7 @@ public class FactoryComponent
 	{
 		JComboBox<E> comboBox = new JComboBox<>(items);
 		if(Values.themeID == 0)
-			comboBox.setBackground(Values.DEFAULT_BUTTON_BACKGROUND);
+			comboBox.setBackground(AppColors.DEFAULT_BUTTON_BACKGROUND);
 		//comboBox.setFont(Values.FONT_MAIN);
 		return comboBox;
 	}
@@ -44,7 +46,7 @@ public class FactoryComponent
 	{
 		JPanel pane = new JPanel(null);
 		if(Values.themeID == 0 || Values.darkBackground)
-			pane.setBackground(Values.DEFAULT_PANE_BACKGROUND);
+			pane.setBackground(AppColors.DEFAULT_PANE_BACKGROUND);
 		pane.setLayout(layout);
 		return pane;
 	}

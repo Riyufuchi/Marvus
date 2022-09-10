@@ -3,12 +3,13 @@ package gui;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import gui.info.AppTexts;
 import utils.FactoryComponent;
 import utils.Values;
 
 /**
  * Created On: 14.07.2022
- * Last Edit: 04.09.2022
+ * Last Edit: 10.09.2022
  * 
  * @author Riyufuchi
  */
@@ -38,19 +39,14 @@ public final class Settings extends Window
 	
 	private void createOptions(JPanel panel)
 	{
-		String[] themesOptions = {"Default", "System matching", "Nimbus", "Dark Nimbus"};
-		themes = FactoryComponent.<String>createCombobox(themesOptions);
-		/*for (int l = 0; l < themesOptions.length; l++)
-			themes.addItem(themesOptions[l]);*/
+		themes = FactoryComponent.<String>createCombobox(AppTexts.THEMES);
 		themes.setSelectedIndex(Values.themeID);
 		panel.add(themes, getGBC(1,0));
 		
-		String[] dateFormatOptions = {"dd.mm.yyyy", "mm.dd.yyyy"};
-		dateFormat = FactoryComponent.<String>createCombobox(dateFormatOptions);
+		dateFormat = FactoryComponent.<String>createCombobox(AppTexts.DATE_FORMAT_OPTIONS);
 		panel.add(dateFormat, getGBC(1,1));
 		
-		String[] colorOptions = {"Theme colored", "Dark mode"};
-		backgroundColor = FactoryComponent.<String>createCombobox(colorOptions);
+		backgroundColor = FactoryComponent.<String>createCombobox(AppTexts.COLOR_OPTIONS);
 		panel.add(backgroundColor, getGBC(1,2));
 	}
 	

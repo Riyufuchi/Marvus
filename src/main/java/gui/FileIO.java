@@ -5,15 +5,16 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import gui.info.AppTexts;
+import helpers.GuiHelper;
 import helpers.Helper;
 import persistance.FilesIO;
 import persistance.XML;
 import utils.FactoryComponent;
-import utils.Values;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 06.09.2022
+ * Last Edit: 10.09.2022
  * 
  * @author Riyufuchi
  */
@@ -42,7 +43,7 @@ public class FileIO extends Window
 	{
 		createComboBoxes(content);
 		createTextFields();
-		createLabels(Values.FIO_LABELS);
+		createLabels(AppTexts.FIO_LABELS);
 		ok = FactoryComponent.createButton("Import data", null);
 		cancel = FactoryComponent.createButton("Cancel", null);
 		content.add(fileName, getGBC(1, 2));
@@ -57,7 +58,7 @@ public class FileIO extends Window
 		comboBoxes = new JComboBox[2];
 		for (int i = 0; i < comboBoxes.length; i++)
 		{
-			comboBoxes[i] = FactoryComponent.<String>createCombobox(Values.FIO_COMBO_BOX_ITEMS[i]);
+			comboBoxes[i] = FactoryComponent.<String>createCombobox(AppTexts.FIO_COMBO_BOX_ITEMS[i]);
 			/*for (int l = 0; l < Values.FIO_COMBO_BOX_ITEMS[i].length; l++)
 				comboBoxes[i].addItem(Values.FIO_COMBO_BOX_ITEMS[i][l]);*/
 			content.add(comboBoxes[i], getGBC(1, i));
@@ -113,12 +114,19 @@ public class FileIO extends Window
 		if (!(fileName.getText().isBlank() && !dtf.getDataBox().isEmpty()))
 		{
 			if(Helper.overwriteProtection(getPath()))
+			{
+				if(dtf.getDataBox().isEmpty())
+				{
+					GuiHelper.warningDialog(dtf, "No data to export", "Export error");
+					return;
+				}
 				switch (comboBoxes[0].getSelectedIndex())
 				{
 					case 0 -> { FilesIO.saveToCSV(getPath(), dtf.getDataBox().getList()); }
 					case 1 -> { new XML(getPath(), "MoneyExport", "Money").exportXML(dtf.getDataBox().getList()); }
 					case 2 -> { FilesIO.writeBinary(getPath(), dtf.getDataBox().getList()); }
 				}
+			}
 		}
 	}
 

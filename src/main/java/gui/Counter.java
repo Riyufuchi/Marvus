@@ -11,16 +11,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import gui.info.AppFonts;
+import gui.info.ComponentParts;
 import helpers.Helper;
 import persistance.Persistance;
 import utils.FactoryComponent;
-import utils.Values;
 import workData.Calculations;
 import workData.Money;
 
 /**
  * Created On: 20.04.2022
- * Last Edit: 14.07.2022
+ * Last Edit: 10.09.2022
  * 
  * @author Riyufuchi
  */
@@ -61,7 +62,7 @@ public class Counter extends Window
 		{
 			textFields[i] = new JTextField("0.0");
 			textFields[i].setName(actions[i]);
-			textFields[i].setFont(Values.FONT_MAIN);
+			textFields[i].setFont(AppFonts.MAIN);
 			content.add(textFields[i], getGBC(1, i));
 		}
 		textFields[i - 1].setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
@@ -122,7 +123,7 @@ public class Counter extends Window
 	private void resetBorders()
 	{
 		for(int i = 0; i < 0; i++)
-			textFields[i].setBorder(Values.TEXTFIELD_DEFAULT_BORDER);
+			textFields[i].setBorder(ComponentParts.TEXTFIELD_DEFAULT_BORDER);
 		repaint();
 	}
 }
