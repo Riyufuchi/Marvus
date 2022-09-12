@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 11.04.2022
+ * Last Edit: 12.09.2022
  * @author Riyufuchi
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
 
@@ -29,13 +29,6 @@ public class Money implements Serializable
 	public Money(String sum, String date)
 	{
 		this.ID = ++Static_ID;
-		this.moneySum = new BigDecimal(sum);
-		this.date = date;
-	}
-	
-	public Money(int id, String sum, String date)
-	{
-		this.ID = id;
 		this.moneySum = new BigDecimal(sum);
 		this.date = date;
 	}

@@ -20,14 +20,14 @@ import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 10.09.2022
+ * Last Edit: 12.09.2022
  * 
  * @author Riyufuchi
  */
 @SuppressWarnings("serial")
 public final class DataTableForm extends Window
 {
-	private DataBox dataBox;
+	private DataBox<Money> dataBox;
 	private JTextField[][] textFields;
 	
 	public DataTableForm(int width, int height)
@@ -36,8 +36,8 @@ public final class DataTableForm extends Window
 		Consumer<Exception> con = e -> {
 			DialogHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
 		};
-
-		this.dataBox = new DataBox(con, AppTexts.DATE_FORMAT_OPTIONS[1]);
+		
+		this.dataBox = new DataBox<>(con, AppTexts.DATE_FORMAT_OPTIONS[0]);
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public final class DataTableForm extends Window
 		refresh();
 	}
 	
-	public DataBox getDataBox()
+	public DataBox<Money> getDataBox()
 	{
 		return dataBox;
 	}

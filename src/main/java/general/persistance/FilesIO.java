@@ -17,10 +17,10 @@ import workData.Money;
 
 /**
  * Created On: 02.07.2021
- * Last Edit: 06.06.2022
+ * Last Edit: 12.06.2022
  * 
  * @author Riyufuchi
- * @version 1.1
+ * @version 1.2
  * @since 1.3.1 
  */
 public class FilesIO 
@@ -46,15 +46,13 @@ public class FilesIO
 	public static LinkedList<Money> loadFromCSV(String path)
 	{
 		LinkedList<Money> l = new LinkedList<Money>();
-		int i = 1;
 		String s;
 		try (BufferedReader br = new BufferedReader(new FileReader(path)))
 		{
 			while ((s = br.readLine()) != null)
 			{
 				String[] split = s.split(";");
-				l.add(new Money(i, split[0], split[1]));
-				i++;
+				l.add(new Money(split[0], split[1]));
 			}
 		}
 		catch(IOException e)
@@ -85,7 +83,6 @@ public class FilesIO
 	public static LinkedList<Money> loadBinary(String path)
 	{
 		LinkedList<Money> l = new LinkedList<>();
-		int i = 0;
 		String money = "";
 		String date = "";
 		try (DataInputStream dis = new DataInputStream(new FileInputStream(path))) 
@@ -94,8 +91,7 @@ public class FilesIO
 			{
 				money = dis.readUTF();
 				date = dis.readUTF();
-				l.add(new Money(i, money, date));
-				i++;
+				l.add(new Money(money, date));
 			}
 		}
 		catch (IOException e)

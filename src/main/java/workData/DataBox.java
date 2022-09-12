@@ -15,16 +15,16 @@ import gui.info.AppTexts;
 
 /**
  * Created On: 10.09.2022<br>
- * Last Edit: 10.09.2022<hr>
+ * Last Edit: 12.09.2022<hr>
  * This class is made for handling list (LinkedList) of Money class for now. 
  * @author Riyufuchi
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
-public final class DataBox
+public final class DataBox<E extends Money>
 {
-	private LinkedList<Money> data;
-	private Comparator<Money> comparator;
+	private LinkedList<E> data;
+	private Comparator<E> comparator;
 	private Consumer<Exception> errorLoger;
 	private SimpleDateFormat dateFormat;
 	
@@ -32,7 +32,7 @@ public final class DataBox
 	{
 		checkArguments(errorLogerSetter, dateRegex);
 		this.data = new LinkedList<>();
-		this.dateFormat = new SimpleDateFormat(dateRegex);
+		//this.dateFormat = new SimpleDateFormat(dateRegex);
 		//this.comparator = (m1, m2) -> m1.getDate().compareTo(m2.getDate());
 		this.comparator = (m1, m2) -> {
 			try
@@ -54,13 +54,15 @@ public final class DataBox
 			dateRegex = AppTexts.DATE_FORMAT_OPTIONS[0];
 		else
 			for(String regex : AppTexts.DATE_FORMAT_OPTIONS)
-				if(regex.equals(dateRegex))
+				if(dateRegex.matches(regex))
 				{
 					dateRegexOK = true;
 					return;
 				}
 		if(!dateRegexOK)
-			dateRegex = AppTexts.DATE_FORMAT_OPTIONS[0];
+			this.dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[0]);
+		else
+			this.dateFormat = new SimpleDateFormat(dateRegex);
 		
 		if(errorLogerSetter == null)
 			this.errorLoger = e -> System.out.println(e.getMessage());
@@ -87,26 +89,26 @@ public final class DataBox
 	
 	//ADDING METHODS
 	
-	public void add(Money money)
+	public void add(E money)
 	{
 		if(money == null)
 			return;
 		data.add(money);
 	}
 	
-	public void addMultiple(List<Money> newData) throws NullPointerException
+	public void addMultiple(List<E> newData) throws NullPointerException
 	{
 		Objects.requireNonNull(newData).stream().forEach(m -> data.add(m));
 	}
 	
 	//COLLECTIONS UTILS
 	
-	public Iterator<Money> iterator()
+	public Iterator<E> iterator()
 	{
 		return data.iterator();
 	}
 	
-	public Stream<Money> stream()
+	public Stream<E> stream()
 	{
 		return data.stream();
 	}
@@ -120,14 +122,14 @@ public final class DataBox
 	
 	//SETTERS
 	
-	public void setList(LinkedList<Money> list)
+	public void setList(LinkedList<E> list)
 	{
 		data = list;
 	}
 	
 	//GETTERS
 	
-	public List<Money> getList()
+	public List<E> getList()
 	{
 		return data;
 	}

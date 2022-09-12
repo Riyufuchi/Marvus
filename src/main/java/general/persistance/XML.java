@@ -34,9 +34,9 @@ import workData.Money;
 
 /**
  * Created On: 30.05.2021
- * Last Edit: 06.06.2021
+ * Last Edit: 12.09.2022
  * @author Riyufuchi
- * @version 1.1
+ * @version 1.2
  * @since 1.3 
  */
 
@@ -51,7 +51,6 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 	private Transformer xformer;
 	private String path, mainElement, subElement, sum, date = "1.1.2018";
 	private boolean writeSum = false, writeDate = false;
-	private int id;	
 	private LinkedList<Money> list;
 	
 	public XML(String path, String mainElement, String subElement)
@@ -61,7 +60,6 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 		this.path = path;
 		this.mainElement = mainElement;
 		this.subElement = subElement;
-		this.id = 0;
 	}
 	
 	public XML(String path)
@@ -69,7 +67,6 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 		this.xof = XMLOutputFactory.newInstance();
 		this.xsw = null;
 		this.path = path;
-		this.id = 0;
 	}
 	
 	public void exportXML(List<Money> data)
@@ -240,8 +237,7 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 				writeDate = false;
 				break;
 			case Values.SUB_ELEMENT:
-				list.add(new Money(id, sum, date));
-				id++;
+				list.add(new Money(sum, date));
 				break;
 		}
 	}
