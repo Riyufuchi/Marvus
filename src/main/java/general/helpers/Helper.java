@@ -1,6 +1,7 @@
 package general.helpers;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 import general.persistance.FilesIO;
@@ -9,8 +10,6 @@ import gui.utils.DialogHelper;
 import gui.windows.DataTableForm;
 
 /**
- * Copyright Header
- * 
  * Created On: 20.04.2022
  * Last Edit: 06.09.2022
  * 
@@ -21,6 +20,32 @@ import gui.windows.DataTableForm;
 
 public class Helper 
 {
+	/**
+	 * This function checks if file exist and if file doesn't exist, it  creates forlder structure (if needed) and file it self
+	 * 
+	 * @param path to file
+	 * @return file
+	 * @throws IOException
+	 * @throws NullPointerException if path is null
+	 */
+	public static File checkFileExistance(String path) throws IOException, NullPointerException
+	{
+		File file = new File(path);
+		if(file.exists())
+		{
+			return file;
+		}
+		else
+		{
+			if(path.lastIndexOf("/") != -1)
+			{
+				new File(path.substring(0, path.lastIndexOf("/"))).mkdirs();
+			}
+			file.createNewFile();
+		}
+		return file;
+	}
+	
 	public static boolean overwriteProtection(String path)
 	{
 		File file = new File(path);

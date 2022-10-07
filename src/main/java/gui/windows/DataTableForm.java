@@ -1,6 +1,5 @@
 package gui.windows;
 
-import java.awt.Color;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.function.Consumer;
@@ -8,10 +7,8 @@ import java.util.function.Consumer;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 
 import general.helpers.Helper;
-import gui.info.AppFonts;
 import gui.info.AppTexts;
 import gui.utils.DialogHelper;
 import gui.utils.JMenuCreator;
@@ -20,7 +17,7 @@ import workData.Money;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 12.09.2022
+ * Last Edit: 07.10.2022
  * 
  * @author Riyufuchi
  */
@@ -33,11 +30,10 @@ public final class DataTableForm extends Window
 	public DataTableForm(int width, int height)
 	{
 		super("Marvus - Datatable", width, height, false, true, true);
-		Consumer<Exception> con = e -> {
-			DialogHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
+		Consumer<Exception> excetionConsumer = e -> {
+			DialogHelper.exceptionDialog(this, e);
 		};
-		
-		this.dataBox = new DataBox<>(con, AppTexts.DATE_FORMAT_OPTIONS[0]);
+		this.dataBox = new DataBox<>(excetionConsumer, AppTexts.DATE_FORMAT_OPTIONS[0]);
 	}
 
 	@Override
@@ -69,7 +65,7 @@ public final class DataTableForm extends Window
 		int year = 0;
 		JPanel pane = getPane();
 		int y = 0;
-		LineBorder lb = new LineBorder(Color.GRAY);
+		//LineBorder lb = new LineBorder(Color.GRAY);
 		for(int x = 0; x < textFields.length; x++)
 		{
 			listData = it.next().getDataArray();
@@ -84,10 +80,10 @@ public final class DataTableForm extends Window
 				textFields[x][i] = new JTextField(listData[i]);
 				//textFields[x][i].setEnabled(false);
 				textFields[x][i].setEditable(false);
-				textFields[x][i].setBackground(Color.DARK_GRAY);
-				textFields[x][i].setForeground(Color.LIGHT_GRAY);
-				textFields[x][i].setFont(AppFonts.MAIN);
-				textFields[x][i].setBorder(lb);
+				//textFields[x][i].setBackground(Color.DARK_GRAY);
+				//textFields[x][i].setForeground(Color.LIGHT_GRAY);
+				//textFields[x][i].setFont(AppFonts.MAIN);
+				//textFields[x][i].setBorder(lb);
 				pane.add(textFields[x][i], getGBC( i + year, y + 1));
 			}
 			y++;
@@ -98,23 +94,23 @@ public final class DataTableForm extends Window
 	private void setupJMenu()
 	{
 		JMenuCreator jmc = new JMenuCreator(AppTexts.DTF_MENU, AppTexts.DTF_MENU_ITEMS, 3);
-		jmc.getJMenuBar().setBackground(Color.LIGHT_GRAY);
+		//jmc.getJMenuBar().setBackground(Color.LIGHT_GRAY);
 		JMenuItem[] jmi = jmc.getMenuItem();
 		for (int i = 0; i < jmi.length; i++)
 		{
-			jmi[i].setBackground(Color.LIGHT_GRAY);
+			//jmi[i].setBackground(Color.LIGHT_GRAY);
 			switch (jmi[i].getName())
 			{
-				case "About" -> jmi[i].addActionListener(event -> about());
-				case "Exit" -> jmi[i].addActionListener(event -> onClose());
-				case "Export"-> jmi[i].addActionListener(event -> new FileIO(true, this));
-				case "Import" -> jmi[i].addActionListener(event -> new FileIO(false, this));
-				case "Refresh" -> jmi[i].addActionListener(event -> refresh());
-				case "Count" -> jmi[i].addActionListener(event -> new Counter(this));
-				case "Date" -> jmi[i].addActionListener(event -> sort());
-				case "Preferences" -> jmi[i].addActionListener(event -> new Settings());
-				case "Backup" -> jmi[i].addActionListener(event -> Helper.backup(this));
-				default -> jmi[i].addActionListener(event -> DialogHelper.informationDialog(this, "This functionality is not implemented yet", "Info"));
+				case "About" -> jmc.setItemAction(i, event -> about());
+				case "Exit" -> jmc.setItemAction(i, event -> onClose());
+				case "Export"-> jmc.setItemAction(i,event -> new FileIO(true, this));
+				case "Import" -> jmc.setItemAction(i, event -> new FileIO(false, this));
+				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
+				case "Count" -> jmc.setItemAction(i,event -> new Counter(this));
+				case "Date" -> jmc.setItemAction(i,event -> sort());
+				case "Preferences" -> jmc.setItemAction(i,event -> new Settings());
+				case "Backup" -> jmc.setItemAction(i,event -> Helper.backup(this));
+				default -> jmc.setItemAction(i, event -> DialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
@@ -142,7 +138,8 @@ public final class DataTableForm extends Window
 		try {
 			loadData((LinkedList<Money>) dataBox.getList());
 		} catch (NullPointerException | IllegalArgumentException e) {
-			DialogHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
+			DialogHelper.exceptionDialog(this, e);
+			//DialogHelper.errorDialog(this, e.getMessage(), e.getClass().getSimpleName());
 			//new ErrorWindow(ErrorCause.INERNAL, e.getMessage());
 		}
 		repaint();

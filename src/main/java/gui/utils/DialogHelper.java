@@ -28,4 +28,9 @@ public class DialogHelper
 	{
 		JOptionPane.showMessageDialog(parentFrame, message, title, JOptionPane.WARNING_MESSAGE);
 	}
+	
+	public static void exceptionDialog(JFrame parentFrame, Exception exception)
+	{
+		JOptionPane.showMessageDialog(parentFrame, exception.getMessage(), exception.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
+	}
 }

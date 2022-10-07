@@ -16,12 +16,13 @@ import general.persistance.Persistance;
 import general.utils.Calculations;
 import gui.info.AppFonts;
 import gui.info.ComponentParts;
+import gui.utils.DialogHelper;
 import gui.utils.FactoryComponent;
 import workData.Money;
 
 /**
- * Created On: 20.04.2022
- * Last Edit: 10.09.2022
+ * Created On: 20.04.2022<br>
+ * Last Edit: 07.10.2022
  * 
  * @author Riyufuchi
  */
@@ -50,7 +51,7 @@ public class Counter extends Window
 		}
 		catch (NullPointerException | IOException e)
 		{
-			new ErrorWindow(ErrorCause.IO, e.getMessage());
+			DialogHelper.exceptionDialog(this, e);
 		}
 	}
 	
@@ -111,7 +112,7 @@ public class Counter extends Window
 			}
 			catch(NullPointerException | IllegalArgumentException e)
 			{
-				new ErrorWindow(ErrorCause.INERNAL, e.getMessage());
+				DialogHelper.exceptionDialog(this, e);
 			}
 			dtf.getDataBox().add(new Money(cals.getSum().toString(), textFields[max].getText()));
 			dtf.refresh();

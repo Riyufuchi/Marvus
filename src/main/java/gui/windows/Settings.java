@@ -1,15 +1,21 @@
 package gui.windows;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import general.helpers.Helper;
+import general.persistance.Persistance;
 import general.utils.Values;
 import gui.info.AppTexts;
+import gui.utils.DialogHelper;
 import gui.utils.FactoryComponent;
 
 /**
  * Created On: 14.07.2022
- * Last Edit: 10.09.2022
+ * Last Edit: 07.10.2022
  * 
  * @author Riyufuchi
  */
@@ -20,7 +26,7 @@ public final class Settings extends Window
 	
 	public Settings()
 	{
-		super("Preferences", 330, 210, true, true, false);
+		super("Preferences", 360, 210, true, true, false);
 		createOptions(getPane());
 	}
 
@@ -32,7 +38,13 @@ public final class Settings extends Window
 		
 		content.add(FactoryComponent.createButton("Cancel", event -> this.dispose()), getGBC(0, labels.length));
 		content.add(FactoryComponent.createButton("Ok", event -> {
-			applyPreferences();
+			try
+			{
+				applyPreferences();
+			} catch (NullPointerException | IOException e)
+			{
+				DialogHelper.exceptionDialog(this, e);
+			}
 			this.dispose();
 		}), getGBC(1, labels.length));
 	}
@@ -51,10 +63,15 @@ public final class Settings extends Window
 	}
 	
 	/**
-	 * TODO: add functionality save preferences into config file and load it when application start 
+	 * Saves chosen settings options
+	 * 
+	 * @throws IOException 
+	 * @throws NullPointerException 
 	 */
-	private void applyPreferences()
+	private void applyPreferences() throws NullPointerException, IOException
 	{
-		//Helper.setUI(themes.getSelectedIndex());
+		File config = Helper.checkFileExistance("config.csv");
+		String[] data = { String.valueOf(themes.getSelectedIndex()), String.valueOf(dateFormat.getSelectedIndex()), String.valueOf(backgroundColor.getSelectedIndex()) };
+		Persistance.saveToCSV(config.getPath(), data);
 	}
 }

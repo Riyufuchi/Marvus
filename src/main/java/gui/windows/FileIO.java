@@ -13,8 +13,8 @@ import gui.utils.FactoryComponent;
 import gui.utils.DialogHelper;
 
 /**
- * Created On: 11.04.2022
- * Last Edit: 10.09.2022
+ * Created On: 11.04.2022<br>
+ * Last Edit: 07.10.2022
  * 
  * @author Riyufuchi
  */
@@ -96,7 +96,8 @@ public class FileIO extends Window
 				}
 				catch(NullPointerException | IllegalArgumentException e1)
 				{
-					new ErrorWindow(ErrorCause.INERNAL, e1.getMessage());
+					//new ErrorWindow(ErrorCause.INERNAL, e1.getMessage());
+					DialogHelper.exceptionDialog(this, e1);
 				}
 				safelyClose();
 			});

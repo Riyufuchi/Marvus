@@ -1,17 +1,17 @@
 package gui.utils;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * Copyright Header
- * 
  * Project: ODB Manager
  * Created On: 21.07.2020<br>
- * Last Edit: 20.09.2022
+ * Last Edit: 07.10.2022
  * @author Riyufuchi
- * @version 1.3
+ * @version 1.4
  * @since 1.0 
  */
 
@@ -106,6 +106,11 @@ public class JMenuCreator
 			}
 			indexValueHolder = index;
 		}
+	}
+	
+	public void setItemAction(int i, ActionListener al)
+	{
+		menuItem[i].addActionListener(al);
 	}
 	
 	public void setMenuItem(JMenuItem[] jmi)

@@ -15,7 +15,7 @@ import gui.info.AppTexts;
 
 /**
  * Created On: 10.09.2022<br>
- * Last Edit: 12.09.2022<hr>
+ * Last Edit: 07.10.2022<hr>
  * This class is made for handling list (LinkedList) of Money class for now. 
  * @author Riyufuchi
  * @version 1.1
@@ -122,14 +122,14 @@ public final class DataBox<E extends Money>
 	
 	//SETTERS
 	
-	public void setList(LinkedList<E> list)
+	public void setList(LinkedList<E> list) throws NullPointerException
 	{
-		data = list;
+		data = Objects.requireNonNull(list);
 	}
 	
 	//GETTERS
 	
-	public List<E> getList()
+	public LinkedList<E> getList()
 	{
 		return data;
 	}
