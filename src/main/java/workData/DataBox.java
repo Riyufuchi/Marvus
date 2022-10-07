@@ -18,7 +18,7 @@ import gui.info.AppTexts;
  * Last Edit: 07.10.2022<hr>
  * This class is made for handling list (LinkedList) of Money class for now. 
  * @author Riyufuchi
- * @version 1.1
+ * @version 1.2
  * @since 1.0
  */
 public final class DataBox<E extends Money>
@@ -57,7 +57,7 @@ public final class DataBox<E extends Money>
 				if(dateRegex.matches(regex))
 				{
 					dateRegexOK = true;
-					return;
+					break;
 				}
 		if(!dateRegexOK)
 			this.dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[0]);
