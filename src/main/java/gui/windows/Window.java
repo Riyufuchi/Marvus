@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Objects;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,6 +16,9 @@ import gui.utils.FactoryComponent;
 /**
  * Created On: 11.04.2022<br>
  * Last Edit: 17.07.2022
+ * <hr>
+ * An extended version of JFrame, that creates window with desired properties.
+ * <hr>
  * 
  * @author Riyufuchi
  */
@@ -57,7 +61,8 @@ public abstract class Window extends JFrame
 	}
 	
 	/**
-	 * Method for creation control components, automatically called
+	 * Method that helps create window content.
+	 * Automatically called in constructor
 	 * 
 	 * @param content JPanel created in constructor
 	 */
@@ -68,9 +73,14 @@ public abstract class Window extends JFrame
 		this.dispose();
 	}
 	
+	/**
+	 * Creates labels and puts them into first column
+	 * 
+	 * @param texts
+	 */
 	protected void createLabels(String[] texts)
 	{
-		int max = texts.length;
+		int max = Objects.requireNonNull(texts).length;
 		for(int i = 0; i < max; i++)
 		{
 			contentPane.add(FactoryComponent.newLabel(texts[i]), getGBC(0, i));

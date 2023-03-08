@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -95,11 +94,12 @@ public final class DataTableForm extends Window
 	{
 		JMenuCreator jmc = new JMenuCreator(AppTexts.DTF_MENU, AppTexts.DTF_MENU_ITEMS, 3);
 		//jmc.getJMenuBar().setBackground(Color.LIGHT_GRAY);
-		JMenuItem[] jmi = jmc.getMenuItem();
-		for (int i = 0; i < jmi.length; i++)
+		//JMenuItem[] jmi = jmc.getMenuItem();
+		final int max = jmc.getNumberOfMenuItems();
+		for (int i = 0; i < max; i++)
 		{
 			//jmi[i].setBackground(Color.LIGHT_GRAY);
-			switch (jmi[i].getName())
+			switch (jmc.getItemName(i))
 			{
 				case "About" -> jmc.setItemAction(i, event -> about());
 				case "Exit" -> jmc.setItemAction(i, event -> onClose());

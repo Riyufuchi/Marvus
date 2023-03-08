@@ -8,10 +8,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import general.utils.Values;
 import gui.info.AppColors;
+import gui.info.AppFonts;
 
 public class FactoryComponent
 {
@@ -57,5 +59,19 @@ public class FactoryComponent
 		JTextField textField = new JTextField(defaultText);
 		//textField.setFont(Values.FONT_MAIN);
 		return textField;
+	}
+	
+	
+	public static JTextArea newTextArea(String text)
+	{
+		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setText(text);
+		//textArea.setBackground(AppColors.DEFAULT_PANE_BACKGROUND);
+		//textArea.setForeground(Color.LIGHT_GRAY);
+		//textArea.setFont(AppFonts.MAIN);
+		return textArea;
 	}
 }

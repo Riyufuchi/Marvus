@@ -24,6 +24,7 @@ public class ErrorWindow extends Window
 {
 	private JTextArea errorMessageLabel;
 	
+	@Deprecated
 	public ErrorWindow(ErrorCause error, String errorMessage)
 	{
 		super(error.text, 400, 300, false, true, false);

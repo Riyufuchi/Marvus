@@ -1,11 +1,14 @@
 package gui.utils;
 
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
  * Created On: 17.07.2022<br>
- * Last Edit: 06.09.2022
+ * Last Edit: 07.10.2022
  */
 public class DialogHelper 
 {
@@ -32,5 +35,15 @@ public class DialogHelper
 	public static void exceptionDialog(JFrame parentFrame, Exception exception)
 	{
 		JOptionPane.showMessageDialog(parentFrame, exception.getMessage(), exception.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public static Enum enumDialog(JFrame parentFrame, String message, String title, Enum[] enumeration)
+	{
+		JComboBox<Enum> enumBox = FactoryComponent.<Enum>createCombobox(enumeration);
+		final JComponent[] inputs = new JComponent[] { new JLabel(message), enumBox};
+		int result = JOptionPane.showConfirmDialog(null, inputs, title, JOptionPane.PLAIN_MESSAGE);
+		if (result == JOptionPane.OK_OPTION)
+			return enumBox.getItemAt(enumBox.getSelectedIndex());
+		return null;
 	}
 }

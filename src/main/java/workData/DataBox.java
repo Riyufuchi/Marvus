@@ -16,7 +16,8 @@ import gui.info.AppTexts;
 /**
  * Created On: 10.09.2022<br>
  * Last Edit: 07.10.2022<hr>
- * This class is made for handling list (LinkedList) of Money class for now. 
+ * Class for managing LinkedList and data interactions
+ * <hr>
  * @author Riyufuchi
  * @version 1.2
  * @since 1.0

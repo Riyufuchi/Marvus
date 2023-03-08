@@ -7,20 +7,21 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * Project: ODB Manager
  * Created On: 21.07.2020<br>
- * Last Edit: 07.10.2022
+ * Last Edit: 11.10.2022
+ * <hr>
+ * Tool for easier initialization of JMenuBar.
+ * <hr>
  * @author Riyufuchi
- * @version 1.4
+ * @version 1.5
  * @since 1.0 
  */
-
 public class JMenuCreator 
 {
 	private int[] numberOfMenus;
 	private JMenuBar menuBar;
 	private JMenu[] menu;
-	private JMenuItem[] menuItem;
+	private JMenuItem[] menuItems;
 	private int lineSeparator;
 	
 	public JMenuCreator(String[] menuLabels, String[] menuItemLabels)
@@ -81,7 +82,7 @@ public class JMenuCreator
 		for(int i = 0; i < menuItemLabels.length; i++)
 			if(menuItemLabels[i].equals(""))
 				MIL_length--;
-		menuItem = new JMenuItem[MIL_length];
+		menuItems = new JMenuItem[MIL_length];
 		for(int i = 0; i < menu.length; i++)
 			menu[i] = new JMenu(menuLabels[i]);
 		int arrayIndex = 0;
@@ -89,8 +90,8 @@ public class JMenuCreator
 		{
 			if(menuItemLabels[i].equals(""))
 				i++;
-			menuItem[arrayIndex] = new JMenuItem(menuItemLabels[i]);
-			menuItem[arrayIndex].setName(menuItemLabels[i]);
+			menuItems[arrayIndex] = new JMenuItem(menuItemLabels[i]);
+			menuItems[arrayIndex].setName(menuItemLabels[i]);
 			arrayIndex++;
 		}
 		int indexValueHolder = 0;
@@ -101,26 +102,46 @@ public class JMenuCreator
 			{
 				if(lineSeparator == index)
 					menu[x].addSeparator();
-				menu[x].add(menuItem[index]);
+				menu[x].add(menuItems[index]);
 				menuBar.add(menu[x]);
 			}
 			indexValueHolder = index;
 		}
 	}
 	
-	public void setItemAction(int i, ActionListener al)
+	/**
+	 * Adds action listener (event) to desired menu item
+	 * 
+	 * @param i index of menu item - <b>! UNCHECKED !</b>
+	 * @param actionListener
+	 */
+	public void setItemAction(int i, ActionListener actionListener)
 	{
-		menuItem[i].addActionListener(al);
+		menuItems[i].addActionListener(actionListener);
 	}
 	
+	public int getNumberOfMenuItems()
+	{
+		return menuItems.length;
+	}
+	
+	public String getItemName(int index)
+	{
+		if(!(index >= 0 && index < menuItems.length))
+			return "index out of bounds";
+		return menuItems[index].getName();
+	}
+	
+	@Deprecated
 	public void setMenuItem(JMenuItem[] jmi)
 	{
-		this.menuItem = jmi;
+		this.menuItems = jmi;
 	}
 	
+	@Deprecated
 	public JMenuItem[] getMenuItem()
 	{
-		return menuItem;
+		return menuItems;
 	}
 	
 	public JMenuBar getJMenuBar()
