@@ -6,16 +6,19 @@ import java.io.IOException;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import general.helpers.Helper;
-import general.persistance.Persistance;
-import general.utils.Values;
 import gui.info.AppTexts;
-import gui.utils.DialogHelper;
-import gui.utils.FactoryComponent;
+
+import sufuSoft.sufuLib.config.SufuLibConfig;
+import sufuSoft.sufuLib.gui.DialogHelper;
+import sufuSoft.sufuLib.gui.Window;
+import sufuSoft.sufuLib.gui.utils.FactoryComponent;
+import sufuSoft.sufuLib.utils.files.FileHelper;
+import sufuSoft.sufuLib.utils.files.Persistance;
+
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 07.10.2022
+ * Last Edit: 22.03.2023
  * 
  * @author Riyufuchi
  */
@@ -52,7 +55,7 @@ public final class Settings extends Window
 	private void createOptions(JPanel panel)
 	{
 		themes = FactoryComponent.<String>createCombobox(AppTexts.THEMES);
-		themes.setSelectedIndex(Values.themeID);
+		themes.setSelectedIndex(SufuLibConfig.themeID.ordinal());
 		panel.add(themes, getGBC(1,0));
 		
 		dateFormat = FactoryComponent.<String>createCombobox(AppTexts.DATE_FORMAT_OPTIONS);
@@ -70,7 +73,7 @@ public final class Settings extends Window
 	 */
 	private void applyPreferences() throws NullPointerException, IOException
 	{
-		File config = Helper.checkFileExistance("config.csv");
+		File config = FileHelper.checkFile("config.csv");
 		String[] data = { String.valueOf(themes.getSelectedIndex()), String.valueOf(dateFormat.getSelectedIndex()), String.valueOf(backgroundColor.getSelectedIndex()) };
 		Persistance.saveToCSV(config.getPath(), data);
 	}

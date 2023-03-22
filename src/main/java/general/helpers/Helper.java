@@ -1,17 +1,15 @@
 package general.helpers;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
 
 import general.persistance.FilesIO;
 import general.persistance.XML;
-import gui.utils.DialogHelper;
 import gui.windows.DataTableForm;
+import sufuSoft.sufuLib.gui.DialogHelper;
 
 /**
  * Created On: 20.04.2022
- * Last Edit: 06.09.2022
+ * Last Edit: 22.03.2023
  * 
  * @author Riyufuchi
  * @version 1.5
@@ -20,43 +18,6 @@ import gui.windows.DataTableForm;
 
 public class Helper 
 {
-	/**
-	 * This function checks if file exist and if file doesn't exist, it  creates forlder structure (if needed) and file it self
-	 * 
-	 * @param path to file
-	 * @return file
-	 * @throws IOException
-	 * @throws NullPointerException if path is null
-	 */
-	public static File checkFileExistance(String path) throws IOException, NullPointerException
-	{
-		File file = new File(path);
-		if(file.exists())
-		{
-			return file;
-		}
-		else
-		{
-			if(path.lastIndexOf("/") != -1)
-			{
-				new File(path.substring(0, path.lastIndexOf("/"))).mkdirs();
-			}
-			file.createNewFile();
-		}
-		return file;
-	}
-	
-	public static boolean overwriteProtection(String path)
-	{
-		File file = new File(path);
-		if(file.exists())
-			if (DialogHelper.yesNoDialog(null, path + " already exist.\nDo you want to overwrite this file?", "File already exists") == 0)
-				return true;
-			else
-				return false;
-		return true;
-	}
-	
 	public static void backup(DataTableForm dtf)
 	{
 		if(dtf.getDataBox().getList().isEmpty())
@@ -72,34 +33,5 @@ public class Helper
 		FilesIO.saveToCSV(path + ".csv", dtf.getDataBox().getList());
 		new XML(path + ".xml", "MoneyExport", "Money").exportXML(dtf.getDataBox().getList());
 		FilesIO.writeBinary(path + ".dat", dtf.getDataBox().getList());
-	}
-	
-	public static String checkDoubleFormat(String text) throws NullPointerException, IllegalArgumentException
-	{
-		Objects.requireNonNull(text);
-		if(text.isBlank() || !text.matches(".*\\d.*"))
-			throw new IllegalArgumentException();
-		if(text.contains(","))
-			text = text.replace(",", ".");
-		char[] number = new char[text.length()];
-		boolean dot = false;
-		int index = 0;
-		for(int i = 0; i < text.length(); i++)
-		{
-			if(Character.isDigit(text.charAt(i)))
-			{
-				number[index] = text.charAt(i);
-				index++;
-			}
-			else if (text.charAt(i) == '.')
-			{
-				if(dot)
-					continue;
-				dot = true;
-				number[index] = text.charAt(i);
-				index++;
-			}
-		}
-		return String.valueOf(number).trim();
 	}
 }

@@ -11,18 +11,21 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import general.helpers.Helper;
-import general.persistance.Persistance;
 import general.utils.Calculations;
-import gui.info.AppFonts;
+
 import gui.info.ComponentParts;
-import gui.utils.DialogHelper;
-import gui.utils.FactoryComponent;
 import workData.Money;
+
+import sufuSoft.sufuLib.config.SufuLibFonts;
+import sufuSoft.sufuLib.gui.DialogHelper;
+import sufuSoft.sufuLib.gui.Window;
+import sufuSoft.sufuLib.gui.utils.FactoryComponent;
+import sufuSoft.sufuLib.utils.files.InputChecker;
+import sufuSoft.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 07.10.2022
+ * Last Edit: 22.03.2023
  * 
  * @author Riyufuchi
  */
@@ -37,22 +40,29 @@ public class Counter extends Window
 	public Counter(DataTableForm dtf)
 	{
 		super("Counter", 100, 200, true, true, false);
+		postWindowInit(getPane());
 		this.dtf = dtf;
 		this.dataOk = true;
 		this.cals = new Calculations();
+	}
+	
+	@Override
+	protected void postWindowInit(JPanel content)
+	{
+		try
+		{
+			createLabels(this.getPane());
+		}
+		catch (NullPointerException | IOException e)
+		{
+			DialogHelper.exceptionDialog(this, e);
+			this.dispose();
+		}
 	}
 
 	@Override
 	protected void setComponents(JPanel content)
 	{
-		try
-		{
-			createLabels(content);
-		}
-		catch (NullPointerException | IOException e)
-		{
-			DialogHelper.exceptionDialog(this, e);
-		}
 	}
 	
 	private void createTextFilds(JPanel content, int x, String[] actions)
@@ -63,12 +73,13 @@ public class Counter extends Window
 		{
 			textFields[i] = new JTextField("0.0");
 			textFields[i].setName(actions[i]);
-			textFields[i].setFont(AppFonts.MAIN);
+			textFields[i].setFont(SufuLibFonts.MAIN);
 			content.add(textFields[i], getGBC(1, i));
 		}
 		textFields[i - 1].setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 	}
 	
+	//TODO: Add default counter.csv
 	private void createLabels(JPanel content) throws NullPointerException, IOException
 	{
 		LinkedList<String> labelTexts = (LinkedList<String>) Persistance.loadFromCSV("data/counter.csv");
@@ -106,9 +117,9 @@ public class Counter extends Window
 			{
 				for(int x = 0; x < max; x++)
 					if(textFields[x].getName().equals("-"))
-						cals.add("-" + Helper.checkDoubleFormat(textFields[x].getText()));
+						cals.add("-" + InputChecker.checkDoubleFormat(textFields[x].getText()));
 					else
-						cals.add(Helper.checkDoubleFormat(textFields[x].getText()));
+						cals.add(InputChecker.checkDoubleFormat(textFields[x].getText()));
 			}
 			catch(NullPointerException | IllegalArgumentException e)
 			{

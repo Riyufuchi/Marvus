@@ -9,14 +9,17 @@ import javax.swing.JTextField;
 
 import general.helpers.Helper;
 import gui.info.AppTexts;
-import gui.utils.DialogHelper;
-import gui.utils.JMenuCreator;
-import workData.DataBox;
 import workData.Money;
+import workData.DataBox;
+
+import sufuSoft.sufuLib.gui.DialogHelper;
+import sufuSoft.sufuLib.gui.ErrorWindow;
+import sufuSoft.sufuLib.gui.Window;
+import sufuSoft.sufuLib.gui.utils.JMenuCreator;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 07.10.2022
+ * Last Edit: 22.03.2023
  * 
  * @author Riyufuchi
  */
@@ -29,9 +32,7 @@ public final class DataTableForm extends Window
 	public DataTableForm(int width, int height)
 	{
 		super("Marvus - Datatable", width, height, false, true, true);
-		Consumer<Exception> excetionConsumer = e -> {
-			DialogHelper.exceptionDialog(this, e);
-		};
+		Consumer<Exception> excetionConsumer = e -> DialogHelper.exceptionDialog(this, e);
 		this.dataBox = new DataBox<>(excetionConsumer, AppTexts.DATE_FORMAT_OPTIONS[0]);
 	}
 
@@ -90,6 +91,7 @@ public final class DataTableForm extends Window
 		revalidate();
 	}
 	
+	//TODO: Implement FileIO as proper FileIO window from Swing lib
 	private void setupJMenu()
 	{
 		JMenuCreator jmc = new JMenuCreator(AppTexts.DTF_MENU, AppTexts.DTF_MENU_ITEMS, 3);

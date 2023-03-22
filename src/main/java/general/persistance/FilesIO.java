@@ -12,15 +12,15 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import gui.utils.DialogHelper;
+import sufuSoft.sufuLib.gui.DialogHelper;
 import workData.Money;
 
 /**
  * Created On: 02.07.2021
- * Last Edit: 12.06.2022
+ * Last Edit: 22.03.2023
  * 
  * @author Riyufuchi
- * @version 1.2
+ * @version 1.3
  * @since 1.3.1 
  */
 public class FilesIO 

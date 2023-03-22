@@ -5,16 +5,17 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import general.helpers.Helper;
 import general.persistance.FilesIO;
 import general.persistance.XML;
 import gui.info.AppTexts;
-import gui.utils.FactoryComponent;
-import gui.utils.DialogHelper;
+import sufuSoft.sufuLib.gui.DialogHelper;
+import sufuSoft.sufuLib.gui.Window;
+import sufuSoft.sufuLib.gui.utils.FactoryComponent;
+import sufuSoft.sufuLib.utils.files.FileHelper;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 07.10.2022
+ * Last Edit: 22.03.2023
  * 
  * @author Riyufuchi
  */
@@ -114,7 +115,7 @@ public class FileIO extends Window
 	{
 		if (!(fileName.getText().isBlank() && !dtf.getDataBox().isEmpty()))
 		{
-			if(Helper.overwriteProtection(getPath()))
+			if(FileHelper.overwriteProtection(getPath()))
 			{
 				if(dtf.getDataBox().isEmpty())
 				{

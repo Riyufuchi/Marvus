@@ -29,14 +29,14 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import general.utils.Values;
-import gui.windows.ErrorWindow;
+import sufuSoft.sufuLib.gui.ErrorWindow;
 import workData.Money;
 
 /**
  * Created On: 30.05.2021
- * Last Edit: 12.09.2022
+ * Last Edit: 22.03.2023
  * @author Riyufuchi
- * @version 1.2
+ * @version 1.3
  * @since 1.3 
  */
 
