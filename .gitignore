@@ -1,7 +1,7 @@
 data/
 target/
 bin/
+lib/
 *.csv
 .classpath
-.project
 .settings
