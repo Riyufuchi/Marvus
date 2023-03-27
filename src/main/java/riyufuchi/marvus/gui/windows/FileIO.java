@@ -1,17 +1,17 @@
-package gui.windows;
+package riyufuchi.marvus.gui.windows;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import general.persistance.FilesIO;
-import general.persistance.XML;
-import gui.info.AppTexts;
-import sufuSoft.sufuLib.gui.DialogHelper;
-import sufuSoft.sufuLib.gui.Window;
-import sufuSoft.sufuLib.gui.utils.FactoryComponent;
-import sufuSoft.sufuLib.utils.files.FileHelper;
+import riyufuchi.marvus.files.FilesIO;
+import riyufuchi.marvus.files.XML;
+import riyufuchi.marvus.gui.config.AppTexts;
+import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.Window;
+import riyufuchi.sufuLib.gui.utils.FactoryComponent;
+import riyufuchi.sufuLib.utils.files.FileHelper;
 
 /**
  * Created On: 11.04.2022<br>

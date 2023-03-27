@@ -1,5 +1,6 @@
-package gui.windows;
+package riyufuchi.marvus.gui.windows;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.function.Consumer;
@@ -7,15 +8,14 @@ import java.util.function.Consumer;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import general.helpers.Helper;
-import gui.info.AppTexts;
-import workData.Money;
-import workData.DataBox;
-
-import sufuSoft.sufuLib.gui.DialogHelper;
-import sufuSoft.sufuLib.gui.ErrorWindow;
-import sufuSoft.sufuLib.gui.Window;
-import sufuSoft.sufuLib.gui.utils.JMenuCreator;
+import riyufuchi.marvus.files.Helper;
+import riyufuchi.marvus.gui.config.AppTexts;
+import riyufuchi.marvus.marvusData.DataBox;
+import riyufuchi.marvus.marvusData.Money;
+import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.ErrorWindow;
+import riyufuchi.sufuLib.gui.Window;
+import riyufuchi.sufuLib.gui.utils.JMenuCreator;
 
 /**
  * Created On: 11.04.2022
@@ -32,8 +32,8 @@ public final class DataTableForm extends Window
 	public DataTableForm(int width, int height)
 	{
 		super("Marvus - Datatable", width, height, false, true, true);
-		Consumer<Exception> excetionConsumer = e -> DialogHelper.exceptionDialog(this, e);
-		this.dataBox = new DataBox<>(excetionConsumer, AppTexts.DATE_FORMAT_OPTIONS[0]);
+		Consumer<Exception> exceptionConsumer = e -> DialogHelper.exceptionDialog(this, e);
+		this.dataBox = new DataBox<>(exceptionConsumer, AppTexts.DATE_FORMAT_OPTIONS[0]);
 	}
 
 	@Override
@@ -111,11 +111,23 @@ public final class DataTableForm extends Window
 				case "Count" -> jmc.setItemAction(i,event -> new Counter(this));
 				case "Date" -> jmc.setItemAction(i,event -> sort());
 				case "Preferences" -> jmc.setItemAction(i,event -> new Settings());
-				case "Backup" -> jmc.setItemAction(i,event -> Helper.backup(this));
+				case "Backup" -> jmc.setItemAction(i,event -> backupData());
 				default -> jmc.setItemAction(i, event -> DialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
+	}
+	
+	private void backupData()
+	{
+		try
+		{
+			Helper.backup(this);
+		}
+		catch (NullPointerException | IOException e)
+		{
+			DialogHelper.exceptionDialog(this, e);
+		}
 	}
 	
 	private void sort()
@@ -127,11 +139,6 @@ public final class DataTableForm extends Window
 		}
 		dataBox.sort();
 		refresh();
-	}
-	
-	public DataBox<Money> getDataBox()
-	{
-		return dataBox;
 	}
 	
 	public void refresh()
@@ -152,5 +159,12 @@ public final class DataTableForm extends Window
 	{
 		new ErrorWindow("About", "This is money manager.\nVersion: " + AppTexts.VERSION + "\nCreated by Riyufuchi.\n"
 			+ "Free libs under OpenSource lincention are used (I thnink), however my code is not under OpenSource licention.");
+	}
+	
+	// GETTERS
+	
+	public DataBox<Money> getDataBox()
+	{
+		return dataBox;
 	}
 }

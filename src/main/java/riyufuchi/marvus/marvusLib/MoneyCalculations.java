@@ -1,4 +1,4 @@
-package general.utils;
+package riyufuchi.marvus.marvusLib;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,18 +8,18 @@ import java.util.Objects;
 
 /**
  * Created On: 26.04.2022 <br>
- * Last Edit: 27.04.2022<br>
- * Class that handles money calculations wih use of BigDecimal
+ * Last Edit: 27.03.2023<br>
+ * Class that handles money calculations with use of BigDecimal
  * 
  * @author Riyufuchi
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
-public class Calculations
+public class MoneyCalculations
 {
 	private LinkedList<BigDecimal> moneyValues;
 	
-	public Calculations()
+	public MoneyCalculations()
 	{
 		this.moneyValues = new LinkedList<>();
 	}

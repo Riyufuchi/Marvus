@@ -1,4 +1,4 @@
-package gui.windows;
+package riyufuchi.marvus.gui.windows;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,14 +6,13 @@ import java.io.IOException;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import gui.info.AppTexts;
-
-import sufuSoft.sufuLib.config.SufuLibConfig;
-import sufuSoft.sufuLib.gui.DialogHelper;
-import sufuSoft.sufuLib.gui.Window;
-import sufuSoft.sufuLib.gui.utils.FactoryComponent;
-import sufuSoft.sufuLib.utils.files.FileHelper;
-import sufuSoft.sufuLib.utils.files.Persistance;
+import riyufuchi.marvus.gui.config.AppTexts;
+import riyufuchi.sufuLib.config.SufuLibConfig;
+import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.Window;
+import riyufuchi.sufuLib.gui.utils.FactoryComponent;
+import riyufuchi.sufuLib.utils.files.FileHelper;
+import riyufuchi.sufuLib.utils.files.Persistance;
 
 
 /**
@@ -30,7 +29,6 @@ public final class Settings extends Window
 	public Settings()
 	{
 		super("Preferences", 360, 210, true, true, false);
-		createOptions(getPane());
 	}
 
 	@Override
@@ -38,7 +36,6 @@ public final class Settings extends Window
 	{
 		String[] labels = {"Theme: ", "Date format: ", "Background:"};
 		createLabels(labels);
-		
 		content.add(FactoryComponent.createButton("Cancel", event -> this.dispose()), getGBC(0, labels.length));
 		content.add(FactoryComponent.createButton("Ok", event -> {
 			try
@@ -50,19 +47,15 @@ public final class Settings extends Window
 			}
 			this.dispose();
 		}), getGBC(1, labels.length));
-	}
-	
-	private void createOptions(JPanel panel)
-	{
 		themes = FactoryComponent.<String>createCombobox(AppTexts.THEMES);
 		themes.setSelectedIndex(SufuLibConfig.themeID.ordinal());
-		panel.add(themes, getGBC(1,0));
+		content.add(themes, getGBC(1,0));
 		
 		dateFormat = FactoryComponent.<String>createCombobox(AppTexts.DATE_FORMAT_OPTIONS);
-		panel.add(dateFormat, getGBC(1,1));
+		content.add(dateFormat, getGBC(1,1));
 		
 		backgroundColor = FactoryComponent.<String>createCombobox(AppTexts.COLOR_OPTIONS);
-		panel.add(backgroundColor, getGBC(1,2));
+		content.add(backgroundColor, getGBC(1,2));
 	}
 	
 	/**

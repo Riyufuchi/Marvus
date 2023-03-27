@@ -1,4 +1,4 @@
-package workData;
+package riyufuchi.marvus.marvusData;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

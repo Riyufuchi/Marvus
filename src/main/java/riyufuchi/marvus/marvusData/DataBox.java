@@ -1,4 +1,4 @@
-package workData;
+package riyufuchi.marvus.marvusData;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import gui.info.AppTexts;
+import riyufuchi.marvus.gui.config.AppTexts;
 
 /**
  * Created On: 10.09.2022<br>

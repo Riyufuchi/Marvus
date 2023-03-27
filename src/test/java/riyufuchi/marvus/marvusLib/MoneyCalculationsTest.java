@@ -1,16 +1,16 @@
-package general.utils;
+package riyufuchi.marvus.marvusLib;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CalculationsTest
+public class MoneyCalculationsTest
 {
-	private Calculations cal;
+	private MoneyCalculations cal;
 	
-	public CalculationsTest()
+	public MoneyCalculationsTest()
 	{
-		cal = new Calculations();
+		cal = new MoneyCalculations();
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -28,7 +28,7 @@ public class CalculationsTest
 	
 	@Test
 	public void testAverage2() {
-		cal = new Calculations();
+		cal = new MoneyCalculations();
 		cal.add("83");
 		cal.add("0.0");
 		cal.add("0.0");
@@ -37,9 +37,8 @@ public class CalculationsTest
 	
 	@Test(expected = ArithmeticException.class)
 	public void testAverage3() {
-		cal = new Calculations();
+		cal = new MoneyCalculations();
 		cal.getAverage();
 		fail();
 	}
-
 }

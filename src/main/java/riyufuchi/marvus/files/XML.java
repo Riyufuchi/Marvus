@@ -1,4 +1,4 @@
-package general.persistance;
+package riyufuchi.marvus.files;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,9 +28,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import general.utils.Values;
-import sufuSoft.sufuLib.gui.ErrorWindow;
-import workData.Money;
+import riyufuchi.marvus.config.Values;
+import riyufuchi.marvus.marvusData.Money;
+import riyufuchi.sufuLib.gui.ErrorWindow;
 
 /**
  * Created On: 30.05.2021

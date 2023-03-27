@@ -1,8 +1,9 @@
-package general.utils;
+package riyufuchi.marvus.app;
 
-import gui.windows.DataTableForm;
-import sufuSoft.sufuLib.enums.AppThemeUI;
-import sufuSoft.sufuLib.gui.utils.CustomizeUI;
+import riyufuchi.marvus.gui.windows.DataTableForm;
+import riyufuchi.sufuLib.enums.AppThemeUI;
+import riyufuchi.sufuLib.gui.utils.CustomizeUI;
+
 
 /**
  * Created On: 20.04.2022<br>

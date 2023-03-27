@@ -1,4 +1,4 @@
-package general.persistance;
+package riyufuchi.marvus.files;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import sufuSoft.sufuLib.gui.DialogHelper;
-import workData.Money;
+import riyufuchi.marvus.marvusData.Money;
+import riyufuchi.sufuLib.gui.DialogHelper;
 
 /**
  * Created On: 02.07.2021
@@ -23,6 +23,7 @@ import workData.Money;
  * @version 1.3
  * @since 1.3.1 
  */
+@Deprecated
 public class FilesIO 
 {
 	public static void saveToCSV(String path, List<Money> data)

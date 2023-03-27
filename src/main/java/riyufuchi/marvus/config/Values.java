@@ -1,4 +1,4 @@
-package general.utils;
+package riyufuchi.marvus.config;
 
 public class Values 
 {

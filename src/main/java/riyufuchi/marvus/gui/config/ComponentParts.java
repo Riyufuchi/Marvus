@@ -1,4 +1,4 @@
-package gui.info;
+package riyufuchi.marvus.gui.config;
 
 import javax.swing.JTextField;
 import javax.swing.border.Border;

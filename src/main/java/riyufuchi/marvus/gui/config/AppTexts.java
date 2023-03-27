@@ -1,4 +1,4 @@
-package gui.info;
+package riyufuchi.marvus.gui.config;
 
 public class AppTexts {
 	public static final String VERSION = "0.0.1";

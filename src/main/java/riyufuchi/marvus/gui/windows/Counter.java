@@ -1,4 +1,4 @@
-package gui.windows;
+package riyufuchi.marvus.gui.windows;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -11,17 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import general.utils.Calculations;
-
-import gui.info.ComponentParts;
-import workData.Money;
-
-import sufuSoft.sufuLib.config.SufuLibFonts;
-import sufuSoft.sufuLib.gui.DialogHelper;
-import sufuSoft.sufuLib.gui.Window;
-import sufuSoft.sufuLib.gui.utils.FactoryComponent;
-import sufuSoft.sufuLib.utils.files.InputChecker;
-import sufuSoft.sufuLib.utils.files.Persistance;
+import riyufuchi.marvus.gui.config.ComponentParts;
+import riyufuchi.marvus.marvusData.Money;
+import riyufuchi.marvus.marvusLib.MoneyCalculations;
+import riyufuchi.sufuLib.config.SufuLibFonts;
+import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.Window;
+import riyufuchi.sufuLib.gui.utils.FactoryComponent;
+import riyufuchi.sufuLib.utils.files.InputChecker;
+import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 20.04.2022<br>
@@ -34,7 +32,7 @@ public class Counter extends Window
 {
 	private DataTableForm dtf;
 	private JTextField[] textFields;
-	private Calculations cals;
+	private MoneyCalculations cals;
 	private boolean dataOk;
 
 	public Counter(DataTableForm dtf)
@@ -43,7 +41,7 @@ public class Counter extends Window
 		postWindowInit(getPane());
 		this.dtf = dtf;
 		this.dataOk = true;
-		this.cals = new Calculations();
+		this.cals = new MoneyCalculations();
 	}
 	
 	@Override
