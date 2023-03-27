@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.files.Helper;
 import riyufuchi.marvus.gui.config.AppTexts;
 import riyufuchi.marvus.marvusData.DataBox;
@@ -19,7 +20,7 @@ import riyufuchi.sufuLib.gui.utils.JMenuCreator;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 22.03.2023
+ * Last Edit: 27.03.2023
  * 
  * @author Riyufuchi
  */
@@ -105,8 +106,8 @@ public final class DataTableForm extends Window
 			{
 				case "About" -> jmc.setItemAction(i, event -> about());
 				case "Exit" -> jmc.setItemAction(i, event -> onClose());
-				case "Export"-> jmc.setItemAction(i,event -> new FileIO(true, this));
-				case "Import" -> jmc.setItemAction(i, event -> new FileIO(false, this));
+				case "Export"-> jmc.setItemAction(i,event -> new OldFileIO(true, this));
+				case "Import" -> jmc.setItemAction(i, event -> importData());
 				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
 				case "Count" -> jmc.setItemAction(i,event -> new Counter(this));
 				case "Date" -> jmc.setItemAction(i,event -> sort());
@@ -116,6 +117,14 @@ public final class DataTableForm extends Window
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
+	}
+	
+	private void importData()
+	{
+		FileIO fio = new FileIO(this, MarvusConfig.workFolder);
+		fio.setFileFilter(MarvusConfig.MONEY_SUM_FILES);
+		fio.setAcceptAllFileFilterUsed(false);
+		fio.loadFile();
 	}
 	
 	private void backupData()

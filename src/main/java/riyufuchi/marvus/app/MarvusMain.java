@@ -18,7 +18,7 @@ public class MarvusMain
 {
 	public static void main(String[] args)
 	{
-		CustomizeUI.setUI(AppThemeUI.NIMBUS_DARK);
+		CustomizeUI.setUI(MarvusConfig.appTheme);
 		new DataTableForm(800, 600);
 	}
 }

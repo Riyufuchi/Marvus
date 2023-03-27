@@ -3,6 +3,7 @@ package riyufuchi.marvus.files;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.gui.windows.DataTableForm;
 import riyufuchi.marvus.marvusData.Money;
 import riyufuchi.sufuLib.gui.DialogHelper;
@@ -28,7 +29,7 @@ public class Helper
 		}
 		if(DialogHelper.yesNoDialog(dtf, "Are you sure?", "Data backup") == 1)
 			return;
-		String path = "data/backups/" + LocalDate.now() + "/";
+		String path = MarvusConfig.workFolder + "backups/" + LocalDate.now() + "/";
 		if(FileHelper.checkDirectory(path))
 		{
 			if(DialogHelper.yesNoDialog(dtf, "Are you really sure?\nThis action will overwrite existing backups.", "Backup creation") == 1)
@@ -38,9 +39,10 @@ public class Helper
 		{
 			DialogHelper.informationDialog(dtf, ("Created directory: " + path), "Backup directory created");
 		}
-		Persistance.<Money>saveToCSV(path, dtf.getDataBox().getList());
+		path += "data";
+		Persistance.<Money>saveToCSV(path + ".csv", dtf.getDataBox().getList());
 		new XML(path + ".xml", "MoneyExport", "Money").exportXML(dtf.getDataBox().getList());
-		Persistance.<Money>serialize(path, dtf.getDataBox().getList());
+		Persistance.<Money>serialize(path + ".ser", dtf.getDataBox().getList());
 		DialogHelper.informationDialog(dtf, "Backup successfuly created", "Task successful");
 	}
 }

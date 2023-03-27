@@ -28,7 +28,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import riyufuchi.marvus.config.Values;
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.marvusData.Money;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 
@@ -216,10 +216,10 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 	{
 		switch (qName) 
 		{
-			case Values.SUM:
+			case MarvusConfig.SUM:
 				writeSum = true;
 				break;
-			case Values.DATE:
+			case MarvusConfig.DATE:
 				writeDate = true;
 				break;
 		}
@@ -230,13 +230,13 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 	{
 		switch (qName) 
 		{
-			case Values.SUM:
+			case MarvusConfig.SUM:
 				writeSum = false;
 				break;
-			case Values.DATE:
+			case MarvusConfig.DATE:
 				writeDate = false;
 				break;
-			case Values.SUB_ELEMENT:
+			case MarvusConfig.SUB_ELEMENT:
 				list.add(new Money(sum, date));
 				break;
 		}

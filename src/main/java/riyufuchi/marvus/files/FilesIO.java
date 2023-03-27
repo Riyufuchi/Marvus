@@ -56,7 +56,7 @@ public class FilesIO
 				l.add(new Money(split[0], split[1]));
 			}
 		}
-		catch(IOException e)
+		catch(IOException | IndexOutOfBoundsException e)
 		{
 			DialogHelper.errorDialog(null, e.getMessage(), e.getClass().getSimpleName());
 		}
