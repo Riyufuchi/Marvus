@@ -1,4 +1,4 @@
-package riyufuchi.marvus.files;
+package riyufuchi.marvus.marvusLib.legacy.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,25 +12,24 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import riyufuchi.marvus.marvusData.Money;
+import riyufuchi.marvus.marvusData.MoneySum;
 import riyufuchi.sufuLib.gui.DialogHelper;
 
 /**
  * Created On: 02.07.2021
- * Last Edit: 22.03.2023
+ * Last Edit: 17.04.2023
  * 
  * @author Riyufuchi
- * @version 1.3
+ * @version 1.4
  * @since 1.3.1 
  */
-@Deprecated
 public class FilesIO 
 {
-	public static void saveToCSV(String path, List<Money> data)
+	public static void saveToCSV(String path, List<MoneySum> data)
 	{
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) 
 		{
-			for (Money m : data)
+			for (MoneySum m : data)
 			{
 				//String[] values = {String.valueOf(m.getMoneySum()), m.getDate()};
 				bw.append(String.join(";", m.getDataArray()) + "\n");
@@ -44,16 +43,17 @@ public class FilesIO
 		DialogHelper.informationDialog(null, "File saved to: " + path, "Export to .CSV completed");
 	}
 	
-	public static LinkedList<Money> loadFromCSV(String path)
+	public static LinkedList<MoneySum> loadFromCSV(String path)
 	{
-		LinkedList<Money> l = new LinkedList<Money>();
+		LinkedList<MoneySum> l = new LinkedList<MoneySum>();
 		String s;
+		String[] split = new String[2];
 		try (BufferedReader br = new BufferedReader(new FileReader(path)))
 		{
 			while ((s = br.readLine()) != null)
 			{
-				String[] split = s.split(";");
-				l.add(new Money(split[0], split[1]));
+				split = s.split(";");
+				l.add(new MoneySum(split[0], split[1]));
 			}
 		}
 		catch(IOException | IndexOutOfBoundsException e)
@@ -63,11 +63,11 @@ public class FilesIO
 		return l;
 	}
 	
-	public static void writeBinary(String path, List<Money> data)
+	public static void writeBinary(String path, List<MoneySum> data)
 	{
 		try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(path)))
 		{
-			for (Money m: data)
+			for (MoneySum m: data)
 			{
 				dos.writeUTF(m.getMoneySum().toPlainString());
 				dos.writeUTF(m.getDate());
@@ -81,9 +81,9 @@ public class FilesIO
 		DialogHelper.informationDialog(null, "File saved to: " + path, "Export to binary completed");
 	}
 	
-	public static LinkedList<Money> loadBinary(String path)
+	public static LinkedList<MoneySum> loadBinary(String path)
 	{
-		LinkedList<Money> l = new LinkedList<>();
+		LinkedList<MoneySum> l = new LinkedList<>();
 		String money = "";
 		String date = "";
 		try (DataInputStream dis = new DataInputStream(new FileInputStream(path))) 
@@ -92,7 +92,7 @@ public class FilesIO
 			{
 				money = dis.readUTF();
 				date = dis.readUTF();
-				l.add(new Money(money, date));
+				l.add(new MoneySum(money, date));
 			}
 		}
 		catch (IOException e)

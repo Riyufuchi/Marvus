@@ -1,19 +1,19 @@
-package riyufuchi.marvus.gui.windows;
+package riyufuchi.marvus.marvusLib.legacy.gui;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import riyufuchi.marvus.files.XML;
-import riyufuchi.marvus.marvusData.Money;
+import riyufuchi.marvus.marvusData.MoneySum;
+import riyufuchi.marvus.marvusLib.files.XML;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.FileSelector;
 import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 27.03.2023
+ * Last Edit: 17.04.2023
  * 
  * @author Riyufuchi
  */
@@ -29,9 +29,36 @@ public class FileIO extends FileSelector
 	}
 
 	@Override
-	protected void onSave(String path) {
-		// TODO Auto-generated method stub
-
+	protected void onSave(String path)
+	{
+		String extension = path.substring(path.lastIndexOf('.'));
+		switch(extension)
+		{
+			case ".csv" -> {
+				try
+				{
+					Persistance.<MoneySum>saveToCSV(path, dtf.getDataBox().getList());
+				}
+				catch (NullPointerException | IOException e)
+				{
+					DialogHelper.exceptionDialog(dtf, e);
+				}
+			}
+			case ".xml" -> {
+				XML xml = new XML(path, "MoneyExport", "Money");
+				xml.exportXML(dtf.getDataBox().getList());
+			}
+			case ".ser" -> {
+				try
+				{
+					Persistance.serialize(path, dtf.getDataBox().getList());
+				}
+				catch (NullPointerException | IOException e)
+				{
+					DialogHelper.exceptionDialog(dtf, e);
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -39,7 +66,7 @@ public class FileIO extends FileSelector
 	{
 		if(!path.contains("."))
 		{
-			DialogHelper.errorDialog(dtf, "File is missing an extensiion", "Extension not recognized");
+			DialogHelper.errorDialog(dtf, "File is missing an extension", "Extension not recognized");
 			return;
 		}
 		String extension = path.substring(path.lastIndexOf('.'));
@@ -47,7 +74,7 @@ public class FileIO extends FileSelector
 		{
 			case ".csv" -> {
 				List<String> list = null;
-				LinkedList<Money> l = new LinkedList<Money>();
+				LinkedList<MoneySum> l = new LinkedList<MoneySum>();
 				String[] split = null;
 				try
 				{
@@ -56,7 +83,7 @@ public class FileIO extends FileSelector
 					while(it.hasNext())
 					{
 						split = it.next().split(";");
-						l.add(new Money(split[0], split[1]));
+						l.add(new MoneySum(split[0], split[1]));
 					}
 				}
 				catch (NullPointerException | IOException | IndexOutOfBoundsException e)
@@ -73,7 +100,7 @@ public class FileIO extends FileSelector
 			case ".ser" -> {
 				try
 				{
-					dtf.getDataBox().setList((LinkedList<Money>)Persistance.<Money>deserialize(path));
+					dtf.getDataBox().setList((LinkedList<MoneySum>)Persistance.<MoneySum>deserialize(path));
 				}
 				catch (NullPointerException | ClassNotFoundException | IOException e)
 				{

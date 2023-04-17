@@ -1,4 +1,4 @@
-package riyufuchi.marvus.files;
+package riyufuchi.marvus.marvusLib.files;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,15 +28,16 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import riyufuchi.marvus.app.MarvusConfig;
-import riyufuchi.marvus.marvusData.Money;
+import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.marvusData.MoneySum;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 
 /**
- * Created On: 30.05.2021
- * Last Edit: 22.03.2023
+ * Created On: 30.05.2021<br>
+ * Last Edit: 17.04.2023
+ * <hr>
  * @author Riyufuchi
- * @version 1.3
+ * @version 1.4
  * @since 1.3 
  */
 
@@ -51,7 +52,7 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 	private Transformer xformer;
 	private String path, mainElement, subElement, sum, date = "1.1.2018";
 	private boolean writeSum = false, writeDate = false;
-	private LinkedList<Money> list;
+	private LinkedList<MoneySum> list;
 	
 	public XML(String path, String mainElement, String subElement)
 	{
@@ -69,38 +70,38 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 		this.path = path;
 	}
 	
-	public void exportXML(List<Money> data)
+	public void exportXML(List<MoneySum> data)
 	{
 		try
 		{
-			 xsw = xof.createXMLStreamWriter(new FileWriter(path));
-			 xsw.writeStartDocument();
-			 xsw.writeStartElement(mainElement);
-			 for (Money m  : data) 
-			 {
-				 xsw.writeStartElement(subElement);
-				 //sum
-				 xsw.writeStartElement("sum");
-				 xsw.writeCharacters(String.valueOf(m.getMoneySum()));
-				 xsw.writeEndElement();
-				 //date
-				 xsw.writeStartElement("date");
-				 xsw.writeCharacters(m.getDate());
-				 xsw.writeEndElement();
-				 //endFile
-				 xsw.writeEndElement();
-			 }
-			 xsw.writeEndElement();
-			 xsw.writeEndDocument();
-			 xsw.flush();
+			xsw = xof.createXMLStreamWriter(new FileWriter(path));
+			xsw.writeStartDocument();
+			xsw.writeStartElement(mainElement);
+			for (MoneySum m  : data) 
+			{
+				xsw.writeStartElement(subElement);
+				//sum
+				xsw.writeStartElement("sum");
+				xsw.writeCharacters(String.valueOf(m.getMoneySum()));
+				xsw.writeEndElement();
+				//date
+				xsw.writeStartElement("date");
+				xsw.writeCharacters(m.getDate());
+				xsw.writeEndElement();
+				//endFile
+				xsw.writeEndElement();
+			}
+			xsw.writeEndElement();
+			xsw.writeEndDocument();
+			xsw.flush();
 		}
 		catch (NullPointerException | IOException | XMLStreamException e) 
 		{
 			new ErrorWindow("XML error", e.getMessage());
-		} 
-		finally 
+		}
+		finally
 		{
-			try 
+			try
 			{
 				if (xsw != null) 
 				{
@@ -146,13 +147,13 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 				xsw.writeEndDocument();
 				xsw.flush();
 			}
-			catch (IOException | XMLStreamException e) 
+			catch (IOException | XMLStreamException e)
 			{
 				new ErrorWindow("XML error", e.getMessage());
 			} 
 			finally 
 			{
-				try 
+				try
 				{
 					if (xsw != null) 
 					{
@@ -164,7 +165,7 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 					new ErrorWindow("XML closing error", e.getMessage());
 				}
 			}
-			try 
+			try
 			{
 				format();
 			} 
@@ -179,26 +180,26 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 		}
 	}
 	
-	public void parsujMoney() 
+	public void parsujMoney()
 	{
-		list = new LinkedList<Money>();
+		list = new LinkedList<MoneySum>();
 		try 
 		{
 			parser = SAXParserFactory.newInstance().newSAXParser();
 			parser.parse(new File(path), this);
-		} 
-		catch (ParserConfigurationException | SAXException | IOException e) 
+		}
+		catch (ParserConfigurationException | SAXException | IOException e)
 		{
 			new ErrorWindow("XML read error", e.getMessage());
 		}
 	}
 	
-	public LinkedList<Money> getList()
+	public LinkedList<MoneySum> getList()
 	{
 		return list;
 	}
 	
-	public void format() throws IOException, ParserConfigurationException, TransformerException, SAXException
+	private void format() throws IOException, ParserConfigurationException, TransformerException, SAXException
 	{
 		factory = DocumentBuilderFactory.newInstance();
 		builder = factory.newDocumentBuilder();
@@ -216,12 +217,8 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 	{
 		switch (qName) 
 		{
-			case MarvusConfig.SUM:
-				writeSum = true;
-				break;
-			case MarvusConfig.DATE:
-				writeDate = true;
-				break;
+			case MarvusConfig.SUM: writeSum = true; break;
+			case MarvusConfig.DATE: writeDate = true; break;
 		}
 	}
 
@@ -237,7 +234,7 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 				writeDate = false;
 				break;
 			case MarvusConfig.SUB_ELEMENT:
-				list.add(new Money(sum, date));
+				list.add(new MoneySum(sum, date));
 				break;
 		}
 	}

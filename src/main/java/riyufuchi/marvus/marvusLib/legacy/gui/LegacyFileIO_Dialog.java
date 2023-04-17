@@ -1,13 +1,13 @@
-package riyufuchi.marvus.gui.windows;
+package riyufuchi.marvus.marvusLib.legacy.gui;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.files.FilesIO;
-import riyufuchi.marvus.files.XML;
-import riyufuchi.marvus.gui.config.AppTexts;
+import riyufuchi.marvus.app.utils.AppTexts;
+import riyufuchi.marvus.marvusLib.files.XML;
+import riyufuchi.marvus.marvusLib.legacy.utils.FilesIO;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.Window;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
@@ -15,13 +15,14 @@ import riyufuchi.sufuLib.utils.files.FileHelper;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 22.03.2023
- * 
+ * Last Edit: 17.04.2023
+ * <hr>
+ * Previous name of class was just FileIO
+ * <hr>
  * @author Riyufuchi
  */
 @SuppressWarnings("serial")
-@Deprecated
-public class OldFileIO extends Window
+public class LegacyFileIO_Dialog extends Window
 {
 	private JButton cancel, ok;
 	private JComboBox<String>[] comboBoxes;
@@ -29,7 +30,7 @@ public class OldFileIO extends Window
 	private DataTableForm dtf;
 	private final boolean export;
 	
-	public OldFileIO(boolean export, DataTableForm dtf)
+	public LegacyFileIO_Dialog(boolean export, DataTableForm dtf)
 	{
 		super("FileIO", 260, 210, false, true, false);
 		this.export = export;

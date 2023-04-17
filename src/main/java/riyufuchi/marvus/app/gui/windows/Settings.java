@@ -1,4 +1,4 @@
-package riyufuchi.marvus.gui.windows;
+package riyufuchi.marvus.app.gui.windows;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.gui.config.AppTexts;
+import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.Window;

@@ -11,18 +11,19 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import riyufuchi.marvus.gui.config.AppTexts;
+import riyufuchi.marvus.app.utils.AppTexts;
 
 /**
  * Created On: 10.09.2022<br>
- * Last Edit: 07.10.2022<hr>
+ * Last Edit: 17.04.2023
+ * <hr>
  * Class for managing LinkedList and data interactions
  * <hr>
  * @author Riyufuchi
- * @version 1.2
+ * @version 1.3
  * @since 1.0
  */
-public final class DataBox<E extends Money>
+public final class DataBox<E extends MoneySum>
 {
 	private LinkedList<E> data;
 	private Comparator<E> comparator;

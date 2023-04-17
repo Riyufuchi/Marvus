@@ -1,4 +1,4 @@
-package riyufuchi.marvus.app;
+package riyufuchi.marvus.app.utils;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 

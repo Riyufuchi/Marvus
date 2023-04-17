@@ -8,11 +8,11 @@ import java.util.Objects;
 
 /**
  * Created On: 26.04.2022 <br>
- * Last Edit: 27.03.2023<br>
+ * Last Edit: 17.04.2023<br>
  * Class that handles money calculations with use of BigDecimal
  * 
  * @author Riyufuchi
- * @version 1.1
+ * @version 1.2
  * @since 1.0
  */
 public class MoneyCalculations
@@ -51,14 +51,15 @@ public class MoneyCalculations
 		return sum;
 	}
 	
+	//TODO: Should money be rounded normally or always up?
 	/**
-	 * Calculate average from list of BigDecimals and scale to 2 decimals and rounds up
+	 * Calculate average from list of BigDecimals and scale to 2 decimals and rounds half up
 	 * 
-	 * @return average rounded to 2 decimals and up
+	 * @return average rounded to 2 decimals and half up
 	 */
 	public BigDecimal getAverage()
 	{
-		return getSum().divide(BigDecimal.valueOf(moneyValues.size()), 2, RoundingMode.CEILING);
+		return getSum().divide(BigDecimal.valueOf(moneyValues.size()), 2, RoundingMode.HALF_UP);
 	}
 	
 }

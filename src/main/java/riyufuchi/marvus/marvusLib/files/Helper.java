@@ -1,21 +1,21 @@
-package riyufuchi.marvus.files;
+package riyufuchi.marvus.marvusLib.files;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
-import riyufuchi.marvus.app.MarvusConfig;
-import riyufuchi.marvus.gui.windows.DataTableForm;
-import riyufuchi.marvus.marvusData.Money;
+import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.marvusData.MoneySum;
+import riyufuchi.marvus.marvusLib.legacy.gui.DataTableForm;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.utils.files.FileHelper;
 import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 27.03.2023<br><br>
+ * Last Edit: 17.04.2023<br><br>
  * This class provides functions for some small features
  * @author Riyufuchi
- * @version 1.6
+ * @version 1.7
  * @since 1.0 
  */
 public class Helper 
@@ -40,9 +40,9 @@ public class Helper
 			DialogHelper.informationDialog(dtf, ("Created directory: " + path), "Backup directory created");
 		}
 		path += "data";
-		Persistance.<Money>saveToCSV(path + ".csv", dtf.getDataBox().getList());
+		Persistance.<MoneySum>saveToCSV(path + ".csv", dtf.getDataBox().getList());
 		new XML(path + ".xml", "MoneyExport", "Money").exportXML(dtf.getDataBox().getList());
-		Persistance.<Money>serialize(path + ".ser", dtf.getDataBox().getList());
+		Persistance.<MoneySum>serialize(path + ".ser", dtf.getDataBox().getList());
 		DialogHelper.informationDialog(dtf, "Backup successfuly created", "Task successful");
 	}
 }
