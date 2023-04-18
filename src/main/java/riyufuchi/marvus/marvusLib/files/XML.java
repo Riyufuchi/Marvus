@@ -86,7 +86,7 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 				xsw.writeEndElement();
 				//date
 				xsw.writeStartElement("date");
-				xsw.writeCharacters(m.getDate());
+				xsw.writeCharacters(m.getStringDate());
 				xsw.writeEndElement();
 				//endFile
 				xsw.writeEndElement();

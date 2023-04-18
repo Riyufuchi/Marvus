@@ -3,16 +3,16 @@ package riyufuchi.marvus.app.utils;
 public class AppTexts
 {
 	public static final String VERSION = "0.1.23";
-	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Budget overview", "Legacy functions", "Window", "Help"};
+	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Budget overview", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
 			"Backup", "Export", "Import", "Exit", "",
-			"New", "Edit", "Delete", "",
-			"General", "",
-			"Data table - money sum", "",
+			"Add", "Edit", "Delete", "",
+			"General", "Money", "",
 			"Preferences", "",
 			"About"};
 	// SEETINGS DIALOG TEXTS
-	public static final String[] DATE_FORMAT_OPTIONS = {"dd.mm.yyyy", "mm.dd.yyyy"};
+	public static final String[] DATE_FORMAT_OPTIONS = {"dd.MM.yyyy", "MM.dd.yyyy"};
+	public static final String[] LOCAL_DATE_TIME_FORMAT_OPTIONS = {"dd.mm.yyyy", "MM.dd.yyyy"};
 	public static final String[] COLOR_OPTIONS = {"Theme colored", "Dark mode"};
 	public static final String[] THEMES = {"Default", "System matching", "Nimbus", "Dark Nimbus"};
 	

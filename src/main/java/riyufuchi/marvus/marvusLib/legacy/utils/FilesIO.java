@@ -17,10 +17,10 @@ import riyufuchi.sufuLib.gui.DialogHelper;
 
 /**
  * Created On: 02.07.2021
- * Last Edit: 17.04.2023
+ * Last Edit: 18.04.2023
  * 
  * @author Riyufuchi
- * @version 1.4
+ * @version 1.5
  * @since 1.3.1 
  */
 public class FilesIO 
@@ -70,7 +70,7 @@ public class FilesIO
 			for (MoneySum m: data)
 			{
 				dos.writeUTF(m.getMoneySum().toPlainString());
-				dos.writeUTF(m.getDate());
+				dos.writeUTF(m.getStringDate());
 				dos.flush();
 			}
 		}

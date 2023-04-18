@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib;
+package riyufuchi.marvus.marvusData;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,11 +8,11 @@ import java.util.Objects;
 
 /**
  * Created On: 26.04.2022 <br>
- * Last Edit: 17.04.2023<br>
+ * Last Edit: 18.04.2023<br>
  * Class that handles money calculations with use of BigDecimal
  * 
  * @author Riyufuchi
- * @version 1.2
+ * @version 1.3
  * @since 1.0
  */
 public class MoneyCalculations
@@ -35,6 +35,17 @@ public class MoneyCalculations
 	public void add(String input) throws NullPointerException, NumberFormatException
 	{
 		moneyValues.add(new BigDecimal(Objects.requireNonNull(input)));
+	}
+	
+	/**
+	 * Adds bigDecimal to list
+	 * 
+	 * @param input
+	 * @throws NullPointerException
+	 */
+	public void add(BigDecimal input) throws NullPointerException
+	{
+		moneyValues.add(Objects.requireNonNull(input));
 	}
 	
 	/**

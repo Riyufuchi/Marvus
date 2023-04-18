@@ -13,7 +13,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 17.04.2023
+ * Last Edit: 18.04.2023
  * 
  * @author Riyufuchi
  */
@@ -31,6 +31,11 @@ public class FileIO extends FileSelector
 	@Override
 	protected void onSave(String path)
 	{
+		if(!path.contains("."))
+		{
+			DialogHelper.errorDialog(dtf, "File is missing an extension", "Extension not recognized");
+			return;
+		}
 		String extension = path.substring(path.lastIndexOf('.'));
 		switch(extension)
 		{
@@ -74,7 +79,7 @@ public class FileIO extends FileSelector
 		{
 			case ".csv" -> {
 				List<String> list = null;
-				LinkedList<MoneySum> l = new LinkedList<MoneySum>();
+				LinkedList<MoneySum> l = new LinkedList<>();
 				String[] split = null;
 				try
 				{

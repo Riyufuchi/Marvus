@@ -2,7 +2,11 @@ package riyufuchi.marvus.marvusLib;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
+
 import org.junit.Test;
+
+import riyufuchi.marvus.marvusData.MoneyCalculations;
 
 public class MoneyCalculationsTest
 {
@@ -14,8 +18,15 @@ public class MoneyCalculationsTest
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testAdd() {
-		cal.add(null);
+	public void testAdd01() {
+		BigDecimal bg = null;
+		cal.add(bg);
+		fail();
+	}
+	
+	@Test(expected = NumberFormatException.class)
+	public void testAdd02() {
+		cal.add(" ");
 		fail();
 	}
 

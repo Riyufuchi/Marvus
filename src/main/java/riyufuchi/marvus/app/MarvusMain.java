@@ -2,6 +2,8 @@ package riyufuchi.marvus.app;
 
 import riyufuchi.marvus.app.gui.windows.BudgetDataTable;
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.marvusLib.legacy.gui.DataTableForm;
+import riyufuchi.sufuLib.gui.Window;
 import riyufuchi.sufuLib.gui.utils.CustomizeUI;
 
 
@@ -11,15 +13,20 @@ import riyufuchi.sufuLib.gui.utils.CustomizeUI;
  *
  * @author Riyufuchi
  */
-
 public class MarvusMain
 {
-	private static BudgetDataTable budgetTable;
+	private static Window app;
 	
 	public static void main(String[] args)
 	{
 		CustomizeUI.setUI(MarvusConfig.appTheme);
-		budgetTable = new BudgetDataTable();
-		//new DataTableForm(800, 600);
+		for(String arg : args)
+		{
+			if(arg.equals("--legacy"))
+				app = new DataTableForm(800, 600);
+		}
+		if(app == null)
+			app = new BudgetDataTable();
+		app.toFront();
 	}
 }

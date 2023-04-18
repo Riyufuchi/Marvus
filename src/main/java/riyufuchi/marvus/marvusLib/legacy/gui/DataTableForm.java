@@ -1,6 +1,7 @@
 package riyufuchi.marvus.marvusLib.legacy.gui;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.function.Consumer;
@@ -21,7 +22,7 @@ import riyufuchi.sufuLib.gui.utils.JMenuCreator;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 17.04.2023
+ * Last Edit: 18.04.2023
  * 
  * @author Riyufuchi
  */
@@ -33,9 +34,14 @@ public final class DataTableForm extends Window
 	
 	public DataTableForm(int width, int height)
 	{
-		super("Marvus - Datatable", width, height, false, true, true);
+		super("Marvus - Data table", width, height, false, true, true);
 		Consumer<Exception> exceptionConsumer = e -> DialogHelper.exceptionDialog(this, e);
-		this.dataBox = new DataBox<>(exceptionConsumer, AppTexts.DATE_FORMAT_OPTIONS[0]);
+		this.dataBox = new DataBox<>(exceptionConsumer, byDate());
+	}
+	
+	private Comparator<MoneySum> byDate()
+	{
+		return (m1, m2) -> { return m1.getDate().compareTo(m2.getDate()); };
 	}
 
 	@Override

@@ -15,64 +15,53 @@ import riyufuchi.marvus.app.utils.AppTexts;
 
 /**
  * Created On: 10.09.2022<br>
- * Last Edit: 17.04.2023
+ * Last Edit: 18.04.2023
  * <hr>
  * Class for managing LinkedList and data interactions
  * <hr>
  * @author Riyufuchi
- * @version 1.3
+ * @version 1.4
  * @since 1.0
  */
-public final class DataBox<E extends MoneySum>
+public final class DataBox<E extends MoneySum> implements Iterable<E>
 {
 	private LinkedList<E> data;
 	private Comparator<E> comparator;
 	private Consumer<Exception> errorLoger;
-	private SimpleDateFormat dateFormat;
 	
-	public DataBox(Consumer<Exception> errorLogerSetter, String dateRegex)
+	public DataBox(Consumer<Exception> errorLogerSetter, Comparator<E> comparator)
 	{
-		checkArguments(errorLogerSetter, dateRegex);
+		checkArguments(errorLogerSetter);
 		this.data = new LinkedList<>();
-		//this.dateFormat = new SimpleDateFormat(dateRegex);
-		//this.comparator = (m1, m2) -> m1.getDate().compareTo(m2.getDate());
-		this.comparator = (m1, m2) -> {
-			try
-			{
-				return dateFormat.parse(m1.getDate()).compareTo(dateFormat.parse(m2.getDate()));
-			} 
-			catch (ParseException e)
-			{
-				errorLoger.accept(e);
-			}
-			return 0;
-		};
+		this.comparator = comparator;
 	}
 	
-	private void checkArguments(Consumer<Exception> errorLogerSetter, String dateRegex)
+	private void checkArguments(Consumer<Exception> errorLogerSetter)
 	{
-		boolean dateRegexOK = false;
-		if(dateRegex == null)
+		/*if(dateRegex == null)
+		{
 			dateRegex = AppTexts.DATE_FORMAT_OPTIONS[0];
+		}
 		else
+		{
 			for(String regex : AppTexts.DATE_FORMAT_OPTIONS)
+			{
 				if(dateRegex.matches(regex))
 				{
-					dateRegexOK = true;
+					this.dateFormat = new SimpleDateFormat(dateRegex);
 					break;
 				}
-		if(!dateRegexOK)
-			this.dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[0]);
-		else
-			this.dateFormat = new SimpleDateFormat(dateRegex);
-		
+			}
+			if(dateFormat == null)
+				this.dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[0]);
+		}*/
 		if(errorLogerSetter == null)
 			this.errorLoger = e -> System.out.println(e.getMessage());
 		else
 			this.errorLoger = errorLogerSetter;
 	}
 	
-	/*private void zpracujError(Exception e)
+	/*private void handleException(Exception e)
 	{
 		if(errorLoger == null)
 			Logger.getLogger(Spravce.class.getName()).log(Level.SEVERE, null, e);
@@ -127,6 +116,11 @@ public final class DataBox<E extends MoneySum>
 	public void setList(LinkedList<E> list) throws NullPointerException
 	{
 		data = Objects.requireNonNull(list);
+	}
+	
+	public void setComparator(Comparator<E> comp) throws NullPointerException
+	{
+		this.comparator = Objects.requireNonNull(comp);
 	}
 	
 	//GETTERS
