@@ -15,13 +15,12 @@ import riyufuchi.sufuLib.utils.files.FileHelper;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 17.04.2023
+ * Last Edit: 19.04.2023
  * <hr>
  * Previous name of class was just FileIO
  * <hr>
  * @author Riyufuchi
  */
-@SuppressWarnings("serial")
 public class LegacyFileIO_Dialog extends Window
 {
 	private JButton cancel, ok;

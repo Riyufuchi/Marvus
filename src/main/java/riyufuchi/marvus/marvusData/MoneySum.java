@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * Created On: 11.04.2022<br>
  * Last Edit: 18.04.2023
  * <hr>
- * MoneySum class represents sum of money.<br>Attribute "date" is here for compatibility with already programmed classes.
+ * MoneySum class represents sum of money
  * <hr>
  * @author Riyufuchi
  * @version 1.4
@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
  */
 public class MoneySum implements Serializable
 { 
-	//public static final SimpleDateFormat dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]);
 	private static final long serialVersionUID = 4827792392760337092L;
 	private static int Static_ID = 0;
 	private int ID;
@@ -27,14 +26,14 @@ public class MoneySum implements Serializable
 	public MoneySum(double sum, String date)
 	{
 		this.ID = ++Static_ID;
-		this.moneySum = BigDecimal.valueOf(sum);
+		setMoneySum(String.valueOf(sum));
 		setDate(date);
 	}
 	
 	public MoneySum(String sum, String date)
 	{
 		this.ID = ++Static_ID;
-		this.moneySum = new BigDecimal(sum);
+		setMoneySum(sum);
 		setDate(date);
 	}
 	
@@ -51,15 +50,27 @@ public class MoneySum implements Serializable
 		return data;
 	}
 	
-	public void setMoneySum(Double sum)
+	public void setMoneySum(String sum)
 	{
-		this.moneySum = BigDecimal.valueOf(sum);
+		try
+		{
+			this.moneySum = new BigDecimal(sum);
+		}
+		catch (NumberFormatException e)
+		{
+			this.moneySum = BigDecimal.valueOf(e.toString().length());
+		}
+	}
+	
+	public void setMoneySum(BigDecimal sum)
+	{
+		this.moneySum = sum;
 	}
 
 	public void setDate(String date)
 	{
-		this.dateString = DataUtils.dateToString(date);
-		this.date = DataUtils.toLocalDateTime(dateString);
+		this.dateString = DateUtils.dateToString(date);
+		this.date = DateUtils.toLocalDateTime(dateString);
 	}
 	
 	public int getID()

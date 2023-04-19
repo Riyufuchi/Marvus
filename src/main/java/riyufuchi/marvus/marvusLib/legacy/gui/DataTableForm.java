@@ -22,11 +22,10 @@ import riyufuchi.sufuLib.gui.utils.JMenuCreator;
 
 /**
  * Created On: 11.04.2022
- * Last Edit: 18.04.2023
+ * Last Edit: 19.04.2023
  * 
  * @author Riyufuchi
  */
-@SuppressWarnings("serial")
 public final class DataTableForm extends Window
 {
 	private DataBox<MoneySum> dataBox;

@@ -13,11 +13,10 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 18.04.2023
+ * Last Edit: 19.04.2023
  * 
  * @author Riyufuchi
  */
-@SuppressWarnings("serial")
 public class FileIO extends FileSelector
 {
 	private DataTableForm dtf;

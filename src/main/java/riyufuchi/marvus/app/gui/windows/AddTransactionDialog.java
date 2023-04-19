@@ -6,33 +6,32 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.marvusData.DataBox;
-import riyufuchi.marvus.marvusData.DataUtils;
+import riyufuchi.marvus.marvusData.DateUtils;
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 18.04.2023
+ * Last Edit: 19.04.2023
  * 
  * @author Riyufuchi
  */
 public class AddTransactionDialog
 {
-	private DataBox<Transaction> dataBox;
-	JTextField name, money, date;
+	private BudgetDataTable bdt;
+	private JTextField name, money, date;
 	
-	public AddTransactionDialog(DataBox<Transaction> dataBox)
+	public AddTransactionDialog(BudgetDataTable bdt)
 	{
-		this.dataBox = dataBox;
+		this.bdt = bdt;
 	}
 	
 	public void showDialog()
 	{
 		name = FactoryComponent.newTextField("");
 		money = FactoryComponent.newTextField("");
-		date = FactoryComponent.newTextField(DataUtils.nowDateString());
+		date = FactoryComponent.newTextField(DateUtils.nowDateString());
 		JComponent[] inputs = {
 				new JLabel("Name:"),
 				name,
@@ -47,7 +46,8 @@ public class AddTransactionDialog
 	private Consumer<JComponent[]> consume()
 	{
 		return con -> {
-			dataBox.add(new Transaction(name.getText(), money.getText(), date.getText()));
+			bdt.getDataBox().add(new Transaction(name.getText(), money.getText(), date.getText()));
+			bdt.refresh();
 		};
 	}
 

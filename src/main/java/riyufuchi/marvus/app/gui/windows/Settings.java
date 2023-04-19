@@ -21,7 +21,6 @@ import riyufuchi.sufuLib.utils.files.Persistance;
  * 
  * @author Riyufuchi
  */
-@SuppressWarnings("serial")
 public final class Settings extends Window
 {
 	private JComboBox<String> themes, dateFormat, backgroundColor;

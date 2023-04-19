@@ -23,11 +23,10 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 17.04.2023
+ * Last Edit: 19.04.2023
  * 
  * @author Riyufuchi
  */
-@SuppressWarnings("serial")
 public class Counter extends Window
 {
 	private DataTableForm dtf;

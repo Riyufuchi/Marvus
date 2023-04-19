@@ -17,24 +17,28 @@ public class TransactionCalculations
 	{
 	}
 	
-	public static Consumer<DataBox<Transaction>> icomeToOutcome(int monthOrderNum)
+	/**
+	 * Calculates incomes and outcomes in specified month and shows result -> income - outcome 
+	 * 
+	 * @param monthOrderNum
+	 * @return
+	 */
+	public static Consumer<DataBox<Transaction>> incomeToOutcome(int monthOrderNum)
 	{
 		return data -> {
-			MoneyCalculations mc = new MoneyCalculations();
 			BigDecimal spendings = new BigDecimal(0);
 			BigDecimal income = new BigDecimal(0);
 			for(Transaction t : data)
 			{
 				if (t.getDate().getMonthValue() == monthOrderNum)
 				{
-					mc.add(t.getMoneySum());
 					if(t.getMoneySum().intValue() < 0)
 						spendings = spendings.add(t.getMoneySum());
 					else
 						income = income.add(t.getMoneySum());
 				}
 			}
-			DialogHelper.informationDialog(null, (income + " - " + spendings + " = "  + mc.getSum()), "Ratio");
+			DialogHelper.informationDialog(null, (income + " " + spendings + " = "  + income.add(spendings)), "Ratio");
 		};
 	}
 

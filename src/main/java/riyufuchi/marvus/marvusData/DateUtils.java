@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import riyufuchi.marvus.app.utils.AppTexts;
@@ -12,14 +11,16 @@ import riyufuchi.marvus.app.utils.MarvusConfig;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 18.04.2023
- * 
+ * Last Edit: 19.04.2023
+ * <hr>
+ * Utils for handling and formating dates
+ * <hr>
  * @author Riyufuchi
  */
-public class DataUtils
+public class DateUtils
 {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]);
-	public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+	//private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]);
 	
 	public static LocalDateTime toLocalDateTime(String date)
 	{

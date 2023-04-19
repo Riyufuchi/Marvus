@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.AppTexts;
+import riyufuchi.marvus.app.utils.DataDisplayMode;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusData.DataBox;
 import riyufuchi.marvus.marvusData.Transaction;
@@ -13,24 +14,24 @@ import riyufuchi.marvus.marvusData.TransactionComparation;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.Window;
-import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.gui.utils.JMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 18.04.2023
+ * Last Edit: 19.04.2023
  * 
  * @author Riyufuchi
  */
-@SuppressWarnings("serial")
 public class BudgetDataTable extends Window
 {
 	private DataBox<Transaction> dataBox;
+	private Consumer<DataBox<Transaction>> displayMode;
 	
 	public BudgetDataTable()
 	{
 		super("Marvus - Budget table", 800, 600, false, true, true);
 		this.dataBox = new DataBox<>(null, TransactionComparation.byDate());
+		this.displayMode = DataDisplayMode.simpleList(this);
 	}
 	
 	private void setupJMenu()
@@ -41,14 +42,20 @@ public class BudgetDataTable extends Window
 		{
 			switch (jmc.getItemName(i))
 			{
+				// Basic
 				case "About" -> jmc.setItemAction(i, event -> about());
 				case "Exit" -> jmc.setItemAction(i, event -> onClose());
 				case "Export"-> jmc.setItemAction(i,event -> exportData());
 				case "Import" -> jmc.setItemAction(i, event -> importData());
 				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
-				case "Money" -> jmc.setItemAction(i,event -> consumerFunction(TransactionCalculations.icomeToOutcome(4)));
-				case "Add" -> jmc.setItemAction(i, event -> new AddTransactionDialog(dataBox).showDialog());
-				case "General" -> jmc.setItemAction(i,event -> displayGeneral());
+				// Operations
+				case "Money" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(4)));
+				// Data handling
+				case "Add" -> jmc.setItemAction(i, event -> new AddTransactionDialog(this).showDialog());
+				// Display modes
+				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.simpleList(this)));
+				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.categoryListByMonth(this)));
+				// Other
 				case "Preferences" -> jmc.setItemAction(i,event -> new Settings());
 				//case "Backup" -> jmc.setItemAction(i,event -> backupData());
 				default -> jmc.setItemAction(i, event -> DialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
@@ -57,28 +64,7 @@ public class BudgetDataTable extends Window
 		super.setJMenuBar(jmc.getJMenuBar());
 	}
 	
-	private void consumerFunction(Consumer<DataBox<Transaction>> operation)
-	{
-		operation.accept(dataBox);
-	}
-	
-	public void refresh()
-	{
-		getPane().removeAll();
-		displayGeneral();
-	}
-	
-	private void displayGeneral()
-	{
-		JPanel panel = getPane();
-		int i = 0;
-		for(Transaction t : dataBox)
-		{
-			panel.add(FactoryComponent.newTextField(t.toString()), getGBC(0, i));
-			i++;
-		}
-		repaint();
-	}
+	// Delegations
 	
 	private void exportData()
 	{
@@ -106,11 +92,31 @@ public class BudgetDataTable extends Window
 		new ErrorWindow("About", "This is budget manager.\nVersion: " + AppTexts.VERSION + "\nCreated by Riyufuchi.\nMy code is under respective licention.");
 	}
 	
-	@Override
-	protected void setComponents(JPanel content)
+	private void displayData()
 	{
-		setupJMenu();
+		displayMode.accept(dataBox);
+		repaint();
+		revalidate();
 	}
+	
+	private void updateDataDisplayMode(Consumer<DataBox<Transaction>> dataDisplayMode)
+	{
+		displayMode = dataDisplayMode;
+		refresh();
+	}
+	
+	public void refresh()
+	{
+		if(dataBox.isEmpty())
+		{
+			DialogHelper.warningDialog(this, "No data to display", "No data found");
+			return;
+		}
+		getPane().removeAll();
+		displayData();
+	}
+	
+	// OnEvent
 	
 	@Override
 	protected void onClose()
@@ -118,6 +124,26 @@ public class BudgetDataTable extends Window
 		if(DialogHelper.yesNoDialog(this, "Exit application?", "Exit confirmation") == 0)
 			super.dispose();
 	}
+	
+	// Setters
+	
+	private void setConsumerFunction(Consumer<DataBox<Transaction>> operation)
+	{
+		if(dataBox.isEmpty())
+		{
+			DialogHelper.warningDialog(this, "No data to work with", "No data found");
+			return;
+		}
+		operation.accept(dataBox);
+	}
+	
+	@Override
+	protected void setComponents(JPanel content)
+	{
+		setupJMenu();
+	}
+	
+	// Getters
 	
 	public DataBox<Transaction> getDataBox()
 	{

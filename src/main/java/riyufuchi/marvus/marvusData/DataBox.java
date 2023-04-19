@@ -1,26 +1,23 @@
 package riyufuchi.marvus.marvusData;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
-
-import riyufuchi.marvus.app.utils.AppTexts;
 
 /**
  * Created On: 10.09.2022<br>
- * Last Edit: 18.04.2023
+ * Last Edit: 19.04.2023
  * <hr>
  * Class for managing LinkedList and data interactions
  * <hr>
  * @author Riyufuchi
- * @version 1.4
+ * @version 1.5
  * @since 1.0
  */
 public final class DataBox<E extends MoneySum> implements Iterable<E>
@@ -55,19 +52,19 @@ public final class DataBox<E extends MoneySum> implements Iterable<E>
 			if(dateFormat == null)
 				this.dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[0]);
 		}*/
-		if(errorLogerSetter == null)
-			this.errorLoger = e -> System.out.println(e.getMessage());
-		else
+		if(errorLogerSetter != null)
+			//this.errorLoger = e -> System.out.println(e.getMessage());
+		//else
 			this.errorLoger = errorLogerSetter;
 	}
 	
-	/*private void handleException(Exception e)
+	private void handleException(Exception e)
 	{
 		if(errorLoger == null)
-			Logger.getLogger(Spravce.class.getName()).log(Level.SEVERE, null, e);
+			Logger.getLogger(DataBox.class.getName()).log(Level.SEVERE, null, e);
 		else
-			errorLoger.accept(Spravce.class.getName() + " " + e);
-	}*/
+			errorLoger.accept(e);
+	}
 	
 	//UTIL METHODS
 	
@@ -87,9 +84,14 @@ public final class DataBox<E extends MoneySum> implements Iterable<E>
 		data.add(money);
 	}
 	
-	public void addMultiple(List<E> newData) throws NullPointerException
+	public void addMultiple(List<E> newData) //throws NullPointerException
 	{
-		Objects.requireNonNull(newData).stream().forEach(m -> data.add(m));
+		if (newData == null)
+		{
+			handleException(new NullPointerException());
+			return;
+		}
+		newData.stream().forEach(m -> data.add(m));
 	}
 	
 	//COLLECTIONS UTILS
@@ -113,14 +115,24 @@ public final class DataBox<E extends MoneySum> implements Iterable<E>
 	
 	//SETTERS
 	
-	public void setList(LinkedList<E> list) throws NullPointerException
+	public void setList(LinkedList<E> list) //throws NullPointerException
 	{
-		data = Objects.requireNonNull(list);
+		if (list == null)
+		{
+			handleException(new NullPointerException());
+			return;
+		}
+		data = list;
 	}
 	
-	public void setComparator(Comparator<E> comp) throws NullPointerException
+	public void setComparator(Comparator<E> comp) //throws NullPointerException
 	{
-		this.comparator = Objects.requireNonNull(comp);
+		if (comp == null)
+		{
+			handleException(new NullPointerException());
+			return;
+		}
+		this.comparator = comp;
 	}
 	
 	//GETTERS

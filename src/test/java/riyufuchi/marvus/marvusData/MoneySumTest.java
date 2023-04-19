@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class MoneyTest
+public class MoneySumTest
 {
 	private MoneySum moneySum;
 	private String expectedDate = "01.02.2018";
 
-	public MoneyTest()
+	public MoneySumTest()
 	{
 		moneySum = new MoneySum("500.5", "1.2.2018");
 	}
@@ -23,6 +23,15 @@ public class MoneyTest
 		for(int i = 0; i < max; i++)
 			connected += mArr[i] + ";" + mArr[i+1];
 		assertEquals(moneySum.toString(), connected);
+	}
+	
+	@Test
+	public void testDataIntegrity01()
+	{
+		MoneyCalculations mc = new MoneyCalculations();
+		mc.add(new MoneySum(125.125, expectedDate).getMoneySum());
+		mc.add(new MoneySum("125.125", expectedDate).getMoneySum());
+		assertEquals("250.250", mc.getSum().toString());
 	}
 	
 	@Test
