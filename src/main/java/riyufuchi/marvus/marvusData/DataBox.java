@@ -1,5 +1,6 @@
 package riyufuchi.marvus.marvusData;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -12,12 +13,12 @@ import java.util.stream.Stream;
 
 /**
  * Created On: 10.09.2022<br>
- * Last Edit: 19.04.2023
+ * Last Edit: 21.04.2023
  * <hr>
  * Class for managing LinkedList and data interactions
  * <hr>
  * @author Riyufuchi
- * @version 1.5
+ * @version 1.6
  * @since 1.0
  */
 public final class DataBox<E extends MoneySum> implements Iterable<E>
@@ -26,51 +27,35 @@ public final class DataBox<E extends MoneySum> implements Iterable<E>
 	private Comparator<E> comparator;
 	private Consumer<Exception> errorLoger;
 	
-	public DataBox(Consumer<Exception> errorLogerSetter, Comparator<E> comparator)
+	public DataBox(Consumer<Exception> errorLoger, Comparator<E> comparator)
 	{
-		checkArguments(errorLogerSetter);
+		checkArguments(errorLoger, comparator);
 		this.data = new LinkedList<>();
-		this.comparator = comparator;
 	}
 	
-	private void checkArguments(Consumer<Exception> errorLogerSetter)
+	private void checkArguments(Consumer<Exception> errorLoger, Comparator<E> comparator)
 	{
-		/*if(dateRegex == null)
-		{
-			dateRegex = AppTexts.DATE_FORMAT_OPTIONS[0];
-		}
+		if (errorLoger == null)
+			this.errorLoger = e -> Logger.getLogger(DataBox.class.getName()).log(Level.SEVERE, null, e);
 		else
-		{
-			for(String regex : AppTexts.DATE_FORMAT_OPTIONS)
-			{
-				if(dateRegex.matches(regex))
-				{
-					this.dateFormat = new SimpleDateFormat(dateRegex);
-					break;
-				}
-			}
-			if(dateFormat == null)
-				this.dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[0]);
-		}*/
-		if(errorLogerSetter != null)
-			//this.errorLoger = e -> System.out.println(e.getMessage());
-		//else
-			this.errorLoger = errorLogerSetter;
+			this.errorLoger = errorLoger;
+		
+		if (comparator == null)
+			this.comparator = (o1, o2) -> { return o1.getMoneySum().compareTo(o2.getMoneySum()); };
+		else
+			this.comparator = comparator;
 	}
 	
 	private void handleException(Exception e)
 	{
-		if(errorLoger == null)
-			Logger.getLogger(DataBox.class.getName()).log(Level.SEVERE, null, e);
-		else
-			errorLoger.accept(e);
+		errorLoger.accept(e);
 	}
 	
 	//UTIL METHODS
 	
 	public void sort()
 	{
-		if(data.isEmpty())
+		if (data.isEmpty())
 			return;
 		Collections.sort(data, comparator);
 	}
@@ -79,7 +64,7 @@ public final class DataBox<E extends MoneySum> implements Iterable<E>
 	
 	public void add(E money)
 	{
-		if(money == null)
+		if (money == null)
 			return;
 		data.add(money);
 	}

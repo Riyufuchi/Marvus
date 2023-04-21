@@ -30,7 +30,7 @@ public class BudgetDataTable extends Window
 	public BudgetDataTable()
 	{
 		super("Marvus - Budget table", 800, 600, false, true, true);
-		this.dataBox = new DataBox<>(null, TransactionComparation.byDate());
+		this.dataBox = new DataBox<>(e -> DialogHelper.exceptionDialog(this, e), TransactionComparation.byDateUpwards());
 		this.displayMode = DataDisplayMode.simpleList(this);
 	}
 	
