@@ -1,6 +1,5 @@
 package riyufuchi.marvus.marvusData;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -13,12 +12,12 @@ import java.util.stream.Stream;
 
 /**
  * Created On: 10.09.2022<br>
- * Last Edit: 21.04.2023
+ * Last Edit: 24.04.2023
  * <hr>
  * Class for managing LinkedList and data interactions
  * <hr>
  * @author Riyufuchi
- * @version 1.6
+ * @version 1.7
  * @since 1.0
  */
 public final class DataBox<E extends MoneySum> implements Iterable<E>
@@ -46,11 +45,6 @@ public final class DataBox<E extends MoneySum> implements Iterable<E>
 			this.comparator = comparator;
 	}
 	
-	private void handleException(Exception e)
-	{
-		errorLoger.accept(e);
-	}
-	
 	//UTIL METHODS
 	
 	public void sort()
@@ -73,7 +67,7 @@ public final class DataBox<E extends MoneySum> implements Iterable<E>
 	{
 		if (newData == null)
 		{
-			handleException(new NullPointerException());
+			errorLoger.accept(new NullPointerException());
 			return;
 		}
 		newData.stream().forEach(m -> data.add(m));
@@ -104,7 +98,7 @@ public final class DataBox<E extends MoneySum> implements Iterable<E>
 	{
 		if (list == null)
 		{
-			handleException(new NullPointerException());
+			errorLoger.accept(new NullPointerException());
 			return;
 		}
 		data = list;
@@ -114,7 +108,7 @@ public final class DataBox<E extends MoneySum> implements Iterable<E>
 	{
 		if (comp == null)
 		{
-			handleException(new NullPointerException());
+			errorLoger.accept(new NullPointerException());
 			return;
 		}
 		this.comparator = comp;

@@ -1,5 +1,6 @@
 package riyufuchi.marvus.app.gui.windows;
 
+import java.util.Comparator;
 import java.util.function.Consumer;
 
 import javax.swing.JPanel;
@@ -18,7 +19,7 @@ import riyufuchi.sufuLib.gui.utils.JMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 19.04.2023
+ * Last Edit: 24.04.2023
  * 
  * @author Riyufuchi
  */
@@ -48,13 +49,16 @@ public class BudgetDataTable extends Window
 				case "Export"-> jmc.setItemAction(i,event -> exportData());
 				case "Import" -> jmc.setItemAction(i, event -> importData());
 				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
+				// Order by
+				case "Date upwards" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.byDateUpwards()));
 				// Operations
 				case "Money" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(4)));
 				// Data handling
 				case "Add" -> jmc.setItemAction(i, event -> new AddTransactionDialog(this).showDialog());
 				// Display modes
-				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.simpleList(this)));
+				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.simpleOrderableList(this)));
 				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.categoryListByMonth(this)));
+				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.monthList(this)));
 				// Other
 				case "Preferences" -> jmc.setItemAction(i,event -> new Settings());
 				//case "Backup" -> jmc.setItemAction(i,event -> backupData());
@@ -65,6 +69,14 @@ public class BudgetDataTable extends Window
 	}
 	
 	// Delegations
+	
+	private void sortData(Comparator<Transaction> comp)
+	{
+		dataBox.setComparator(comp);
+		//displayMode = DataDisplayMode.simpleOrderableList(this);
+		dataBox.sort();
+		refresh();
+	}
 	
 	private void exportData()
 	{

@@ -3,15 +3,19 @@ package riyufuchi.marvus.marvusData;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.util.Date;
 
+import javax.swing.JFrame;
+
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.sufuLib.gui.DialogHelper;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 19.04.2023
+ * Last Edit: 24.04.2023
  * <hr>
  * Utils for handling and formating dates
  * <hr>
@@ -21,6 +25,11 @@ public class DateUtils
 {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]);
 	//private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]);
+	
+	public static Month showMonthChooser(JFrame frame)
+	{
+		return DialogHelper.<Month>optionDialog(frame, "Choose month: ", "Month choosser", Month.values());
+	}
 	
 	public static LocalDateTime toLocalDateTime(String date)
 	{

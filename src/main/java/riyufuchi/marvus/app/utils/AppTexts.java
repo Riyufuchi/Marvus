@@ -3,11 +3,12 @@ package riyufuchi.marvus.app.utils;
 public class AppTexts
 {
 	public static final String VERSION = "0.1.23";
-	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Budget overview", "Operations", "Window", "Help"};
+	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Budget overview", "Order by", "Operations", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
 			"Backup", "Export", "Import", "Exit", "",
 			"Add", "Edit", "Delete", "",
-			"Simple list", "Category list","",
+			"Simple list", "Category list", "Month list", "",
+			"Date upwards", "",
 			"Money", "",
 			"Preferences", "Refresh", "",
 			"About"};
