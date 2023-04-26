@@ -9,9 +9,11 @@ import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.DataDisplayMode;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusData.DataBox;
+import riyufuchi.marvus.marvusData.DateUtils;
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusData.TransactionCalculations;
 import riyufuchi.marvus.marvusData.TransactionComparation;
+import riyufuchi.marvus.marvusData.TransactionComparation.CompareMethod;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.Window;
@@ -19,7 +21,7 @@ import riyufuchi.sufuLib.gui.utils.JMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 24.04.2023
+ * Last Edit: 27.04.2023
  * 
  * @author Riyufuchi
  */
@@ -31,7 +33,7 @@ public class BudgetDataTable extends Window
 	public BudgetDataTable()
 	{
 		super("Marvus - Budget table", 800, 600, false, true, true);
-		this.dataBox = new DataBox<>(e -> DialogHelper.exceptionDialog(this, e), TransactionComparation.byDateUpwards());
+		this.dataBox = new DataBox<>(e -> DialogHelper.exceptionDialog(this, e), TransactionComparation.compareBy(CompareMethod.OldestToNewest));
 		this.displayMode = DataDisplayMode.simpleList(this);
 	}
 	
@@ -49,10 +51,10 @@ public class BudgetDataTable extends Window
 				case "Export"-> jmc.setItemAction(i,event -> exportData());
 				case "Import" -> jmc.setItemAction(i, event -> importData());
 				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
-				// Order by
-				case "Date upwards" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.byDateUpwards()));
+				// Order
+				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(DialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values())))); // sortData(TransactionComparation.compareBy(CompareMethod.OldestToNewest)));
 				// Operations
-				case "Money" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(4)));
+				case "Income to outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(DateUtils.showMonthChooser(this).getValue())));
 				// Data handling
 				case "Add" -> jmc.setItemAction(i, event -> new AddTransactionDialog(this).showDialog());
 				// Display modes
@@ -73,7 +75,7 @@ public class BudgetDataTable extends Window
 	private void sortData(Comparator<Transaction> comp)
 	{
 		dataBox.setComparator(comp);
-		//displayMode = DataDisplayMode.simpleOrderableList(this);
+		displayMode = DataDisplayMode.simpleOrderableList(this);
 		dataBox.sort();
 		refresh();
 	}

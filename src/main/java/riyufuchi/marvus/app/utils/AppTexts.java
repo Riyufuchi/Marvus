@@ -3,13 +3,13 @@ package riyufuchi.marvus.app.utils;
 public class AppTexts
 {
 	public static final String VERSION = "0.1.23";
-	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Budget overview", "Order by", "Operations", "Window", "Help"};
+	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Budget overview", "Order", "Operations", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
 			"Backup", "Export", "Import", "Exit", "",
 			"Add", "Edit", "Delete", "",
 			"Simple list", "Category list", "Month list", "",
-			"Date upwards", "",
-			"Money", "",
+			"Sort", "",
+			"Income to outcome", "",
 			"Preferences", "Refresh", "",
 			"About"};
 	// SEETINGS DIALOG TEXTS
@@ -17,7 +17,6 @@ public class AppTexts
 	public static final String[] LOCAL_DATE_TIME_FORMAT_OPTIONS = {"dd.mm.yyyy", "MM.dd.yyyy"};
 	public static final String[] COLOR_OPTIONS = {"Theme colored", "Dark mode"};
 	public static final String[] THEMES = {"Default", "System matching", "Nimbus", "Dark Nimbus"};
-	
 	// LEGACY TEXT
 	public static final String[] DTF_MENU = {"File", "MoneySum", "Sort by", "Window", "Help"};
 	public static final String[] DTF_MENU_ITEMS = {

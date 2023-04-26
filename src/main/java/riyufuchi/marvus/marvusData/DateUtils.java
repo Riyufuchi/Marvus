@@ -15,7 +15,7 @@ import riyufuchi.sufuLib.gui.DialogHelper;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 24.04.2023
+ * Last Edit: 25.04.2023
  * <hr>
  * Utils for handling and formating dates
  * <hr>
@@ -28,7 +28,7 @@ public class DateUtils
 	
 	public static Month showMonthChooser(JFrame frame)
 	{
-		return DialogHelper.<Month>optionDialog(frame, "Choose month: ", "Month choosser", Month.values());
+		return DialogHelper.<Month>optionDialog(frame, "Choose month: ", "Month chooser", Month.values());
 	}
 	
 	public static LocalDateTime toLocalDateTime(String date)
