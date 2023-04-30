@@ -7,7 +7,7 @@ public class AppTexts
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
 			"Backup", "Export", "Import", "Exit", "",
 			"Add", "Edit", "Delete", "",
-			"Simple list", "Category list", "Month list", "",
+			"Simple list", "Category list", "Month list", "Year list", "",
 			"Sort", "",
 			"Income to outcome", "",
 			"Preferences", "Refresh", "",

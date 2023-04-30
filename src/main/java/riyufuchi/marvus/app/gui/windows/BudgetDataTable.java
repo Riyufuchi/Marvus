@@ -52,7 +52,7 @@ public class BudgetDataTable extends Window
 				case "Import" -> jmc.setItemAction(i, event -> importData());
 				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
 				// Order
-				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(DialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values())))); // sortData(TransactionComparation.compareBy(CompareMethod.OldestToNewest)));
+				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(DialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
 				// Operations
 				case "Income to outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(DateUtils.showMonthChooser(this).getValue())));
 				// Data handling
@@ -61,6 +61,7 @@ public class BudgetDataTable extends Window
 				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.simpleOrderableList(this)));
 				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.categoryListByMonth(this)));
 				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.monthList(this)));
+				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.yearOverview(this)));
 				// Other
 				case "Preferences" -> jmc.setItemAction(i,event -> new Settings());
 				//case "Backup" -> jmc.setItemAction(i,event -> backupData());
