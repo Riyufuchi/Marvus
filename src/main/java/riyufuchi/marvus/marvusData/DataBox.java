@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 /**
  * Created On: 10.09.2022<br>
- * Last Edit: 24.04.2023
+ * Last Edit: 01.05.2023
  * <hr>
  * Class for managing LinkedList and data interactions
  * <hr>
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  * @version 1.7
  * @since 1.0
  */
-public final class DataBox<E extends MoneySum> implements Iterable<E>
+public class DataBox<E extends MoneySum> implements Iterable<E>
 {
 	private LinkedList<E> data;
 	private Comparator<E> comparator;

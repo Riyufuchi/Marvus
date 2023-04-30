@@ -7,11 +7,11 @@ import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.app.gui.windows.BudgetDataTable;
+import riyufuchi.marvus.app.windows.BudgetDataTable;
 import riyufuchi.marvus.marvusData.DataBox;
-import riyufuchi.marvus.marvusData.DateUtils;
 import riyufuchi.marvus.marvusData.MoneyCategory;
 import riyufuchi.marvus.marvusData.Transaction;
+import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 
@@ -25,7 +25,7 @@ import riyufuchi.sufuLib.gui.utils.FactoryComponent;
  */
 public class DataDisplayMode
 {
-	public DataDisplayMode()
+	private DataDisplayMode()
 	{
 	}
 	

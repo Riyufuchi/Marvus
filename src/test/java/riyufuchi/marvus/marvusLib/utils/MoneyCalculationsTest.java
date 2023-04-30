@@ -1,12 +1,10 @@
-package riyufuchi.marvus.marvusLib;
+package riyufuchi.marvus.marvusLib.utils;
 
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import riyufuchi.marvus.marvusData.MoneyCalculations;
 
 public class MoneyCalculationsTest
 {

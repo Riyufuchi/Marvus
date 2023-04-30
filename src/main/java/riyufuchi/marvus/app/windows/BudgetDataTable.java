@@ -1,4 +1,4 @@
-package riyufuchi.marvus.app.gui.windows;
+package riyufuchi.marvus.app.windows;
 
 import java.util.Comparator;
 import java.util.function.Consumer;
@@ -9,11 +9,11 @@ import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.DataDisplayMode;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusData.DataBox;
-import riyufuchi.marvus.marvusData.DateUtils;
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusData.TransactionCalculations;
 import riyufuchi.marvus.marvusData.TransactionComparation;
 import riyufuchi.marvus.marvusData.TransactionComparation.CompareMethod;
+import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.Window;

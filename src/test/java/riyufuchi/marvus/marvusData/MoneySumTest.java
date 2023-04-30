@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import riyufuchi.marvus.marvusLib.utils.MoneyCalculations;
+
 public class MoneySumTest
 {
 	private MoneySum moneySum;

@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import riyufuchi.marvus.app.gui.utils.ComponentParts;
-import riyufuchi.marvus.marvusData.MoneyCalculations;
+import riyufuchi.marvus.app.utils.ComponentParts;
 import riyufuchi.marvus.marvusData.MoneySum;
+import riyufuchi.marvus.marvusLib.utils.MoneyCalculations;
 import riyufuchi.sufuLib.config.SufuLibFonts;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.Window;
@@ -23,7 +23,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 19.04.2023
+ * Last Edit: 01.05.2023
  * 
  * @author Riyufuchi
  */

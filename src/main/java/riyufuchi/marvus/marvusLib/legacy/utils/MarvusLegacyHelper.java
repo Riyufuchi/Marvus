@@ -1,10 +1,11 @@
-package riyufuchi.marvus.marvusLib.files;
+package riyufuchi.marvus.marvusLib.legacy.utils;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusData.MoneySum;
+import riyufuchi.marvus.marvusLib.files.XML;
 import riyufuchi.marvus.marvusLib.legacy.gui.DataTableForm;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.utils.files.FileHelper;
@@ -12,13 +13,13 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 17.04.2023<br><br>
+ * Last Edit: 01.05.2023<br><br>
  * This class provides functions for some small features
  * @author Riyufuchi
  * @version 1.7
  * @since 1.0 
  */
-public class Helper 
+public class MarvusLegacyHelper 
 {
 	public static void backup(DataTableForm dtf) throws NullPointerException, IOException
 	{

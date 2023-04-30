@@ -1,4 +1,4 @@
-package riyufuchi.marvus.app.gui.windows;
+package riyufuchi.marvus.app.windows;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,8 +9,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.marvusData.DateUtils;
 import riyufuchi.marvus.marvusData.Transaction;
+import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.FileHelper;

@@ -1,5 +1,7 @@
 package riyufuchi.marvus.marvusData;
 
+import riyufuchi.marvus.marvusLib.utils.MoneyCalculations;
+
 /**
  * Created On: 18.04.2023<br>
  * Last Edit: 19.04.2023

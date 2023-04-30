@@ -1,4 +1,4 @@
-package riyufuchi.marvus.app.gui.windows;
+package riyufuchi.marvus.app.windows;
 
 import java.util.function.Consumer;
 
