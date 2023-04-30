@@ -3,5 +3,4 @@ target/
 bin/
 lib/
 *.csv
-.classpath
 .settings
