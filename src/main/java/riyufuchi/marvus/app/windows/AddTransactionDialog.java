@@ -18,7 +18,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 24.04.2023
+ * Last Edit: 01.05.2023
  * 
  * @author Riyufuchi
  */
@@ -32,6 +32,20 @@ public class AddTransactionDialog extends MarvusDialog
 		super("New transaction", bdt);
 	}
 	
+	private void generateCategoryList(String path)
+	{
+		try
+		{
+			FileHelper.checkFile(path);
+			Persistance.saveToCSV(path, new String[]{"Custom"});
+			DialogHelper.informationDialog(bdt, "Generated default " + path, "Category list fixer info");
+		}
+		catch (NullPointerException | IOException e)
+		{
+			DialogHelper.exceptionDialog(bdt, e);
+		}
+	}
+	
 	@Override
 	protected JComponent[] createInputs()
 	{
@@ -39,7 +53,6 @@ public class AddTransactionDialog extends MarvusDialog
 		String[] categoryList = { "Custom" }; 
 		try
 		{
-			FileHelper.checkFile(path);
 			List<String> l = Persistance.loadTXT(path);
 			categoryList = new String[l.size()];
 			int i = 0;
@@ -49,6 +62,7 @@ public class AddTransactionDialog extends MarvusDialog
 		catch (NullPointerException | IOException e)
 		{
 			DialogHelper.exceptionDialog(bdt, e);
+			generateCategoryList(path);
 		}
 		category = FactoryComponent.<String>createCombobox(categoryList);
 		name = FactoryComponent.newTextField("");
