@@ -23,6 +23,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/riyufuchi/Documents/workspace-java/SufuLib/SufuLib.jar"/>
+	<classpathentry kind="lib" path="/home/riyufuchi/Documents/workspace-java/SufuLib/SufuLib.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/riyufuchi/Documents/workspace-java/SufuLib/SufuLib.jar!/javaDoc"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

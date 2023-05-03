@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.AppTexts;
-import riyufuchi.marvus.app.utils.DataDisplayMode;
+import riyufuchi.marvus.app.utils.DataDisplay;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusData.DataBox;
 import riyufuchi.marvus.marvusData.Transaction;
@@ -34,7 +34,7 @@ public class BudgetDataTable extends Window
 	{
 		super("Marvus - Budget table", 800, 600, false, true, true);
 		this.dataBox = new DataBox<>(e -> DialogHelper.exceptionDialog(this, e), TransactionComparation.compareBy(CompareMethod.OldestToNewest));
-		this.displayMode = DataDisplayMode.simpleList(this);
+		this.displayMode = DataDisplay.simpleList(this);
 	}
 	
 	private void setupJMenu()
@@ -58,10 +58,10 @@ public class BudgetDataTable extends Window
 				// Data handling
 				case "Add" -> jmc.setItemAction(i, event -> new AddTransactionDialog(this).showDialog());
 				// Display modes
-				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.simpleOrderableList(this)));
-				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.categoryListByMonth(this)));
-				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.monthList(this)));
-				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplayMode.yearOverview(this)));
+				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.simpleOrderableList(this)));
+				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
+				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.monthList(this)));
+				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.yearOverview(this)));
 				// Other
 				case "Preferences" -> jmc.setItemAction(i,event -> new Settings());
 				//case "Backup" -> jmc.setItemAction(i,event -> backupData());
@@ -76,7 +76,7 @@ public class BudgetDataTable extends Window
 	private void sortData(Comparator<Transaction> comp)
 	{
 		dataBox.setComparator(comp);
-		displayMode = DataDisplayMode.simpleOrderableList(this);
+		displayMode = DataDisplay.simpleOrderableList(this);
 		dataBox.sort();
 		refresh();
 	}

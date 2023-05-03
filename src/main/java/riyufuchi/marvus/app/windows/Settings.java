@@ -8,22 +8,23 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.sufuLib.config.SufuLibConfig;
+import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.Window;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.FileHelper;
 import riyufuchi.sufuLib.utils.files.Persistance;
 
-
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 22.03.2023
+ * Last Edit: 03.05.2023
  * 
  * @author Riyufuchi
  */
 public final class Settings extends Window
 {
-	private JComboBox<String> themes, dateFormat, backgroundColor;
+	private JComboBox<AppThemeUI> themes;
+	private JComboBox<String> dateFormat;
 	
 	public Settings()
 	{
@@ -33,28 +34,26 @@ public final class Settings extends Window
 	@Override
 	protected void setComponents(JPanel content)
 	{
-		String[] labels = {"Theme: ", "Date format: ", "Background:"};
+		String[] labels = {"Theme: ", "Date format: "};
 		createLabels(labels);
 		content.add(FactoryComponent.createButton("Cancel", event -> this.dispose()), getGBC(0, labels.length));
 		content.add(FactoryComponent.createButton("Ok", event -> {
 			try
 			{
 				applyPreferences();
-			} catch (NullPointerException | IOException e)
+			}
+			catch (NullPointerException | IOException e)
 			{
 				DialogHelper.exceptionDialog(this, e);
 			}
 			this.dispose();
 		}), getGBC(1, labels.length));
-		themes = FactoryComponent.<String>createCombobox(AppTexts.THEMES);
+		themes = FactoryComponent.<AppThemeUI>createCombobox(AppThemeUI.values());
 		themes.setSelectedIndex(SufuLibConfig.themeID.ordinal());
 		content.add(themes, getGBC(1,0));
 		
 		dateFormat = FactoryComponent.<String>createCombobox(AppTexts.DATE_FORMAT_OPTIONS);
 		content.add(dateFormat, getGBC(1,1));
-		
-		backgroundColor = FactoryComponent.<String>createCombobox(AppTexts.COLOR_OPTIONS);
-		content.add(backgroundColor, getGBC(1,2));
 	}
 	
 	/**
@@ -65,8 +64,8 @@ public final class Settings extends Window
 	 */
 	private void applyPreferences() throws NullPointerException, IOException
 	{
-		File config = FileHelper.checkFile("config.csv");
-		String[] data = { String.valueOf(themes.getSelectedIndex()), String.valueOf(dateFormat.getSelectedIndex()), String.valueOf(backgroundColor.getSelectedIndex()) };
+		File config = FileHelper.checkFile("data/config.csv");
+		String[] data = { themes.getItemAt(themes.getSelectedIndex()).toString(), String.valueOf(dateFormat.getSelectedIndex())};
 		Persistance.saveToCSV(config.getPath(), data);
 	}
 }

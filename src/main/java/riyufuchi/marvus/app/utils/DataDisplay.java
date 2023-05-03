@@ -17,15 +17,15 @@ import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 24.04.2023
+ * Last Edit: 02.05.2023
  * <hr>
- * Provides display modes for data
+ * Provides display utility functions for data
  * <hr>
  * @author Riyufuchi
  */
-public class DataDisplayMode
+public class DataDisplay
 {
-	private DataDisplayMode()
+	private DataDisplay()
 	{
 	}
 	
@@ -33,6 +33,38 @@ public class DataDisplayMode
 	{
 		DialogHelper.informationDialog(budgetDataTable, "ID: " + t.getID() + " -> " + t.toString(), "Info for ID: " + t.getID());
 	}
+	
+	/**
+	 * Creates column of non editable JTextFileds
+	 * 
+	 * @param panel destination panel - for optimization if this method is used in cycle
+	 * @param bdt BudgetDataTable
+	 * @param x coordinate
+	 * @param data to be displayed using toString() method
+	 */
+	public static void createColumn(JPanel panel, BudgetDataTable bdt, int x, Object ... data)
+	{
+		int y = 0;
+		for (Object o : data)
+			panel.add(FactoryComponent.newTextFieldCell(o.toString()), bdt.getGBC(x, y++));
+	}
+	
+	/**
+	 * Creates row of non editable JTextFileds
+	 * 
+	 * @param panel destination panel - for optimization if this method is used in cycle
+	 * @param bdt BudgetDataTable
+	 * @param y coordinate
+	 * @param data to be displayed using toString() method
+	 */
+	public static void createRow(JPanel panel, BudgetDataTable bdt, int y, Object ... data)
+	{
+		int x = 0;
+		for (Object o : data)
+			panel.add(FactoryComponent.newTextFieldCell(o.toString()), bdt.getGBC(x++, y));
+	}
+	
+	// CONSUMERS
 	
 	/**
 	 * Simple list ordered by ID assigned during loading from file.
@@ -44,9 +76,8 @@ public class DataDisplayMode
 	{
 		return data -> {
 			JPanel panel = budgetDataTable.getPane();
-			data.stream().forEach(t -> panel.add(FactoryComponent.newTextFieldCell(t.toString(), fe -> showExtednedInfo(t, budgetDataTable)), budgetDataTable.getGBC(0, t.getID())));
-			//for (Transaction t : data)
-				//panel.add(FactoryComponent.newTextFieldCell(t.toString()), bdt.getGBC(0, t.getID()));
+			data.stream().forEach(t -> panel.add(FactoryComponent.newTextFieldCell(t.toString(), fe -> showExtednedInfo(t, budgetDataTable)),
+					budgetDataTable.getGBC(0, t.getID())));
 		};
 	}
 	
@@ -62,6 +93,12 @@ public class DataDisplayMode
 		};
 	}
 	
+	/**
+	 * Each month have its column
+	 * 
+	 * @param bdt BudgetDataTable
+	 * @return Display mode consumer
+	 */
 	public static Consumer<DataBox<Transaction>> monthList(BudgetDataTable bdt)
 	{
 		return data -> {
@@ -105,11 +142,9 @@ public class DataDisplayMode
 				}
 			}
 			JPanel panel = bdt.getPane();
-			panel.add(FactoryComponent.newTextFieldCell("Month"), bdt.getGBC(0, 0));
-			panel.add(FactoryComponent.newTextFieldCell(Month.values()[month - 1].toString()), bdt.getGBC(1, 0));
-			panel.add(FactoryComponent.newTextFieldCell("Category"), bdt.getGBC(0, 1));
-			panel.add(FactoryComponent.newTextFieldCell("Sum"), bdt.getGBC(1, 1));
-			month = 2;
+			createRow(panel, bdt, 0, "Month", Month.values()[month - 1]);
+			createRow(panel, bdt, 1, "Category", "Sum");
+			month = 2; // Substitute for Y coordinate
 			for(MoneyCategory category : list)
 			{
 				panel.add(FactoryComponent.newTextFieldCell(category.getName()), bdt.getGBC(0, month));
@@ -144,10 +179,7 @@ public class DataDisplayMode
 				}
 			}
 			JPanel panel = bdt.getPane();
-			panel.add(FactoryComponent.newTextFieldCell(String.valueOf(year)), bdt.getGBC(0, 0));
-			panel.add(FactoryComponent.newTextFieldCell("Income"), bdt.getGBC(0, 1));
-			panel.add(FactoryComponent.newTextFieldCell("Outcome"), bdt.getGBC(0, 2));
-			panel.add(FactoryComponent.newTextFieldCell("Total"), bdt.getGBC(0, 3));
+			createColumn(panel, bdt, 0 , String.valueOf(year), "Income", "Outcome", "Total");
 			Month[] months = Month.values();
 			int xPos = 0;
 			for (int x = 1; x < 13; x++)
@@ -158,6 +190,14 @@ public class DataDisplayMode
 				panel.add(FactoryComponent.newTextFieldCell((income[xPos].add(outcome[xPos]).toString())), bdt.getGBC(x, 3)); // outcome is already negative
 				xPos++;
 			}
+			BigDecimal yearIncome = new BigDecimal(0);
+			BigDecimal yearOutcome = new BigDecimal(0);
+			for (int i = 0; i < 12; i++)
+			{
+				yearIncome = yearIncome.add(income[i]);
+				yearOutcome = yearOutcome.add(outcome[i]);
+			}
+			createColumn(panel, bdt, 13 , "Year total", yearIncome, yearOutcome, yearIncome.add(yearOutcome));
 		};
 	}
 }
