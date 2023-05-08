@@ -35,6 +35,9 @@ public abstract class MarvusDialog
 			this.consumer = con -> DialogHelper.errorDialog(bdt, "No action assigned", "Consumer error");
 	}
 	
+	protected abstract JComponent[] createInputs();
+	protected abstract Consumer<JComponent[]> consume();
+	
 	private void init(String title, BudgetDataTable bdt)
 	{
 		this.title = title;
@@ -55,6 +58,13 @@ public abstract class MarvusDialog
 		DialogHelper.customDialog(bdt, title, inputs, consumer);
 	}
 	
-	protected abstract JComponent[] createInputs();
-	protected abstract Consumer<JComponent[]> consume();
+	public String getTitle()
+	{
+		return title;
+	}
+	
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
 }

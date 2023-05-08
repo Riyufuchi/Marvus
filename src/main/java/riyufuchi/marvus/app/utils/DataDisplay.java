@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.windows.BudgetDataTable;
+import riyufuchi.marvus.app.windows.EditGridDialog;
 import riyufuchi.marvus.marvusData.DataBox;
 import riyufuchi.marvus.marvusData.MoneyCategory;
 import riyufuchi.marvus.marvusData.Transaction;
@@ -31,7 +32,9 @@ public class DataDisplay
 	
 	private static void showExtednedInfo(Transaction t, BudgetDataTable budgetDataTable)
 	{
-		DialogHelper.informationDialog(budgetDataTable, "ID: " + t.getID() + " -> " + t.toString(), "Info for ID: " + t.getID());
+		//DialogHelper.informationDialog(budgetDataTable, "ID: " + t.getID() + " -> " + t.toString(), "Info for ID: " + t.getID());
+		EditGridDialog ed = new EditGridDialog(budgetDataTable, t);
+		ed.showDialog();
 	}
 	
 	/**
