@@ -11,7 +11,6 @@ import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.marvus.app.windows.Settings;
 import riyufuchi.marvus.marvusData.DataBox;
 import riyufuchi.marvus.marvusData.MoneySum;
 import riyufuchi.marvus.marvusLib.legacy.utils.MarvusLegacyHelper;
@@ -21,8 +20,8 @@ import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.gui.utils.SufuMenuCreator;
 
 /**
- * Created On: 11.04.2022
- * Last Edit: 01.05.2023
+ * Created On: 11.04.2022<br>
+ * Last Edit: 16.05.2023
  * 
  * @author Riyufuchi
  */

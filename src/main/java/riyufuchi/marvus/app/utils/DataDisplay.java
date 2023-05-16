@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import riyufuchi.marvus.app.windows.BudgetDataTable;
 import riyufuchi.marvus.app.windows.EditDialog;
+import riyufuchi.marvus.app.windows.RemoveDialog;
 import riyufuchi.marvus.marvusData.DataBox;
 import riyufuchi.marvus.marvusData.MoneyCategory;
 import riyufuchi.marvus.marvusData.Transaction;
@@ -20,34 +21,25 @@ import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 02.05.2023
- * <hr>
+ * Last Edit: 16.05.2023<br>
  * Provides display utility functions for data
- * <hr>
+ * 
  * @author Riyufuchi
  */
 public class DataDisplay
 {
 	private DataDisplay()
-	{
-	}
+	{}
 	
 	private static void showExtednedInfo(Transaction t, BudgetDataTable budgetDataTable, MouseEvent mEvt)
 	{
-		//DialogHelper.informationDialog(budgetDataTable, "ID: " + t.getID() + " -> " + t.toString(), "Info for ID: " + t.getID());
 		if(SwingUtilities.isLeftMouseButton(mEvt))
 		{
-			EditDialog ed = new EditDialog(budgetDataTable, t);
-			ed.showDialog();
+			new EditDialog(budgetDataTable, t).showDialog();
 		}
 		else
 		{
-			// TODO: Implement proper delete dialog
-			if(DialogHelper.yesNoDialog(budgetDataTable, "Delete ID: " + t.getID() + " " + t.toString(), "Delete " + t.getID()) == 0)
-			{
-				budgetDataTable.getDataBox().getList().remove(t.getID() - 1); // ID starts from 1
-				budgetDataTable.refresh();
-			}
+			new RemoveDialog(budgetDataTable, t).showDialog();
 		}
 	}
 	

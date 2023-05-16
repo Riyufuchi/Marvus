@@ -2,52 +2,54 @@ package riyufuchi.marvus.app.windows;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Consumer;
 
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.FileHelper;
 import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
- * Created On: 18.04.2023<br>
- * Last Edit: 01.05.2023
+ * Created On: 16.05.2023<br>
+ * Last Edit: 16.05.2023 <br>
+ * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.
  * 
  * @author Riyufuchi
  */
-public class AddTransactionDialog extends MarvusDialog
+public class AddDialog extends SufuDialog
 {
-	private JTextField name, money, date;
-	private JComboBox<String> category;
+	protected JTextField name, money, date;
+	protected JComboBox<String> category;
 	
-	public AddTransactionDialog(BudgetDataTable bdt)
+	public AddDialog(JFrame parentFrame)
 	{
-		super("New transaction", bdt);
+		super("New transaction", parentFrame, DialogType.OK);
 	}
 	
-	private void generateCategoryList(String path)
+	protected void generateCategoryList(String path)
 	{
 		try
 		{
 			FileHelper.checkFile(path);
 			Persistance.saveToCSV(path, new String[]{"Custom"});
-			DialogHelper.informationDialog(bdt, "Generated default " + path, "Category list fixer info");
+			DialogHelper.informationDialog(parentFrame, "Generated default " + path, "Category list fixer info");
 		}
 		catch (NullPointerException | IOException e)
 		{
-			DialogHelper.exceptionDialog(bdt, e);
+			DialogHelper.exceptionDialog(parentFrame, e);
 		}
 	}
-	
+
 	@Override
-	protected JComponent[] createInputs()
+	protected void createInputs(JPanel pane)
 	{
 		String path = "data/category.txt";
 		String[] categoryList = { "Custom" }; 
@@ -61,7 +63,7 @@ public class AddTransactionDialog extends MarvusDialog
 		}
 		catch (NullPointerException | IOException e)
 		{
-			DialogHelper.exceptionDialog(bdt, e);
+			DialogHelper.exceptionDialog(parentFrame, e);
 			generateCategoryList(path);
 		}
 		category = FactoryComponent.<String>createCombobox(categoryList);
@@ -80,24 +82,20 @@ public class AddTransactionDialog extends MarvusDialog
 				name.setText(category.getItemAt(category.getSelectedIndex()));
 			}
 		});
-		JComponent[] inputs = {
-				new JLabel("Category:"),
-				category,
-				name,
-				new JLabel("Amount:"),
-				money,
-				new JLabel("Date:"),
-				date
-		};
-		return inputs;
+		// Set labels
+		pane.add(new JLabel("Category:"), getGBC(0, 0));
+		pane.add(new JLabel("Amount:"), getGBC(0, 2));
+		pane.add(new JLabel("Date:"), getGBC(0, 3));
+		// Set components
+		pane.add(category, getGBC(1, 0));
+		pane.add(name, getGBC(1, 1));
+		pane.add(money, getGBC(1, 2));
+		pane.add(date, getGBC(1, 3));
 	}
-
 	@Override
-	protected Consumer<JComponent[]> consume()
+	protected void onOK()
 	{
-		return con -> {
-			bdt.getDataBox().add(new Transaction(name.getText(), money.getText(), date.getText()));
-			bdt.refresh();
-		};
+		((BudgetDataTable)parentFrame).getDataBox().add(new Transaction(name.getText(), money.getText(), date.getText()));
+		((BudgetDataTable)parentFrame).refresh();
 	}
 }

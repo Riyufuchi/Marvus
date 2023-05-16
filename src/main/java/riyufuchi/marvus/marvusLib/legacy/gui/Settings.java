@@ -1,4 +1,4 @@
-package riyufuchi.marvus.app.windows;
+package riyufuchi.marvus.marvusLib.legacy.gui;
 
 import java.io.File;
 import java.io.IOException;

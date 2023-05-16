@@ -16,13 +16,12 @@ import riyufuchi.marvus.marvusData.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.ErrorWindow;
-import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.gui.utils.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 27.04.2023
+ * Last Edit: 16.05.2023
  * 
  * @author Riyufuchi
  */
@@ -57,14 +56,14 @@ public class BudgetDataTable extends SufuWindow
 				// Operations
 				case "Income to outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(DateUtils.showMonthChooser(this).getValue())));
 				// Data handling
-				case "Add" -> jmc.setItemAction(i, event -> new AddTransactionDialog(this).showDialog());
+				case "Add" -> jmc.setItemAction(i, event -> new AddDialog(this).showDialog());
 				// Display modes
 				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.simpleOrderableList(this)));
 				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
 				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.monthList(this)));
 				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.yearOverview(this)));
 				// Other
-				case "Preferences" -> jmc.setItemAction(i,event -> new Settings());
+				case "Preferences" -> jmc.setItemAction(i,event -> new SettingsDialog(this).showDialog());
 				//case "Backup" -> jmc.setItemAction(i,event -> backupData());
 				default -> jmc.setItemAction(i, event -> DialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
 			}
