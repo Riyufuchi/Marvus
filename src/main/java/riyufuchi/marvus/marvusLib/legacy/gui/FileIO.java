@@ -8,7 +8,7 @@ import java.util.List;
 import riyufuchi.marvus.marvusData.MoneySum;
 import riyufuchi.marvus.marvusLib.files.XML;
 import riyufuchi.sufuLib.gui.DialogHelper;
-import riyufuchi.sufuLib.gui.FileSelector;
+import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
  * 
  * @author Riyufuchi
  */
-public class FileIO extends FileSelector
+public class FileIO extends SufuFileChooser
 {
 	private DataTableForm dtf;
 	

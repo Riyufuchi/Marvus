@@ -1,14 +1,16 @@
 package riyufuchi.marvus.app.utils;
 
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.time.Month;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import riyufuchi.marvus.app.windows.BudgetDataTable;
-import riyufuchi.marvus.app.windows.EditGridDialog;
+import riyufuchi.marvus.app.windows.EditDialog;
 import riyufuchi.marvus.marvusData.DataBox;
 import riyufuchi.marvus.marvusData.MoneyCategory;
 import riyufuchi.marvus.marvusData.Transaction;
@@ -30,11 +32,23 @@ public class DataDisplay
 	{
 	}
 	
-	private static void showExtednedInfo(Transaction t, BudgetDataTable budgetDataTable)
+	private static void showExtednedInfo(Transaction t, BudgetDataTable budgetDataTable, MouseEvent mEvt)
 	{
 		//DialogHelper.informationDialog(budgetDataTable, "ID: " + t.getID() + " -> " + t.toString(), "Info for ID: " + t.getID());
-		EditGridDialog ed = new EditGridDialog(budgetDataTable, t);
-		ed.showDialog();
+		if(SwingUtilities.isLeftMouseButton(mEvt))
+		{
+			EditDialog ed = new EditDialog(budgetDataTable, t);
+			ed.showDialog();
+		}
+		else
+		{
+			// TODO: Implement proper delete dialog
+			if(DialogHelper.yesNoDialog(budgetDataTable, "Delete ID: " + t.getID() + " " + t.toString(), "Delete " + t.getID()) == 0)
+			{
+				budgetDataTable.getDataBox().getList().remove(t.getID() - 1); // ID starts from 1
+				budgetDataTable.refresh();
+			}
+		}
 	}
 	
 	/**
@@ -79,7 +93,7 @@ public class DataDisplay
 	{
 		return data -> {
 			JPanel panel = budgetDataTable.getPane();
-			data.stream().forEach(t -> panel.add(FactoryComponent.newTextFieldCell(t.toString(), fe -> showExtednedInfo(t, budgetDataTable)),
+			data.stream().forEach(t -> panel.add(FactoryComponent.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, budgetDataTable, evt)),
 					budgetDataTable.getGBC(0, t.getID())));
 		};
 	}
@@ -91,7 +105,7 @@ public class DataDisplay
 			int y = 0;
 			for (Transaction t : data)
 			{
-				panel.add(FactoryComponent.newTextFieldCell(t.toString(), fe -> showExtednedInfo(t, bdt)), bdt.getGBC(0, y++));
+				panel.add(FactoryComponent.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, bdt, evt)), bdt.getGBC(0, y++));
 			}
 		};
 	}
@@ -115,7 +129,7 @@ public class DataDisplay
 					prevMonth = t.getDate().getMonthValue();
 					y = 0;
 				}
-				panel.add(FactoryComponent.newTextFieldCell(t.toString(), fe -> showExtednedInfo(t, bdt)), bdt.getGBC(prevMonth, ++y));
+				panel.add(FactoryComponent.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, bdt, evt)), bdt.getGBC(prevMonth, ++y));
 			}
 		};
 	}

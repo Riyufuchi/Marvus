@@ -16,7 +16,7 @@ import riyufuchi.marvus.marvusData.MoneySum;
 import riyufuchi.marvus.marvusLib.utils.MoneyCalculations;
 import riyufuchi.sufuLib.config.SufuLibFonts;
 import riyufuchi.sufuLib.gui.DialogHelper;
-import riyufuchi.sufuLib.gui.Window;
+import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.InputChecker;
 import riyufuchi.sufuLib.utils.files.Persistance;
@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
  * 
  * @author Riyufuchi
  */
-public class Counter extends Window
+public class Counter extends SufuWindow
 {
 	private DataTableForm dtf;
 	private JTextField[] textFields;

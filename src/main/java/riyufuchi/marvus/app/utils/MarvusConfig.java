@@ -13,6 +13,8 @@ public class MarvusConfig
 	//Unchangeable configuration
 	public static final FileNameExtensionFilter MONEY_SUM_FILES = new FileNameExtensionFilter(".ser, .csv, .xml", "ser", "csv", "xml");
 	public static final FileNameExtensionFilter TRANSACTION_FILES = new FileNameExtensionFilter(".ser, .csv", "ser", "csv");
+	public static final FileNameExtensionFilter SER = new FileNameExtensionFilter(".ser", "ser");
+	public static final FileNameExtensionFilter CSV = new FileNameExtensionFilter(".csv", "csv");
 	//XML money
 	public static final String SUM = "sum";
 	public static final String DATE = "date";

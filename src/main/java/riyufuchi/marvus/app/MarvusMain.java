@@ -3,8 +3,8 @@ package riyufuchi.marvus.app;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.windows.BudgetDataTable;
 import riyufuchi.marvus.marvusLib.legacy.gui.DataTableForm;
-import riyufuchi.sufuLib.gui.Window;
-import riyufuchi.sufuLib.gui.utils.CustomizeUI;
+import riyufuchi.sufuLib.config.CustomizeUI;
+import riyufuchi.sufuLib.gui.SufuWindow;
 
 /**
  * Created On: 20.04.2022<br>
@@ -14,7 +14,7 @@ import riyufuchi.sufuLib.gui.utils.CustomizeUI;
  */
 public class MarvusMain
 {
-	private static Window app;
+	private static SufuWindow app;
 	
 	public static void main(String[] args)
 	{

@@ -2,7 +2,6 @@ package riyufuchi.marvus.app.windows;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Consumer;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,30 +11,35 @@ import javax.swing.JTextField;
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.FileHelper;
 import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
- * Created On: 05.05.2023<br>
- * Last Edit: 05.05.2023
- * 
+ * Created On: 11.05.2023<br>
+ * Last Edit: 11.05.2023
+ * <hr>
+ * Dialog for editing Transaction
+ * <hr>
  * @author Riyufuchi
  */
-public class EditGridDialog extends MarvusGridDialog
+public class EditDialog extends SufuDialog
 {
 	private JTextField name, money, date;
 	private JComboBox<String> category;
 	private Transaction transaction;
+	private BudgetDataTable bdt;
 	
-	public EditGridDialog(BudgetDataTable bdt, Transaction transaction)
+	public EditDialog(BudgetDataTable bdt, Transaction transaction)
 	{
-		super("Edit transaction", bdt);
+		super("Edit dialog", bdt, DialogType.OK);
 		this.transaction = transaction;
+		this.bdt = bdt;
 		prefillComponents();
 		setTitle(getTitle() + " " + transaction.getID());
 	}
-	
+
 	private void prefillComponents()
 	{
 		category.setSelectedItem(transaction.getName());
@@ -104,14 +108,12 @@ public class EditGridDialog extends MarvusGridDialog
 	}
 
 	@Override
-	protected Consumer<Integer> consume()
+	protected void onOK()
 	{
-		return con -> {
-			transaction.setName(name.getText());
-			transaction.setMoneySum(money.getText());
-			transaction.setDate(date.getText());
-			//bdt.getDataBox().add(new Transaction(name.getText(), money.getText(), date.getText()));
-			bdt.refresh();
-		};
+		transaction.setName(name.getText());
+		transaction.setMoneySum(money.getText());
+		transaction.setDate(date.getText());
+		//bdt.getDataBox().add(new Transaction(name.getText(), money.getText(), date.getText()));
+		bdt.refresh();
 	}
 }

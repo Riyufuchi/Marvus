@@ -17,8 +17,8 @@ import riyufuchi.marvus.marvusData.MoneySum;
 import riyufuchi.marvus.marvusLib.legacy.utils.MarvusLegacyHelper;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.ErrorWindow;
-import riyufuchi.sufuLib.gui.Window;
-import riyufuchi.sufuLib.gui.utils.JMenuCreator;
+import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.sufuLib.gui.utils.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022
@@ -26,7 +26,7 @@ import riyufuchi.sufuLib.gui.utils.JMenuCreator;
  * 
  * @author Riyufuchi
  */
-public final class DataTableForm extends Window
+public final class DataTableForm extends SufuWindow
 {
 	private DataBox<MoneySum> dataBox;
 	private JTextField[][] textFields;
@@ -97,7 +97,7 @@ public final class DataTableForm extends Window
 	
 	private void setupJMenu()
 	{
-		JMenuCreator jmc = new JMenuCreator(AppTexts.DTF_MENU, AppTexts.DTF_MENU_ITEMS, 3);
+		SufuMenuCreator jmc = new SufuMenuCreator(AppTexts.DTF_MENU, AppTexts.DTF_MENU_ITEMS, 3);
 		final int max = jmc.getNumberOfMenuItems();
 		for (int i = 0; i < max; i++)
 		{
@@ -128,7 +128,7 @@ public final class DataTableForm extends Window
 		FileIO fio = new FileIO(this, MarvusConfig.workFolder);
 		fio.setFileFilter(MarvusConfig.MONEY_SUM_FILES);
 		fio.setAcceptAllFileFilterUsed(false);
-		fio.saveFile();
+		fio.showSaveChooser();
 	}
 	
 	private void importData()
@@ -136,7 +136,7 @@ public final class DataTableForm extends Window
 		FileIO fio = new FileIO(this, MarvusConfig.workFolder);
 		fio.setFileFilter(MarvusConfig.MONEY_SUM_FILES);
 		fio.setAcceptAllFileFilterUsed(false);
-		fio.loadFile();
+		fio.showLoadChooser();
 	}
 	
 	private void backupData()

@@ -10,7 +10,7 @@ import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.DialogHelper;
-import riyufuchi.sufuLib.gui.Window;
+import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.FileHelper;
 import riyufuchi.sufuLib.utils.files.Persistance;
@@ -21,7 +21,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
  * 
  * @author Riyufuchi
  */
-public final class Settings extends Window
+public final class Settings extends SufuWindow
 {
 	private JComboBox<AppThemeUI> themes;
 	private JComboBox<String> dateFormat;

@@ -16,8 +16,9 @@ import riyufuchi.marvus.marvusData.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.ErrorWindow;
-import riyufuchi.sufuLib.gui.Window;
-import riyufuchi.sufuLib.gui.utils.JMenuCreator;
+import riyufuchi.sufuLib.gui.SufuDialog;
+import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.sufuLib.gui.utils.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
@@ -25,7 +26,7 @@ import riyufuchi.sufuLib.gui.utils.JMenuCreator;
  * 
  * @author Riyufuchi
  */
-public class BudgetDataTable extends Window
+public class BudgetDataTable extends SufuWindow
 {
 	private DataBox<Transaction> dataBox;
 	private Consumer<DataBox<Transaction>> displayMode;
@@ -39,7 +40,7 @@ public class BudgetDataTable extends Window
 	
 	private void setupJMenu()
 	{
-		JMenuCreator jmc = new JMenuCreator(AppTexts.BUDGET_TABLE_MENU, AppTexts.BUDGET_TABLE_MENU_ITEMS, 3);
+		SufuMenuCreator jmc = new SufuMenuCreator(AppTexts.BUDGET_TABLE_MENU, AppTexts.BUDGET_TABLE_MENU_ITEMS, 3);
 		final int max = jmc.getNumberOfMenuItems();
 		for (int i = 0; i < max; i++)
 		{
@@ -81,6 +82,13 @@ public class BudgetDataTable extends Window
 		refresh();
 	}
 	
+	private TransactionIO createTransactionIO()
+	{
+		TransactionIO fio = new TransactionIO(this, MarvusConfig.workFolder);
+		fio.setFileFilters(MarvusConfig.SER, MarvusConfig.CSV);
+		return fio;
+	}
+	
 	private void exportData()
 	{
 		if(dataBox.isEmpty())
@@ -88,18 +96,15 @@ public class BudgetDataTable extends Window
 			DialogHelper.warningDialog(this, "No data to export", "No data found");
 			return;
 		}
-		TransactionIO fio = new TransactionIO(this, MarvusConfig.workFolder);
-		fio.setFileFilter(MarvusConfig.TRANSACTION_FILES);
+		TransactionIO fio = createTransactionIO();
 		fio.setAcceptAllFileFilterUsed(false);
-		fio.saveFile();
+		fio.showSaveChooser();
 	}
 	
 	private void importData()
 	{
-		TransactionIO fio = new TransactionIO(this, MarvusConfig.workFolder);
-		fio.setFileFilter(MarvusConfig.TRANSACTION_FILES);
-		fio.setAcceptAllFileFilterUsed(false);
-		fio.loadFile();
+		createTransactionIO().showLoadChooser();
+		//fio.loadFile();
 	}
 
 	private void about()
@@ -120,6 +125,9 @@ public class BudgetDataTable extends Window
 		refresh();
 	}
 	
+	/**
+	 * Refresh displayed data
+	 */
 	public void refresh()
 	{
 		if(dataBox.isEmpty())

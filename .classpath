@@ -25,7 +25,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="/home/riyufuchi/Documents/workspace-java/SufuLib/SufuLib.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/home/riyufuchi/Documents/workspace-java/SufuLib/SufuLib.jar!/javaDoc"/>
+			<attribute name="javadoc_location" value="jar:file:/home/riyufuchi/Documents/workspace-java/SufuLib/SufuLib.jar!/doc"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>

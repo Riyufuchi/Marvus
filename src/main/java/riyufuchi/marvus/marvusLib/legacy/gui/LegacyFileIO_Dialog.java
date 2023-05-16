@@ -9,7 +9,7 @@ import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.marvusLib.files.XML;
 import riyufuchi.marvus.marvusLib.legacy.utils.FilesIO;
 import riyufuchi.sufuLib.gui.DialogHelper;
-import riyufuchi.sufuLib.gui.Window;
+import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.FileHelper;
 
@@ -21,7 +21,7 @@ import riyufuchi.sufuLib.utils.files.FileHelper;
  * <hr>
  * @author Riyufuchi
  */
-public class LegacyFileIO_Dialog extends Window
+public class LegacyFileIO_Dialog extends SufuWindow
 {
 	private JButton cancel, ok;
 	private JComboBox<String>[] comboBoxes;

@@ -2,5 +2,6 @@ data/
 target/
 bin/
 lib/
+deprecated/
 *.csv
 .settings

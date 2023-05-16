@@ -7,16 +7,16 @@ import java.util.List;
 
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.sufuLib.gui.DialogHelper;
-import riyufuchi.sufuLib.gui.FileSelector;
+import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 19.04.2023
+ * Last Edit: 10.05.2023
  * 
  * @author Riyufuchi
  */
-public class TransactionIO extends FileSelector
+public class TransactionIO extends SufuFileChooser
 {
 	private BudgetDataTable budgetDataTable;
 	
@@ -31,8 +31,7 @@ public class TransactionIO extends FileSelector
 	{
 		if(!path.contains("."))
 		{
-			DialogHelper.errorDialog(budgetDataTable, "File is missing an extension", "Extension not recognized");
-			return;
+			path += getFileFilter().getDescription();
 		}
 		String extension = path.substring(path.lastIndexOf('.'));
 		switch(extension)
@@ -47,8 +46,6 @@ public class TransactionIO extends FileSelector
 					DialogHelper.exceptionDialog(budgetDataTable, e);
 				}
 			}
-			case ".xml" -> {
-			}
 			case ".ser" -> {
 				try
 				{
@@ -59,6 +56,7 @@ public class TransactionIO extends FileSelector
 					DialogHelper.exceptionDialog(budgetDataTable, e);
 				}
 			}
+			default -> DialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
 		}
 	}
 
@@ -67,17 +65,13 @@ public class TransactionIO extends FileSelector
 	{
 		if(!path.contains("."))
 		{
-			DialogHelper.errorDialog(budgetDataTable, "File is missing an extension", "Extension not recognized");
-			return;
+			path += getFileFilter().getDescription();
 		}
 		String extension = path.substring(path.lastIndexOf('.'));
 		switch(extension)
 		{
 			case ".csv" -> {
 				loadCSV(path);
-			}
-			case ".xml" -> {
-				
 			}
 			case ".ser" -> {
 				try
@@ -89,6 +83,7 @@ public class TransactionIO extends FileSelector
 					DialogHelper.exceptionDialog(budgetDataTable, e);
 				}
 			}
+			default -> DialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
 		}
 		budgetDataTable.refresh();
 	}
