@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 10.05.2023
+ * Last Edit: 17.05.2023
  * 
  * @author Riyufuchi
  */
@@ -29,10 +29,7 @@ public class TransactionIO extends SufuFileChooser
 	@Override
 	protected void onSave(String path)
 	{
-		if(!path.contains("."))
-		{
-			path += getFileFilter().getDescription();
-		}
+		path = addExtension(path);
 		String extension = path.substring(path.lastIndexOf('.'));
 		switch(extension)
 		{
@@ -44,6 +41,7 @@ public class TransactionIO extends SufuFileChooser
 				catch (NullPointerException | IOException e)
 				{
 					DialogHelper.exceptionDialog(budgetDataTable, e);
+					return;
 				}
 			}
 			case ".ser" -> {
@@ -54,19 +52,21 @@ public class TransactionIO extends SufuFileChooser
 				catch (NullPointerException | IOException e)
 				{
 					DialogHelper.exceptionDialog(budgetDataTable, e);
+					return;
 				}
 			}
-			default -> DialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
+			default -> {
+				DialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
+				return;
+			}
 		}
+		DialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
 	}
 
 	@Override
 	protected void onLoad(String path)
 	{
-		if(!path.contains("."))
-		{
-			path += getFileFilter().getDescription();
-		}
+		path = addExtension(path);
 		String extension = path.substring(path.lastIndexOf('.'));
 		switch(extension)
 		{
@@ -88,6 +88,13 @@ public class TransactionIO extends SufuFileChooser
 		budgetDataTable.refresh();
 	}
 	
+	private String addExtension(String path)
+	{
+		if (!path.contains("."))
+			return path += getFileFilter().getDescription();
+		return path;
+	}
+	
 	private void loadCSV(String path)
 	{
 		List<String> list = null;
@@ -99,8 +106,8 @@ public class TransactionIO extends SufuFileChooser
 			Iterator<String> it = list.iterator();
 			while(it.hasNext())
 			{
-				split = it.next().split(";");
-				l.add(new Transaction(split[0], split[1], split[2]));
+				split = it.next().split(";", 4);
+				l.add(new Transaction(split[0], split[1], split[2], split[3]));
 			}
 		}
 		catch (NullPointerException | IOException | IndexOutOfBoundsException e)

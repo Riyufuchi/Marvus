@@ -57,7 +57,6 @@ public class SettingsDialog extends SufuDialog
 		{
 			DialogHelper.exceptionDialog(parentFrame, e);
 		}
-		// TODO: Notify user that he have to restart the application for changes to occur
+		DialogHelper.informationDialog(parentFrame, "The application requires a restart for the changes to take effect.", "Applying settings");
 	}
-
 }

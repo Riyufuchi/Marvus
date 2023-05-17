@@ -7,6 +7,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.marvusData.Transaction;
@@ -19,7 +20,7 @@ import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Created On: 16.05.2023<br>
- * Last Edit: 16.05.2023 <br>
+ * Last Edit: 17.05.2023 <br>
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.
  * 
  * @author Riyufuchi
@@ -28,6 +29,7 @@ public class AddDialog extends SufuDialog
 {
 	protected JTextField name, money, date;
 	protected JComboBox<String> category;
+	protected JTextArea note;
 	
 	public AddDialog(JFrame parentFrame)
 	{
@@ -82,20 +84,23 @@ public class AddDialog extends SufuDialog
 				name.setText(category.getItemAt(category.getSelectedIndex()));
 			}
 		});
+		note = FactoryComponent.newTextArea("");
 		// Set labels
 		pane.add(new JLabel("Category:"), getGBC(0, 0));
 		pane.add(new JLabel("Amount:"), getGBC(0, 2));
 		pane.add(new JLabel("Date:"), getGBC(0, 3));
+		pane.add(new JLabel("Note:"), getGBC(0, 4));
 		// Set components
 		pane.add(category, getGBC(1, 0));
 		pane.add(name, getGBC(1, 1));
 		pane.add(money, getGBC(1, 2));
 		pane.add(date, getGBC(1, 3));
+		pane.add(note, getGBC(1, 4));
 	}
 	@Override
 	protected void onOK()
 	{
-		((BudgetDataTable)parentFrame).getDataBox().add(new Transaction(name.getText(), money.getText(), date.getText()));
+		((BudgetDataTable)parentFrame).getDataBox().add(new Transaction(name.getText(), money.getText(), date.getText(), note.getText()));
 		((BudgetDataTable)parentFrame).refresh();
 	}
 }

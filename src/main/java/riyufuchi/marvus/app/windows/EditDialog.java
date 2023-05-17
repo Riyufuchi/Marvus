@@ -7,10 +7,9 @@ import riyufuchi.marvus.marvusData.Transaction;
 
 /**
  * Created On: 11.05.2023<br>
- * Last Edit: 16.05.2023
- * <hr>
+ * Last Edit: 17.05.2023<br>
  * Dialog for editing Transaction
- * <hr>
+ *
  * @author Riyufuchi
  */
 public class EditDialog extends AddDialog
@@ -31,6 +30,7 @@ public class EditDialog extends AddDialog
 		name.setText(transaction.getName());
 		money.setText(transaction.getMoneySum().toString());
 		date.setText(transaction.getStringDate());
+		note.setText(transaction.getNote());
 	}
 	
 	@Override
@@ -45,6 +45,7 @@ public class EditDialog extends AddDialog
 		transaction.setName(name.getText());
 		transaction.setMoneySum(money.getText());
 		transaction.setDate(date.getText());
+		transaction.setNote(note.getText());
 		((BudgetDataTable)parentFrame).refresh();
 	}
 	
