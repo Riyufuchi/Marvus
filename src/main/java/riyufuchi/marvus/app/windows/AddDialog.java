@@ -13,9 +13,9 @@ import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
-import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.FileHelper;
 import riyufuchi.sufuLib.utils.files.Persistance;
+import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Created On: 16.05.2023<br>

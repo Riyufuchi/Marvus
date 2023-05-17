@@ -1,14 +1,20 @@
 package riyufuchi.marvus.app;
 
+import java.io.IOException;
+import java.util.LinkedList;
+
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.windows.BudgetDataTable;
 import riyufuchi.marvus.marvusLib.legacy.gui.DataTableForm;
 import riyufuchi.sufuLib.config.CustomizeUI;
+import riyufuchi.sufuLib.enums.AppThemeUI;
+import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 17.04.2023
+ * Last Edit: 17.05.2023
  *
  * @author Riyufuchi
  */
@@ -18,6 +24,7 @@ public class MarvusMain
 	
 	public static void main(String[] args)
 	{
+		loadSettings();
 		CustomizeUI.setUI(MarvusConfig.appTheme);
 		for(String arg : args)
 		{
@@ -27,5 +34,19 @@ public class MarvusMain
 		if(app == null)
 			app = new BudgetDataTable();
 		app.toFront();
+	}
+	
+	public static void loadSettings()
+	{
+		LinkedList<String> data = null;
+		try
+		{
+			data = Persistance.loadFromCSV(MarvusConfig.SETTINGS_FILE_PATH);
+			MarvusConfig.appTheme = AppThemeUI.valueOf(data.getFirst()); // Throws exception when inputed incorrect data
+		}
+		catch (IllegalArgumentException | NullPointerException | IOException e)
+		{
+			DialogHelper.exceptionDialog(app, e);
+		}
 	}
 }

@@ -7,18 +7,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.AppTexts;
+import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
-import riyufuchi.sufuLib.gui.utils.FactoryComponent;
-import riyufuchi.sufuLib.gui.utils.SufuWindowTools;
 import riyufuchi.sufuLib.utils.files.FileHelper;
 import riyufuchi.sufuLib.utils.files.Persistance;
+import riyufuchi.sufuLib.utils.gui.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 16.05.2023
+ * Last Edit: 17.05.2023
  * 
  * @author Riyufuchi
  */
@@ -26,7 +27,6 @@ public class SettingsDialog extends SufuDialog
 {
 	private JComboBox<AppThemeUI> themes;
 	private JComboBox<String> dateFormat;
-	private final String settingsFile = "data/config.txt";
 	
 	public SettingsDialog(JFrame parentFrame)
 	{
@@ -49,7 +49,7 @@ public class SettingsDialog extends SufuDialog
 	{
 		try
 		{
-			Persistance.saveToCSV(FileHelper.checkFile(settingsFile).getPath(),
+			Persistance.saveToCSV(FileHelper.checkFile(MarvusConfig.SETTINGS_FILE_PATH).getPath(),
 					themes.getItemAt(themes.getSelectedIndex()).toString(),
 					String.valueOf(dateFormat.getSelectedIndex()));
 		}
@@ -57,6 +57,7 @@ public class SettingsDialog extends SufuDialog
 		{
 			DialogHelper.exceptionDialog(parentFrame, e);
 		}
+		// TODO: Notify user that he have to restart the application for changes to occur
 	}
 
 }

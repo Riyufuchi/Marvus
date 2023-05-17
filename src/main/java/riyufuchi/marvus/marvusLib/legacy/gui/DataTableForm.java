@@ -17,7 +17,7 @@ import riyufuchi.marvus.marvusLib.legacy.utils.MarvusLegacyHelper;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;
-import riyufuchi.sufuLib.gui.utils.SufuMenuCreator;
+import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>

@@ -11,9 +11,9 @@ import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
-import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.FileHelper;
 import riyufuchi.sufuLib.utils.files.Persistance;
+import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Created On: 14.07.2022<br>

@@ -17,7 +17,7 @@ import riyufuchi.marvus.marvusData.MoneyCategory;
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
-import riyufuchi.sufuLib.gui.utils.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Created On: 18.04.2023<br>

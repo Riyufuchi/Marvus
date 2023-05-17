@@ -10,8 +10,8 @@ import riyufuchi.marvus.marvusLib.files.XML;
 import riyufuchi.marvus.marvusLib.legacy.utils.FilesIO;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
-import riyufuchi.sufuLib.gui.utils.FactoryComponent;
 import riyufuchi.sufuLib.utils.files.FileHelper;
+import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Created On: 11.04.2022<br>

@@ -14,6 +14,7 @@ public class Transaction extends MoneySum
 {
 	private static final long serialVersionUID = 1L;
 	private String name;
+	// TODO: Add String note attribute
 	
 	public Transaction(String name, String sum, String date)
 	{
