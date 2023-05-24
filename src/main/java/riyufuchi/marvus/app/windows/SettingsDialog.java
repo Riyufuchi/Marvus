@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.DialogHelper;
@@ -19,7 +20,7 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 17.05.2023
+ * Last Edit: 24.05.2023
  * 
  * @author Riyufuchi
  */
@@ -56,7 +57,11 @@ public class SettingsDialog extends SufuDialog
 		catch (NullPointerException | IOException e)
 		{
 			DialogHelper.exceptionDialog(parentFrame, e);
+			return;
 		}
 		DialogHelper.informationDialog(parentFrame, "The application requires a restart for the changes to take effect.", "Applying settings");
+		CustomizeUI.setUI(themes.getItemAt(themes.getSelectedIndex()));
+		CustomizeUI.refreshTheme(parentFrame);
+		parentFrame.pack();
 	}
 }

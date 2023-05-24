@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import riyufuchi.marvus.app.utils.ComponentParts;
 import riyufuchi.marvus.marvusData.MoneySum;
+import riyufuchi.marvus.marvusLib.legacy.utils.ComponentParts;
 import riyufuchi.marvus.marvusLib.utils.MoneyCalculations;
 import riyufuchi.sufuLib.config.SufuLibFonts;
 import riyufuchi.sufuLib.gui.DialogHelper;
@@ -23,7 +23,7 @@ import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 01.05.2023
+ * Last Edit: 24.05.2023
  * 
  * @author Riyufuchi
  */
@@ -79,7 +79,7 @@ public class Counter extends SufuWindow
 	//TODO: Add default counter.csv
 	private void createLabels(JPanel content) throws NullPointerException, IOException
 	{
-		LinkedList<String> labelTexts = (LinkedList<String>) Persistance.loadFromCSV("data/counter.csv");
+		LinkedList<String> labelTexts = (LinkedList<String>) Persistance.loadTextFile("data/counter.csv");
 		Iterator<String> it = labelTexts.iterator();
 		String[] texts;
 		String[] actions = new String[labelTexts.size()];

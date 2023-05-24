@@ -13,7 +13,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 19.04.2023
+ * Last Edit: 24.05.2023
  * 
  * @author Riyufuchi
  */
@@ -82,7 +82,7 @@ public class FileIO extends SufuFileChooser
 				String[] split = null;
 				try
 				{
-					list = Persistance.loadFromCSV(path);
+					list = Persistance.loadTextFile(path);
 					Iterator<String> it = list.iterator();
 					while(it.hasNext())
 					{

@@ -19,9 +19,10 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
+ * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
+ * 
  * Created On: 16.05.2023<br>
- * Last Edit: 17.05.2023 <br>
- * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.
+ * Last Edit: 24.05.2023 <br>
  * 
  * @author Riyufuchi
  */
@@ -57,7 +58,7 @@ public class AddDialog extends SufuDialog
 		String[] categoryList = { "Custom" }; 
 		try
 		{
-			List<String> l = Persistance.loadTXT(path);
+			List<String> l = Persistance.loadTextFile(path);
 			categoryList = new String[l.size()];
 			int i = 0;
 			for (String s : l)

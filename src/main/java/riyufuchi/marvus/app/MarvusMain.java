@@ -14,7 +14,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 17.05.2023
+ * Last Edit: 24.05.2023
  *
  * @author Riyufuchi
  */
@@ -41,7 +41,7 @@ public class MarvusMain
 		LinkedList<String> data = null;
 		try
 		{
-			data = Persistance.loadFromCSV(MarvusConfig.SETTINGS_FILE_PATH);
+			data = Persistance.loadTextFile(MarvusConfig.SETTINGS_FILE_PATH);
 			MarvusConfig.appTheme = AppThemeUI.valueOf(data.getFirst()); // Throws exception when inputed incorrect data
 		}
 		catch (IllegalArgumentException | NullPointerException | IOException e)
