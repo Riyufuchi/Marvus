@@ -1,9 +1,7 @@
 package riyufuchi.marvus.app.windows;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.sufuLib.gui.DialogHelper;
@@ -12,7 +10,7 @@ import riyufuchi.sufuLib.utils.files.Persistance;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 24.05.2023
+ * Last Edit: 29.05.2023
  * 
  * @author Riyufuchi
  */
@@ -47,7 +45,7 @@ public class TransactionIO extends SufuFileChooser
 			case ".ser" -> {
 				try
 				{
-					Persistance.serialize(path, budgetDataTable.getDataBox().getList());
+					Persistance.<Transaction>serialize(path, budgetDataTable.getDataBox().getList());
 				}
 				catch (NullPointerException | IOException e)
 				{
@@ -97,22 +95,15 @@ public class TransactionIO extends SufuFileChooser
 	
 	private void loadCSV(String path)
 	{
-		List<String> list = null;
-		LinkedList<Transaction> l = new LinkedList<>();
-		String[] split = null;
+		LinkedList<Transaction> l = null;
 		try
 		{
-			list = Persistance.loadTextFile(path);
-			Iterator<String> it = list.iterator();
-			while(it.hasNext())
-			{
-				split = it.next().split(";", 4);
-				l.add(new Transaction(split[0], split[1], split[2], split[3]));
-			}
+			l = Persistance.<Transaction>loadFromCSV(path, new Transaction("Name", "0", "1.1.2018", "Note"), ";", 4);
 		}
 		catch (NullPointerException | IOException | IndexOutOfBoundsException e)
 		{
 			DialogHelper.exceptionDialog(budgetDataTable, e);
+			return;
 		}
 		budgetDataTable.getDataBox().setList(l);
 	}

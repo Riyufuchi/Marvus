@@ -5,18 +5,19 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
+import riyufuchi.sufuLib.interfaces.CSVable;
 
 /**
+ * MoneySum class represents sum of money<br><br>
+ * 
  * Created On: 11.04.2022<br>
- * Last Edit: 18.04.2023
- * <hr>
- * MoneySum class represents sum of money
- * <hr>
+ * Last Edit: 29.05.2023
+ * 
  * @author Riyufuchi
- * @version 1.4
+ * @version 1.5
  * @since 1.0
  */
-public class MoneySum implements Serializable
+public class MoneySum implements Serializable, CSVable
 { 
 	private static final long serialVersionUID = 4827792392760337092L;
 	private static int Static_ID = 0;
@@ -99,5 +100,17 @@ public class MoneySum implements Serializable
 	public String toString()
 	{
 		return moneySum.toPlainString() + ";" + dateString;
+	}
+	
+	@Override
+	public String toCSV()
+	{
+		return moneySum.toPlainString() + ";" + dateString;
+	}
+
+	@Override
+	public MoneySum fromCSV(String[] arg)
+	{
+		return new MoneySum(arg[0], arg[1]);
 	}
 }

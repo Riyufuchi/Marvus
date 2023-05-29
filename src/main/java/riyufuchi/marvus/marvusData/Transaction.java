@@ -1,11 +1,12 @@
 package riyufuchi.marvus.marvusData;
 
+
 /**
+ * Transaction class represents simple transaction<br><br>
+ * 
  * Created On: 13.04.2023<br>
- * Last Edit: 17.05.2023
- * <hr>
- * Transaction class represents simple transaction
- * <hr>
+ * Last Edit: 29.05.2023
+
  * @author Riyufuchi
  * @version 1.1
  * @since 1.22
@@ -66,5 +67,17 @@ public class Transaction extends MoneySum
 	public String toString()
 	{
 		return name + ";" + super.toString() + ";" + note;
+	}
+
+	@Override
+	public String toCSV()
+	{
+		return name + ";" + super.toString() + ";" + note;
+	}
+	
+	@Override
+	public Transaction fromCSV(String[] data)
+	{
+		return new Transaction(data[0], data[1], data[2], data[3]);
 	}
 }
