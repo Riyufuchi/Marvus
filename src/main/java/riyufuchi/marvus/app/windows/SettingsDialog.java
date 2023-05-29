@@ -14,13 +14,13 @@ import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.files.FileHelper;
-import riyufuchi.sufuLib.utils.files.Persistance;
+import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 24.05.2023
+ * Last Edit: 29.05.2023
  * 
  * @author Riyufuchi
  */
@@ -50,7 +50,7 @@ public class SettingsDialog extends SufuDialog
 	{
 		try
 		{
-			Persistance.saveToCSV(FileHelper.checkFile(MarvusConfig.SETTINGS_FILE_PATH).getPath(),
+			SufuPersistence.saveToCSV(FileHelper.checkFile(MarvusConfig.SETTINGS_FILE_PATH).getPath(),
 					themes.getItemAt(themes.getSelectedIndex()).toString(),
 					String.valueOf(dateFormat.getSelectedIndex()));
 		}

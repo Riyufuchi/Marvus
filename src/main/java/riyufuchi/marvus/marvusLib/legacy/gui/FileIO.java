@@ -9,11 +9,11 @@ import riyufuchi.marvus.marvusData.MoneySum;
 import riyufuchi.marvus.marvusLib.files.XML;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
-import riyufuchi.sufuLib.utils.files.Persistance;
+import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 24.05.2023
+ * Last Edit: 29.05.2023
  * 
  * @author Riyufuchi
  */
@@ -41,7 +41,7 @@ public class FileIO extends SufuFileChooser
 			case ".csv" -> {
 				try
 				{
-					Persistance.<MoneySum>saveToCSV(path, dtf.getDataBox().getList());
+					SufuPersistence.<MoneySum>saveToCSV(path, dtf.getDataBox().getList());
 				}
 				catch (NullPointerException | IOException e)
 				{
@@ -55,7 +55,7 @@ public class FileIO extends SufuFileChooser
 			case ".ser" -> {
 				try
 				{
-					Persistance.serialize(path, dtf.getDataBox().getList());
+					SufuPersistence.serialize(path, dtf.getDataBox().getList());
 				}
 				catch (NullPointerException | IOException e)
 				{
@@ -82,7 +82,7 @@ public class FileIO extends SufuFileChooser
 				String[] split = null;
 				try
 				{
-					list = Persistance.loadTextFile(path);
+					list = SufuPersistence.loadTextFile(path);
 					Iterator<String> it = list.iterator();
 					while(it.hasNext())
 					{
@@ -104,7 +104,7 @@ public class FileIO extends SufuFileChooser
 			case ".ser" -> {
 				try
 				{
-					dtf.getDataBox().setList((LinkedList<MoneySum>)Persistance.<MoneySum>deserialize(path));
+					dtf.getDataBox().setList((LinkedList<MoneySum>)SufuPersistence.<MoneySum>deserialize(path));
 				}
 				catch (NullPointerException | ClassNotFoundException | IOException e)
 				{

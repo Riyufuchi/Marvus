@@ -10,7 +10,7 @@ import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
-import riyufuchi.sufuLib.utils.files.Persistance;
+import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 20.04.2022<br>
@@ -41,7 +41,7 @@ public class MarvusMain
 		LinkedList<String> data = null;
 		try
 		{
-			data = Persistance.loadTextFile(MarvusConfig.SETTINGS_FILE_PATH);
+			data = SufuPersistence.loadTextFile(MarvusConfig.SETTINGS_FILE_PATH);
 			MarvusConfig.appTheme = AppThemeUI.valueOf(data.getFirst()); // Throws exception when inputed incorrect data
 		}
 		catch (IllegalArgumentException | NullPointerException | IOException e)

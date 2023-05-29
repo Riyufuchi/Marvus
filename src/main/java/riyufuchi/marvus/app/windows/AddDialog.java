@@ -15,14 +15,14 @@ import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.files.FileHelper;
-import riyufuchi.sufuLib.utils.files.Persistance;
+import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 24.05.2023 <br>
+ * Last Edit: 29.05.2023
  * 
  * @author Riyufuchi
  */
@@ -42,7 +42,7 @@ public class AddDialog extends SufuDialog
 		try
 		{
 			FileHelper.checkFile(path);
-			Persistance.saveToCSV(path, new String[]{"Custom"});
+			SufuPersistence.saveToCSV(path, new String[]{"Custom"});
 			DialogHelper.informationDialog(parentFrame, "Generated default " + path, "Category list fixer info");
 		}
 		catch (NullPointerException | IOException e)
@@ -58,7 +58,7 @@ public class AddDialog extends SufuDialog
 		String[] categoryList = { "Custom" }; 
 		try
 		{
-			List<String> l = Persistance.loadTextFile(path);
+			List<String> l = SufuPersistence.loadTextFile(path);
 			categoryList = new String[l.size()];
 			int i = 0;
 			for (String s : l)

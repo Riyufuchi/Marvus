@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
-import riyufuchi.sufuLib.utils.files.Persistance;
+import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
@@ -34,7 +34,7 @@ public class TransactionIO extends SufuFileChooser
 			case ".csv" -> {
 				try
 				{
-					Persistance.<Transaction>saveToCSV(path, budgetDataTable.getDataBox().getList());
+					SufuPersistence.<Transaction>saveToCSV(path, budgetDataTable.getDataBox().getList());
 				}
 				catch (NullPointerException | IOException e)
 				{
@@ -45,7 +45,7 @@ public class TransactionIO extends SufuFileChooser
 			case ".ser" -> {
 				try
 				{
-					Persistance.<Transaction>serialize(path, budgetDataTable.getDataBox().getList());
+					SufuPersistence.<Transaction>serialize(path, budgetDataTable.getDataBox().getList());
 				}
 				catch (NullPointerException | IOException e)
 				{
@@ -74,7 +74,7 @@ public class TransactionIO extends SufuFileChooser
 			case ".ser" -> {
 				try
 				{
-					budgetDataTable.getDataBox().setList((LinkedList<Transaction>)Persistance.<Transaction>deserialize(path));
+					budgetDataTable.getDataBox().setList((LinkedList<Transaction>)SufuPersistence.<Transaction>deserialize(path));
 				}
 				catch (NullPointerException | ClassNotFoundException | IOException e)
 				{
@@ -98,7 +98,7 @@ public class TransactionIO extends SufuFileChooser
 		LinkedList<Transaction> l = null;
 		try
 		{
-			l = Persistance.<Transaction>loadFromCSV(path, new Transaction("Name", "0", "1.1.2018", "Note"), ";", 4);
+			l = SufuPersistence.<Transaction>loadFromCSV(path, new Transaction("Name", "0", "1.1.2018", "Note"), ";", 4);
 		}
 		catch (NullPointerException | IOException | IndexOutOfBoundsException e)
 		{
