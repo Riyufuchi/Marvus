@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import riyufuchi.marvus.marvusData.Transaction;
+import riyufuchi.marvus.marvusData.TransactionXML;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 29.05.2023
+ * Last Edit: 22.06.2023
  * 
  * @author Riyufuchi
  */
@@ -42,6 +43,10 @@ public class TransactionIO extends SufuFileChooser
 					return;
 				}
 			}
+			case ".xml" -> {
+				TransactionXML xml = new TransactionXML(path);
+				xml.exportXML(budgetDataTable.getDataBox().getList());
+			}
 			case ".ser" -> {
 				try
 				{
@@ -70,6 +75,11 @@ public class TransactionIO extends SufuFileChooser
 		{
 			case ".csv" -> {
 				loadCSV(path);
+			}
+			case ".xml" -> {
+				TransactionXML xml = new TransactionXML(path);
+				xml.parseTransaction();
+				budgetDataTable.getDataBox().setList(xml.getList());
 			}
 			case ".ser" -> {
 				try

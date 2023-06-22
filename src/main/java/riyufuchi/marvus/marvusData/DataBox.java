@@ -11,11 +11,11 @@ import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 /**
+ *  Class for managing LinkedList and data interactions<br><br>
+ *  
  * Created On: 10.09.2022<br>
  * Last Edit: 01.05.2023
- * <hr>
- * Class for managing LinkedList and data interactions
- * <hr>
+ * 
  * @author Riyufuchi
  * @version 1.7
  * @since 1.0

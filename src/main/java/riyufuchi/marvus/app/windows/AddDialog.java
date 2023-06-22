@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
@@ -22,7 +23,7 @@ import riyufuchi.sufuLib.utils.gui.FactoryComponent;
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 29.05.2023
+ * Last Edit: 12.06.2023
  * 
  * @author Riyufuchi
  */
@@ -54,7 +55,7 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void createInputs(JPanel pane)
 	{
-		String path = "data/category.txt";
+		String path =  MarvusConfig.workFolder + "category.txt";
 		String[] categoryList = { "Custom" }; 
 		try
 		{

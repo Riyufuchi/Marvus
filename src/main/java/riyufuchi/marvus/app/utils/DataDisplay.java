@@ -18,11 +18,13 @@ import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
+ * Provides display utility functions for data<br><br>
+ * 
  * Created On: 18.04.2023<br>
- * Last Edit: 16.05.2023<br>
- * Provides display utility functions for data
+ * Last Edit: 12.06.2023
  * 
  * @author Riyufuchi
  */
@@ -41,36 +43,6 @@ public class DataDisplay
 		{
 			new RemoveDialog(budgetDataTable, t).showDialog();
 		}
-	}
-	
-	/**
-	 * Creates column of non editable JTextFileds
-	 * 
-	 * @param panel destination panel - for optimization if this method is used in cycle
-	 * @param bdt BudgetDataTable
-	 * @param x coordinate
-	 * @param data to be displayed using toString() method
-	 */
-	public static void createColumn(JPanel panel, BudgetDataTable bdt, int x, Object ... data)
-	{
-		int y = 0;
-		for (Object o : data)
-			panel.add(FactoryComponent.newTextFieldCell(o.toString()), bdt.getGBC(x, y++));
-	}
-	
-	/**
-	 * Creates row of non editable JTextFileds
-	 * 
-	 * @param panel destination panel - for optimization if this method is used in cycle
-	 * @param bdt BudgetDataTable
-	 * @param y coordinate
-	 * @param data to be displayed using toString() method
-	 */
-	public static void createRow(JPanel panel, BudgetDataTable bdt, int y, Object ... data)
-	{
-		int x = 0;
-		for (Object o : data)
-			panel.add(FactoryComponent.newTextFieldCell(o.toString()), bdt.getGBC(x++, y));
 	}
 	
 	// CONSUMERS
@@ -112,16 +84,13 @@ public class DataDisplay
 	{
 		return data -> {
 			JPanel panel = bdt.getPane();
-			int y = 0;
-			int prevMonth = data.getList().getFirst().getDate().getMonthValue();
+			int[] columnHeight = new int[12];
+			for (int i = 0; i < 12; i++)
+				columnHeight[i] = 0;
+			SufuWindowTools.createTableRow(bdt, 1, 0, (Object[])Month.values());
 			for (Transaction t : data)
 			{
-				if (prevMonth < t.getDate().getMonthValue())
-				{
-					prevMonth = t.getDate().getMonthValue();
-					y = 0;
-				}
-				panel.add(FactoryComponent.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, bdt, evt)), bdt.getGBC(prevMonth, ++y));
+				panel.add(FactoryComponent.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, bdt, evt)), bdt.getGBC(t.getDate().getMonthValue(), ++columnHeight[t.getDate().getMonthValue()]));
 			}
 		};
 	}
@@ -151,8 +120,8 @@ public class DataDisplay
 				}
 			}
 			JPanel panel = bdt.getPane();
-			createRow(panel, bdt, 0, "Month", Month.values()[month - 1]);
-			createRow(panel, bdt, 1, "Category", "Sum");
+			SufuWindowTools.createTableRow(bdt, 0, "Month", Month.values()[month - 1]);
+			SufuWindowTools.createTableRow(bdt, 1, "Category", "Sum");
 			month = 2; // Substitute for Y coordinate
 			for(MoneyCategory category : list)
 			{
@@ -188,7 +157,7 @@ public class DataDisplay
 				}
 			}
 			JPanel panel = bdt.getPane();
-			createColumn(panel, bdt, 0 , String.valueOf(year), "Income", "Outcome", "Total");
+			SufuWindowTools.createTableColumn(bdt, 0 , String.valueOf(year), "Income", "Outcome", "Total");
 			Month[] months = Month.values();
 			int xPos = 0;
 			for (int x = 1; x < 13; x++)
@@ -206,7 +175,7 @@ public class DataDisplay
 				yearIncome = yearIncome.add(income[i]);
 				yearOutcome = yearOutcome.add(outcome[i]);
 			}
-			createColumn(panel, bdt, 13 , "Year total", yearIncome, yearOutcome, yearIncome.add(yearOutcome));
+			SufuWindowTools.createTableColumn(bdt, 13 , "Year total", yearIncome, yearOutcome, yearIncome.add(yearOutcome));
 		};
 	}
 }

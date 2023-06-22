@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.files;
+package riyufuchi.marvus.marvusLib.legacy.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -217,7 +217,7 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 	{
 		switch (qName) 
 		{
-			case MarvusConfig.SUM: writeSum = true; break;
+			case "sum": writeSum = true; break;
 			case MarvusConfig.DATE: writeDate = true; break;
 		}
 	}
@@ -227,13 +227,13 @@ public class XML extends org.xml.sax.helpers.DefaultHandler
 	{
 		switch (qName) 
 		{
-			case MarvusConfig.SUM:
+			case "sum":
 				writeSum = false;
 				break;
 			case MarvusConfig.DATE:
 				writeDate = false;
 				break;
-			case MarvusConfig.SUB_ELEMENT:
+			case "Money":
 				list.add(new MoneySum(sum, date));
 				break;
 		}

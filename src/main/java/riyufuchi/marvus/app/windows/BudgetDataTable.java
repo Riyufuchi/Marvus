@@ -15,13 +15,13 @@ import riyufuchi.marvus.marvusData.TransactionComparation;
 import riyufuchi.marvus.marvusData.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
-import riyufuchi.sufuLib.gui.ErrorWindow;
+import riyufuchi.sufuLib.gui.SufuMessageDialog;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 16.05.2023
+ * Last Edit: 22.06.2023
  * 
  * @author Riyufuchi
  */
@@ -84,7 +84,7 @@ public class BudgetDataTable extends SufuWindow
 	private TransactionIO createTransactionIO()
 	{
 		TransactionIO fio = new TransactionIO(this, MarvusConfig.workFolder);
-		fio.setFileFilters(MarvusConfig.SER, MarvusConfig.CSV);
+		fio.setFileFilters(MarvusConfig.XML, MarvusConfig.SER, MarvusConfig.CSV);
 		return fio;
 	}
 	
@@ -108,7 +108,7 @@ public class BudgetDataTable extends SufuWindow
 
 	private void about()
 	{
-		new ErrorWindow("About", "This is budget manager.\nVersion: " + AppTexts.VERSION + "\nCreated by Riyufuchi.\nMy code is under respective licention.");
+		new SufuMessageDialog(this, "About", "This is budget manager.\nVersion: " + AppTexts.VERSION + "\nCreated by Riyufuchi.\nMy code is under respective licention.").showDialog();;
 	}
 	
 	private void displayData()

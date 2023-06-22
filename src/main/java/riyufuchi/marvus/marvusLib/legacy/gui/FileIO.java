@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import riyufuchi.marvus.marvusData.MoneySum;
-import riyufuchi.marvus.marvusLib.files.XML;
+import riyufuchi.marvus.marvusLib.legacy.utils.XML;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
