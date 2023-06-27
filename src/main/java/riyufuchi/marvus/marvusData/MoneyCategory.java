@@ -22,7 +22,7 @@ public class MoneyCategory extends MoneyCalculations
 	{
 		super();
 		this.name = transaction.getName();
-		add(transaction.getMoneySum().toString());
+		add(transaction.getValue().toString());
 	}
 	
 	public MoneyCategory(String name, String val)

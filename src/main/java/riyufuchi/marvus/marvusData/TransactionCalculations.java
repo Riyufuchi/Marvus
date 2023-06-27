@@ -34,10 +34,10 @@ public class TransactionCalculations
 			{
 				if (t.getDate().getMonthValue() == monthOrderNum)
 				{
-					switch (t.getMoneySum().compareTo(zero))
+					switch (t.getValue().compareTo(zero))
 					{
-						case 1 -> income = income.add(t.getMoneySum());
-						case -1 -> spendings = spendings.add(t.getMoneySum());
+						case 1 -> income = income.add(t.getValue());
+						case -1 -> spendings = spendings.add(t.getValue());
 						case 0 -> DialogHelper.warningDialog(null, "Zero value detected for: " + t.toString() + "\nSome data can be missing", "Zero money sum");
 					}
 				}

@@ -108,7 +108,7 @@ public class TransactionIO extends SufuFileChooser
 		LinkedList<Transaction> l = null;
 		try
 		{
-			l = SufuPersistence.<Transaction>loadFromCSV(path, new Transaction("Name", "0", "1.1.2018", "Note"), ";", 4);
+			l = SufuPersistence.<Transaction>loadFromCSV(path, new Transaction("Name", "0", "1.1.2018", "Note"), ";", 5);
 		}
 		catch (NullPointerException | IOException | IndexOutOfBoundsException e)
 		{

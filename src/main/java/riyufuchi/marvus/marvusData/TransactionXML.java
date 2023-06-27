@@ -131,11 +131,11 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 				xsw.writeEndElement();
 				// sum
 				xsw.writeStartElement(MarvusConfig.VALUE);
-				xsw.writeCharacters(t.getMoneySum().toString());
+				xsw.writeCharacters(t.getValue().toString());
 				xsw.writeEndElement();
 				// date
 				xsw.writeStartElement(MarvusConfig.DATE);
-				xsw.writeCharacters(t.getStringDate());
+				xsw.writeCharacters(t.getDate().toString());
 				xsw.writeEndElement();
 				// note
 				xsw.writeStartElement(MarvusConfig.NOTE);

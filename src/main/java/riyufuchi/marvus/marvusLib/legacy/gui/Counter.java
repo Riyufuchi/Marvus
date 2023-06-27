@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import riyufuchi.marvus.marvusData.MoneySum;
 import riyufuchi.marvus.marvusLib.legacy.utils.ComponentParts;
+import riyufuchi.marvus.marvusLib.legacy.utils.MoneySum;
 import riyufuchi.marvus.marvusLib.utils.MoneyCalculations;
 import riyufuchi.sufuLib.config.SufuLibFonts;
 import riyufuchi.sufuLib.gui.DialogHelper;

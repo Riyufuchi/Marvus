@@ -110,7 +110,7 @@ public class DataDisplay
 					{
 						if (mc.getName().equals(holder.getName()))
 						{
-							mc.add(t.getMoneySum().toString());
+							mc.add(t.getValue().toString());
 							holder = null;
 							break;
 						}
@@ -148,10 +148,10 @@ public class DataDisplay
 			{
 				if (t.getDate().getYear() == year)
 				{
-					switch (t.getMoneySum().compareTo(zero))
+					switch (t.getValue().compareTo(zero))
 					{
-						case 1 -> income[t.getDate().getMonthValue() - 1] = income[t.getDate().getMonthValue() - 1].add(t.getMoneySum());
-						case -1 -> outcome[t.getDate().getMonthValue() - 1] = outcome[t.getDate().getMonthValue() - 1].add(t.getMoneySum());
+						case 1 -> income[t.getDate().getMonthValue() - 1] = income[t.getDate().getMonthValue() - 1].add(t.getValue());
+						case -1 -> outcome[t.getDate().getMonthValue() - 1] = outcome[t.getDate().getMonthValue() - 1].add(t.getValue());
 						case 0 -> DialogHelper.warningDialog(bdt, "Zero value detected for: " + t.toString() + "\nSome data can be missing", "Zero money sum");
 					}
 				}

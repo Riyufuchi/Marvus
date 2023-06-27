@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.marvus.marvusData.MoneySum;
 import riyufuchi.marvus.marvusLib.legacy.gui.DataTableForm;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.utils.files.FileHelper;

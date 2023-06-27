@@ -14,13 +14,13 @@ import java.util.stream.Stream;
  *  Class for managing LinkedList and data interactions<br><br>
  *  
  * Created On: 10.09.2022<br>
- * Last Edit: 01.05.2023
+ * Last Edit: 23.06.2023
  * 
  * @author Riyufuchi
- * @version 1.7
+ * @version 1.8
  * @since 1.0
  */
-public class DataBox<E extends MoneySum> implements Iterable<E>
+public class DataBox<E> implements Iterable<E>
 {
 	private LinkedList<E> data;
 	private Comparator<E> comparator;
@@ -40,7 +40,7 @@ public class DataBox<E extends MoneySum> implements Iterable<E>
 			this.errorLoger = errorLoger;
 		
 		if (comparator == null)
-			this.comparator = (o1, o2) -> { return o1.getMoneySum().compareTo(o2.getMoneySum()); };
+			this.comparator = (o1, o2) -> { return Integer.compare(o1.hashCode(), o2.hashCode()); };
 		else
 			this.comparator = comparator;
 	}

@@ -24,8 +24,8 @@ public class TransactionTest
 	@Test
 	public void testToStringSplit02()
 	{
-		String[] split = t2.toString().split(";", 4);
-		assertEquals(split[3], "Note");
+		String[] split = t2.toString().split(";", 5);
+		assertEquals(split[4], "Note");
 	}
 	
 	@Test

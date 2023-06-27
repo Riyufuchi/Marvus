@@ -28,7 +28,7 @@ public class EditDialog extends AddDialog
 	{
 		category.setSelectedItem(transaction.getName());
 		name.setText(transaction.getName());
-		money.setText(transaction.getMoneySum().toString());
+		money.setText(transaction.getValue().toString());
 		date.setText(transaction.getStringDate());
 		note.setText(transaction.getNote());
 	}
@@ -43,7 +43,7 @@ public class EditDialog extends AddDialog
 	protected void onOK()
 	{
 		transaction.setName(name.getText());
-		transaction.setMoneySum(money.getText());
+		transaction.setValue(money.getText());
 		transaction.setDate(date.getText());
 		transaction.setNote(note.getText());
 		((BudgetDataTable)parentFrame).refresh();
