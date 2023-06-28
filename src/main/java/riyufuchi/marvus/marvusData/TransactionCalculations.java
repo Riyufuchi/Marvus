@@ -2,13 +2,14 @@ package riyufuchi.marvus.marvusData;
 
 import java.math.BigDecimal;
 import java.time.Month;
+import java.util.LinkedList;
 import java.util.function.Consumer;
 
 import riyufuchi.sufuLib.gui.DialogHelper;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 27.04.2023
+ * Last Edit: 28.06.2023
  * 
  * @author Riyufuchi
  */
@@ -46,4 +47,28 @@ public class TransactionCalculations
 		};
 	}
 
+	public static LinkedList<MoneyCategory> categorizeMonth(DataBox<Transaction> data, int month)
+	{
+		LinkedList<MoneyCategory> list = new LinkedList<>();
+		MoneyCategory holder = null;
+		for (Transaction t : data)
+		{
+			if (t.getDate().getMonthValue() == month)
+			{
+				holder = new MoneyCategory(t);
+				for (MoneyCategory mc : list)
+				{
+					if (mc.getName().equals(holder.getName()))
+					{
+						mc.add(t.getValue());
+						holder = null;
+						break;
+					}
+				}
+				if(holder != null)
+					list.add(holder);
+			}
+		}
+		return list;
+	}
 }

@@ -11,6 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.marvusData.Money;
 import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
@@ -23,13 +24,13 @@ import riyufuchi.sufuLib.utils.gui.FactoryComponent;
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 12.06.2023
+ * Last Edit: 28.06.2023
  * 
  * @author Riyufuchi
  */
 public class AddDialog extends SufuDialog
 {
-	protected JTextField name, money, date;
+	protected JTextField name, money, date, currency;
 	protected JComboBox<String> category;
 	protected JTextArea note;
 	
@@ -74,6 +75,7 @@ public class AddDialog extends SufuDialog
 		name = FactoryComponent.newTextField("");
 		money = FactoryComponent.newTextField("");
 		date = FactoryComponent.newTextField(DateUtils.nowDateString());
+		currency = FactoryComponent.newTextField(Money.getDefaultCurrency());
 		category.addActionListener(evt -> {
 			if (category.getItemAt(category.getSelectedIndex()).equals("Custom"))
 			{
@@ -90,14 +92,16 @@ public class AddDialog extends SufuDialog
 		// Set labels
 		pane.add(new JLabel("Category:"), getGBC(0, 0));
 		pane.add(new JLabel("Amount:"), getGBC(0, 2));
-		pane.add(new JLabel("Date:"), getGBC(0, 3));
-		pane.add(new JLabel("Note:"), getGBC(0, 4));
+		pane.add(new JLabel("Currency:"), getGBC(0, 3));
+		pane.add(new JLabel("Date:"), getGBC(0, 4));
+		pane.add(new JLabel("Note:"), getGBC(0, 5));
 		// Set components
 		pane.add(category, getGBC(1, 0));
 		pane.add(name, getGBC(1, 1));
 		pane.add(money, getGBC(1, 2));
-		pane.add(date, getGBC(1, 3));
-		pane.add(note, getGBC(1, 4));
+		pane.add(currency, getGBC(1, 3));
+		pane.add(date, getGBC(1, 4));
+		pane.add(note, getGBC(1, 5));
 	}
 	@Override
 	protected void onOK()

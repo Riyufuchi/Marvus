@@ -6,13 +6,13 @@ import java.math.BigDecimal;
 import riyufuchi.sufuLib.interfaces.CSVable;
 
 /**
- * MoneySum class represents sum of money<br><br>
+ * Money class represents money<br><br>
  * 
  * Created On: 11.04.2022<br>
- * Last Edit: 22.06.2023
+ * Last Edit: 27.06.2023
  * 
  * @author Riyufuchi
- * @version 1.6
+ * @version 1.7
  * @since 1.0
  */
 public class Money implements Serializable, CSVable
@@ -48,6 +48,12 @@ public class Money implements Serializable, CSVable
 	
 	// SETTERS
 	
+	public static void setDefaultCurrency(String defCurr)
+	{
+		if (defCurr != null && !defCurr.isBlank())
+			defaultCurrency = defCurr;
+	}
+	
 	public void setValue(String value)
 	{
 		try
@@ -60,12 +66,22 @@ public class Money implements Serializable, CSVable
 		}
 	}
 	
-	public void setMoneySum(BigDecimal sum)
+	public void setMoneySum(BigDecimal value)
 	{
-		this.value = sum;
+		this.value = value;
+	}
+	
+	public void setCurrency(String currency)
+	{
+		this.currency = currency;
 	}
 
 	// GETTERS
+	
+	public static String getDefaultCurrency()
+	{
+		return defaultCurrency;
+	}
 	
 	/**
 	 * Technically equal to "money.toString().split(";");"
@@ -83,6 +99,11 @@ public class Money implements Serializable, CSVable
 	public BigDecimal getValue()
 	{
 		return value;
+	}
+	
+	public String getCurrency()
+	{
+		return currency;
 	}
 
 	// OVERRIDE METHODS

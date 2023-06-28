@@ -15,6 +15,7 @@ import riyufuchi.marvus.app.windows.RemoveDialog;
 import riyufuchi.marvus.marvusData.DataBox;
 import riyufuchi.marvus.marvusData.MoneyCategory;
 import riyufuchi.marvus.marvusData.Transaction;
+import riyufuchi.marvus.marvusData.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
@@ -24,7 +25,7 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * Provides display utility functions for data<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 12.06.2023
+ * Last Edit: 28.06.2023
  * 
  * @author Riyufuchi
  */
@@ -99,26 +100,7 @@ public class DataDisplay
 	{
 		return data -> {
 			int month = DateUtils.showMonthChooser(bdt).getValue();
-			LinkedList<MoneyCategory> list = new LinkedList<>();
-			MoneyCategory holder = null;
-			for (Transaction t : data)
-			{
-				if (t.getDate().getMonthValue() == month)
-				{
-					holder = new MoneyCategory(t);
-					for (MoneyCategory mc : list)
-					{
-						if (mc.getName().equals(holder.getName()))
-						{
-							mc.add(t.getValue().toString());
-							holder = null;
-							break;
-						}
-					}
-					if(holder != null)
-						list.add(holder);
-				}
-			}
+			LinkedList<MoneyCategory> list = TransactionCalculations.categorizeMonth(bdt.getDataBox(), month);
 			JPanel panel = bdt.getPane();
 			SufuWindowTools.createTableRow(bdt, 0, "Month", Month.values()[month - 1]);
 			SufuWindowTools.createTableRow(bdt, 1, "Category", "Sum");

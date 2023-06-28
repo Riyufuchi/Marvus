@@ -8,10 +8,10 @@ import riyufuchi.marvus.marvusLib.utils.DateUtils;
  * Transaction class represents simple transaction<br><br>
  * 
  * Created On: 13.04.2023<br>
- * Last Edit: 27.06.2023
+ * Last Edit: 28.06.2023
 
  * @author Riyufuchi
- * @version 1.2
+ * @version 1.3
  * @since 1.22
  */
 public class Transaction extends Money
@@ -100,7 +100,7 @@ public class Transaction extends Money
 	
 	public String getStringDate()
 	{
-		return date.toString();
+		return dateString;
 	}
 
 	@Override
@@ -118,6 +118,6 @@ public class Transaction extends Money
 	@Override
 	public Transaction fromCSV(String[] data)
 	{
-		return new Transaction(data[0], data[1], data[3], data[4]);
+		return new Transaction(data[0], data[1], data[2], data[3], data[4]);
 	}
 }
