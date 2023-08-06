@@ -8,10 +8,10 @@ import riyufuchi.marvus.marvusLib.utils.DateUtils;
  * Transaction class represents simple transaction<br><br>
  * 
  * Created On: 13.04.2023<br>
- * Last Edit: 28.06.2023
+ * Last Edit: 06.08.2023
 
  * @author Riyufuchi
- * @version 1.3
+ * @version 1.4
  * @since 1.22
  */
 public class Transaction extends Money
@@ -24,6 +24,23 @@ public class Transaction extends Money
 	// Date
 	private String dateString;
 	private LocalDateTime date;
+	
+	/**
+	 * Create a dummy transaction<br>
+	 * ID: -1<br>
+	 * Name: DummyTransaction<br>
+	 * Value: 0<br>
+	 * Currency: DummyUnits<br>
+	 * Note: Note<br>
+	 */
+	public Transaction()
+	{
+		super("0", "DummyUnits");
+		this.ID = -1;
+		this.name = "DummyTransaction";
+		this.note = "Note";
+		setDate("1.1.2018");
+	}
 	
 	public Transaction(String name, String sum, String date, String note)
 	{

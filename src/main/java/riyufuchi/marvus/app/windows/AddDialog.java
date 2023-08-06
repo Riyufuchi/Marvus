@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.gui.FactoryComponent;
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 28.06.2023
+ * Last Edit: 15.07.2023
  * 
  * @author Riyufuchi
  */
@@ -36,7 +36,7 @@ public class AddDialog extends SufuDialog
 	
 	public AddDialog(JFrame parentFrame)
 	{
-		super("New transaction", parentFrame, DialogType.OK);
+		super("New transaction", parentFrame, DialogType.OK, true, true);
 	}
 	
 	protected void generateCategoryList(String path)
