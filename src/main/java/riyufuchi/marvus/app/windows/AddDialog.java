@@ -16,7 +16,7 @@ import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
-import riyufuchi.sufuLib.utils.files.FileHelper;
+import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.gui.FactoryComponent;
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 15.07.2023
+ * Last Edit: 20.08.2023
  * 
  * @author Riyufuchi
  */
@@ -43,7 +43,7 @@ public class AddDialog extends SufuDialog
 	{
 		try
 		{
-			FileHelper.checkFile(path);
+			SufuFileHelper.checkFile(path);
 			SufuPersistence.saveToCSV(path, new String[]{"Custom"});
 			DialogHelper.informationDialog(parentFrame, "Generated default " + path, "Category list fixer info");
 		}

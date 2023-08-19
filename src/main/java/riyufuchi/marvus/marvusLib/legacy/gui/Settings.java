@@ -11,13 +11,13 @@ import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
-import riyufuchi.sufuLib.utils.files.FileHelper;
+import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 29.05.2023
+ * Last Edit: 20.08.2023
  * 
  * @author Riyufuchi
  */
@@ -64,7 +64,7 @@ public final class Settings extends SufuWindow
 	 */
 	private void applyPreferences() throws NullPointerException, IOException
 	{
-		File config = FileHelper.checkFile("data/config.csv");
+		File config = SufuFileHelper.checkFile("data/config.csv");
 		String[] data = { themes.getItemAt(themes.getSelectedIndex()).toString(), String.valueOf(dateFormat.getSelectedIndex())};
 		SufuPersistence.saveToCSV(config.getPath(), data);
 	}

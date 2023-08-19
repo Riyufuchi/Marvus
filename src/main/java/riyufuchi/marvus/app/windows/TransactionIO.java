@@ -7,11 +7,12 @@ import riyufuchi.marvus.marvusData.Transaction;
 import riyufuchi.marvus.marvusData.TransactionXML;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
+import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 15.07.2023
+ * Last Edit: 20.08.2023
  * 
  * @author Riyufuchi
  */
@@ -30,6 +31,8 @@ public class TransactionIO extends SufuFileChooser
 	{
 		path = addExtension(path);
 		String extension = path.substring(path.lastIndexOf('.'));
+		if (!SufuFileHelper.overwriteProtection(path))
+			return;
 		switch(extension)
 		{
 			case ".csv" -> {

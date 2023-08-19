@@ -6,17 +6,17 @@ import java.time.LocalDate;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusLib.legacy.gui.DataTableForm;
 import riyufuchi.sufuLib.gui.DialogHelper;
-import riyufuchi.sufuLib.utils.files.FileHelper;
+import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * This class provides functions for some small features<br><br>
  *
  * Created On: 20.04.2022<br>
- * Last Edit: 29.05.2023
+ * Last Edit: 20.08.2023
  *
  * @author Riyufuchi
- * @version 1.8
+ * @version 1.9
  * @since 1.0 
  */
 public class MarvusLegacyHelper 
@@ -31,7 +31,7 @@ public class MarvusLegacyHelper
 		if(DialogHelper.yesNoDialog(dtf, "Are you sure?", "Data backup") == 1)
 			return;
 		String path = MarvusConfig.workFolder + "backups/" + LocalDate.now() + "/";
-		if(FileHelper.checkDirectory(path))
+		if(SufuFileHelper.checkDirectory(path))
 		{
 			if(DialogHelper.yesNoDialog(dtf, "Are you really sure?\nThis action will overwrite existing backups.", "Backup creation") == 1)
 				return;

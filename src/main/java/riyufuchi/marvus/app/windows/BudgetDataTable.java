@@ -21,7 +21,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 22.06.2023
+ * Last Edit: 20.08.2023
  * 
  * @author Riyufuchi
  */
@@ -108,7 +108,7 @@ public class BudgetDataTable extends SufuWindow
 
 	private void about()
 	{
-		new SufuMessageDialog(this, "About", "This is budget manager.\nVersion: " + AppTexts.VERSION + "\nCreated by Riyufuchi.\nMy code is under respective licention.").showDialog();;
+		new SufuMessageDialog(this, "About", "This is budget manager.\nVersion: " + AppTexts.VERSION + "\nCreated by Riyufuchi.\nMy code is under respective license.").showDialog();;
 	}
 	
 	private void displayData()
