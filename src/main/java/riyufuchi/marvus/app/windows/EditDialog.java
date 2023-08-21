@@ -3,7 +3,7 @@ package riyufuchi.marvus.app.windows;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.marvusData.Transaction;
+import riyufuchi.marvus.marvusLib.data.Transaction;
 
 /**
  * Created On: 11.05.2023<br>

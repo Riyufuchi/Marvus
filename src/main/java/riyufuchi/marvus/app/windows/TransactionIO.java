@@ -3,8 +3,8 @@ package riyufuchi.marvus.app.windows;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import riyufuchi.marvus.marvusData.Transaction;
-import riyufuchi.marvus.marvusData.TransactionXML;
+import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataUtils.TransactionXML;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;

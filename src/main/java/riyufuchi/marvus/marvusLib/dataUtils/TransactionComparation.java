@@ -1,6 +1,8 @@
-package riyufuchi.marvus.marvusData;
+package riyufuchi.marvus.marvusLib.dataUtils;
 
 import java.util.Comparator;
+
+import riyufuchi.marvus.marvusLib.data.Transaction;
 
 /**
  * Created On: 18.04.2023<br>

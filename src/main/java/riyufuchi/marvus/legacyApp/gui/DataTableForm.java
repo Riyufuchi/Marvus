@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.legacy.gui;
+package riyufuchi.marvus.legacyApp.gui;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -11,9 +11,9 @@ import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.marvus.marvusData.DataBox;
-import riyufuchi.marvus.marvusLib.legacy.utils.MarvusLegacyHelper;
-import riyufuchi.marvus.marvusLib.legacy.utils.MoneySum;
+import riyufuchi.marvus.legacyApp.utils.MarvusLegacyHelper;
+import riyufuchi.marvus.legacyApp.utils.MoneySum;
+import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;
@@ -21,10 +21,11 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 16.05.2023
+ * Last Edit: 21.08.2023
  * 
  * @author Riyufuchi
  */
+@SuppressWarnings("deprecation")
 public final class DataTableForm extends SufuWindow
 {
 	private DataBox<MoneySum> dataBox;

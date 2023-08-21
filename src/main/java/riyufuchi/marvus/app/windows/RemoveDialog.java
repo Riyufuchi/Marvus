@@ -2,7 +2,7 @@ package riyufuchi.marvus.app.windows;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.marvusData.Transaction;
+import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.DialogHelper;
 
 /**

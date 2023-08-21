@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.legacy.utils;
+package riyufuchi.marvus.legacyApp.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,13 +33,14 @@ import riyufuchi.sufuLib.gui.ErrorWindow;
 
 /**
  * Created On: 30.05.2021<br>
- * Last Edit: 17.04.2023
+ * Last Edit: 21.08.2023
  * <hr>
  * @author Riyufuchi
- * @version 1.4
+ * @version 1.4.1
  * @since 1.3 
  */
 
+@SuppressWarnings("deprecation")
 public class XML extends org.xml.sax.helpers.DefaultHandler
 {
 	private XMLOutputFactory xof;

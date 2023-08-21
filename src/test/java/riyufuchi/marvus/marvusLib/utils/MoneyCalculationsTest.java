@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
+import riyufuchi.marvus.marvusLib.dataUtils.MoneyCalculations;
+
 public class MoneyCalculationsTest
 {
 	private MoneyCalculations cal;

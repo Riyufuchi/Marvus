@@ -11,8 +11,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.marvus.marvusData.Money;
-import riyufuchi.marvus.marvusData.Transaction;
+import riyufuchi.marvus.marvusLib.data.Money;
+import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;

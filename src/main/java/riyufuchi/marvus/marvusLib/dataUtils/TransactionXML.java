@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusData;
+package riyufuchi.marvus.marvusLib.dataUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +29,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.DialogHelper;
 
 /**

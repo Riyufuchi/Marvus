@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.windows.BudgetDataTable;
-import riyufuchi.marvus.marvusLib.legacy.gui.DataTableForm;
+import riyufuchi.marvus.legacyApp.gui.DataTableForm;
 import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.DialogHelper;

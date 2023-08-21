@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import riyufuchi.marvus.marvusLib.data.Transaction;
+
 public class TransactionTest
 {
 	private Transaction t1, t2, t2equal;
