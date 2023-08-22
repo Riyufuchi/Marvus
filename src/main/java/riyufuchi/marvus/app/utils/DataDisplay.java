@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 import riyufuchi.marvus.app.windows.BudgetDataTable;
 import riyufuchi.marvus.app.windows.EditDialog;
 import riyufuchi.marvus.app.windows.RemoveDialog;
-import riyufuchi.marvus.marvusLib.data.MoneyCategory;
+import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
@@ -34,7 +34,7 @@ public class DataDisplay
 	private DataDisplay()
 	{}
 	
-	private static void showExtednedInfo(Transaction t, BudgetDataTable budgetDataTable, MouseEvent mEvt)
+	public static void showExtednedInfo(Transaction t, BudgetDataTable budgetDataTable, MouseEvent mEvt)
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))
 		{
@@ -100,12 +100,30 @@ public class DataDisplay
 	{
 		return data -> {
 			int month = DateUtils.showMonthChooser(bdt).getValue();
-			LinkedList<MoneyCategory> list = TransactionCalculations.categorizeMonth(bdt.getDataBox(), month);
+			LinkedList<FinancialCategory> list = TransactionCalculations.categorizeMonth(bdt.getDataBox(), month);
 			JPanel panel = bdt.getPane();
 			SufuWindowTools.createTableRow(bdt, 0, "Month", Month.values()[month - 1]);
 			SufuWindowTools.createTableRow(bdt, 1, "Category", "Sum");
 			month = 2; // Substitute for Y coordinate
-			for(MoneyCategory category : list)
+			for(FinancialCategory category : list)
+			{
+				panel.add(FactoryComponent.newTextFieldCell(category.getName()), bdt.getGBC(0, month));
+				panel.add(FactoryComponent.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, month));
+				month++;
+			}
+		};
+	}
+	
+	public static Consumer<DataBox<Transaction>> categoryMonthList(BudgetDataTable bdt)
+	{
+		return data -> {
+			int month = DateUtils.showMonthChooser(bdt).getValue();
+			LinkedList<FinancialCategory> list = TransactionCalculations.categorizeMonth(bdt.getDataBox(), month);
+			JPanel panel = bdt.getPane();
+			SufuWindowTools.createTableRow(bdt, 0, "Month", Month.values()[month - 1]);
+			SufuWindowTools.createTableRow(bdt, 1, "Category", "Sum");
+			month = 2; // Substitute for Y coordinate
+			for(FinancialCategory category : list)
 			{
 				panel.add(FactoryComponent.newTextFieldCell(category.getName()), bdt.getGBC(0, month));
 				panel.add(FactoryComponent.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, month));

@@ -5,14 +5,14 @@ import java.time.Month;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-import riyufuchi.marvus.marvusLib.data.MoneyCategory;
+import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.sufuLib.gui.DialogHelper;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 28.06.2023
+ * Last Edit: 21.08.2023
  * 
  * @author Riyufuchi
  */
@@ -50,20 +50,20 @@ public class TransactionCalculations
 		};
 	}
 
-	public static LinkedList<MoneyCategory> categorizeMonth(DataBox<Transaction> data, int month)
+	public static LinkedList<FinancialCategory> categorizeMonth(DataBox<Transaction> data, int month)
 	{
-		LinkedList<MoneyCategory> list = new LinkedList<>();
-		MoneyCategory holder = null;
+		LinkedList<FinancialCategory> list = new LinkedList<>();
+		FinancialCategory holder = null;
 		for (Transaction t : data)
 		{
 			if (t.getDate().getMonthValue() == month)
 			{
-				holder = new MoneyCategory(t);
-				for (MoneyCategory mc : list)
+				holder = new FinancialCategory(t);
+				for (FinancialCategory mc : list)
 				{
 					if (mc.getName().equals(holder.getName()))
 					{
-						mc.add(t.getValue());
+						mc.add(t);
 						holder = null;
 						break;
 					}

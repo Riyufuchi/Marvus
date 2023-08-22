@@ -14,7 +14,7 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 24.05.2023
+ * Last Edit: 21.08.2023
  *
  * @author Riyufuchi
  */
@@ -28,8 +28,12 @@ public class MarvusMain
 		CustomizeUI.setUI(MarvusConfig.appTheme);
 		for(String arg : args)
 		{
-			if(arg.equals("--legacy"))
-				app = new DataTableForm(800, 600);
+			switch (arg)
+			{
+				case "--legacy" -> app = new DataTableForm(800, 600);
+			}
+			//if(arg.equals("--legacy"))
+				//app = new DataTableForm(800, 600);
 		}
 		if(app == null)
 			app = new BudgetDataTable();

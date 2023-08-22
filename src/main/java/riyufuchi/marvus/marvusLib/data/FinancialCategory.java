@@ -1,6 +1,6 @@
 package riyufuchi.marvus.marvusLib.data;
 
-import riyufuchi.marvus.marvusLib.dataUtils.MoneyCalculations;
+import riyufuchi.marvus.marvusLib.dataUtils.MoneyCalculationsGeneric;
 
 /**
  * Class representing transaction category and unites them into sum<br><br>
@@ -9,37 +9,34 @@ import riyufuchi.marvus.marvusLib.dataUtils.MoneyCalculations;
  * Last Edit: 21.08.2023
  * 
  * @author Riyufuchi
- * @deprecated
  */
-public class MoneyCategory extends MoneyCalculations
+public class FinancialCategory extends MoneyCalculationsGeneric<Transaction>
 {
 	private String name;
 	
-	public MoneyCategory(String name)
+	public FinancialCategory(String name)
 	{
 		super();
 		this.name = name;
 	}
 	
-	public MoneyCategory(String name, String val)
-	{
-		super();
-		this.name = name;
-		add(val);
-	}
-	
-	public MoneyCategory(Transaction transaction)
+	public FinancialCategory(Transaction transaction)
 	{
 		super();
 		if (transaction == null)
 			transaction = new Transaction();
 		this.name = transaction.getName();
-		add(transaction.getValue().toString());
+		add(transaction);
 	}
-	
 	
 	public String getName()
 	{
 		return name;
+	}
+
+	@Override
+	public String toString()
+	{
+		return name + " " + getSum();
 	}
 }

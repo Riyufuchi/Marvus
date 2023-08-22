@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.DataDisplay;
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.app.utils.MarvusUtils;
+import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
@@ -21,7 +23,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 20.08.2023
+ * Last Edit: 21.08.2023
  * 
  * @author Riyufuchi
  */
@@ -62,6 +64,7 @@ public class BudgetDataTable extends SufuWindow
 				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
 				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.monthList(this)));
 				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.yearOverview(this)));
+				case "Month category list" -> jmc.setItemAction(i,event -> showMonthDetailTable());
 				// Other
 				case "Preferences" -> jmc.setItemAction(i,event -> new SettingsDialog(this).showDialog());
 				//case "Backup" -> jmc.setItemAction(i,event -> backupData());
@@ -71,7 +74,32 @@ public class BudgetDataTable extends SufuWindow
 		super.setJMenuBar(jmc.getJMenuBar());
 	}
 	
+	// Utils
+	
+	private boolean isOperationUnexucatable()
+	{
+		if(dataBox.isEmpty())
+		{
+			DialogHelper.warningDialog(this, "No data to work with!", "No data found");
+			return true;
+		}
+		return false;
+	}
+	
 	// Delegations
+	
+	private void showMonthDetailTable()
+	{
+		if (isOperationUnexucatable())
+			return;
+		final int month = DateUtils.showMonthChooser(this).getValue();
+		FinancialCategory fc = new FinancialCategory(DialogHelper.<String>categoryDialog(this, "Category:", "Select category", MarvusUtils.loadCategoryList(), true));
+		dataBox.stream().forEach(t -> {
+			if (t.getName().equals(fc.getName()) && t.getDate().getMonthValue() == month)
+				fc.add(t);
+		});
+		/*MonthDetailTable mdt = */new MonthDetailTable(fc, this);
+	}
 	
 	private void sortData(Comparator<Transaction> comp)
 	{
@@ -84,17 +112,14 @@ public class BudgetDataTable extends SufuWindow
 	private TransactionIO createTransactionIO()
 	{
 		TransactionIO fio = new TransactionIO(this, MarvusConfig.workFolder);
-		fio.setFileFilters(MarvusConfig.XML, MarvusConfig.SER, MarvusConfig.CSV);
+		fio.setFileFilters(MarvusConfig.SER, MarvusConfig.CSV);
 		return fio;
 	}
 	
 	private void exportData()
 	{
-		if(dataBox.isEmpty())
-		{
-			DialogHelper.warningDialog(this, "No data to export", "No data found");
+		if (isOperationUnexucatable())
 			return;
-		}
 		TransactionIO fio = createTransactionIO();
 		fio.setAcceptAllFileFilterUsed(false);
 		fio.showSaveChooser();
@@ -129,11 +154,8 @@ public class BudgetDataTable extends SufuWindow
 	 */
 	public void refresh()
 	{
-		if(dataBox.isEmpty())
-		{
-			DialogHelper.warningDialog(this, "No data to display", "No data found");
+		if (isOperationUnexucatable())
 			return;
-		}
 		getPane().removeAll();
 		displayData();
 	}
@@ -151,11 +173,8 @@ public class BudgetDataTable extends SufuWindow
 	
 	private void setConsumerFunction(Consumer<DataBox<Transaction>> operation)
 	{
-		if(dataBox.isEmpty())
-		{
-			DialogHelper.warningDialog(this, "No data to work with", "No data found");
+		if (isOperationUnexucatable())
 			return;
-		}
 		operation.accept(dataBox);
 	}
 	
