@@ -1,10 +1,8 @@
-package riyufuchi.marvus.marvusData;
+package riyufuchi.marvus.marvusLib.data;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import riyufuchi.marvus.marvusLib.data.Transaction;
 
 public class TransactionTest
 {
