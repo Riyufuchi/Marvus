@@ -10,15 +10,15 @@ public class TransactionTest
 	
 	public TransactionTest()
 	{
-		t1 = new Transaction("T1", "300.125", "17.05.2023", "");
-		t2 = new Transaction("T1", "300.125", "17.05.2023", "Note");
-		t2equal = new Transaction("T1", "300.125", "17.05.2023", "Note");
+		t1 = new Transaction("T1", "300.125", "16.05.2023", "");
+		t2 = new Transaction("T2", "300.125", "17.05.2023", "Note");
+		t2equal = new Transaction("T2", "300.125", "17.05.2023", "Note");
 	}
 	
 	@Test
 	public void testToStringSplit01()
 	{
-		assertEquals(t1.toString().split(";", 4).length, 4);
+		assertEquals(4, t1.toString().split(";", 4).length);
 	}
 	
 	@Test

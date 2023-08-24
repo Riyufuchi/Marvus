@@ -6,7 +6,7 @@ import riyufuchi.marvus.marvusLib.dataUtils.MoneyCalculationsGeneric;
  * Class representing transaction category and unites them into sum<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 21.08.2023
+ * Last Edit: 24.08.2023
  * 
  * @author Riyufuchi
  */
@@ -37,6 +37,8 @@ public class FinancialCategory extends MoneyCalculationsGeneric<Transaction>
 	@Override
 	public String toString()
 	{
-		return name + " " + getSum();
+		if (!isEmpty())
+			return name + " " + getSum() + " " + getFirst().getCurrency();
+		return name + " " + getSum() + " " + Money.getDefaultCurrency();
 	}
 }

@@ -7,13 +7,13 @@ import java.util.List;
 
 import riyufuchi.marvus.legacyApp.utils.MoneySum;
 import riyufuchi.marvus.legacyApp.utils.XML;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 29.05.2023
+ * Last Edit: 24.08.2023
  * 
  * @author Riyufuchi
  */
@@ -32,7 +32,7 @@ public class FileIO extends SufuFileChooser
 	{
 		if(!path.contains("."))
 		{
-			DialogHelper.errorDialog(dtf, "File is missing an extension", "Extension not recognized");
+			SufuDialogHelper.errorDialog(dtf, "File is missing an extension", "Extension not recognized");
 			return;
 		}
 		String extension = path.substring(path.lastIndexOf('.'));
@@ -45,7 +45,7 @@ public class FileIO extends SufuFileChooser
 				}
 				catch (NullPointerException | IOException e)
 				{
-					DialogHelper.exceptionDialog(dtf, e);
+					SufuDialogHelper.exceptionDialog(dtf, e);
 				}
 			}
 			case ".xml" -> {
@@ -59,7 +59,7 @@ public class FileIO extends SufuFileChooser
 				}
 				catch (NullPointerException | IOException e)
 				{
-					DialogHelper.exceptionDialog(dtf, e);
+					SufuDialogHelper.exceptionDialog(dtf, e);
 				}
 			}
 		}
@@ -70,7 +70,7 @@ public class FileIO extends SufuFileChooser
 	{
 		if(!path.contains("."))
 		{
-			DialogHelper.errorDialog(dtf, "File is missing an extension", "Extension not recognized");
+			SufuDialogHelper.errorDialog(dtf, "File is missing an extension", "Extension not recognized");
 			return;
 		}
 		String extension = path.substring(path.lastIndexOf('.'));
@@ -92,7 +92,7 @@ public class FileIO extends SufuFileChooser
 				}
 				catch (NullPointerException | IOException | IndexOutOfBoundsException e)
 				{
-					DialogHelper.exceptionDialog(dtf, e);
+					SufuDialogHelper.exceptionDialog(dtf, e);
 				}
 				dtf.getDataBox().setList(l);
 			}
@@ -108,7 +108,7 @@ public class FileIO extends SufuFileChooser
 				}
 				catch (NullPointerException | ClassNotFoundException | IOException e)
 				{
-					DialogHelper.exceptionDialog(dtf, e);
+					SufuDialogHelper.exceptionDialog(dtf, e);
 				}
 			}
 		}

@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.enums.AppThemeUI;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 20.08.2023
+ * Last Edit: 24.08.2023
  * 
  * @author Riyufuchi
  */
@@ -44,7 +44,7 @@ public final class Settings extends SufuWindow
 			}
 			catch (NullPointerException | IOException e)
 			{
-				DialogHelper.exceptionDialog(this, e);
+				SufuDialogHelper.exceptionDialog(this, e);
 			}
 			this.dispose();
 		}), getGBC(1, labels.length));

@@ -11,11 +11,11 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 25.04.2023
+ * Last Edit: 24.08.2023
  * <hr>
  * Utils for handling and formating dates
  * <hr>
@@ -28,7 +28,7 @@ public class DateUtils
 	
 	public static Month showMonthChooser(JFrame frame)
 	{
-		return DialogHelper.<Month>optionDialog(frame, "Choose month: ", "Month chooser", Month.values());
+		return SufuDialogHelper.<Month>optionDialog(frame, "Choose month: ", "Month chooser", Month.values());
 	}
 	
 	public static LocalDateTime toLocalDateTime(String date)

@@ -8,11 +8,11 @@ import java.util.function.Consumer;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 21.08.2023
+ * Last Edit: 24.08.2023
  * 
  * @author Riyufuchi
  */
@@ -42,11 +42,11 @@ public class TransactionCalculations
 					{
 						case 1 -> income = income.add(t.getValue());
 						case -1 -> spendings = spendings.add(t.getValue());
-						case 0 -> DialogHelper.warningDialog(null, "Zero value detected for: " + t.toString() + "\nSome data can be missing", "Zero money sum");
+						case 0 -> SufuDialogHelper.warningDialog(null, "Zero value detected for: " + t.toString() + "\nSome data can be missing", "Zero money sum");
 					}
 				}
 			}
-			DialogHelper.informationDialog(null, (income + " " + spendings + " = "  + income.add(spendings)), "Ratio in " + Month.values()[monthOrderNum - 1].toString());
+			SufuDialogHelper.informationDialog(null, (income + " " + spendings + " = "  + income.add(spendings)), "Ratio in " + Month.values()[monthOrderNum - 1].toString());
 		};
 	}
 

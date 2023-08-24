@@ -9,7 +9,7 @@ import riyufuchi.marvus.marvusLib.data.Money;
 
 /**
  * Created On: 21.08.2023<br>
- * Last Edit: 21.08.20233
+ * Last Edit: 24.08.20233
  * 
  * @author Riyufuchi
  */
@@ -17,7 +17,6 @@ public class MoneyCalculationsGeneric<E extends Money> extends LinkedList<E>
 {
 	public MoneyCalculationsGeneric()
 	{
-		
 	}
 	
 	/**

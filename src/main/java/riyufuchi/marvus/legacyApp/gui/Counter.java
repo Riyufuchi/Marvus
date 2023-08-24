@@ -15,7 +15,7 @@ import riyufuchi.marvus.legacyApp.utils.ComponentParts;
 import riyufuchi.marvus.legacyApp.utils.MoneySum;
 import riyufuchi.marvus.marvusLib.dataUtils.MoneyCalculations;
 import riyufuchi.sufuLib.config.SufuLibFonts;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.general.InputChecker;
@@ -23,7 +23,7 @@ import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 29.05.2023
+ * Last Edit: 24.08.2023
  * 
  * @author Riyufuchi
  */
@@ -52,7 +52,7 @@ public class Counter extends SufuWindow
 		}
 		catch (NullPointerException | IOException e)
 		{
-			DialogHelper.exceptionDialog(this, e);
+			SufuDialogHelper.exceptionDialog(this, e);
 			this.dispose();
 		}
 	}
@@ -120,7 +120,7 @@ public class Counter extends SufuWindow
 			}
 			catch(NullPointerException | IllegalArgumentException e)
 			{
-				DialogHelper.exceptionDialog(this, e);
+				SufuDialogHelper.exceptionDialog(this, e);
 			}
 			dtf.getDataBox().add(new MoneySum(cals.getSum().toString(), textFields[max].getText()));
 			dtf.refresh();

@@ -14,14 +14,14 @@ import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.legacyApp.utils.MarvusLegacyHelper;
 import riyufuchi.marvus.legacyApp.utils.MoneySum;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
-import riyufuchi.sufuLib.gui.DialogHelper;
 import riyufuchi.sufuLib.gui.ErrorWindow;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 21.08.2023
+ * Last Edit: 24.08.2023
  * 
  * @author Riyufuchi
  */
@@ -34,7 +34,7 @@ public final class DataTableForm extends SufuWindow
 	public DataTableForm(int width, int height)
 	{
 		super("Marvus - Data table", width, height, false, true, true);
-		Consumer<Exception> exceptionConsumer = e -> DialogHelper.exceptionDialog(this, e);
+		Consumer<Exception> exceptionConsumer = e -> SufuDialogHelper.exceptionDialog(this, e);
 		this.dataBox = new DataBox<>(exceptionConsumer, byDate());
 	}
 	
@@ -53,7 +53,7 @@ public final class DataTableForm extends SufuWindow
 	@Override
 	protected void onClose()
 	{
-		if(DialogHelper.yesNoDialog(this, "Exit application?", "Exit confirmation") == 0)
+		if(SufuDialogHelper.yesNoDialog(this, "Exit application?", "Exit confirmation") == 0)
 			super.dispose();
 	}
 
@@ -112,7 +112,7 @@ public final class DataTableForm extends SufuWindow
 				case "Date" -> jmc.setItemAction(i,event -> sort());
 				case "Preferences" -> jmc.setItemAction(i,event -> new Settings());
 				case "Backup" -> jmc.setItemAction(i,event -> backupData());
-				default -> jmc.setItemAction(i, event -> DialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
+				default -> jmc.setItemAction(i, event -> SufuDialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
@@ -122,7 +122,7 @@ public final class DataTableForm extends SufuWindow
 	{
 		if(dataBox.isEmpty())
 		{
-			DialogHelper.warningDialog(this, "No data to export", "No data found");
+			SufuDialogHelper.warningDialog(this, "No data to export", "No data found");
 			return;
 		}
 		FileIO fio = new FileIO(this, MarvusConfig.workFolder);
@@ -147,7 +147,7 @@ public final class DataTableForm extends SufuWindow
 		}
 		catch (NullPointerException | IOException e)
 		{
-			DialogHelper.exceptionDialog(this, e);
+			SufuDialogHelper.exceptionDialog(this, e);
 		}
 	}
 	
@@ -155,7 +155,7 @@ public final class DataTableForm extends SufuWindow
 	{
 		if(dataBox.isEmpty())
 		{
-			DialogHelper.warningDialog(this, "No data to sort", "Sort error");
+			SufuDialogHelper.warningDialog(this, "No data to sort", "Sort error");
 			return;
 		}
 		dataBox.sort();
@@ -171,7 +171,7 @@ public final class DataTableForm extends SufuWindow
 		}
 		catch (NullPointerException | IllegalArgumentException e)
 		{
-			DialogHelper.exceptionDialog(this, e);
+			SufuDialogHelper.exceptionDialog(this, e);
 		}
 		repaint();
 		revalidate();

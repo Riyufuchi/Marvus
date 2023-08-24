@@ -14,7 +14,7 @@ import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.gui.FactoryComponent;
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 20.08.2023
+ * Last Edit: 24.08.2023
  * 
  * @author Riyufuchi
  */
@@ -45,11 +45,11 @@ public class AddDialog extends SufuDialog
 		{
 			SufuFileHelper.checkFile(path);
 			SufuPersistence.saveToCSV(path, new String[]{"Custom"});
-			DialogHelper.informationDialog(parentFrame, "Generated default " + path, "Category list fixer info");
+			SufuDialogHelper.informationDialog(parentFrame, "Generated default " + path, "Category list fixer info");
 		}
 		catch (NullPointerException | IOException e)
 		{
-			DialogHelper.exceptionDialog(parentFrame, e);
+			SufuDialogHelper.exceptionDialog(parentFrame, e);
 		}
 	}
 
@@ -68,7 +68,7 @@ public class AddDialog extends SufuDialog
 		}
 		catch (NullPointerException | IOException e)
 		{
-			DialogHelper.exceptionDialog(parentFrame, e);
+			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			generateCategoryList(path);
 		}
 		category = FactoryComponent.<String>createCombobox(categoryList);

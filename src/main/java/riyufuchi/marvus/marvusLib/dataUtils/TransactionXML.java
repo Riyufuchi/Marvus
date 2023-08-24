@@ -30,7 +30,7 @@ import org.xml.sax.SAXException;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 
 /**
  * Created On: 30.05.2021<br>
@@ -110,7 +110,7 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		} 
 		catch (XMLStreamException e) 
 		{
-			DialogHelper.exceptionDialog(null, e);
+			SufuDialogHelper.exceptionDialog(null, e);
 		}
 	}
 	
@@ -154,7 +154,7 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		}
 		catch (NullPointerException | IOException | XMLStreamException e) 
 		{
-			DialogHelper.exceptionDialog(null, e);
+			SufuDialogHelper.exceptionDialog(null, e);
 		}
 		finally
 		{
@@ -166,7 +166,7 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		} 
 		catch (IOException | ParserConfigurationException | TransformerException | SAXException e) 
 		{
-			DialogHelper.exceptionDialog(null, e);
+			SufuDialogHelper.exceptionDialog(null, e);
 		}
 	}
 	
@@ -226,7 +226,7 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		}
 		catch (ParserConfigurationException | SAXException | IOException e)
 		{
-			DialogHelper.exceptionDialog(null, e);
+			SufuDialogHelper.exceptionDialog(null, e);
 		}
 	}
 	

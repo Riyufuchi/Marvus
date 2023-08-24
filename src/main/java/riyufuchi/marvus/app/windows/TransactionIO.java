@@ -5,14 +5,14 @@ import java.util.LinkedList;
 
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionXML;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 20.08.2023
+ * Last Edit: 24.08.2023
  * 
  * @author Riyufuchi
  */
@@ -42,7 +42,7 @@ public class TransactionIO extends SufuFileChooser
 				}
 				catch (NullPointerException | IOException e)
 				{
-					DialogHelper.exceptionDialog(budgetDataTable, e);
+					SufuDialogHelper.exceptionDialog(budgetDataTable, e);
 					return;
 				}
 			}
@@ -57,16 +57,16 @@ public class TransactionIO extends SufuFileChooser
 				}
 				catch (NullPointerException | IOException e)
 				{
-					DialogHelper.exceptionDialog(budgetDataTable, e);
+					SufuDialogHelper.exceptionDialog(budgetDataTable, e);
 					return;
 				}
 			}
 			default -> {
-				DialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
+				SufuDialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
 				return;
 			}
 		}
-		DialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
+		SufuDialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
 	}
 
 	@Override
@@ -91,10 +91,10 @@ public class TransactionIO extends SufuFileChooser
 				}
 				catch (NullPointerException | ClassNotFoundException | IOException e)
 				{
-					DialogHelper.exceptionDialog(budgetDataTable, e);
+					SufuDialogHelper.exceptionDialog(budgetDataTable, e);
 				}
 			}
-			default -> DialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
+			default -> SufuDialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
 		}
 		budgetDataTable.refresh();
 	}
@@ -115,7 +115,7 @@ public class TransactionIO extends SufuFileChooser
 		}
 		catch (NullPointerException | IOException | IndexOutOfBoundsException e)
 		{
-			DialogHelper.exceptionDialog(budgetDataTable, e);
+			SufuDialogHelper.exceptionDialog(budgetDataTable, e);
 			return;
 		}
 		budgetDataTable.getDataBox().setList(l);

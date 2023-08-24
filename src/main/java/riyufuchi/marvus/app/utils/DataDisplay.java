@@ -14,10 +14,11 @@ import riyufuchi.marvus.app.windows.EditDialog;
 import riyufuchi.marvus.app.windows.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataUtils.CategoryYearTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
@@ -25,7 +26,7 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * Provides display utility functions for data<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 28.06.2023
+ * Last Edit: 24.08.2023
  * 
  * @author Riyufuchi
  */
@@ -40,7 +41,7 @@ public class DataDisplay
 		{
 			new EditDialog(budgetDataTable, t).showDialog();
 		}
-		else
+		else if (SwingUtilities.isRightMouseButton(mEvt))
 		{
 			new RemoveDialog(budgetDataTable, t).showDialog();
 		}
@@ -114,21 +115,12 @@ public class DataDisplay
 		};
 	}
 	
-	public static Consumer<DataBox<Transaction>> categoryMonthList(BudgetDataTable bdt)
+	public static Consumer<DataBox<Transaction>> categoryByMonthInYear(BudgetDataTable bdt)
 	{
 		return data -> {
-			int month = DateUtils.showMonthChooser(bdt).getValue();
-			LinkedList<FinancialCategory> list = TransactionCalculations.categorizeMonth(bdt.getDataBox(), month);
-			JPanel panel = bdt.getPane();
-			SufuWindowTools.createTableRow(bdt, 0, "Month", Month.values()[month - 1]);
-			SufuWindowTools.createTableRow(bdt, 1, "Category", "Sum");
-			month = 2; // Substitute for Y coordinate
-			for(FinancialCategory category : list)
-			{
-				panel.add(FactoryComponent.newTextFieldCell(category.getName()), bdt.getGBC(0, month));
-				panel.add(FactoryComponent.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, month));
-				month++;
-			}
+			CategoryYearTable ct = new CategoryYearTable(bdt);
+			ct.categorize();
+			ct.displayData();
 		};
 	}
 	
@@ -152,7 +144,7 @@ public class DataDisplay
 					{
 						case 1 -> income[t.getDate().getMonthValue() - 1] = income[t.getDate().getMonthValue() - 1].add(t.getValue());
 						case -1 -> outcome[t.getDate().getMonthValue() - 1] = outcome[t.getDate().getMonthValue() - 1].add(t.getValue());
-						case 0 -> DialogHelper.warningDialog(bdt, "Zero value detected for: " + t.toString() + "\nSome data can be missing", "Zero money sum");
+						case 0 -> SufuDialogHelper.warningDialog(bdt, "Zero value detected for: " + t.toString() + "\nSome data can be missing", "Zero money sum");
 					}
 				}
 			}

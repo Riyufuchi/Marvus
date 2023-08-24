@@ -3,7 +3,7 @@ package riyufuchi.marvus.app.utils;
 import java.io.IOException;
 import java.util.List;
 
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
@@ -25,7 +25,7 @@ public class MarvusUtils
 		}
 		catch (NullPointerException | IOException e)
 		{
-			DialogHelper.exceptionDialog(null, e);
+			SufuDialogHelper.exceptionDialog(null, e);
 			generateCategoryList(path);
 		}
 		return categoryList;
@@ -37,11 +37,11 @@ public class MarvusUtils
 		{
 			SufuFileHelper.checkFile(path);
 			SufuPersistence.saveToCSV(path, new String[]{"Custom"});
-			DialogHelper.informationDialog(null, "Generated default " + path, "Category list fixer info");
+			SufuDialogHelper.informationDialog(null, "Generated default " + path, "Category list fixer info");
 		}
 		catch (NullPointerException | IOException e)
 		{
-			DialogHelper.exceptionDialog(null, e);
+			SufuDialogHelper.exceptionDialog(null, e);
 		}
 	}
 }

@@ -8,13 +8,13 @@ import riyufuchi.marvus.app.windows.BudgetDataTable;
 import riyufuchi.marvus.legacyApp.gui.DataTableForm;
 import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.enums.AppThemeUI;
-import riyufuchi.sufuLib.gui.DialogHelper;
+import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 21.08.2023
+ * Last Edit: 24.08.2023
  *
  * @author Riyufuchi
  */
@@ -50,7 +50,7 @@ public class MarvusMain
 		}
 		catch (IllegalArgumentException | NullPointerException | IOException e)
 		{
-			DialogHelper.exceptionDialog(app, e);
+			SufuDialogHelper.exceptionDialog(app, e);
 		}
 	}
 }
