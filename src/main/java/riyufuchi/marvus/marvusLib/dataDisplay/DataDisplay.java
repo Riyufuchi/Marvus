@@ -1,4 +1,4 @@
-package riyufuchi.marvus.app.utils;
+package riyufuchi.marvus.marvusLib.dataDisplay;
 
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
@@ -14,7 +14,6 @@ import riyufuchi.marvus.app.windows.EditDialog;
 import riyufuchi.marvus.app.windows.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataUtils.CategoryYearTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;

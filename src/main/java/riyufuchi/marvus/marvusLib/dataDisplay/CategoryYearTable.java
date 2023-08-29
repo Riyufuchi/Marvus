@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.dataUtils;
+package riyufuchi.marvus.marvusLib.dataDisplay;
 
 import java.awt.event.ActionEvent;
 import java.time.Month;
@@ -11,14 +11,21 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.windows.BudgetDataTable;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
+import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
+/**
+ * This class sort data into categories
+ * 
+ * @author Riyufuchi
+ * @version 1.0
+ * @since 0.1.60
+ */
 public class CategoryYearTable
 {
 	private ArrayList<LinkedList<FinancialCategory>> months;
 	private BudgetDataTable bdt;
-	//private FinancialCategory fc;
 	
 	public CategoryYearTable(BudgetDataTable bdt)
 	{
@@ -26,7 +33,6 @@ public class CategoryYearTable
 		if (bdt == null)
 			bdt = new BudgetDataTable();
 		this.bdt = bdt;
-		//this.fc = null;
 	}
 	
 	public void categorize()

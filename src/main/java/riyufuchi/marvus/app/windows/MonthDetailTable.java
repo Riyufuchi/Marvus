@@ -2,9 +2,9 @@ package riyufuchi.marvus.app.windows;
 
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.app.utils.DataDisplay;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplay;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.FactoryComponent;
 
