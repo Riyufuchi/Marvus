@@ -40,7 +40,7 @@ import riyufuchi.sufuLib.gui.SufuDialogHelper;
  * @version 1.5
  * @since 1.3 
  */
-
+@Deprecated
 public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 {
 	private XMLOutputFactory xof;
@@ -251,7 +251,7 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 			case MarvusConfig.VALUE -> writeValue = false;
 			case MarvusConfig.DATE -> writeDate = false;
 			case MarvusConfig.NOTE -> writeNote = false;
-			case MarvusConfig.SUB_ELEMENT -> list.add(new Transaction(name, value, date, note));
+			case MarvusConfig.SUB_ELEMENT -> list.add(new Transaction(name, "Other",value, date, note));
 		}
 	}
 

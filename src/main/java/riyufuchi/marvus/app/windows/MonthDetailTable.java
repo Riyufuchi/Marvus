@@ -6,13 +6,13 @@ import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplay;
 import riyufuchi.sufuLib.gui.SufuWindow;
-import riyufuchi.sufuLib.utils.gui.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * This window shows transaction per day in given month<br><br>
  * 
  * Created On: 21.08.2023<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 29.08.2023
  * 
  * @author Riyufuchi
  */
@@ -51,7 +51,7 @@ public class MonthDetailTable extends SufuWindow
 		int numberOfDays = fc.getFirst().getDate().getMonth().length(isLeapYear(fc.getFirst().getDate().getYear()));
 		JPanel pane = getPane();
 		for (int i = 0; i < numberOfDays; i++)
-			pane.add(FactoryComponent.newTextFieldCell((Integer.toString(i + 1))), getGBC(i, 0));
+			pane.add(SufuFactory.newTextFieldCell((Integer.toString(i + 1))), getGBC(i, 0));
 		fillTableData(numberOfDays, pane);
 	}
 	
@@ -62,7 +62,7 @@ public class MonthDetailTable extends SufuWindow
 			yColumn[i] = 1;
 		fc.stream().forEach(data -> {
 			day = data.getDate().getDayOfMonth() - 1;
-			pane.add(FactoryComponent.newTextFieldCell(data.toString(), evt -> DataDisplay.showExtednedInfo(data, bdt, evt)),
+			pane.add(SufuFactory.newTextFieldCell(data.toString(), evt -> DataDisplay.showExtednedInfo(data, bdt, evt)),
 					getGBC(day, yColumn[day]));
 			yColumn[day] = yColumn[day] + 1;
 		});

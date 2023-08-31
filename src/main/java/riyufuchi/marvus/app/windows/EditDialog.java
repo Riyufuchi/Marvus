@@ -6,9 +6,10 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 
 /**
+ * Dialog for editing Transaction<br><br>
+ * 
  * Created On: 11.05.2023<br>
- * Last Edit: 28.06.2023<br>
- * Dialog for editing Transaction
+ * Last Edit: 31.08.2023<br>
  *
  * @author Riyufuchi
  */
@@ -26,8 +27,9 @@ public class EditDialog extends AddDialog
 
 	private void prefillComponents()
 	{
-		category.setSelectedItem(transaction.getName());
+		nameBox.setSelectedItem(transaction.getName());
 		name.setText(transaction.getName());
+		category.setText(transaction.getCategory());
 		money.setText(transaction.getValue().toString());
 		date.setText(transaction.getStringDate());
 		note.setText(transaction.getNote());
@@ -44,6 +46,7 @@ public class EditDialog extends AddDialog
 	protected void onOK()
 	{
 		transaction.setName(name.getText());
+		transaction.setCategory(category.getText());
 		transaction.setValue(money.getText());
 		transaction.setDate(date.getText());
 		transaction.setNote(note.getText());

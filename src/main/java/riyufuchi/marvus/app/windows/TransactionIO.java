@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 31.08.2023
  * 
  * @author Riyufuchi
  */
@@ -111,7 +111,7 @@ public class TransactionIO extends SufuFileChooser
 		LinkedList<Transaction> l = null;
 		try
 		{
-			l = SufuPersistence.<Transaction>loadFromCSV(path, new Transaction(), ";", 5);
+			l = SufuPersistence.<Transaction>loadFromCSV(path, new Transaction(), ";", 6);
 		}
 		catch (NullPointerException | IOException | IndexOutOfBoundsException e)
 		{

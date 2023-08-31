@@ -8,10 +8,10 @@ import riyufuchi.marvus.marvusLib.utils.DateUtils;
  * Transaction class represents simple transaction<br><br>
  * 
  * Created On: 13.04.2023<br>
- * Last Edit: 06.08.2023
+ * Last Edit: 31.08.2023
 
  * @author Riyufuchi
- * @version 1.4
+ * @version 1.5
  * @since 1.22
  */
 public class Transaction extends Money
@@ -20,15 +20,17 @@ public class Transaction extends Money
 	private static int Static_ID = 0;
 	private int ID;
 	private String name;
+	private String category;
 	private String note;
 	// Date
 	private String dateString;
 	private LocalDateTime date;
 	
 	/**
-	 * Create a dummy transaction<br>
+	 * Creates a dummy transaction<br><br>
 	 * ID: -1<br>
 	 * Name: DummyTransaction<br>
+	 * Category: None<br>
 	 * Value: 0<br>
 	 * Currency: DummyUnits<br>
 	 * Note: Note<br>
@@ -38,24 +40,27 @@ public class Transaction extends Money
 		super("0", "DummyUnits");
 		this.ID = -1;
 		this.name = "DummyTransaction";
+		this.category = "None";
 		this.note = "Note";
 		setDate("1.1.2018");
 	}
 	
-	public Transaction(String name, String sum, String date, String note)
+	public Transaction(String name, String category, String sum, String date, String note)
 	{
 		super(sum);
 		this.ID = ++Static_ID;
 		this.name = name;
+		this.category = category;
 		this.note = note;
 		setDate(date);
 	}
 	
-	public Transaction(String name, String sum, String currency, String date, String note)
+	public Transaction(String name, String category, String sum, String currency, String date, String note)
 	{
 		super(sum, currency);
 		this.ID = ++Static_ID;
 		this.name = name;
+		this.category = category;
 		this.note = note;
 		setDate(date);
 	}
@@ -68,7 +73,7 @@ public class Transaction extends Money
 		if (!(o instanceof Transaction))
 			return false;
 		Transaction t = (Transaction)o;
-		if (name.equals(t.getName()) && note.equals(t.getNote()))
+		if (name.equals(t.getName()) && note.equals(t.getNote()) && category.equals(t.getCategory()))
 			if (getValue().equals(t.getValue()))
 				if (date.equals(t.date))
 					return true;
@@ -80,6 +85,11 @@ public class Transaction extends Money
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	public void setCategory(String category)
+	{
+		this.category = category;
 	}
 	
 	public void setNote(String note)
@@ -105,6 +115,11 @@ public class Transaction extends Money
 		return name;
 	}
 	
+	public String getCategory()
+	{
+		return category;
+	}
+	
 	public String getNote()
 	{
 		return note;
@@ -123,18 +138,18 @@ public class Transaction extends Money
 	@Override
 	public String toString()
 	{
-		return name + ";" + super.toString() + ";" + dateString + ";" + note;
+		return name + ";" + category +";" + super.toString() + ";" + dateString + ";" + note;
 	}
 
 	@Override
 	public String toCSV()
 	{
-		return name + ";" + super.toString() + ";" + dateString + ";" + note;
+		return name + ";" + category +";" + super.toString() + ";" + dateString + ";" + note;
 	}
 	
 	@Override
 	public Transaction fromCSV(String[] data)
 	{
-		return new Transaction(data[0], data[1], data[2], data[3], data[4]);
+		return new Transaction(data[0], data[1], data[2], data[3], data[4], data[5]);
 	}
 }

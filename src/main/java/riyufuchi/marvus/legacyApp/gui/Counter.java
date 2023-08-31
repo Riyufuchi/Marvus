@@ -19,11 +19,11 @@ import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.general.InputChecker;
-import riyufuchi.sufuLib.utils.gui.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 29.08.2023
  * 
  * @author Riyufuchi
  */
@@ -88,11 +88,11 @@ public class Counter extends SufuWindow
 		{
 			texts = it.next().split(";");
 			actions[i] = texts[1];
-			content.add(FactoryComponent.newLabel(texts[0]), getGBC(0, i));
+			content.add(SufuFactory.newLabel(texts[0]), getGBC(0, i));
 			i++;
 		}
-		content.add(FactoryComponent.createButton("Cancel", event -> this.dispose()), getGBC(0, i));
-		content.add(FactoryComponent.createButton("Calculate", event -> calculate()), getGBC(1, i));
+		content.add(SufuFactory.createButton("Cancel", event -> this.dispose()), getGBC(0, i));
+		content.add(SufuFactory.createButton("Calculate", event -> calculate()), getGBC(1, i));
 		createTextFilds(content, i, actions);
 	}
 	

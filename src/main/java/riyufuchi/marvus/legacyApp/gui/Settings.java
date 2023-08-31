@@ -13,11 +13,11 @@ import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 29.08.2023
  * 
  * @author Riyufuchi
  */
@@ -36,8 +36,8 @@ public final class Settings extends SufuWindow
 	{
 		String[] labels = {"Theme: ", "Date format: "};
 		createLabels(labels);
-		content.add(FactoryComponent.createButton("Cancel", event -> this.dispose()), getGBC(0, labels.length));
-		content.add(FactoryComponent.createButton("Ok", event -> {
+		content.add(SufuFactory.createButton("Cancel", event -> this.dispose()), getGBC(0, labels.length));
+		content.add(SufuFactory.createButton("Ok", event -> {
 			try
 			{
 				applyPreferences();
@@ -48,11 +48,11 @@ public final class Settings extends SufuWindow
 			}
 			this.dispose();
 		}), getGBC(1, labels.length));
-		themes = FactoryComponent.<AppThemeUI>createCombobox(AppThemeUI.values());
+		themes = SufuFactory.<AppThemeUI>createCombobox(AppThemeUI.values());
 		themes.setSelectedIndex(SufuLibConfig.themeID.ordinal());
 		content.add(themes, getGBC(1,0));
 		
-		dateFormat = FactoryComponent.<String>createCombobox(AppTexts.DATE_FORMAT_OPTIONS);
+		dateFormat = SufuFactory.<String>createCombobox(AppTexts.DATE_FORMAT_OPTIONS);
 		content.add(dateFormat, getGBC(1,1));
 	}
 	

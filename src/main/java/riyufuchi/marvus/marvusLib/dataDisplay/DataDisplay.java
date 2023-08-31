@@ -18,14 +18,14 @@ import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.gui.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
  * Provides display utility functions for data<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 29.08.2023
  * 
  * @author Riyufuchi
  */
@@ -58,7 +58,7 @@ public class DataDisplay
 	{
 		return data -> {
 			JPanel panel = budgetDataTable.getPane();
-			data.stream().forEach(t -> panel.add(FactoryComponent.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, budgetDataTable, evt)),
+			data.stream().forEach(t -> panel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, budgetDataTable, evt)),
 					budgetDataTable.getGBC(0, t.getID())));
 		};
 	}
@@ -70,7 +70,7 @@ public class DataDisplay
 			int y = 0;
 			for (Transaction t : data)
 			{
-				panel.add(FactoryComponent.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, bdt, evt)), bdt.getGBC(0, y++));
+				panel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, bdt, evt)), bdt.getGBC(0, y++));
 			}
 		};
 	}
@@ -91,7 +91,7 @@ public class DataDisplay
 			SufuWindowTools.createTableRow(bdt, 1, 0, (Object[])Month.values());
 			for (Transaction t : data)
 			{
-				panel.add(FactoryComponent.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, bdt, evt)), bdt.getGBC(t.getDate().getMonthValue(), ++columnHeight[t.getDate().getMonthValue()]));
+				panel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, bdt, evt)), bdt.getGBC(t.getDate().getMonthValue(), ++columnHeight[t.getDate().getMonthValue()]));
 			}
 		};
 	}
@@ -107,8 +107,8 @@ public class DataDisplay
 			month = 2; // Substitute for Y coordinate
 			for(FinancialCategory category : list)
 			{
-				panel.add(FactoryComponent.newTextFieldCell(category.getName()), bdt.getGBC(0, month));
-				panel.add(FactoryComponent.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, month));
+				panel.add(SufuFactory.newTextFieldCell(category.getName()), bdt.getGBC(0, month));
+				panel.add(SufuFactory.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, month));
 				month++;
 			}
 		};
@@ -153,10 +153,10 @@ public class DataDisplay
 			int xPos = 0;
 			for (int x = 1; x < 13; x++)
 			{
-				panel.add(FactoryComponent.newTextFieldCell(months[xPos].toString()), bdt.getGBC(x, 0));
-				panel.add(FactoryComponent.newTextFieldCell(income[xPos].toString()), bdt.getGBC(x, 1));
-				panel.add(FactoryComponent.newTextFieldCell(outcome[xPos].toString()), bdt.getGBC(x, 2));
-				panel.add(FactoryComponent.newTextFieldCell((income[xPos].add(outcome[xPos]).toString())), bdt.getGBC(x, 3)); // outcome is already negative
+				panel.add(SufuFactory.newTextFieldCell(months[xPos].toString()), bdt.getGBC(x, 0));
+				panel.add(SufuFactory.newTextFieldCell(income[xPos].toString()), bdt.getGBC(x, 1));
+				panel.add(SufuFactory.newTextFieldCell(outcome[xPos].toString()), bdt.getGBC(x, 2));
+				panel.add(SufuFactory.newTextFieldCell((income[xPos].add(outcome[xPos]).toString())), bdt.getGBC(x, 3)); // outcome is already negative
 				xPos++;
 			}
 			BigDecimal yearIncome = new BigDecimal(0);

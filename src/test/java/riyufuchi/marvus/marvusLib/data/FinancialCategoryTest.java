@@ -10,8 +10,8 @@ public class FinancialCategoryTest
 	
 	public FinancialCategoryTest()
 	{
-		t1 = new Transaction("T1", "300.125", "17.05.2023", "");
-		t2 = new Transaction("T2", "300.125", "17.05.2023", "Note");
+		t1 = new Transaction("T1", "C1", "300.125", "16.05.2023", "");
+		t2 = new Transaction("T2", "C2", "300.125", "17.05.2023", "Note");
 	}
 	
 	@Test

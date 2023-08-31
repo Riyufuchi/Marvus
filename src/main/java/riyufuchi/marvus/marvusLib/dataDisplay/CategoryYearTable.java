@@ -12,11 +12,14 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.app.windows.BudgetDataTable;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
-import riyufuchi.sufuLib.utils.gui.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
  * This class sort data into categories
+ * 
+ * Created On: 24.08.2023<br>
+ * Last Edit: 29.08.2023
  * 
  * @author Riyufuchi
  * @version 1.0
@@ -53,7 +56,7 @@ public class CategoryYearTable
 			while (it.hasNext())
 			{
 				fc = it.next();
-				pane.add(FactoryComponent.newButton(fc.toString(), createBtnName(month, y), evt -> btnDataReference(evt)), bdt.getGBC(month, y));
+				pane.add(SufuFactory.newButton(fc.toString(), createBtnName(month, y), evt -> btnDataReference(evt)), bdt.getGBC(month, y));
 				y++;
 			}
 			y = 1;

@@ -1,16 +1,16 @@
 package riyufuchi.marvus.app.windows;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.app.utils.TransactionCategory;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
@@ -18,20 +18,20 @@ import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 01.09.2023
  * 
  * @author Riyufuchi
  */
 public class AddDialog extends SufuDialog
 {
-	protected JTextField name, money, date, currency;
-	protected JComboBox<String> category;
+	protected JTextField name, category,  money, date, currency;
+	protected JComboBox<String> nameBox, categoryBox;
 	protected JTextArea note;
 	
 	public AddDialog(JFrame parentFrame)
@@ -56,28 +56,16 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void createInputs(JPanel pane)
 	{
-		String path =  MarvusConfig.workFolder + "category.txt";
-		String[] categoryList = { "Custom" }; 
-		try
-		{
-			List<String> l = SufuPersistence.loadTextFile(path);
-			categoryList = new String[l.size()];
-			int i = 0;
-			for (String s : l)
-				categoryList[i++] = s;
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-			generateCategoryList(path);
-		}
-		category = FactoryComponent.<String>createCombobox(categoryList);
-		name = FactoryComponent.newTextField("");
-		money = FactoryComponent.newTextField("");
-		date = FactoryComponent.newTextField(DateUtils.nowDateString());
-		currency = FactoryComponent.newTextField(Money.getDefaultCurrency());
-		category.addActionListener(evt -> {
-			if (category.getItemAt(category.getSelectedIndex()).equals("Custom"))
+		nameBox = SufuFactory.<String>newCombobox(TransactionCategory.names);
+		categoryBox = SufuFactory.<String>newCombobox(TransactionCategory.categoryList);
+		name = SufuFactory.newTextField("");
+		category = SufuFactory.newTextField("Other");
+		money = SufuFactory.newTextField("");
+		date = SufuFactory.newTextField(DateUtils.nowDateString());
+		currency = SufuFactory.newTextField(Money.getDefaultCurrency());
+		note = SufuFactory.newTextArea("");
+		nameBox.addActionListener(evt -> {
+			if (nameBox.getItemAt(nameBox.getSelectedIndex()).equals("Custom"))
 			{
 				name.setEnabled(true);
 				name.setText("");
@@ -85,28 +73,48 @@ public class AddDialog extends SufuDialog
 			else
 			{
 				name.setEnabled(false);
-				name.setText(category.getItemAt(category.getSelectedIndex()));
+				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
+			}
+			for (int i = 0; i < categoryBox.getItemCount(); i++)
+			{
+				if (categoryBox.getItemAt(i).equals(TransactionCategory.categories[nameBox.getSelectedIndex()]))
+				{
+					categoryBox.setSelectedIndex(i);
+					break;
+				}
+			}
+			//category.setText(TransactionCategory.categories[nameBox.getSelectedIndex()]);
+			money.setText(TransactionCategory.values[nameBox.getSelectedIndex()]);
+			if (money.getText().equals("0"))
+				money.setText("");
+		});
+		categoryBox.addActionListener(evt -> {
+			if (categoryBox.getItemAt(categoryBox.getSelectedIndex()).equals("Other"))
+			{
+				category.setEnabled(true);
+				category.setText("");
+			}
+			else
+			{
+				category.setEnabled(false);
+				category.setText(categoryBox.getItemAt(categoryBox.getSelectedIndex()));
 			}
 		});
-		note = FactoryComponent.newTextArea("");
 		// Set labels
-		pane.add(new JLabel("Category:"), getGBC(0, 0));
-		pane.add(new JLabel("Amount:"), getGBC(0, 2));
-		pane.add(new JLabel("Currency:"), getGBC(0, 3));
-		pane.add(new JLabel("Date:"), getGBC(0, 4));
-		pane.add(new JLabel("Note:"), getGBC(0, 5));
+		pane.add(new JLabel("Name:"), getGBC(0, 0));
+		pane.add(new JLabel("Category:"), getGBC(0, 2));
+		int y = 4;
+		for (String text : new String[]{ "Amount:", "Currency: ", "Date:", "Note:" })
+			pane.add(new JLabel(text), getGBC(0, y++));
+		y = 0;
 		// Set components
-		pane.add(category, getGBC(1, 0));
-		pane.add(name, getGBC(1, 1));
-		pane.add(money, getGBC(1, 2));
-		pane.add(currency, getGBC(1, 3));
-		pane.add(date, getGBC(1, 4));
-		pane.add(note, getGBC(1, 5));
+		for (JComponent comp : new JComponent[]{ nameBox, name, categoryBox, category, money, currency, date, note})
+			pane.add(comp, getGBC(1, y++));
 	}
 	@Override
 	protected void onOK()
 	{
-		((BudgetDataTable)parentFrame).getDataBox().add(new Transaction(name.getText(), money.getText(), date.getText(), note.getText()));
+		((BudgetDataTable)parentFrame).getDataBox().add(new Transaction(name.getText(), category.getText(), money.getText(), date.getText(), note.getText()));
 		((BudgetDataTable)parentFrame).refresh();
 	}
 }

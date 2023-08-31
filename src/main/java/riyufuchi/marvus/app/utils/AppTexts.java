@@ -9,7 +9,7 @@ public class AppTexts
 			"Add", "Edit", "Delete", "",
 			"Simple list", "Category list", "Month list", "Month category list", "Year list", "",
 			"Sort", "",
-			"Income to outcome", "Data summary", "",
+			"Income to outcome", "Data summary", "Category manager", "Transaction macro", "",
 			"Preferences", "Refresh", "",
 			"About", "About SufuLib"};
 	// Other

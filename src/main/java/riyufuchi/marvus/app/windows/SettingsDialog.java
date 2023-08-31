@@ -15,12 +15,12 @@ import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.FactoryComponent;
+import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 29.08.2023
  * 
  * @author Riyufuchi
  */
@@ -38,10 +38,10 @@ public class SettingsDialog extends SufuDialog
 	protected void createInputs(JPanel content)
 	{
 		SufuWindowTools.createLabels(this, "Theme: ", "Date format: ");
-		themes = FactoryComponent.<AppThemeUI>createCombobox(AppThemeUI.values());
+		themes = SufuFactory.<AppThemeUI>createCombobox(AppThemeUI.values());
 		themes.setSelectedIndex(SufuLibConfig.themeID.ordinal());
 		content.add(themes, getGBC(1,0));
-		dateFormat = FactoryComponent.<String>createCombobox(AppTexts.DATE_FORMAT_OPTIONS);
+		dateFormat = SufuFactory.<String>createCombobox(AppTexts.DATE_FORMAT_OPTIONS);
 		content.add(dateFormat, getGBC(1,1));
 	}
 
