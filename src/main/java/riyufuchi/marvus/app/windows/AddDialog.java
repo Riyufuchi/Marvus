@@ -1,6 +1,5 @@
 package riyufuchi.marvus.app.windows;
 
-import java.io.IOException;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -10,14 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.app.utils.TransactionCategory;
+import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
-import riyufuchi.sufuLib.utils.files.SufuFileHelper;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
@@ -39,25 +35,11 @@ public class AddDialog extends SufuDialog
 		super("New transaction", parentFrame, DialogType.OK, true, true);
 	}
 	
-	protected void generateCategoryList(String path)
-	{
-		try
-		{
-			SufuFileHelper.checkFile(path);
-			SufuPersistence.saveToCSV(path, new String[]{"Custom"});
-			SufuDialogHelper.informationDialog(parentFrame, "Generated default " + path, "Category list fixer info");
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-		}
-	}
-
 	@Override
 	protected void createInputs(JPanel pane)
 	{
-		nameBox = SufuFactory.<String>newCombobox(TransactionCategory.names);
-		categoryBox = SufuFactory.<String>newCombobox(TransactionCategory.categoryList);
+		nameBox = SufuFactory.<String>newCombobox(MarvusCategory.names);
+		categoryBox = SufuFactory.<String>newCombobox(MarvusCategory.categoryList);
 		name = SufuFactory.newTextField("");
 		category = SufuFactory.newTextField("Other");
 		money = SufuFactory.newTextField("");
@@ -78,7 +60,7 @@ public class AddDialog extends SufuDialog
 			int i = 0;
 			for (i = 0; i < categoryBox.getItemCount(); i++)
 			{
-				if (categoryBox.getItemAt(i).equals(TransactionCategory.categories[nameBox.getSelectedIndex()]))
+				if (categoryBox.getItemAt(i).equals(MarvusCategory.categories[nameBox.getSelectedIndex()]))
 				{
 					categoryBox.setSelectedIndex(i);
 					break;
@@ -86,7 +68,7 @@ public class AddDialog extends SufuDialog
 			}
 			if (i == categoryBox.getItemCount())
 				categoryBox.setSelectedIndex(0);
-			money.setText(TransactionCategory.values[nameBox.getSelectedIndex()]);
+			money.setText(MarvusCategory.values[nameBox.getSelectedIndex()]);
 			if (money.getText().equals("0"))
 				money.setText("");
 		});

@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusUtils;
-import riyufuchi.marvus.app.utils.TransactionCategory;
+import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplay;
@@ -43,7 +43,7 @@ public class BudgetDataTable extends SufuWindow
 		this.displayMode = DataDisplay.simpleList(this);
 		this.mdt = null;
 		this.orderable = false;
-		TransactionCategory.init();
+		MarvusCategory.init();
 	}
 	
 	private void setupJMenu()
@@ -117,7 +117,7 @@ public class BudgetDataTable extends SufuWindow
 		if (isOperationUnexucatable())
 			return;
 		final int month = DateUtils.showMonthChooser(this).getValue();
-		FinancialCategory fc = new FinancialCategory(SufuDialogHelper.<String>categoryDialog(this, "Category:", "Select category", TransactionCategory.names, true));
+		FinancialCategory fc = new FinancialCategory(SufuDialogHelper.<String>categoryDialog(this, "Category:", "Select category", MarvusCategory.names, true));
 		dataBox.stream().forEach(t -> {
 			if (t.getName().equals(fc.getName()) && t.getDate().getMonthValue() == month)
 				fc.add(t);

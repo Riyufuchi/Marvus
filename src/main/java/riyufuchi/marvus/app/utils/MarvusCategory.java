@@ -4,17 +4,13 @@ import java.io.IOException;
 import java.util.List;
 
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
-public class TransactionCategory
+public class MarvusCategory
 {
 	public static String[] names, categories, values, categoryList;
 	
-	private TransactionCategory()
-	{
-		
-	}
+	private MarvusCategory() {}
 	
 	public static void init()
 	{
@@ -50,23 +46,10 @@ public class TransactionCategory
 		catch (NullPointerException | IOException e)
 		{
 			SufuDialogHelper.exceptionDialog(null, e);
-			generateTransactionMacro(path);
+			if (e instanceof IOException)
+				MarvusUtils.generateFile(null, path, new String[]{"Custom;Other;0"});
 		}
 		return categoryList;
-	}
-	
-	private static void generateTransactionMacro(String path)
-	{
-		try
-		{
-			SufuFileHelper.checkFile(path);
-			SufuPersistence.saveToCSV(path, new String[]{"Custom;Other;0"});
-			SufuDialogHelper.informationDialog(null, "Generated default " + path, "Transaction macro fixer info");
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(null, e);
-		}
 	}
 	
 	private static void loadCategoryList()
@@ -81,21 +64,8 @@ public class TransactionCategory
 		catch (NullPointerException | IOException e)
 		{
 			SufuDialogHelper.exceptionDialog(null, e);
-			generateCategoryList(path);
-		}
-	}
-	
-	private static void generateCategoryList(String path)
-	{
-		try
-		{
-			SufuFileHelper.checkFile(path);
-			SufuPersistence.saveToCSV(path, new String[]{ "Other" });
-			SufuDialogHelper.informationDialog(null, "Generated default " + path, "Category list fixer info");
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(null, e);
+			if (e instanceof IOException)
+				MarvusUtils.generateFile(null, path, new String[]{ "Other" });
 		}
 	}
 }

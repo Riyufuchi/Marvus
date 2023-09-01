@@ -3,7 +3,9 @@ package riyufuchi.marvus.app;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.BudgetDataTable;
 import riyufuchi.marvus.legacyApp.gui.DataTableForm;
 import riyufuchi.sufuLib.config.CustomizeUI;
@@ -14,7 +16,7 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 01.09.2023
  *
  * @author Riyufuchi
  */
@@ -51,6 +53,9 @@ public class MarvusMain
 		catch (IllegalArgumentException | NullPointerException | IOException e)
 		{
 			SufuDialogHelper.exceptionDialog(app, e);
+			if (e instanceof IOException)
+				MarvusUtils.generateFile(app, MarvusConfig.SETTINGS_FILE_PATH, new String[] { MarvusConfig.appTheme.toString(),
+						AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]});
 		}
 	}
 }
