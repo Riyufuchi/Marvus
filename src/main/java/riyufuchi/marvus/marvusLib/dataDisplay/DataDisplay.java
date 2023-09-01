@@ -25,7 +25,7 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * Provides display utility functions for data<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 29.08.2023
+ * Last Edit: 01.09.2023
  * 
  * @author Riyufuchi
  */
@@ -103,13 +103,29 @@ public class DataDisplay
 			LinkedList<FinancialCategory> list = TransactionCalculations.categorizeMonth(bdt.getDataBox(), month);
 			JPanel panel = bdt.getPane();
 			SufuWindowTools.createTableRow(bdt, 0, "Month", Month.values()[month - 1]);
-			SufuWindowTools.createTableRow(bdt, 1, "Category", "Sum");
+			SufuWindowTools.createTableRow(bdt, 1, "Name", "Sum");
 			month = 2; // Substitute for Y coordinate
 			for(FinancialCategory category : list)
 			{
-				panel.add(SufuFactory.newTextFieldCell(category.getName()), bdt.getGBC(0, month));
+				panel.add(SufuFactory.newTextFieldCell(category.getCategory()), bdt.getGBC(0, month));
 				panel.add(SufuFactory.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, month));
 				month++;
+			}
+		};
+	}
+
+	public static Consumer<DataBox<Transaction>> categoryYearList(BudgetDataTable bdt)
+	{
+		return data -> {
+			//LinkedList<FinancialCategory> list = TransactionCalculations.categorizeYearByCategories(data);
+			JPanel panel = bdt.getPane();
+			SufuWindowTools.createTableRow(bdt, 1, "Category", "Sum");
+			int y = 2;
+			for(FinancialCategory category : TransactionCalculations.categorizeYearByCategories(data))
+			{
+				panel.add(SufuFactory.newTextFieldCell(category.getCategory()), bdt.getGBC(0, y));
+				panel.add(SufuFactory.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, y++));
+				//y++;
 			}
 		};
 	}

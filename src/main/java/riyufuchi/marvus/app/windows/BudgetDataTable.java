@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.utils.TransactionCategory;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
@@ -24,7 +25,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 31.08.2023
+ * Last Edit: 01.09.2023
  * 
  * @author Riyufuchi
  */
@@ -59,8 +60,9 @@ public class BudgetDataTable extends SufuWindow
 				case "Export"-> jmc.setItemAction(i,event -> exportData());
 				case "Import" -> jmc.setItemAction(i, event -> importData());
 				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
-				// Order
+				// Data tools
 				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
+				case "Fix category" -> jmc.setItemAction(i, e -> MarvusUtils.fixCategory(dataBox));
 				// Tools
 				case "Income to outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(DateUtils.showMonthChooser(this).getValue())));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
@@ -72,6 +74,7 @@ public class BudgetDataTable extends SufuWindow
 				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.monthList(this)));
 				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.yearOverview(this)));
 				case "Month category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryByMonthInYear(this)));
+				case "Year category list" -> jmc.setItemAction(i, event -> updateDataDisplayMode(DataDisplay.categoryYearList(this))); 
 				// Other
 				case "Preferences" -> jmc.setItemAction(i,event -> new SettingsDialog(this).showDialog());
 				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));

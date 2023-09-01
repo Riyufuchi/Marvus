@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.gui.SufuDialogHelper;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 01.09.2023
  * 
  * @author Riyufuchi
  */
@@ -61,7 +61,7 @@ public class TransactionCalculations
 				holder = new FinancialCategory(t);
 				for (FinancialCategory mc : list)
 				{
-					if (mc.getName().equals(holder.getName()))
+					if (mc.getCategory().equals(holder.getCategory()))
 					{
 						mc.add(t);
 						holder = null;
@@ -71,6 +71,28 @@ public class TransactionCalculations
 				if(holder != null)
 					list.add(holder);
 			}
+		}
+		return list;
+	}
+	
+	public static LinkedList<FinancialCategory> categorizeYearByCategories(DataBox<Transaction> data)
+	{
+		LinkedList<FinancialCategory> list = new LinkedList<>();
+		FinancialCategory holder = null;
+		for (Transaction t : data)
+		{
+			holder = new FinancialCategory(t.getCategory(), t);
+			for (FinancialCategory mc : list)
+			{
+				if (mc.getCategory().equals(holder.getCategory()))
+				{
+					mc.add(t);
+					holder = null;
+					break;
+				}
+			}
+			if(holder != null)
+				list.add(holder);
 		}
 		return list;
 	}

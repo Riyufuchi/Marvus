@@ -75,7 +75,8 @@ public class AddDialog extends SufuDialog
 				name.setEnabled(false);
 				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
 			}
-			for (int i = 0; i < categoryBox.getItemCount(); i++)
+			int i = 0;
+			for (i = 0; i < categoryBox.getItemCount(); i++)
 			{
 				if (categoryBox.getItemAt(i).equals(TransactionCategory.categories[nameBox.getSelectedIndex()]))
 				{
@@ -83,7 +84,8 @@ public class AddDialog extends SufuDialog
 					break;
 				}
 			}
-			//category.setText(TransactionCategory.categories[nameBox.getSelectedIndex()]);
+			if (i == categoryBox.getItemCount())
+				categoryBox.setSelectedIndex(0);
 			money.setText(TransactionCategory.values[nameBox.getSelectedIndex()]);
 			if (money.getText().equals("0"))
 				money.setText("");
