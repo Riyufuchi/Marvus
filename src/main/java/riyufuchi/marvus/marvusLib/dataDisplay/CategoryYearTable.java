@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * Last Edit: 04.09.2023
  * 
  * @author Riyufuchi
- * @version 1.1
+ * @version 1.2
  * @since 0.1.60
  */
 public class CategoryYearTable
@@ -74,14 +74,16 @@ public class CategoryYearTable
 			if (data.getCategory().equals(transaction.getName()))
 			{
 				data.add(transaction);
-				transaction.setName("");
+				x = 0;
 				size++;
 				return;
 			}
 		});
-		if (transaction.getName().equals(""))
+		if (x != 0)
+		{
 			months.get(x).add(new FinancialCategory(transaction));
-		size++;
+			size++;
+		}
 	}
 	
 	public void set(Transaction transaction)
@@ -98,7 +100,28 @@ public class CategoryYearTable
 						transactionOld = transaction;
 						return;
 					}
-					
+				});
+				return;
+			}
+		});
+	}
+	
+	public void remove(int month, String name, int id)
+	{
+		if(name == null || name.isBlank())
+			return;
+		x = month - 1;
+		if (months.get(x).isEmpty())
+			return;
+		months.get(x).forEach(data -> {
+			if (data.getCategory().equals(name))
+			{
+				data.forEach(t -> {
+					if (t.getID() == id)
+					{
+						remove(t);
+						return;
+					}
 				});
 				return;
 			}
@@ -109,7 +132,7 @@ public class CategoryYearTable
 	{
 		if (transaction == null)
 			return;
-		dataBox.getList().remove();
+		dataBox.getList().remove(transaction);
 		x = transaction.getDate().getMonthValue() - 1;
 		if (months.get(x).isEmpty())
 			return;
@@ -130,7 +153,7 @@ public class CategoryYearTable
 	
 	public boolean isEmpty()
 	{
-		return size > 0;
+		return size == 0;
 	}
 	
 	public void clear()
@@ -148,6 +171,7 @@ public class CategoryYearTable
 		clear();
 		for (int i = 1; i < 13; i++)
 			months.set(i - 1, TransactionCalculations.categorizeMonth(dataBox, i));
+		size = dataBox.getList().size();
 	}
 	
 	// Utils
@@ -188,6 +212,11 @@ public class CategoryYearTable
 	}
 	
 	// Getters
+	
+	public LinkedList<FinancialCategory> getCategorizedMonth(int month)
+	{
+		return months.get(month - 1);
+	}
 	
 	public DataBox<Transaction> getDataBox()
 	{

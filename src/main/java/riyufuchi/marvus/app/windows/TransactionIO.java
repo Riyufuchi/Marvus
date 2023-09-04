@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 31.08.2023
+ * Last Edit: 04.09.2023
  * 
  * @author Riyufuchi
  */
@@ -38,7 +38,7 @@ public class TransactionIO extends SufuFileChooser
 			case ".csv" -> {
 				try
 				{
-					SufuPersistence.<Transaction>saveToCSV(path, budgetDataTable.getDataBox().getList());
+					SufuPersistence.<Transaction>saveToCSV(path, budgetDataTable.getTable().getDataBox().getList());
 				}
 				catch (NullPointerException | IOException e)
 				{
@@ -48,12 +48,12 @@ public class TransactionIO extends SufuFileChooser
 			}
 			case ".xml" -> {
 				TransactionXML xml = new TransactionXML(path);
-				xml.exportXML(budgetDataTable.getDataBox().getList());
+				xml.exportXML(budgetDataTable.getTable().getDataBox().getList());
 			}
 			case ".ser" -> {
 				try
 				{
-					SufuPersistence.<Transaction>serialize(path, budgetDataTable.getDataBox().getList());
+					SufuPersistence.<Transaction>serialize(path, budgetDataTable.getTable().getDataBox().getList());
 				}
 				catch (NullPointerException | IOException e)
 				{
@@ -82,12 +82,12 @@ public class TransactionIO extends SufuFileChooser
 			case ".xml" -> {
 				TransactionXML xml = new TransactionXML(path);
 				xml.parseTransaction();
-				budgetDataTable.getDataBox().setList(xml.getList());
+				setData(xml.getList());
 			}
 			case ".ser" -> {
 				try
 				{
-					budgetDataTable.getDataBox().setList((LinkedList<Transaction>)SufuPersistence.<Transaction>deserialize(path));
+					budgetDataTable.getTable().getDataBox().setList((LinkedList<Transaction>)SufuPersistence.<Transaction>deserialize(path));
 				}
 				catch (NullPointerException | ClassNotFoundException | IOException e)
 				{
@@ -118,6 +118,12 @@ public class TransactionIO extends SufuFileChooser
 			SufuDialogHelper.exceptionDialog(budgetDataTable, e);
 			return;
 		}
-		budgetDataTable.getDataBox().setList(l);
+		setData(l);
+	}
+	
+	private void setData(LinkedList<Transaction> list)
+	{
+		budgetDataTable.getTable().getDataBox().setList(list);
+		budgetDataTable.getTable().rebuild();
 	}
 }

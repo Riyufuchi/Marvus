@@ -124,7 +124,7 @@ public class BudgetDataTable extends SufuWindow
 		new AddDialog(this).showDialog();
 	}
 	
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "deprecation" })
 	@Deprecated
 	private void showMonthDetailTableOld()
 	{
@@ -142,7 +142,7 @@ public class BudgetDataTable extends SufuWindow
 	// TODO: Improve data summary - 1
 	private void dataSummary()
 	{
-		String data = "Number of transactions: " + table.getDataBox().getList().size();
+		String data = "Number of transactions: " + table.size();
 		SufuDialogHelper.informationDialog(this, data, "Data summary");
 	}
 	
@@ -242,8 +242,8 @@ public class BudgetDataTable extends SufuWindow
 	
 	// Getters
 	
-	public DataBox<Transaction> getDataBox()
+	public CategoryYearTable getTable()
 	{
-		return table.getDataBox();
+		return table;
 	}
 }

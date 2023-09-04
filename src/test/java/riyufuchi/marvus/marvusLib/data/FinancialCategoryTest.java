@@ -14,6 +14,7 @@ public class FinancialCategoryTest
 		t2 = new Transaction("T2", "C2", "300.125", "17.05.2023", "Note");
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testToString01()
 	{

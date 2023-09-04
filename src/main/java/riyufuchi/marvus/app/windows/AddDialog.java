@@ -93,7 +93,7 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void onOK()
 	{
-		((BudgetDataTable)parentFrame).getDataBox().add(new Transaction(name.getText(), category.getText(), money.getText(), date.getText(), note.getText()));
+		((BudgetDataTable)parentFrame).getTable().add(new Transaction(name.getText(), category.getText(), money.getText(), date.getText(), note.getText()));
 		((BudgetDataTable)parentFrame).refresh();
 	}
 }

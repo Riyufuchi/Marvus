@@ -8,10 +8,10 @@ import riyufuchi.marvus.marvusLib.utils.DateUtils;
  * Transaction class represents simple transaction<br><br>
  * 
  * Created On: 13.04.2023<br>
- * Last Edit: 31.08.2023
+ * Last Edit: 04.09.2023
 
  * @author Riyufuchi
- * @version 1.5
+ * @version 1.6
  * @since 1.22
  */
 public class Transaction extends Money
@@ -73,6 +73,8 @@ public class Transaction extends Money
 		if (!(o instanceof Transaction))
 			return false;
 		Transaction t = (Transaction)o;
+		if (ID == t.getID())
+			return true;
 		if (name.equals(t.getName()) && note.equals(t.getNote()) && category.equals(t.getCategory()))
 			if (getValue().equals(t.getValue()))
 				if (date.equals(t.date))

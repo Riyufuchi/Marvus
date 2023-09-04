@@ -26,7 +26,7 @@ public class RemoveDialog extends EditDialog
 		if(SufuDialogHelper.yesNoDialog(parentFrame, "Delete transaction number: " + getTransaction().getID() + "\n" + getTransaction().toString(), "Are you sure?") == 0)
 		{
 			BudgetDataTable budgetDataTable = (BudgetDataTable)parentFrame;
-			budgetDataTable.getDataBox().getList().remove(getTransaction().getID() - 1); // ID starts from 1
+			budgetDataTable.getTable().remove(getTransaction());
 			budgetDataTable.refresh();
 		}
 	}

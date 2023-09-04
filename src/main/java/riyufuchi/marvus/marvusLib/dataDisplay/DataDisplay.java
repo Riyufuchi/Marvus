@@ -100,7 +100,7 @@ public class DataDisplay
 	{
 		return data -> {
 			int month = DateUtils.showMonthChooser(bdt).getValue();
-			LinkedList<FinancialCategory> list = TransactionCalculations.categorizeMonth(bdt.getDataBox(), month);
+			LinkedList<FinancialCategory> list = bdt.getTable().getCategorizedMonth(month);
 			JPanel panel = bdt.getPane();
 			SufuWindowTools.createTableRow(bdt, 0, "Month", Month.values()[month - 1]);
 			SufuWindowTools.createTableRow(bdt, 1, "Name", "Sum");
@@ -108,8 +108,8 @@ public class DataDisplay
 			for(FinancialCategory category : list)
 			{
 				panel.add(SufuFactory.newTextFieldCell(category.getCategory()), bdt.getGBC(0, month));
-				panel.add(SufuFactory.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, month));
-				month++;
+				panel.add(SufuFactory.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, month++));
+				//month++;
 			}
 		};
 	}

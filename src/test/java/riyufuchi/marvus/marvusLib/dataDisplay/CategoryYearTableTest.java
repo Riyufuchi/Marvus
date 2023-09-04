@@ -60,6 +60,14 @@ public class CategoryYearTableTest
 	}
 	
 	@Test
+	public void testRemove02()
+	{
+		ct.add(TestData.transaction2);
+		ct.remove(TestData.transaction2.getDate().getMonthValue(), TestData.transaction2.getName(), TestData.transaction2.getID());
+		assertEquals(0, ct.get(4, 0).size());
+	}
+	
+	@Test
 	public void testSize01()
 	{
 		ct.add(TestData.transaction1);
@@ -81,5 +89,18 @@ public class CategoryYearTableTest
 		ct.add(TestData.transaction2);
 		ct.remove(TestData.transaction2_equal);
 		assertEquals(1, ct.size());
+	}
+	
+	@Test
+	public void testIsEmpty01()
+	{
+		assertEquals(true, ct.isEmpty());
+	}
+	
+	@Test
+	public void testIsEmpty02()
+	{
+		ct.add(TestData.transaction1);
+		assertEquals(false, ct.isEmpty());
 	}
 }
