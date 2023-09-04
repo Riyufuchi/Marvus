@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib;
+package riyufuchi.marvus.appTesting;
 
 public class TestCounter
 {

@@ -74,15 +74,10 @@ public class AddDialog extends SufuDialog
 		});
 		categoryBox.addActionListener(evt -> {
 			if (categoryBox.getItemAt(categoryBox.getSelectedIndex()).equals("Other"))
-			{
 				category.setEnabled(true);
-				category.setText("");
-			}
 			else
-			{
 				category.setEnabled(false);
-				category.setText(categoryBox.getItemAt(categoryBox.getSelectedIndex()));
-			}
+			category.setText(categoryBox.getItemAt(categoryBox.getSelectedIndex()));
 		});
 		// Set labels
 		pane.add(new JLabel("Name:"), getGBC(0, 0));

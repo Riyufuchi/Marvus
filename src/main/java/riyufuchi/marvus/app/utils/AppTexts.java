@@ -14,7 +14,7 @@ public class AppTexts
 			"About", "About SufuLib"};
 	// Other
 	public static final String ABOUT_MARVUS = "<html>This is budget manager.<br>"
-			+ "Version: " + AppTexts.VERSION + "<br>Created by <i>Riyufuchi.</i>"
+			+ "Version: " + AppTexts.VERSION + "<br>Created by Riyufuchi."
 			+ "<br>My code is under respective license.</html>";
 	// SEETINGS DIALOG TEXTS
 	public static final String[] DATE_FORMAT_OPTIONS = {"dd.MM.yyyy", "MM.dd.yyyy"};

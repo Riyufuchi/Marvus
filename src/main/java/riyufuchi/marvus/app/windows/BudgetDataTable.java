@@ -11,6 +11,7 @@ import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataDisplay.CategoryYearTable;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplay;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
@@ -18,20 +19,20 @@ import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.gui.SufuMessageDialog;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 01.09.2023
+ * Last Edit: 04.09.2023
  * 
  * @author Riyufuchi
  */
 public class BudgetDataTable extends SufuWindow
 {
-	private DataBox<Transaction> dataBox;
+	//private DataBox<Transaction> dataBox;
+	private CategoryYearTable table;
 	private Consumer<DataBox<Transaction>> displayMode;
 	private MonthDetailTable mdt;
 	private boolean orderable;
@@ -39,7 +40,7 @@ public class BudgetDataTable extends SufuWindow
 	public BudgetDataTable()
 	{
 		super("Marvus - " + AppTexts.VERSION, 800, 600, false, true, true);
-		this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), TransactionComparation.compareBy(CompareMethod.OldestToNewest));
+		this.table = new CategoryYearTable(this);
 		this.displayMode = DataDisplay.simpleList(this);
 		this.mdt = null;
 		this.orderable = false;
@@ -62,12 +63,12 @@ public class BudgetDataTable extends SufuWindow
 				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
 				// Data tools
 				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
-				case "Fix category" -> jmc.setItemAction(i, e -> MarvusUtils.fixCategory(dataBox));
+				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(table.getDataBox()); table.rebuild(); });
 				// Tools
 				case "Income to outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(DateUtils.showMonthChooser(this).getValue())));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
 				// Data handling
-				case "Add" -> jmc.setItemAction(i, event -> new AddDialog(this).showDialog()); // TODO: Optimalize adding to CYT - 4
+				case "Add" -> jmc.setItemAction(i, event -> add());//new AddDialog(this).showDialog()); // TODO: Optimalize adding to CYT - 4
 				// Display modes
 				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.simpleOrderableList(this)));
 				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
@@ -87,6 +88,12 @@ public class BudgetDataTable extends SufuWindow
 	
 	// Utils
 	
+	public void displayTable()
+	{
+		table.rebuild();
+		table.displayData();
+	}
+	
 	/**
 	 * 
 	 * @param fc
@@ -100,7 +107,7 @@ public class BudgetDataTable extends SufuWindow
 	
 	private boolean isOperationUnexucatable()
 	{
-		if(dataBox.isEmpty())
+		if(table.isEmpty())
 		{
 			SufuDialogHelper.warningDialog(this, "No data to work with!", "No data found");
 			return true;
@@ -110,6 +117,13 @@ public class BudgetDataTable extends SufuWindow
 	
 	// Delegations
 	
+	private void add()
+	{
+		/*dataBox.add(new AddDialog(this).showDialogAndGetData());
+		refresh();*/
+		new AddDialog(this).showDialog();
+	}
+	
 	@SuppressWarnings("unused")
 	@Deprecated
 	private void showMonthDetailTableOld()
@@ -118,7 +132,7 @@ public class BudgetDataTable extends SufuWindow
 			return;
 		final int month = DateUtils.showMonthChooser(this).getValue();
 		FinancialCategory fc = new FinancialCategory(SufuDialogHelper.<String>categoryDialog(this, "Category:", "Select category", MarvusCategory.names, true));
-		dataBox.stream().forEach(t -> {
+		table.getDataBox().stream().forEach(t -> {
 			if (t.getName().equals(fc.getName()) && t.getDate().getMonthValue() == month)
 				fc.add(t);
 		});
@@ -128,19 +142,19 @@ public class BudgetDataTable extends SufuWindow
 	// TODO: Improve data summary - 1
 	private void dataSummary()
 	{
-		String data = "Number of transactions: " + dataBox.getList().size();
+		String data = "Number of transactions: " + table.getDataBox().getList().size();
 		SufuDialogHelper.informationDialog(this, data, "Data summary");
 	}
 	
 	private void sortData(Comparator<Transaction> comp)
 	{
-		dataBox.setComparator(comp);
+		table.getDataBox().setComparator(comp);
 		if (!orderable)
 		{
 			displayMode = DataDisplay.simpleOrderableList(this);
 			orderable = true;
 		}
-		dataBox.sort();
+		table.getDataBox().sort();
 		refresh();
 	}
 	
@@ -168,13 +182,12 @@ public class BudgetDataTable extends SufuWindow
 
 	private void about()
 	{
-		//new SufuMessageDialog(this, "About", AppTexts.ABOUT_MARVUS).showDialog();
 		SufuDialogHelper.informationDialog(this, AppTexts.ABOUT_MARVUS, "About");
 	}
 	
 	private void displayData()
 	{
-		displayMode.accept(dataBox);
+		displayMode.accept(table.getDataBox());
 		repaint();
 		revalidate();
 	}
@@ -218,7 +231,7 @@ public class BudgetDataTable extends SufuWindow
 	{
 		if (isOperationUnexucatable())
 			return;
-		operation.accept(dataBox);
+		operation.accept(table.getDataBox());
 	}
 	
 	@Override
@@ -231,6 +244,6 @@ public class BudgetDataTable extends SufuWindow
 	
 	public DataBox<Transaction> getDataBox()
 	{
-		return dataBox;
+		return table.getDataBox();
 	}
 }

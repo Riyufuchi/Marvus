@@ -25,7 +25,7 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * Provides display utility functions for data<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 01.09.2023
+ * Last Edit: 04.09.2023
  * 
  * @author Riyufuchi
  */
@@ -132,11 +132,7 @@ public class DataDisplay
 	
 	public static Consumer<DataBox<Transaction>> categoryByMonthInYear(BudgetDataTable bdt)
 	{
-		return data -> {
-			CategoryYearTable ct = new CategoryYearTable(bdt);
-			ct.categorize();
-			ct.displayData();
-		};
+		return data -> bdt.displayTable();
 	}
 	
 	public static Consumer<DataBox<Transaction>> yearOverview(BudgetDataTable bdt)

@@ -20,7 +20,7 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 29.08.2023
+ * Last Edit: 04.09.2023
  * 
  * @author Riyufuchi
  */
@@ -38,10 +38,10 @@ public class SettingsDialog extends SufuDialog
 	protected void createInputs(JPanel content)
 	{
 		SufuWindowTools.createLabels(this, "Theme: ", "Date format: ");
-		themes = SufuFactory.<AppThemeUI>createCombobox(AppThemeUI.values());
+		themes = SufuFactory.<AppThemeUI>newCombobox(AppThemeUI.values());
 		themes.setSelectedIndex(SufuLibConfig.themeID.ordinal());
 		content.add(themes, getGBC(1,0));
-		dateFormat = SufuFactory.<String>createCombobox(AppTexts.DATE_FORMAT_OPTIONS);
+		dateFormat = SufuFactory.<String>newCombobox(AppTexts.DATE_FORMAT_OPTIONS);
 		content.add(dateFormat, getGBC(1,1));
 	}
 
