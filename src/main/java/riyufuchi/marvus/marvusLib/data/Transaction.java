@@ -1,6 +1,7 @@
 package riyufuchi.marvus.marvusLib.data;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 
@@ -8,10 +9,10 @@ import riyufuchi.marvus.marvusLib.utils.DateUtils;
  * Transaction class represents simple transaction<br><br>
  * 
  * Created On: 13.04.2023<br>
- * Last Edit: 04.09.2023
+ * Last Edit: 05.09.2023
 
  * @author Riyufuchi
- * @version 1.6
+ * @version 1.7
  * @since 1.22
  */
 public class Transaction extends Money
@@ -33,6 +34,7 @@ public class Transaction extends Money
 	 * Category: None<br>
 	 * Value: 0<br>
 	 * Currency: DummyUnits<br>
+	 * Date: 1.1.2018<br>
 	 * Note: Note<br>
 	 */
 	public Transaction()
@@ -66,6 +68,15 @@ public class Transaction extends Money
 	}
 
 	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(ID, category, date, dateString, name, note);
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object o)
 	{
 		if (o == this)
@@ -75,13 +86,13 @@ public class Transaction extends Money
 		Transaction t = (Transaction)o;
 		if (ID == t.getID())
 			return true;
-		if (name.equals(t.getName()) && note.equals(t.getNote()) && category.equals(t.getCategory()))
-			if (getValue().equals(t.getValue()))
-				if (date.equals(t.date))
-					return true;
+		//if (name.equals(t.getName()) && note.equals(t.getNote()) && category.equals(t.getCategory()))
+			//if (getValue().equals(t.getValue()))
+				//if (date.equals(t.date))
+					//return true;
 		return false;
 	}
-
+	
 	//SETTERS
 	
 	public void setName(String name)

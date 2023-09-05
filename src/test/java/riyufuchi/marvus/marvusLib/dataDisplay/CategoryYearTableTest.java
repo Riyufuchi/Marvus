@@ -68,6 +68,31 @@ public class CategoryYearTableTest
 	}
 	
 	@Test
+	public void testRemove03()
+	{
+		Transaction t = new Transaction("T", "CT", "10", "01.02.2023", "note"); 
+		Transaction tr = new Transaction("T", "CT", "10", "01.02.2023", "note");
+		ct.add(t);
+		ct.add(tr);
+		ct.add(new Transaction("T", "CT", "10", "01.02.2023", "note"));
+		ct.remove(tr.getDate().getMonthValue(), tr.getName(), tr.getID());
+		assertEquals(t.getID() , ct.get(1, 0).get(0).getID());
+	}
+	
+	@Test
+	public void testRemove04()
+	{
+		ct.clear();
+		Transaction t = new Transaction("T", "CT", "10", "01.02.2023", "note"); 
+		Transaction tr = new Transaction("T", "CT", "10", "01.02.2023", "note");
+		ct.add(t);
+		ct.add(tr);
+		ct.add(new Transaction("T", "CT", "10", "01.02.2023", "note"));
+		ct.remove(tr);
+		assertEquals(t.getID() , ct.get(1, 0).get(0).getID());
+	}
+	
+	@Test
 	public void testSize01()
 	{
 		ct.add(TestData.transaction1);

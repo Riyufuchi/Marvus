@@ -24,10 +24,10 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * This class sort data into categories. Data starts from x = 0.
  * 
  * Created On: 24.08.2023<br>
- * Last Edit: 04.09.2023
+ * Last Edit: 05.09.2023
  * 
  * @author Riyufuchi
- * @version 1.2
+ * @version 1.3
  * @since 0.1.60
  */
 public class CategoryYearTable
@@ -113,13 +113,15 @@ public class CategoryYearTable
 		x = month - 1;
 		if (months.get(x).isEmpty())
 			return;
-		months.get(x).forEach(data -> {
+		months.get(x).stream().forEach(data -> {
 			if (data.getCategory().equals(name))
 			{
 				data.forEach(t -> {
 					if (t.getID() == id)
 					{
-						remove(t);
+						dataBox.getList().remove(t);
+						data.remove(t);
+						size--;
 						return;
 					}
 				});
@@ -132,13 +134,13 @@ public class CategoryYearTable
 	{
 		if (transaction == null)
 			return;
-		dataBox.getList().remove(transaction);
 		x = transaction.getDate().getMonthValue() - 1;
 		if (months.get(x).isEmpty())
 			return;
 		months.get(x).forEach(data -> {
 			if (data.getCategory().equals(transaction.getName()))
 			{
+				dataBox.getList().remove(transaction);
 				data.remove(transaction);
 				return;
 			}

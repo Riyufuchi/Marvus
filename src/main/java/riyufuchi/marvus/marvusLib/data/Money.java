@@ -2,6 +2,7 @@ package riyufuchi.marvus.marvusLib.data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import riyufuchi.sufuLib.interfaces.CSVable;
 
@@ -9,10 +10,10 @@ import riyufuchi.sufuLib.interfaces.CSVable;
  * Money class represents money<br><br>
  * 
  * Created On: 11.04.2022<br>
- * Last Edit: 27.06.2023
+ * Last Edit: 05.09.2023
  * 
  * @author Riyufuchi
- * @version 1.7
+ * @version 1.8
  * @since 1.0
  */
 public class Money implements Serializable, CSVable
@@ -108,12 +109,31 @@ public class Money implements Serializable, CSVable
 
 	// OVERRIDE METHODS
 	
+	
+	
 	@Override
 	public String toString()
 	{
 		return value.toPlainString() + ";" + currency;
 	}
 	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(currency, value);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Money))
+			return false;
+		Money other = (Money) obj;
+		return Objects.equals(currency, other.currency) && Objects.equals(value, other.value);
+	}
+
 	@Override
 	public String toCSV()
 	{

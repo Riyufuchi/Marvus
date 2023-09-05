@@ -31,7 +31,7 @@ public class TransactionTest
 	@Test
 	public void testEquals01()
 	{
-		assertEquals(true, t2.equals(t2equal));
+		assertEquals(false, t2.equals(t2equal));
 	}
 	
 	@Test
@@ -50,6 +50,22 @@ public class TransactionTest
 	public void testEquals04()
 	{
 		assertEquals(true, t1.equals(t1));
+	}
+	
+	@Test
+	public void testEquals05()
+	{
+		Transaction t = new Transaction();
+		t.setValue("100");
+		assertEquals(true, t.equals(new Transaction()));
+	}
+	
+	@Test
+	public void testEquals06()
+	{
+		Transaction t = t2equal;
+		t.setValue("100");
+		assertEquals(false, t.equals(t2));
 	}
 	
 	@Test
