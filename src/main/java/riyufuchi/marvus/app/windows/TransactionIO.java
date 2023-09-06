@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 04.09.2023
+ * Last Edit: 06.09.2023
  * 
  * @author Riyufuchi
  */
@@ -96,7 +96,7 @@ public class TransactionIO extends SufuFileChooser
 			}
 			default -> SufuDialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
 		}
-		budgetDataTable.refresh();
+		budgetDataTable.displayData();
 	}
 	
 	private String addExtension(String path)

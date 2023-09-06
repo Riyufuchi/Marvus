@@ -15,9 +15,10 @@ import riyufuchi.marvus.app.windows.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
+import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
@@ -25,10 +26,11 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * Provides display utility functions for data<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 04.09.2023
+ * Last Edit: 06.09.2023
  * 
  * @author Riyufuchi
  */
+@Deprecated
 public class DataDisplay
 {
 	private DataDisplay()
@@ -138,47 +140,7 @@ public class DataDisplay
 	public static Consumer<DataBox<Transaction>> yearOverview(BudgetDataTable bdt)
 	{
 		return data -> {
-			int year = 2023;
-			BigDecimal[] income = new BigDecimal[12];
-			BigDecimal[] outcome = new BigDecimal[12];
-			BigDecimal zero = new BigDecimal(0);
-			for (int i = 0; i < 12; i++)
-			{
-				income[i] = new BigDecimal(0);
-				outcome[i] = new BigDecimal(0);
-			}
-			for (Transaction t : data)
-			{
-				if (t.getDate().getYear() == year)
-				{
-					switch (t.getValue().compareTo(zero))
-					{
-						case 1 -> income[t.getDate().getMonthValue() - 1] = income[t.getDate().getMonthValue() - 1].add(t.getValue());
-						case -1 -> outcome[t.getDate().getMonthValue() - 1] = outcome[t.getDate().getMonthValue() - 1].add(t.getValue());
-						case 0 -> SufuDialogHelper.warningDialog(bdt, "Zero value detected for: " + t.toString() + "\nSome data can be missing", "Zero money sum");
-					}
-				}
-			}
-			JPanel panel = bdt.getPane();
-			SufuWindowTools.createTableColumn(bdt, 0 , String.valueOf(year), "Income", "Outcome", "Total");
-			Month[] months = Month.values();
-			int xPos = 0;
-			for (int x = 1; x < 13; x++)
-			{
-				panel.add(SufuFactory.newTextFieldCell(months[xPos].toString()), bdt.getGBC(x, 0));
-				panel.add(SufuFactory.newTextFieldCell(income[xPos].toString()), bdt.getGBC(x, 1));
-				panel.add(SufuFactory.newTextFieldCell(outcome[xPos].toString()), bdt.getGBC(x, 2));
-				panel.add(SufuFactory.newTextFieldCell((income[xPos].add(outcome[xPos]).toString())), bdt.getGBC(x, 3)); // outcome is already negative
-				xPos++;
-			}
-			BigDecimal yearIncome = new BigDecimal(0);
-			BigDecimal yearOutcome = new BigDecimal(0);
-			for (int i = 0; i < 12; i++)
-			{
-				yearIncome = yearIncome.add(income[i]);
-				yearOutcome = yearOutcome.add(outcome[i]);
-			}
-			SufuWindowTools.createTableColumn(bdt, 13 , "Year total", yearIncome, yearOutcome, yearIncome.add(yearOutcome));
+			new YearOverviewTable(bdt, bdt.getTable(), 2023).displayData();;
 		};
 	}
 }

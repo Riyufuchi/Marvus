@@ -13,6 +13,9 @@ import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategoryYearTable;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplay;
+import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
+import riyufuchi.marvus.marvusLib.dataDisplay.SimpleList;
+import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
@@ -25,7 +28,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 04.09.2023
+ * Last Edit: 06.09.2023
  * 
  * @author Riyufuchi
  */
@@ -34,6 +37,7 @@ public class BudgetDataTable extends SufuWindow
 	//private DataBox<Transaction> dataBox;
 	private CategoryYearTable table;
 	private Consumer<DataBox<Transaction>> displayMode;
+	private DataDisplayMode dataDisplayMode;
 	private MonthDetailTable mdt;
 	private boolean orderable;
 	
@@ -41,7 +45,8 @@ public class BudgetDataTable extends SufuWindow
 	{
 		super("Marvus - " + AppTexts.VERSION, 800, 600, false, true, true);
 		this.table = new CategoryYearTable(this);
-		this.displayMode = DataDisplay.simpleList(this);
+		//this.displayMode = DataDisplay.simpleList(this);
+		this.dataDisplayMode = new SimpleList(this, table);
 		this.mdt = null;
 		this.orderable = false;
 		MarvusCategory.init();
@@ -73,7 +78,7 @@ public class BudgetDataTable extends SufuWindow
 				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.simpleOrderableList(this)));
 				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
 				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.monthList(this)));
-				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.yearOverview(this)));
+				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new YearOverviewTable(this, table, 2023)));
 				case "Month category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryByMonthInYear(this)));
 				case "Year category list" -> jmc.setItemAction(i, event -> updateDataDisplayMode(DataDisplay.categoryYearList(this))); 
 				// Other
@@ -185,13 +190,7 @@ public class BudgetDataTable extends SufuWindow
 		SufuDialogHelper.informationDialog(this, AppTexts.ABOUT_MARVUS, "About");
 	}
 	
-	private void displayData()
-	{
-		displayMode.accept(table.getDataBox());
-		repaint();
-		revalidate();
-	}
-	
+	@Deprecated
 	private void updateDataDisplayMode(Consumer<DataBox<Transaction>> dataDisplayMode)
 	{
 		if (displayMode == null)
@@ -201,6 +200,14 @@ public class BudgetDataTable extends SufuWindow
 		refresh();
 	}
 	
+	private void updateDataDisplayMode(DataDisplayMode ddm)
+	{
+		if (ddm == null)
+			return;
+		dataDisplayMode = ddm;
+		displayData();
+	}
+	
 	/**
 	 * Refresh displayed data
 	 */
@@ -208,8 +215,21 @@ public class BudgetDataTable extends SufuWindow
 	{
 		if (isOperationUnexucatable())
 			return;
+		//getPane().removeAll();
+		//displayData();
+		dataDisplayMode.refresh();
+		refreshWindow();
+	}
+	
+	/**
+	 * Displays data, use only when changing displayMode or displaying entirely new data
+	 */
+	public void displayData()
+	{
+		//displayMode.accept(table.getDataBox());
 		getPane().removeAll();
-		displayData();
+		dataDisplayMode.displayData();
+		refreshWindow();
 	}
 	
 	// OnEvent

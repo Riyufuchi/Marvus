@@ -1,6 +1,7 @@
 package riyufuchi.marvus.marvusLib.dataDisplay;
 
 import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,6 +16,7 @@ import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
+import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
@@ -24,10 +26,10 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * This class sort data into categories. Data starts from x = 0.
  * 
  * Created On: 24.08.2023<br>
- * Last Edit: 05.09.2023
+ * Last Edit: 06.09.2023
  * 
  * @author Riyufuchi
- * @version 1.3
+ * @version 1.4
  * @since 0.1.60
  */
 public class CategoryYearTable
@@ -174,6 +176,36 @@ public class CategoryYearTable
 		for (int i = 1; i < 13; i++)
 			months.set(i - 1, TransactionCalculations.categorizeMonth(dataBox, i));
 		size = dataBox.getList().size();
+	}
+	
+	// Money operations
+	
+	public YearOverview getYearOverview(int year)
+	{
+		BigDecimal[] income = new BigDecimal[12];
+		BigDecimal[] outcome = new BigDecimal[12];
+		BigDecimal zero = new BigDecimal(0);
+		int index = 0;
+		for (int i = 0; i < 12; i++)
+		{
+			income[i] = new BigDecimal(0);
+			outcome[i] = new BigDecimal(0);
+		}
+		for (Transaction t : dataBox)
+		{
+			if (t.getDate().getYear() == year)
+			{
+				index = t.getDate().getMonthValue() - 1;
+				switch (t.getValue().compareTo(zero))
+				{
+					case 1 -> income[index] = income[index].add(t.getValue());
+					case -1 -> outcome[index] = outcome[index].add(t.getValue());
+					case 0 -> SufuDialogHelper.warningDialog(bdt, "Zero value detected for: "
+					+ t.toString() + "\nSome data can be missing", "Zero money sum");
+				}
+			}
+		}
+		return new YearOverview(year, income, outcome);
 	}
 	
 	// Utils
