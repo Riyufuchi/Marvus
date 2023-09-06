@@ -7,7 +7,7 @@ import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.app.windows.BudgetDataTable;
+import riyufuchi.marvus.app.windows.MarvusMainWindow;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
@@ -48,7 +48,7 @@ public class CategorizedMonthList extends DataDisplayMode
 	
 	private void showData(int x, int y)
 	{
-		((BudgetDataTable)targetWindow).showMonthDetailTable(dataSource.get(x, y));
+		((MarvusMainWindow)targetWindow).showMonthDetailTable(dataSource.get(x, y));
 	}
 	
 	private String createBtnName(int month, int y)

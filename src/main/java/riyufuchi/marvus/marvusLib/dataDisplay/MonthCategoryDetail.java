@@ -56,5 +56,10 @@ public class MonthCategoryDetail extends DataDisplayMode
 	{
 		return ((year % 4 == 0 && year % 100!= 0) || year % 400 == 0);
 	}
+	
+	public FinancialCategory getFinancialCategory()
+	{
+		return fc;
+	}
 
 }

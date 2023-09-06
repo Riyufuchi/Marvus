@@ -12,15 +12,16 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 06.09.2023
+ * Last Edit: 07.09.2023
  * 
  * @author Riyufuchi
  */
+@SuppressWarnings("deprecation")
 public class TransactionIO extends SufuFileChooser
 {
-	private BudgetDataTable budgetDataTable;
+	private MarvusMainWindow budgetDataTable;
 	
-	public TransactionIO(BudgetDataTable budgetDataTable, String filePath)
+	public TransactionIO(MarvusMainWindow budgetDataTable, String filePath)
 	{
 		super(filePath);
 		this.budgetDataTable = budgetDataTable;

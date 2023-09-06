@@ -9,9 +9,9 @@ import java.util.function.Consumer;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import riyufuchi.marvus.app.windows.BudgetDataTable;
-import riyufuchi.marvus.app.windows.EditDialog;
-import riyufuchi.marvus.app.windows.RemoveDialog;
+import riyufuchi.marvus.app.windows.MarvusMainWindow;
+import riyufuchi.marvus.app.windows.dialogs.EditDialog;
+import riyufuchi.marvus.app.windows.dialogs.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
@@ -37,7 +37,7 @@ public class DataDisplay
 	private DataDisplay()
 	{}
 	
-	public static void showExtednedInfo(Transaction t, BudgetDataTable budgetDataTable, MouseEvent mEvt)
+	public static void showExtednedInfo(Transaction t, MarvusMainWindow budgetDataTable, MouseEvent mEvt)
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))
 		{
@@ -57,7 +57,7 @@ public class DataDisplay
 	 * @param budgetDataTable
 	 * @return
 	 */
-	public static Consumer<DataBox<Transaction>> simpleList(BudgetDataTable budgetDataTable)
+	public static Consumer<DataBox<Transaction>> simpleList(MarvusMainWindow budgetDataTable)
 	{
 		return data -> {
 			JPanel panel = budgetDataTable.getPane();
@@ -66,7 +66,7 @@ public class DataDisplay
 		};
 	}
 	
-	public static Consumer<DataBox<Transaction>> simpleOrderableList(BudgetDataTable bdt)
+	public static Consumer<DataBox<Transaction>> simpleOrderableList(MarvusMainWindow bdt)
 	{
 		return data -> {
 			JPanel panel = bdt.getPane();
@@ -84,7 +84,7 @@ public class DataDisplay
 	 * @param bdt BudgetDataTable
 	 * @return Display mode consumer
 	 */
-	public static Consumer<DataBox<Transaction>> monthList(BudgetDataTable bdt)
+	public static Consumer<DataBox<Transaction>> monthList(MarvusMainWindow bdt)
 	{
 		return data -> {
 			JPanel panel = bdt.getPane();
@@ -99,7 +99,7 @@ public class DataDisplay
 		};
 	}
 	
-	public static Consumer<DataBox<Transaction>> categoryListByMonth(BudgetDataTable bdt)
+	public static Consumer<DataBox<Transaction>> categoryListByMonth(MarvusMainWindow bdt)
 	{
 		return data -> {
 			int month = DateUtils.showMonthChooser(bdt).getValue();
@@ -117,7 +117,7 @@ public class DataDisplay
 		};
 	}
 
-	public static Consumer<DataBox<Transaction>> categoryYearList(BudgetDataTable bdt)
+	public static Consumer<DataBox<Transaction>> categoryYearList(MarvusMainWindow bdt)
 	{
 		return data -> {
 			//LinkedList<FinancialCategory> list = TransactionCalculations.categorizeYearByCategories(data);
@@ -133,12 +133,12 @@ public class DataDisplay
 		};
 	}
 	
-	public static Consumer<DataBox<Transaction>> categoryByMonthInYear(BudgetDataTable bdt)
+	public static Consumer<DataBox<Transaction>> categoryByMonthInYear(MarvusMainWindow bdt)
 	{
 		return data -> bdt.displayData();
 	}
 	
-	public static Consumer<DataBox<Transaction>> yearOverview(BudgetDataTable bdt)
+	public static Consumer<DataBox<Transaction>> yearOverview(MarvusMainWindow bdt)
 	{
 		return data -> {
 			new YearOverviewTable(bdt, bdt.getTable(), 2023).displayData();;

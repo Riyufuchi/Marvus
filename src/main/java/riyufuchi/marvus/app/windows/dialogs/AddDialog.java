@@ -1,4 +1,4 @@
-package riyufuchi.marvus.app.windows;
+package riyufuchi.marvus.app.windows.dialogs;
 
 
 import javax.swing.JComboBox;
@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.utils.MarvusCategory;
+import riyufuchi.marvus.app.windows.MarvusMainWindow;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
@@ -93,7 +94,7 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void onOK()
 	{
-		((BudgetDataTable)parentFrame).getTable().add(new Transaction(name.getText(), category.getText(), money.getText(), date.getText(), note.getText()));
-		((BudgetDataTable)parentFrame).refresh();
+		((MarvusMainWindow)parentFrame).getTable().add(new Transaction(name.getText(), category.getText(), money.getText(), date.getText(), note.getText()));
+		((MarvusMainWindow)parentFrame).refresh();
 	}
 }

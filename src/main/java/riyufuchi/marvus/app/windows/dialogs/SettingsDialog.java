@@ -1,4 +1,4 @@
-package riyufuchi.marvus.app.windows;
+package riyufuchi.marvus.app.windows.dialogs;
 
 import java.io.IOException;
 

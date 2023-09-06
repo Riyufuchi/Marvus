@@ -5,11 +5,11 @@ import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
-import org.hamcrest.core.IsInstanceOf;
-
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusUtils;
+import riyufuchi.marvus.app.windows.dialogs.AddDialog;
+import riyufuchi.marvus.app.windows.dialogs.SettingsDialog;
 import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
@@ -19,11 +19,11 @@ import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.dataDisplay.MonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.SimpleList;
 import riyufuchi.marvus.marvusLib.dataDisplay.SimpleOrderableList;
+import riyufuchi.marvus.marvusLib.dataDisplay.YearCategoryList;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
-import riyufuchi.marvus.marvusLib.legacy.DataDisplay;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
@@ -33,23 +33,20 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 06.09.2023
+ * Last Edit: 07.09.2023
  * 
  * @author Riyufuchi
  */
-public class BudgetDataTable extends SufuWindow
+public class MarvusMainWindow extends SufuWindow
 {
-	//private DataBox<Transaction> dataBox;
 	private CategoryYearTable table;
-	private Consumer<DataBox<Transaction>> displayMode;
 	private DataDisplayMode dataDisplayMode;
-	private MonthDetailTable mdt;
+	private CategoryDetailWindow mdt;
 	
-	public BudgetDataTable()
+	public MarvusMainWindow()
 	{
 		super("Marvus - " + AppTexts.VERSION, 800, 600, false, true, true);
 		this.table = new CategoryYearTable(this);
-		//this.displayMode = DataDisplay.simpleList(this);
 		this.dataDisplayMode = new SimpleList(this, table);
 		this.mdt = null;
 		MarvusCategory.init();
@@ -81,9 +78,9 @@ public class BudgetDataTable extends SufuWindow
 				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new SimpleList(this, table)));
 				//case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
 				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new MonthList(this, table)));
-				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new YearOverviewTable(this, table, 2023)));
+				case "Earning/Spending summary" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new YearOverviewTable(this, table, 2023)));
 				case "Categorized month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new CategorizedMonthList(this, table)));
-				//case "Year category list" -> jmc.setItemAction(i, event -> updateDataDisplayMode(DataDisplay.categoryYearList(this))); 
+				case "Year category list" -> jmc.setItemAction(i, event -> updateDataDisplayMode(new YearCategoryList(this, table))); 
 				// Other
 				case "Preferences" -> jmc.setItemAction(i,event -> new SettingsDialog(this).showDialog());
 				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
@@ -111,7 +108,7 @@ public class BudgetDataTable extends SufuWindow
 	{
 		if (mdt != null)
 			mdt.dispose();
-		mdt = new MonthDetailTable(this, fc);
+		mdt = new CategoryDetailWindow(this, fc);
 	}
 	
 	private boolean isOperationUnexucatable()
@@ -145,7 +142,7 @@ public class BudgetDataTable extends SufuWindow
 			if (t.getName().equals(fc.getName()) && t.getDate().getMonthValue() == month)
 				fc.add(t);
 		});
-		mdt = new MonthDetailTable(this, fc);
+		mdt = new CategoryDetailWindow(this, fc);
 	}
 	
 	// TODO: Improve data summary - 1
@@ -196,6 +193,8 @@ public class BudgetDataTable extends SufuWindow
 		if (ddm == null)
 			return;
 		dataDisplayMode = ddm;
+		if (isOperationUnexucatable())
+			return;
 		displayData();
 	}
 	

@@ -4,9 +4,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
-import riyufuchi.marvus.app.windows.BudgetDataTable;
-import riyufuchi.marvus.app.windows.EditDialog;
-import riyufuchi.marvus.app.windows.RemoveDialog;
+import riyufuchi.marvus.app.windows.MarvusMainWindow;
+import riyufuchi.marvus.app.windows.dialogs.EditDialog;
+import riyufuchi.marvus.app.windows.dialogs.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.SufuWindow;
 

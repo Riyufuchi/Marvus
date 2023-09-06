@@ -1,8 +1,9 @@
-package riyufuchi.marvus.app.windows;
+package riyufuchi.marvus.app.windows.dialogs;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.app.windows.MarvusMainWindow;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 
 /**
@@ -51,7 +52,7 @@ public class EditDialog extends AddDialog
 		transaction.setDate(date.getText());
 		transaction.setNote(note.getText());
 		transaction.setCurrency(currency.getText());
-		((BudgetDataTable)parentFrame).refresh();
+		((MarvusMainWindow)parentFrame).refresh();
 	}
 	
 	public Transaction getTransaction()

@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.app.windows.BudgetDataTable;
+import riyufuchi.marvus.app.windows.MarvusMainWindow;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
@@ -36,10 +36,10 @@ public class CategoryYearTable
 {
 	private ArrayList<LinkedList<FinancialCategory>> months;
 	private DataBox<Transaction> dataBox;
-	private BudgetDataTable bdt;
+	private MarvusMainWindow bdt;
 	private int x, size;
 	
-	public CategoryYearTable(BudgetDataTable bdt)
+	public CategoryYearTable(MarvusMainWindow bdt)
 	{
 		initialize();
 		this.x = 0;
