@@ -29,7 +29,7 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * Last Edit: 06.09.2023
  * 
  * @author Riyufuchi
- * @version 1.4
+ * @version 1.5
  * @since 0.1.60
  */
 public class CategoryYearTable
@@ -209,7 +209,7 @@ public class CategoryYearTable
 	}
 	
 	// Utils
-	
+	/*
 	public void displayData()
 	{
 		JPanel pane = bdt.getPane();
@@ -244,12 +244,17 @@ public class CategoryYearTable
 		String point = ((JButton)e.getSource()).getName();
 		showData(Integer.valueOf(point.substring(0, point.indexOf(';'))), Integer.valueOf(point.substring(point.indexOf(';') + 1, point.length())));
 	}
-	
+	*/
 	// Getters
 	
-	public LinkedList<FinancialCategory> getCategorizedMonth(int month)
+	/**
+	 * 
+	 * @param index month number - 1
+	 * @return
+	 */
+	public LinkedList<FinancialCategory> getCategorizedMonth(int index)
 	{
-		return months.get(month - 1);
+		return months.get(index);
 	}
 	
 	public DataBox<Transaction> getDataBox()

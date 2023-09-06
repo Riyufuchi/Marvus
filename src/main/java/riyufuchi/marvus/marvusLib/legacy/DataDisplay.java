@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.dataDisplay;
+package riyufuchi.marvus.marvusLib.legacy;
 
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
@@ -14,6 +14,7 @@ import riyufuchi.marvus.app.windows.EditDialog;
 import riyufuchi.marvus.app.windows.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
@@ -134,7 +135,7 @@ public class DataDisplay
 	
 	public static Consumer<DataBox<Transaction>> categoryByMonthInYear(BudgetDataTable bdt)
 	{
-		return data -> bdt.displayTable();
+		return data -> bdt.displayData();
 	}
 	
 	public static Consumer<DataBox<Transaction>> yearOverview(BudgetDataTable bdt)

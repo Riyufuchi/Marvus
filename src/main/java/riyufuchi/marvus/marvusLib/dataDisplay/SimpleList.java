@@ -3,6 +3,7 @@ package riyufuchi.marvus.marvusLib.dataDisplay;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.windows.BudgetDataTable;
+import riyufuchi.marvus.marvusLib.legacy.DataDisplay;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
@@ -18,8 +19,8 @@ public class SimpleList extends DataDisplayMode
 	public void displayData()
 	{
 		JPanel panel = targetWindow.getPane();
-		dataSource.getDataBox().stream().forEach(t -> panel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> DataDisplay.showExtednedInfo(t,
-				(BudgetDataTable)targetWindow, evt)), targetWindow.getGBC(0, t.getID())));
+		dataSource.getDataBox().stream().forEach(t -> panel.add(SufuFactory.newTextFieldCell(t.toString(),
+				evt -> showExtednedInfo(t, evt)), targetWindow.getGBC(0, t.getID())));
 		//targetWindow.refreshWindow();
 	}
 
@@ -28,8 +29,9 @@ public class SimpleList extends DataDisplayMode
 	{
 		JPanel panel = targetWindow.getPane();
 		panel.removeAll();
-		dataSource.getDataBox().stream().forEach(t -> panel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> DataDisplay.showExtednedInfo(t,
-				(BudgetDataTable)targetWindow, evt)), targetWindow.getGBC(0, t.getID())));
+		dataSource.getDataBox().stream().forEach(t -> panel.add(SufuFactory.newTextFieldCell(t.toString(),
+				evt -> showExtednedInfo(t, evt)),
+				targetWindow.getGBC(0, t.getID())));
 		//targetWindow.refreshWindow();
 	}
 }

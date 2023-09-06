@@ -5,20 +5,25 @@ import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
+import org.hamcrest.core.IsInstanceOf;
+
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategoryYearTable;
-import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplay;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
+import riyufuchi.marvus.marvusLib.dataDisplay.MonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.SimpleList;
+import riyufuchi.marvus.marvusLib.dataDisplay.SimpleOrderableList;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
+import riyufuchi.marvus.marvusLib.legacy.DataDisplay;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
@@ -39,7 +44,6 @@ public class BudgetDataTable extends SufuWindow
 	private Consumer<DataBox<Transaction>> displayMode;
 	private DataDisplayMode dataDisplayMode;
 	private MonthDetailTable mdt;
-	private boolean orderable;
 	
 	public BudgetDataTable()
 	{
@@ -48,7 +52,6 @@ public class BudgetDataTable extends SufuWindow
 		//this.displayMode = DataDisplay.simpleList(this);
 		this.dataDisplayMode = new SimpleList(this, table);
 		this.mdt = null;
-		this.orderable = false;
 		MarvusCategory.init();
 	}
 	
@@ -75,12 +78,12 @@ public class BudgetDataTable extends SufuWindow
 				// Data handling
 				case "Add" -> jmc.setItemAction(i, event -> add());//new AddDialog(this).showDialog()); // TODO: Optimalize adding to CYT - 4
 				// Display modes
-				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.simpleOrderableList(this)));
-				case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
-				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.monthList(this)));
+				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new SimpleList(this, table)));
+				//case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
+				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new MonthList(this, table)));
 				case "Year list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new YearOverviewTable(this, table, 2023)));
-				case "Month category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryByMonthInYear(this)));
-				case "Year category list" -> jmc.setItemAction(i, event -> updateDataDisplayMode(DataDisplay.categoryYearList(this))); 
+				case "Categorized month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new CategorizedMonthList(this, table)));
+				//case "Year category list" -> jmc.setItemAction(i, event -> updateDataDisplayMode(DataDisplay.categoryYearList(this))); 
 				// Other
 				case "Preferences" -> jmc.setItemAction(i,event -> new SettingsDialog(this).showDialog());
 				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
@@ -93,11 +96,12 @@ public class BudgetDataTable extends SufuWindow
 	
 	// Utils
 	
+	/*
 	public void displayTable()
 	{
 		table.rebuild();
 		table.displayData();
-	}
+	}*/
 	
 	/**
 	 * 
@@ -107,7 +111,7 @@ public class BudgetDataTable extends SufuWindow
 	{
 		if (mdt != null)
 			mdt.dispose();
-		mdt = new MonthDetailTable(fc, this);
+		mdt = new MonthDetailTable(this, fc);
 	}
 	
 	private boolean isOperationUnexucatable()
@@ -141,7 +145,7 @@ public class BudgetDataTable extends SufuWindow
 			if (t.getName().equals(fc.getName()) && t.getDate().getMonthValue() == month)
 				fc.add(t);
 		});
-		mdt = new MonthDetailTable(fc, this);
+		mdt = new MonthDetailTable(this, fc);
 	}
 	
 	// TODO: Improve data summary - 1
@@ -154,11 +158,8 @@ public class BudgetDataTable extends SufuWindow
 	private void sortData(Comparator<Transaction> comp)
 	{
 		table.getDataBox().setComparator(comp);
-		if (!orderable)
-		{
-			displayMode = DataDisplay.simpleOrderableList(this);
-			orderable = true;
-		}
+		if (dataDisplayMode instanceof SimpleList)
+			updateDataDisplayMode(new SimpleOrderableList(this, table));
 		table.getDataBox().sort();
 		refresh();
 	}
@@ -190,16 +191,6 @@ public class BudgetDataTable extends SufuWindow
 		SufuDialogHelper.informationDialog(this, AppTexts.ABOUT_MARVUS, "About");
 	}
 	
-	@Deprecated
-	private void updateDataDisplayMode(Consumer<DataBox<Transaction>> dataDisplayMode)
-	{
-		if (displayMode == null)
-			return;
-		orderable = true;
-		displayMode = dataDisplayMode;
-		refresh();
-	}
-	
 	private void updateDataDisplayMode(DataDisplayMode ddm)
 	{
 		if (ddm == null)
@@ -215,10 +206,9 @@ public class BudgetDataTable extends SufuWindow
 	{
 		if (isOperationUnexucatable())
 			return;
-		//getPane().removeAll();
-		//displayData();
-		dataDisplayMode.refresh();
-		refreshWindow();
+		//dataDisplayMode.refresh();
+		displayData(); // Solution for now
+		//refreshWindow();
 	}
 	
 	/**

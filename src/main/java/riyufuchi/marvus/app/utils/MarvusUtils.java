@@ -32,7 +32,7 @@ public class MarvusUtils
 	
 	public static void fixCategory(DataBox<Transaction> data)
 	{
-		data.forEach(transaction -> transaction.setCategory(MarvusCategory.categories[getCategoryID(transaction.getName())]));
+		data.stream().forEach(transaction -> transaction.setCategory(MarvusCategory.categories[getCategoryID(transaction.getName())]));
 	}
 	
 	private static int getCategoryID(String name)
