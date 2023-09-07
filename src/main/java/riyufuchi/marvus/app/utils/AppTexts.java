@@ -2,7 +2,7 @@ package riyufuchi.marvus.app.utils;
 
 public class AppTexts
 {
-	public static final String VERSION = "0.1.69";
+	public static final String VERSION = "0.1.70";
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Data tools", "Tools", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
 			"Backup", "Import", "Export", "Exit", "",
@@ -13,7 +13,7 @@ public class AppTexts
 			"Preferences", "Refresh", "",
 			"About", "About SufuLib"};
 	// Other
-	public static final String ABOUT_MARVUS = "<html>This is budget manager.<br>"
+	public static final String ABOUT_MARVUS = "<html>This is finance manager.<br>"
 			+ "Version: " + AppTexts.VERSION + "<br>Created by Riyufuchi."
 			+ "<br>My code is under respective license.</html>";
 	// SEETINGS DIALOG TEXTS

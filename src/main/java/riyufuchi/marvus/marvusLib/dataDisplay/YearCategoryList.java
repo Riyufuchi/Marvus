@@ -1,7 +1,12 @@
 package riyufuchi.marvus.marvusLib.dataDisplay;
 
+import java.awt.event.ActionEvent;
+import java.util.LinkedList;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.app.windows.MarvusMainWindow;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.sufuLib.gui.SufuWindow;
@@ -10,22 +15,25 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 public class YearCategoryList extends DataDisplayMode
 {
+	private LinkedList<FinancialCategory> list;
+	
 	public YearCategoryList(SufuWindow targetWindow, CategoryYearTable dataSource)
 	{
 		super(targetWindow, dataSource);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void displayData()
 	{
 		JPanel panel = targetWindow.getPane();
-		SufuWindowTools.createTableRow(targetWindow, 1, "Category", "Sum");
+		SufuWindowTools.createTableRowHeader(targetWindow, 1, "Category", "Sum");
 		int y = 2;
-		for(FinancialCategory category : TransactionCalculations.categorizeYearByCategories(dataSource.getDataBox()))
+		list = TransactionCalculations.categorizeYearByCategories(dataSource.getDataBox());
+		for(FinancialCategory category : list)
 		{
-			panel.add(SufuFactory.newTextFieldCell(category.getCategory()), targetWindow.getGBC(0, y));
-			panel.add(SufuFactory.newTextFieldCell(category.getSum().toString()), targetWindow.getGBC(1, y++));
+			//panel.add(SufuFactory.newTextFieldHeader(category.getCategory()), targetWindow.getGBC(0, y));
+			panel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), targetWindow.getGBC(0, y));
+			panel.add(SufuFactory.newTextFieldHeader(category.getSum().toString()), targetWindow.getGBC(1, y++));
 		}
 	}
 
@@ -34,5 +42,11 @@ public class YearCategoryList extends DataDisplayMode
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	private void btnDataReference(ActionEvent e)
+	{
+		String point = ((JButton)e.getSource()).getName();
+		((MarvusMainWindow)targetWindow).showMonthDetailTable(list.get(Integer.valueOf(point) - 2), false);
+		//showData(Integer.valueOf(point.substring(0, point.indexOf(';'))), Integer.valueOf(point.substring(point.indexOf(';') + 1, point.length())));
+	}
 }

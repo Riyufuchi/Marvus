@@ -30,9 +30,10 @@ public class MarvusUtils
 		}
 	}
 	
-	public static void fixCategory(DataBox<Transaction> data)
+	public static void fixCategory(JFrame frame,DataBox<Transaction> data)
 	{
-		data.stream().forEach(transaction -> transaction.setCategory(MarvusCategory.categories[getCategoryID(transaction.getName())]));
+		if(SufuDialogHelper.yesNoDialog(frame, "Set categroy automatically?", "Category fixing") == 0)
+			data.stream().forEach(transaction -> transaction.setCategory(MarvusCategory.categories[getCategoryID(transaction.getName())]));
 	}
 	
 	private static int getCategoryID(String name)

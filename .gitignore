@@ -1,8 +1,12 @@
+# Folders
 appdata/
 target/
 bin/
 lib/
 deprecated/
+jars/
+
+# Files
 *.csv
 .settings
 *.jardesc

@@ -68,7 +68,7 @@ public class MarvusMainWindow extends SufuWindow
 				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
 				// Data tools
 				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
-				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(table.getDataBox()); table.rebuild(); });
+				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this ,table.getDataBox()); table.rebuild(); });
 				// Tools
 				case "Income to outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(DateUtils.showMonthChooser(this).getValue())));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
@@ -104,11 +104,11 @@ public class MarvusMainWindow extends SufuWindow
 	 * 
 	 * @param fc
 	 */
-	public void showMonthDetailTable(FinancialCategory fc)
+	public void showMonthDetailTable(FinancialCategory fc, boolean dynamic)
 	{
 		if (mdt != null)
 			mdt.dispose();
-		mdt = new CategoryDetailWindow(this, fc);
+		mdt = new CategoryDetailWindow(this, fc, dynamic);
 	}
 	
 	private boolean isOperationUnexucatable()
@@ -142,7 +142,7 @@ public class MarvusMainWindow extends SufuWindow
 			if (t.getName().equals(fc.getName()) && t.getDate().getMonthValue() == month)
 				fc.add(t);
 		});
-		mdt = new CategoryDetailWindow(this, fc);
+		mdt = new CategoryDetailWindow(this, fc, true);
 	}
 	
 	// TODO: Improve data summary - 1

@@ -19,11 +19,17 @@ public class CategoryDetailWindow extends SufuWindow
 {
 	private MonthCategoryDetail mcd;
 	
-	public CategoryDetailWindow(MarvusMainWindow bdt, FinancialCategory fc)
+	public CategoryDetailWindow(MarvusMainWindow bdt, FinancialCategory fc, boolean dynamic)
 	{
 		super("?", 800, 600, false, true, false);
 		this.mcd = new MonthCategoryDetail(this, fc);
-		setTitle(createWindowTitle(mcd.getFinancialCategory().getFirst()));
+		if (dynamic)
+			setTitle(createWindowTitle(mcd.getFinancialCategory().getFirst()));
+		else
+		{
+			setTitle(fc.getFirst().getCategory() + " - " + fc.getFirst().getDate().getYear());
+			mcd.setNumberOfDays(31);
+		}
 		mcd.displayData();
 		refreshWindow();
 	}

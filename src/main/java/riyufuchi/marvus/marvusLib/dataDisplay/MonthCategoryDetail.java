@@ -6,14 +6,22 @@ import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 public class MonthCategoryDetail extends DataDisplayMode
 {
 	private FinancialCategory fc;
-	private int day;
+	private int day, numberOfDays;
 	
-	public MonthCategoryDetail(SufuWindow targetWindow, FinancialCategory fc) {
+	public MonthCategoryDetail(SufuWindow targetWindow, FinancialCategory fc)
+	{
 		super(targetWindow, null);
+		initialize(fc);
+		this.numberOfDays =  fc.getFirst().getDate().getMonth().length(SufuDateUtils.isLeapYear(fc.getFirst().getDate().getYear()));
+	}
+	
+	private void initialize(FinancialCategory fc)
+	{
 		if (fc == null)
 			fc = new FinancialCategory(new Transaction());
 		if (fc.size() == 0)
@@ -25,10 +33,9 @@ public class MonthCategoryDetail extends DataDisplayMode
 	@Override
 	public void displayData()
 	{
-		int numberOfDays = fc.getFirst().getDate().getMonth().length(isLeapYear(fc.getFirst().getDate().getYear()));
 		JPanel pane = targetWindow.getPane();
 		for (int i = 0; i < numberOfDays; i++)
-			pane.add(SufuFactory.newTextFieldCell((Integer.toString(i + 1))), targetWindow.getGBC(i, 0));
+			pane.add(SufuFactory.newTextFieldHeader((Integer.toString(i + 1))), targetWindow.getGBC(i, 0));
 		fillTableData(numberOfDays, pane);
 	}
 
@@ -52,9 +59,9 @@ public class MonthCategoryDetail extends DataDisplayMode
 		});
 	}
 	
-	private boolean isLeapYear(int year)
+	public void setNumberOfDays(int num)
 	{
-		return ((year % 4 == 0 && year % 100!= 0) || year % 400 == 0);
+		this.numberOfDays = num;
 	}
 	
 	public FinancialCategory getFinancialCategory()

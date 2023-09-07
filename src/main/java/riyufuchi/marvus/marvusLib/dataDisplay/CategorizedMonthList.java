@@ -26,7 +26,7 @@ public class CategorizedMonthList extends DataDisplayMode
 		JPanel pane = targetWindow.getPane();
 		int y = 1;
 		FinancialCategory fc = null;
-		SufuWindowTools.createTableRow(targetWindow, 0, 0, (Object[])Month.values());
+		SufuWindowTools.createTableRowHeader(targetWindow, 0, Month.values());
 		for (int month = 0; month < 12; month++)
 		{
 			Iterator<FinancialCategory> it = dataSource.getCategorizedMonth(month).iterator();
@@ -48,7 +48,7 @@ public class CategorizedMonthList extends DataDisplayMode
 	
 	private void showData(int x, int y)
 	{
-		((MarvusMainWindow)targetWindow).showMonthDetailTable(dataSource.get(x, y));
+		((MarvusMainWindow)targetWindow).showMonthDetailTable(dataSource.get(x, y), true);
 	}
 	
 	private String createBtnName(int month, int y)

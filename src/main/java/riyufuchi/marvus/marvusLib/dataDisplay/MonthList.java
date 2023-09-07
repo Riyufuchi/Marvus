@@ -23,7 +23,7 @@ public class MonthList extends DataDisplayMode
 		int[] columnHeight = new int[12];
 		for (int i = 0; i < 12; i++)
 			columnHeight[i] = 0;
-		SufuWindowTools.createTableRow(targetWindow, 1, 0, (Object[])Month.values());
+		SufuWindowTools.createTableRowHeader(targetWindow, 1, 0, Month.values());
 		for (Transaction t : dataSource.getDataBox())
 		{
 			panel.add(SufuFactory.newTextFieldCell(t.toString(),
