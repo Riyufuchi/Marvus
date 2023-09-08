@@ -11,14 +11,10 @@ import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
-/*
- * Created On: 05.09.2023
- * Last Edit: 06.09.2023
- */
 /**
  * @author Riyufuchi
- * @version 1.1
- * @since 0.1.66
+ * @version 1.3 - Last Edit: 08.09.2023
+ * @since 0.1.66 - Created On: 05.09.2023
  */
 // TODO: Optimize this class for refresh method
 public class YearOverviewTable extends DataDisplayMode
@@ -38,21 +34,19 @@ public class YearOverviewTable extends DataDisplayMode
 		BigDecimal[] outcome = yearOverview.outcome();
 		JPanel panel = targetWindow.getPane();
 		SufuWindowTools.createTableColumnHeader(targetWindow, 0, String.valueOf(yearOverview.year()), "Income", "Outcome", "Total");
-		//Month[] months = Month.values();
 		SufuWindowTools.<Month>createTableRowHeader(targetWindow, 1, 0, Month.values());
 		int xPos = 0;
 		for (int x = 1; x < 13; x++)
 		{
-			//panel.add(SufuFactory.newTextFieldCell(months[xPos].toString()), targetWindow.getGBC(x, 0));
 			panel.add(SufuFactory.newTextFieldHeader(income[xPos].toString()), targetWindow.getGBC(x, 1));
 			panel.add(SufuFactory.newTextFieldHeader(outcome[xPos].toString()), targetWindow.getGBC(x, 2));
 			panel.add(SufuFactory.newTextFieldHeader((income[xPos].add(outcome[xPos]).toString())), targetWindow.getGBC(x, 3)); // outcome is already negative
 			xPos++;
 		}
-		income = yearOverview.getTotalData();
-		SufuWindowTools.createTableColumnHeader(targetWindow, 13 , "Year total", income[0], income[1], income[2]);
+		SufuWindowTools.createTableColumnHeader(targetWindow, 13 , "Year total", yearOverview.totalIncome(), yearOverview.totalOutcome(), yearOverview.totalResult());
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void refresh()
 	{

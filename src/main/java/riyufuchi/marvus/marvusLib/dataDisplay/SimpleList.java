@@ -2,11 +2,8 @@ package riyufuchi.marvus.marvusLib.dataDisplay;
 
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.app.windows.MarvusMainWindow;
-import riyufuchi.marvus.marvusLib.legacy.DataDisplay;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-
 
 public class SimpleList extends DataDisplayMode
 {

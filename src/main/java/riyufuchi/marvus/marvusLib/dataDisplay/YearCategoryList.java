@@ -31,16 +31,15 @@ public class YearCategoryList extends DataDisplayMode
 		list = TransactionCalculations.categorizeYearByCategories(dataSource.getDataBox());
 		for(FinancialCategory category : list)
 		{
-			//panel.add(SufuFactory.newTextFieldHeader(category.getCategory()), targetWindow.getGBC(0, y));
 			panel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), targetWindow.getGBC(0, y));
 			panel.add(SufuFactory.newTextFieldHeader(category.getSum().toString()), targetWindow.getGBC(1, y++));
 		}
 	}
 
 	@Override
-	public void refresh() {
+	public void refresh()
+	{
 		// TODO Auto-generated method stub
-
 	}
 	
 	private void btnDataReference(ActionEvent e)

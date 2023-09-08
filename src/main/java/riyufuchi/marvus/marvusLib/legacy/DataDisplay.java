@@ -1,7 +1,6 @@
 package riyufuchi.marvus.marvusLib.legacy;
 
 import java.awt.event.MouseEvent;
-import java.math.BigDecimal;
 import java.time.Month;
 import java.util.LinkedList;
 import java.util.function.Consumer;
@@ -16,10 +15,8 @@ import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
-import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
-import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
@@ -27,7 +24,7 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * Provides display utility functions for data<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 06.09.2023
+ * Last Edit: 08.09.2023
  * 
  * @author Riyufuchi
  */

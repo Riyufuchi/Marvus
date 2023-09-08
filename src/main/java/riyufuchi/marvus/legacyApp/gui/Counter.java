@@ -23,7 +23,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 29.08.2023
+ * Last Edit: 08.09.2023
  * 
  * @author Riyufuchi
  */
@@ -77,6 +77,7 @@ public class Counter extends SufuWindow
 	}
 	
 	//TODO: Add default counter.csv
+	@SuppressWarnings("deprecation")
 	private void createLabels(JPanel content) throws NullPointerException, IOException
 	{
 		LinkedList<String> labelTexts = (LinkedList<String>) SufuPersistence.loadTextFile("data/counter.csv");

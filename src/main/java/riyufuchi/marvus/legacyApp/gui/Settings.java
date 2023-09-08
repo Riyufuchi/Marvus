@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 29.08.2023
+ * Last Edit: 08.09.2023
  * 
  * @author Riyufuchi
  */
@@ -31,6 +31,7 @@ public final class Settings extends SufuWindow
 		super("Preferences", 360, 210, true, true, false);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void setComponents(JPanel content)
 	{

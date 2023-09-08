@@ -2,8 +2,9 @@ package riyufuchi.marvus.marvusLib.financialRecords;
 
 import java.math.BigDecimal;
 
-public record YearOverview(int year, BigDecimal[] income, BigDecimal[] outcome)
+public record YearOverview(int year, BigDecimal[] income, BigDecimal[] outcome, BigDecimal totalIncome, BigDecimal totalOutcome, BigDecimal totalResult)
 {
+	@Deprecated
 	public BigDecimal[] getTotalData()
 	{
 		BigDecimal yearIncome = new BigDecimal(0);

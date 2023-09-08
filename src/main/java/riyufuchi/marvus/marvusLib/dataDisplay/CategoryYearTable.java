@@ -1,14 +1,8 @@
 package riyufuchi.marvus.marvusLib.dataDisplay;
 
-import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.windows.MarvusMainWindow;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
@@ -19,14 +13,12 @@ import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
 import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
  * This class sort data into categories. Data starts from x = 0.
  * 
  * Created On: 24.08.2023<br>
- * Last Edit: 06.09.2023
+ * Last Edit: 08.09.2023
  * 
  * @author Riyufuchi
  * @version 1.5
@@ -201,50 +193,19 @@ public class CategoryYearTable
 					case 1 -> income[index] = income[index].add(t.getValue());
 					case -1 -> outcome[index] = outcome[index].add(t.getValue());
 					case 0 -> SufuDialogHelper.warningDialog(bdt, "Zero value detected for: "
-					+ t.toString() + "\nSome data can be missing", "Zero money sum");
+					+ t.toString(), "Zero money in transaction " + t.getID());
 				}
 			}
 		}
-		return new YearOverview(year, income, outcome);
-	}
-	
-	// Utils
-	/*
-	public void displayData()
-	{
-		JPanel pane = bdt.getPane();
-		int y = 1;
-		FinancialCategory fc = null;
-		SufuWindowTools.createTableRow(bdt, 0, 0, (Object[])Month.values());
-		for (int month = 0; month < 12; month++)
+		BigDecimal totalOutcome = new BigDecimal(0);
+		for (int i = 0; i < 12; i++)
 		{
-			Iterator<FinancialCategory> it = months.get(month).iterator();
-			while (it.hasNext())
-			{
-				fc = it.next();
-				pane.add(SufuFactory.newButton(fc.toString(), createBtnName(month, y), evt -> btnDataReference(evt)), bdt.getGBC(month, y));
-				y++;
-			}
-			y = 1;
+			zero = zero.add(income[i]);
+			totalOutcome = totalOutcome.add(outcome[i]);
 		}
+		return new YearOverview(year, income, outcome, zero, totalOutcome, zero.add(totalOutcome));
 	}
 
-	private void showData(int x, int y)
-	{
-		bdt.showMonthDetailTable(months.get(x).get(y));
-	}
-	
-	private String createBtnName(int month, int y)
-	{
-		return month + ";" + (y - 1);
-	}
-	
-	private void btnDataReference(ActionEvent e)
-	{
-		String point = ((JButton)e.getSource()).getName();
-		showData(Integer.valueOf(point.substring(0, point.indexOf(';'))), Integer.valueOf(point.substring(point.indexOf(';') + 1, point.length())));
-	}
-	*/
 	// Getters
 	
 	/**
@@ -261,5 +222,4 @@ public class CategoryYearTable
 	{
 		return dataBox;
 	}
-
 }
