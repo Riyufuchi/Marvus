@@ -2,6 +2,7 @@ package riyufuchi.marvus.marvusLib.dataDisplay;
 
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.marvusLib.dataStorage.CategoryYearTable;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.windows.MarvusMainWindow;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
+import riyufuchi.marvus.marvusLib.dataStorage.CategoryYearTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;

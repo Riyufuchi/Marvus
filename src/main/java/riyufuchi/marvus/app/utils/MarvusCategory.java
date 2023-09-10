@@ -12,6 +12,18 @@ public class MarvusCategory
 	
 	private MarvusCategory() {}
 	
+	public static int getIndexIn(String[] arr, String val)
+	{
+		int i = 0;
+		for (String s : arr)
+		{
+			if (s.equals(val))
+				return i;
+			i++;
+		}
+		return 0;
+	}
+	
 	public static void init()
 	{
 		String[] data = loadTransactionMacro();

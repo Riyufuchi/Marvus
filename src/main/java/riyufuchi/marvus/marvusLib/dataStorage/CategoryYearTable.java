@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.dataDisplay;
+package riyufuchi.marvus.marvusLib.dataStorage;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
-import riyufuchi.marvus.marvusLib.utils.DataBox;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 
 /**

@@ -13,7 +13,7 @@ import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.legacyApp.utils.MarvusLegacyHelper;
 import riyufuchi.marvus.legacyApp.utils.MoneySum;
-import riyufuchi.marvus.marvusLib.utils.DataBox;
+import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;

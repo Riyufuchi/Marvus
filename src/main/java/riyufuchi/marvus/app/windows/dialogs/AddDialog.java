@@ -1,6 +1,5 @@
 package riyufuchi.marvus.app.windows.dialogs;
 
-
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -21,13 +20,13 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 01.09.2023
+ * Last Edit: 10.09.2023
  * 
  * @author Riyufuchi
  */
 public class AddDialog extends SufuDialog
 {
-	protected JTextField name, category,  money, date, currency;
+	protected JTextField name, money, date, currency;
 	protected JComboBox<String> nameBox, categoryBox;
 	protected JTextArea note;
 	
@@ -42,7 +41,6 @@ public class AddDialog extends SufuDialog
 		nameBox = SufuFactory.<String>newCombobox(MarvusCategory.names);
 		categoryBox = SufuFactory.<String>newCombobox(MarvusCategory.categoryList);
 		name = SufuFactory.newTextField("");
-		category = SufuFactory.newTextField("Other");
 		money = SufuFactory.newTextField("");
 		date = SufuFactory.newTextField(DateUtils.nowDateString());
 		currency = SufuFactory.newTextField(Money.getDefaultCurrency());
@@ -73,28 +71,26 @@ public class AddDialog extends SufuDialog
 			if (money.getText().equals("0"))
 				money.setText("");
 		});
-		categoryBox.addActionListener(evt -> {
-			if (categoryBox.getItemAt(categoryBox.getSelectedIndex()).equals("Other"))
-				category.setEnabled(true);
-			else
-				category.setEnabled(false);
-			category.setText(categoryBox.getItemAt(categoryBox.getSelectedIndex()));
-		});
 		// Set labels
 		pane.add(new JLabel("Name:"), getGBC(0, 0));
 		pane.add(new JLabel("Category:"), getGBC(0, 2));
-		int y = 4;
+		int y = 3;
 		for (String text : new String[]{ "Amount:", "Currency: ", "Date:", "Note:" })
 			pane.add(new JLabel(text), getGBC(0, y++));
 		y = 0;
 		// Set components
-		for (JComponent comp : new JComponent[]{ nameBox, name, categoryBox, category, money, currency, date, note})
+		for (JComponent comp : new JComponent[]{ nameBox, name, categoryBox, money, currency, date, note})
 			pane.add(comp, getGBC(1, y++));
 	}
 	@Override
 	protected void onOK()
 	{
-		((MarvusMainWindow)parentFrame).getTable().add(new Transaction(name.getText(), category.getText(), money.getText(), date.getText(), note.getText()));
+		((MarvusMainWindow)parentFrame).getTable().add(new Transaction(name.getText(), this.<String>getComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
 		((MarvusMainWindow)parentFrame).refresh();
+	}
+	
+	protected <E> E getComboboxValue(JComboBox<E> comboBox)
+	{
+		return comboBox.getItemAt(comboBox.getSelectedIndex());
 	}
 }

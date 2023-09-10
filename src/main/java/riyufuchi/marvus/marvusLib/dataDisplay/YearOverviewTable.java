@@ -6,6 +6,7 @@ import java.time.Month;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import riyufuchi.marvus.marvusLib.dataStorage.CategoryYearTable;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;

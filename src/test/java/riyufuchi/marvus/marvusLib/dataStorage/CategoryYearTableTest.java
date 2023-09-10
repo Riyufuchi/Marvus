@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.dataDisplay;
+package riyufuchi.marvus.marvusLib.dataStorage;
 
 import static org.junit.Assert.assertEquals;
 
