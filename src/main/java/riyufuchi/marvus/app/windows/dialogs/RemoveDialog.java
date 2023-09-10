@@ -2,7 +2,7 @@ package riyufuchi.marvus.app.windows.dialogs;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.app.windows.MarvusMainWindow;
+import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 
@@ -26,7 +26,7 @@ public class RemoveDialog extends EditDialog
 	{
 		if(SufuDialogHelper.yesNoDialog(parentFrame, "Delete transaction number: " + getTransaction().getID() + "\n" + getTransaction().toString(), "Are you sure?") == 0)
 		{
-			MarvusMainWindow budgetDataTable = (MarvusMainWindow)parentFrame;
+			MarvusDataWindow budgetDataTable = (MarvusDataWindow)parentFrame;
 			budgetDataTable.getTable().remove(getTransaction());
 			budgetDataTable.refresh();
 		}

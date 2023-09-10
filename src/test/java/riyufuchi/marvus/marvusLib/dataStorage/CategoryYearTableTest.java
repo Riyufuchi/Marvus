@@ -9,11 +9,11 @@ import riyufuchi.marvus.marvusLib.data.Transaction;
 
 public class CategoryYearTableTest
 {
-	private CategoryYearTable ct = new CategoryYearTable(null);
+	private TransactionDataTable ct = new TransactionDataTable(null);
 	
 	public CategoryYearTableTest()
 	{
-		this.ct = new CategoryYearTable(null);
+		this.ct = new TransactionDataTable(null);
 	}
 	
 	@Test

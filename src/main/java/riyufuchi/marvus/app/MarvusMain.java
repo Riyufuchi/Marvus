@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusUtils;
-import riyufuchi.marvus.app.windows.MarvusMainWindow;
+import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.legacyApp.gui.DataTableForm;
 import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.enums.AppThemeUI;
@@ -38,7 +38,7 @@ public class MarvusMain
 				//app = new DataTableForm(800, 600);
 		}
 		if(app == null)
-			app = new MarvusMainWindow();
+			app = new MarvusDataWindow();
 		app.toFront();
 	}
 	

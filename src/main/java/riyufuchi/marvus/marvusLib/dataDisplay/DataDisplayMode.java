@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 import riyufuchi.marvus.app.windows.dialogs.EditDialog;
 import riyufuchi.marvus.app.windows.dialogs.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataStorage.CategoryYearTable;
+import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.sufuLib.gui.SufuWindow;
 
 /**
@@ -19,9 +19,9 @@ import riyufuchi.sufuLib.gui.SufuWindow;
 public abstract class DataDisplayMode
 {
 	protected SufuWindow targetWindow;
-	protected CategoryYearTable dataSource;
+	protected TransactionDataTable dataSource;
 	
-	public DataDisplayMode(SufuWindow targetWindow, CategoryYearTable dataSource)
+	public DataDisplayMode(SufuWindow targetWindow, TransactionDataTable dataSource)
 	{
 		this.targetWindow = targetWindow;
 		this.dataSource = dataSource;

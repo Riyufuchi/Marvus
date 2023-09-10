@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import riyufuchi.marvus.app.windows.MarvusMainWindow;
+import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
@@ -23,14 +23,14 @@ import riyufuchi.sufuLib.gui.SufuDialogHelper;
  * @version 1.5
  * @since 0.1.60
  */
-public class CategoryYearTable
+public class TransactionDataTable
 {
 	private ArrayList<LinkedList<FinancialCategory>> months;
 	private DataBox<Transaction> dataBox;
-	private MarvusMainWindow bdt;
+	private MarvusDataWindow bdt;
 	private int x, size;
 	
-	public CategoryYearTable(MarvusMainWindow bdt)
+	public TransactionDataTable(MarvusDataWindow bdt)
 	{
 		initialize();
 		this.x = 0;

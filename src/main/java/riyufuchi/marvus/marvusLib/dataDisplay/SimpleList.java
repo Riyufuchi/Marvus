@@ -2,13 +2,13 @@ package riyufuchi.marvus.marvusLib.dataDisplay;
 
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.marvusLib.dataStorage.CategoryYearTable;
+import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 public class SimpleList extends DataDisplayMode
 {
-	public SimpleList(SufuWindow targetWindow, CategoryYearTable source)
+	public SimpleList(SufuWindow targetWindow, TransactionDataTable source)
 	{
 		super(targetWindow, source);
 	}

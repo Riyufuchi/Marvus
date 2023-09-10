@@ -6,7 +6,7 @@ import java.time.Month;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.marvusLib.dataStorage.CategoryYearTable;
+import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
@@ -22,7 +22,7 @@ public class YearOverviewTable extends DataDisplayMode
 {
 	private YearOverview yearOverview;
 	
-	public YearOverviewTable(SufuWindow targetWindow, CategoryYearTable source, int year)
+	public YearOverviewTable(SufuWindow targetWindow, TransactionDataTable source, int year)
 	{
 		super(targetWindow, source);
 		this.yearOverview = dataSource.getYearOverview(year);

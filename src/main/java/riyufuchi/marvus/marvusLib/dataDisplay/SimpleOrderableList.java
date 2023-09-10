@@ -4,13 +4,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataStorage.CategoryYearTable;
+import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 public class SimpleOrderableList extends DataDisplayMode
 {
-	public SimpleOrderableList(SufuWindow targetWindow, CategoryYearTable source)
+	public SimpleOrderableList(SufuWindow targetWindow, TransactionDataTable source)
 	{
 		super(targetWindow, source);
 	}

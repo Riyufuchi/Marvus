@@ -22,7 +22,7 @@ import riyufuchi.marvus.marvusLib.dataDisplay.SimpleList;
 import riyufuchi.marvus.marvusLib.dataDisplay.SimpleOrderableList;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearCategoryList;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
-import riyufuchi.marvus.marvusLib.dataStorage.CategoryYearTable;
+import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
@@ -40,16 +40,16 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
  * 
  * @author Riyufuchi
  */
-public class MarvusMainWindow extends SufuWindow
+public class MarvusDataWindow extends SufuWindow
 {
-	private CategoryYearTable table;
+	private TransactionDataTable table;
 	private DataDisplayMode dataDisplayMode;
 	private CategoryDetailWindow mdt;
 	
-	public MarvusMainWindow()
+	public MarvusDataWindow()
 	{
 		super("Marvus - " + AppTexts.VERSION, 800, 600, false, true, true);
-		this.table = new CategoryYearTable(this);
+		this.table = new TransactionDataTable(this);
 		this.dataDisplayMode = new SimpleList(this, table);
 		this.mdt = null;
 		MarvusCategory.init();
@@ -258,7 +258,7 @@ public class MarvusMainWindow extends SufuWindow
 	
 	// Getters
 	
-	public CategoryYearTable getTable()
+	public TransactionDataTable getTable()
 	{
 		return table;
 	}

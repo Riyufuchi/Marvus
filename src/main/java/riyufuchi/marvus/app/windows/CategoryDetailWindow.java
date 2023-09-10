@@ -19,7 +19,7 @@ public class CategoryDetailWindow extends SufuWindow
 {
 	private MonthCategoryDetail mcd;
 	
-	public CategoryDetailWindow(MarvusMainWindow bdt, FinancialCategory fc, boolean dynamic)
+	public CategoryDetailWindow(MarvusDataWindow bdt, FinancialCategory fc, boolean dynamic)
 	{
 		super("?", 800, 600, false, true, false);
 		this.mcd = new MonthCategoryDetail(this, fc);

@@ -9,7 +9,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.utils.MarvusCategory;
-import riyufuchi.marvus.app.windows.MarvusMainWindow;
+import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
@@ -85,8 +85,8 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void onOK()
 	{
-		((MarvusMainWindow)parentFrame).getTable().add(new Transaction(name.getText(), this.<String>getComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
-		((MarvusMainWindow)parentFrame).refresh();
+		((MarvusDataWindow)parentFrame).getTable().add(new Transaction(name.getText(), this.<String>getComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
+		((MarvusDataWindow)parentFrame).refresh();
 	}
 	
 	protected <E> E getComboboxValue(JComboBox<E> comboBox)

@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.MarvusCategory;
-import riyufuchi.marvus.app.windows.MarvusMainWindow;
+import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 
 /**
@@ -53,7 +53,7 @@ public class EditDialog extends AddDialog
 		transaction.setDate(date.getText());
 		transaction.setNote(note.getText());
 		transaction.setCurrency(currency.getText());
-		((MarvusMainWindow)parentFrame).refresh();
+		((MarvusDataWindow)parentFrame).refresh();
 	}
 	
 	public Transaction getTransaction()

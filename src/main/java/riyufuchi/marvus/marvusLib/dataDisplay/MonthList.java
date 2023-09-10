@@ -5,14 +5,14 @@ import java.time.Month;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataStorage.CategoryYearTable;
+import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 public class MonthList extends DataDisplayMode
 {
-	public MonthList(SufuWindow targetWindow, CategoryYearTable source)
+	public MonthList(SufuWindow targetWindow, TransactionDataTable source)
 	{
 		super(targetWindow, source);
 	}
