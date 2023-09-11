@@ -17,7 +17,7 @@ public class MonthCategoryDetail extends DataDisplayMode
 	{
 		super(targetWindow, null);
 		initialize(fc);
-		this.numberOfDays =  fc.getFirst().getDate().getMonth().length(SufuDateUtils.isLeapYear(fc.getFirst().getDate().getYear()));
+		this.numberOfDays = fc.getFirst().getDate().getMonth().length(SufuDateUtils.isLeapYear(fc.getFirst().getDate().getYear()));
 	}
 	
 	private void initialize(FinancialCategory fc)

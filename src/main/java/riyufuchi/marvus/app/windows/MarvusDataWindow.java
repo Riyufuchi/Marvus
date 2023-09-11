@@ -1,7 +1,5 @@
 package riyufuchi.marvus.app.windows;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.function.Consumer;
 
@@ -27,7 +25,7 @@ import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
-import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
+import riyufuchi.marvus.marvusLib.financialRecords.DataSummary;
 import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
@@ -36,7 +34,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 08.09.2023
+ * Last Edit: 11.09.2023
  * 
  * @author Riyufuchi
  */
@@ -148,15 +146,18 @@ public class MarvusDataWindow extends SufuWindow
 		mdt = new CategoryDetailWindow(this, fc, true);
 	}
 	
-	// TODO: Improve data summary - 1
 	private void dataSummary()
 	{
-		YearOverview yo = table.getYearOverview(2023);
-		String data = "Number of transactions: %d\nTotal income: %.2f\nTotal spendings: %.2f\nRatio: %.2f\nAvrage income: %.2f\nAvrage spendings: %.2f\nAvrage ratio: %.2f";
-		SufuDialogHelper.informationDialog(this, String.format(data, table.size(), yo.totalIncome().doubleValue(), yo.totalOutcome().doubleValue(), yo.totalResult().doubleValue(),
-				yo.totalIncome().divide(new BigDecimal(12), 2, RoundingMode.HALF_UP).doubleValue(),
-				yo.totalOutcome().divide(new BigDecimal(12), 2, RoundingMode.HALF_UP).doubleValue(),
-				yo.totalResult().divide(new BigDecimal(12), 2, RoundingMode.HALF_UP).doubleValue()), "Data summary");
+		DataSummary ds = table.getDataSummary(2023);
+		String data = "Total transactions: %d (avg: %.2f)\n"
+				+ "Total income: %.2f (avg: %.2f)\n"
+				+ "Total spendings: %.2f (avg: %.2f)\n"
+				+ "Total outcome: %.2f (avg: %.2f)\n";
+		data = String.format(data, ds.transactionsTotal(), ds.avgTransactionPerYear(),
+				ds.totalIncome(), ds.avgIncome(),
+				ds.totalSpendigs(), ds.avgSpendings(),
+				ds.totalRatio(), ds.avgTotal());
+		SufuDialogHelper.informationDialog(this, data, "Data summary");
 	}
 	
 	private void sortData(Comparator<Transaction> comp)

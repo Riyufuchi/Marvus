@@ -7,11 +7,11 @@ import org.junit.Test;
 import riyufuchi.marvus.appTesting.TestData;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 
-public class CategoryYearTableTest
+public class TransactionDataTableTest
 {
 	private TransactionDataTable ct = new TransactionDataTable(null);
 	
-	public CategoryYearTableTest()
+	public TransactionDataTableTest()
 	{
 		this.ct = new TransactionDataTable(null);
 	}
