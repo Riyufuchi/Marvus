@@ -1,7 +1,6 @@
 package riyufuchi.marvus.marvusLib.dataDisplay;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
@@ -29,13 +28,7 @@ public class SimpleOrderableList extends DataDisplayMode
 	@Override
 	public void refresh()
 	{
-		JPanel panel = targetWindow.getPane();
-		int y = 0;
-		for (Transaction t : dataSource.getDataBox())
-		{
-			((JTextField)panel.getComponentAt(0, y++)).setText(t.toString());
-			//panel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> DataDisplay.showExtednedInfo(t, (BudgetDataTable)targetWindow, evt)), targetWindow.getGBC(0, y++));
-		}
+		hardRefresh();
 	}
 
 }

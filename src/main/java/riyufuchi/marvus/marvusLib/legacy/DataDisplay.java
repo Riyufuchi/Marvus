@@ -16,9 +16,9 @@ import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
-import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
+import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Provides display utility functions for data<br><br>
@@ -99,7 +99,7 @@ public class DataDisplay
 	public static Consumer<DataBox<Transaction>> categoryListByMonth(MarvusDataWindow bdt)
 	{
 		return data -> {
-			int month = DateUtils.showMonthChooser(bdt).getValue();
+			int month = SufuDateUtils.showMonthChooser(bdt).getValue();
 			LinkedList<FinancialCategory> list = bdt.getTable().getCategorizedMonth(month);
 			JPanel panel = bdt.getPane();
 			SufuWindowTools.createTableRow(bdt, 0, "Month", Month.values()[month - 1]);

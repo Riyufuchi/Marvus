@@ -40,9 +40,9 @@ public class MonthCategoryDetail extends DataDisplayMode
 	}
 
 	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-
+	public void refresh()
+	{
+		hardRefresh();
 	}
 	
 	private void fillTableData(int numOfDays, JPanel pane)

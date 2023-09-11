@@ -44,7 +44,7 @@ public class CategorizedMonthList extends DataDisplayMode
 	@Override
 	public void refresh()
 	{
-		// TODO Auto-generated method stub
+		hardRefresh();
 	}
 	
 	private void showData(int x, int y)

@@ -30,6 +30,15 @@ public abstract class DataDisplayMode
 	public abstract void displayData();
 	public abstract void refresh();
 	
+	/**
+	 * Hard refresh is used when refresh() haven't been implemented yet
+	 */
+	public void hardRefresh()
+	{
+		targetWindow.getPane().removeAll();
+		displayData();
+	}
+	
 	public void showExtednedInfo(Transaction t, MouseEvent mEvt)
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))

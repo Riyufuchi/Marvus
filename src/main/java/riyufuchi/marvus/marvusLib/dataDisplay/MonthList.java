@@ -32,12 +32,11 @@ public class MonthList extends DataDisplayMode
 					targetWindow.getGBC(t.getDate().getMonthValue(),
 					++columnHeight[t.getDate().getMonthValue()]));
 		}
-
 	}
 
 	@Override
 	public void refresh()
 	{
+		hardRefresh();
 	}
-
 }

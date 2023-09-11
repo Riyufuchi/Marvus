@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.Month;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
@@ -47,10 +46,11 @@ public class YearOverviewTable extends DataDisplayMode
 		SufuWindowTools.createTableColumnHeader(targetWindow, 13 , "Year total", yearOverview.totalIncome(), yearOverview.totalOutcome(), yearOverview.totalResult());
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void refresh()
 	{
+		hardRefresh();
+		/*
 		yearOverview = dataSource.getYearOverview(yearOverview.year());
 		BigDecimal[] income = yearOverview.income();
 		BigDecimal[] outcome = yearOverview.outcome();
@@ -63,7 +63,7 @@ public class YearOverviewTable extends DataDisplayMode
 		income = yearOverview.getTotalData();
 		((JTextField)targetWindow.getComponentAt(13, 1)).setText(income[0].toString());
 		((JTextField)targetWindow.getComponentAt(13, 2)).setText(income[1].toString());
-		((JTextField)targetWindow.getComponentAt(13, 2)).setText((income[2].toString()));
+		((JTextField)targetWindow.getComponentAt(13, 2)).setText((income[2].toString()));*/
 		//targetWindow.refreshWindow();
 	}
 }

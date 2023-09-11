@@ -40,7 +40,7 @@ public class YearCategoryList extends DataDisplayMode
 	@Override
 	public void refresh()
 	{
-		// TODO Auto-generated method stub
+		hardRefresh();
 	}
 	
 	private void btnDataReference(ActionEvent e)

@@ -213,9 +213,8 @@ public class MarvusDataWindow extends SufuWindow
 	{
 		if (isOperationUnexucatable())
 			return;
-		//dataDisplayMode.refresh();
-		displayData(); // Solution for now
-		//refreshWindow();
+		dataDisplayMode.refresh();
+		refreshWindow();
 	}
 	
 	/**

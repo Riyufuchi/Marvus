@@ -25,11 +25,6 @@ public class SimpleList extends DataDisplayMode
 	@Override
 	public void refresh()
 	{
-		JPanel panel = targetWindow.getPane();
-		panel.removeAll();
-		dataSource.getDataBox().stream().forEach(t -> panel.add(SufuFactory.newTextFieldCell(t.toString(),
-				evt -> showExtednedInfo(t, evt)),
-				targetWindow.getGBC(0, t.getID())));
-		//targetWindow.refreshWindow();
+		hardRefresh();
 	}
 }
