@@ -38,7 +38,7 @@ public class MarvusMain
 				//app = new DataTableForm(800, 600);
 		}
 		if(app == null)
-			app = new MarvusDataWindow();
+			app = new MarvusDataWindow(1280, 720);
 		app.toFront();
 	}
 	

@@ -3,23 +3,23 @@ package riyufuchi.marvus.marvusLib.data;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import riyufuchi.marvus.marvusLib.utils.DateUtils;
+import riyufuchi.marvus.marvusLib.legacy.DateUtils;
 
 /**
  * Transaction class represents simple transaction<br><br>
  * 
  * Created On: 13.04.2023<br>
- * Last Edit: 05.09.2023
+ * Last Edit: 12.09.2023
 
  * @author Riyufuchi
- * @version 1.7
+ * @version 1.8
  * @since 1.22
  */
 public class Transaction extends Money
 {
 	private static final long serialVersionUID = 1L;
 	private static int Static_ID = 0;
-	private int ID;
+	private final int ID;
 	private String name;
 	private String category;
 	private String note;

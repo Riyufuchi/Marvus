@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.utils;
+package riyufuchi.marvus.marvusLib.legacy;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,13 +14,14 @@ import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 
 /**
+ * Utils for handling and formating dates. This class have been moved to SufuLib<br>
+ * 
  * Created On: 18.04.2023<br>
- * Last Edit: 24.08.2023
- * <hr>
- * Utils for handling and formating dates
- * <hr>
+ * Last Edit: 12.09.2023
+*
  * @author Riyufuchi
  */
+@Deprecated
 public class DateUtils
 {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]);

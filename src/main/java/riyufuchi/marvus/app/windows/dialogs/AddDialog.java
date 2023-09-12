@@ -12,9 +12,9 @@ import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
@@ -42,7 +42,7 @@ public class AddDialog extends SufuDialog
 		categoryBox = SufuFactory.<String>newCombobox(MarvusCategory.categoryList);
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
-		date = SufuFactory.newTextField(DateUtils.nowDateString());
+		date = SufuFactory.newTextField(SufuDateUtils.nowDateString());
 		currency = SufuFactory.newTextField(Money.getDefaultCurrency());
 		note = SufuFactory.newTextArea("");
 		nameBox.addActionListener(evt -> {

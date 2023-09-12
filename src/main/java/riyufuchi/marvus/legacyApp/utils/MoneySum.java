@@ -4,17 +4,17 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.interfaces.CSVable;
+import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * MoneySum class represents sum of money<br><br>
  * 
  * Created On: 11.04.2022<br>
- * Last Edit: 29.05.2023
+ * Last Edit: 12.09.2023
  * 
  * @author Riyufuchi
- * @version 1.5
+ * @version 1.6
  * @since 1.0
  */
 public class MoneySum implements Serializable, CSVable
@@ -72,8 +72,8 @@ public class MoneySum implements Serializable, CSVable
 
 	public void setDate(String date)
 	{
-		this.dateString = DateUtils.dateToString(date);
-		this.date = DateUtils.toLocalDateTime(dateString);
+		this.dateString = SufuDateUtils.dateToString(date);
+		this.date = SufuDateUtils.toLocalDateTime(dateString);
 	}
 	
 	public int getID()

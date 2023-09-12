@@ -26,11 +26,11 @@ import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.financialRecords.DataSummary;
-import riyufuchi.marvus.marvusLib.utils.DateUtils;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
+import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Created On: 18.04.2023<br>
@@ -47,6 +47,18 @@ public class MarvusDataWindow extends SufuWindow
 	public MarvusDataWindow()
 	{
 		super("Marvus - " + AppTexts.VERSION, 800, 600, false, true, true);
+		postWindowInit(getPane());
+	}
+	
+	public MarvusDataWindow(int width, int height)
+	{
+		super("Marvus - " + AppTexts.VERSION, width, height, false, true, true);
+		postWindowInit(getPane());
+	}
+	
+	@Override
+	protected void postWindowInit(JPanel content)
+	{
 		this.table = new TransactionDataTable(this);
 		this.dataDisplayMode = new SimpleList(this, table);
 		this.mdt = null;
@@ -71,7 +83,7 @@ public class MarvusDataWindow extends SufuWindow
 				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this ,table.getDataBox()); table.rebuild(); });
 				// Tools
-				case "Income to outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(DateUtils.showMonthChooser(this).getValue())));
+				case "Income to outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(SufuDateUtils.showMonthChooser(this).getValue())));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i, event -> add());//new AddDialog(this).showDialog()); // TODO: Optimalize adding to CYT - 4
@@ -137,7 +149,7 @@ public class MarvusDataWindow extends SufuWindow
 	{
 		if (isOperationUnexucatable())
 			return;
-		final int month = DateUtils.showMonthChooser(this).getValue();
+		final int month = riyufuchi.marvus.marvusLib.legacy.DateUtils.showMonthChooser(this).getValue();
 		FinancialCategory fc = new FinancialCategory(SufuDialogHelper.<String>categoryDialog(this, "Category:", "Select category", MarvusCategory.names, true));
 		table.getDataBox().stream().forEach(t -> {
 			if (t.getName().equals(fc.getName()) && t.getDate().getMonthValue() == month)
