@@ -21,7 +21,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 13.09.2023
  * 
  * @author Riyufuchi
  */
@@ -179,7 +179,7 @@ public final class DataTableForm extends SufuWindow
 	
 	private void about()
 	{
-		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: 0.1.22\nLegacy update version: 0.0\n"
+		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: 0.1.22\nLegacy update version: 0.3\n"
 			+ "This is leagacy functionality.\n It will not be updated anymore probably.\nIt was ment to replace old version that used object DB (JPA), "
 			+ "but funtionility become outdated, so rework is needed.\nThis will be part of new app as legacy functionality.");
 	}

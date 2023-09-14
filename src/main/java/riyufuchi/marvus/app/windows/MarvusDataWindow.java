@@ -1,10 +1,14 @@
 package riyufuchi.marvus.app.windows;
 
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 import java.util.Comparator;
 import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.app.MarvusMain;
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusUtils;
@@ -34,7 +38,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 11.09.2023
+ * Last Edit: 14.09.2023
  * 
  * @author Riyufuchi
  */
@@ -44,9 +48,12 @@ public class MarvusDataWindow extends SufuWindow
 	private DataDisplayMode dataDisplayMode;
 	private CategoryDetailWindow mdt;
 	
+	/**
+	 * Creates window in fullscreen mode
+	 */
 	public MarvusDataWindow()
 	{
-		super("Marvus - " + AppTexts.VERSION, 800, 600, false, true, true);
+		super("Marvus - " + AppTexts.VERSION, false, true);
 		postWindowInit(getPane());
 	}
 	
@@ -62,7 +69,18 @@ public class MarvusDataWindow extends SufuWindow
 		this.table = new TransactionDataTable(this);
 		this.dataDisplayMode = new SimpleList(this, table);
 		this.mdt = null;
+		//this.addKeyListener(this);
 		MarvusCategory.init();
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
+		{
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_F11)
+						MarvusMain.fullScreen();
+				return false;
+			}
+		});
 	}
 	
 	private void setupJMenu()
@@ -254,6 +272,12 @@ public class MarvusDataWindow extends SufuWindow
 	}
 	
 	// Setters
+	
+	public void setTable(TransactionDataTable table)
+	{
+		this.table = table;
+		this.dataDisplayMode = new SimpleList(this, table);
+	}
 	
 	private void setConsumerFunction(Consumer<DataBox<Transaction>> operation)
 	{

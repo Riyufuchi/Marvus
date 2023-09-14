@@ -13,7 +13,7 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 24.08.2023
+ * Last Edit: 14.09.2023
  * 
  * @author Riyufuchi
  */
@@ -23,7 +23,7 @@ public class FileIO extends SufuFileChooser
 	
 	public FileIO(DataTableForm dtf, String path)
 	{
-		super(path);
+		super(dtf, path);
 		this.dtf = dtf;
 	}
 

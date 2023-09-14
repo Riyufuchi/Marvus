@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
  * Created On: 27.03.2023<br>
- * Last Edit: 07.09.2023
+ * Last Edit: 14.09.2023
  * 
  * @author Riyufuchi
  */
@@ -23,7 +23,7 @@ public class TransactionIO extends SufuFileChooser
 	
 	public TransactionIO(MarvusDataWindow budgetDataTable, String filePath)
 	{
-		super(filePath);
+		super(budgetDataTable, filePath);
 		this.budgetDataTable = budgetDataTable;
 	}
 
