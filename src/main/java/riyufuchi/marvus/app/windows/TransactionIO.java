@@ -2,7 +2,11 @@ package riyufuchi.marvus.app.windows;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 
+import javax.swing.JFrame;
+
+import riyufuchi.marvus.app.utils.MarvusIO;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionXML;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
@@ -31,43 +35,8 @@ public class TransactionIO extends SufuFileChooser
 	protected void onSave(String path)
 	{
 		path = addExtension(path);
-		String extension = path.substring(path.lastIndexOf('.'));
-		if (!SufuFileHelper.overwriteProtection(path))
-			return;
-		switch(extension)
-		{
-			case ".csv" -> {
-				try
-				{
-					SufuPersistence.<Transaction>saveToCSV(path, budgetDataTable.getTable().getDataBox().getList());
-				}
-				catch (NullPointerException | IOException e)
-				{
-					SufuDialogHelper.exceptionDialog(budgetDataTable, e);
-					return;
-				}
-			}
-			case ".xml" -> {
-				TransactionXML xml = new TransactionXML(path);
-				xml.exportXML(budgetDataTable.getTable().getDataBox().getList());
-			}
-			case ".ser" -> {
-				try
-				{
-					SufuPersistence.<Transaction>serialize(path, budgetDataTable.getTable().getDataBox().getList());
-				}
-				catch (NullPointerException | IOException e)
-				{
-					SufuDialogHelper.exceptionDialog(budgetDataTable, e);
-					return;
-				}
-			}
-			default -> {
-				SufuDialogHelper.errorDialog(budgetDataTable, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
-				return;
-			}
-		}
-		SufuDialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
+		if (MarvusIO.saveData(budgetDataTable, path, budgetDataTable.getTable().getDataBox().getList(), false))
+			SufuDialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
 	}
 
 	@Override

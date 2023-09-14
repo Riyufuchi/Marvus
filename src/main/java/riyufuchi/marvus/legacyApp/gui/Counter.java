@@ -17,13 +17,14 @@ import riyufuchi.marvus.marvusLib.dataUtils.MoneyCalculations;
 import riyufuchi.sufuLib.config.SufuLibFonts;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.general.InputChecker;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 08.09.2023
+ * Last Edit: 14.09.2023
  * 
  * @author Riyufuchi
  */
@@ -37,10 +38,13 @@ public class Counter extends SufuWindow
 	public Counter(DataTableForm dtf)
 	{
 		super("Counter", 100, 200, true, true, false);
+		this.setLocationRelativeTo(dtf);
 		postWindowInit(getPane());
 		this.dtf = dtf;
 		this.dataOk = true;
 		this.cals = new MoneyCalculations();
+		this.pack();
+		repaint();
 	}
 	
 	@Override
@@ -53,6 +57,16 @@ public class Counter extends SufuWindow
 		catch (NullPointerException | IOException e)
 		{
 			SufuDialogHelper.exceptionDialog(this, e);
+			try
+			{
+				SufuFileHelper.checkFile("data/counter.csv");
+				SufuPersistence.saveToCSV("data/counter.csv", new String[] {"Bank;+", "Paypal;+", "Owns;+" , "Depth;-", "Date;*"});
+				SufuDialogHelper.informationDialog(dtf, "Generated counter.csv", "Counter dialog fix info");
+			}
+			catch (NullPointerException | IOException e1)
+			{
+				SufuDialogHelper.exceptionDialog(dtf, e);
+			}
 			this.dispose();
 		}
 	}
@@ -76,7 +90,6 @@ public class Counter extends SufuWindow
 		textFields[i - 1].setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 	}
 	
-	//TODO: Add default counter.csv
 	@SuppressWarnings("deprecation")
 	private void createLabels(JPanel content) throws NullPointerException, IOException
 	{
@@ -89,7 +102,7 @@ public class Counter extends SufuWindow
 		{
 			texts = it.next().split(";");
 			actions[i] = texts[1];
-			content.add(SufuFactory.newLabel(texts[0]), getGBC(0, i));
+			content.add(SufuFactory.newLabel(texts[0] + ":"), getGBC(0, i));
 			i++;
 		}
 		content.add(SufuFactory.createButton("Cancel", event -> this.dispose()), getGBC(0, i));

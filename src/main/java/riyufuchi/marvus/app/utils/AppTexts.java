@@ -5,12 +5,12 @@ public class AppTexts
 	public static final String VERSION = "1.71";
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Data tools", "Tools", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
-			"Backup", "Import", "Export", "Exit", "",
+			"Open", "Save", "Import", "Export", "Exit", "",
 			"Add", "Edit", "Delete", "",
 			"Simple list", "Category list", "Month list", "Categorized month list", "Earning/Spending summary", "Year category list", "",
-			"Sort", "Fix category", "Month budgetd planning", "",
-			"Income to outcome", "Data summary", "Category manager", "Transaction macro", "",
-			"Preferences", "Refresh", "",
+			"Sort", "Fix category", "Month budget planning", "Data summary", "",
+			"Income to outcome", "Category manager", "Transaction macro", "",
+			"Preferences", "Fullscreen", "Refresh", "",
 			"About", "About SufuLib"};
 	// Other
 	public static final String ABOUT_MARVUS = "<html>This is finance manager.<br>"

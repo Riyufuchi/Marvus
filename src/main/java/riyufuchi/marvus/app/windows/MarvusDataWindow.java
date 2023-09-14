@@ -3,6 +3,7 @@ package riyufuchi.marvus.app.windows;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.Comparator;
 import java.util.function.Consumer;
 
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.app.MarvusMain;
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.app.utils.MarvusIO;
 import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.dialogs.AddDialog;
 import riyufuchi.marvus.app.windows.dialogs.SettingsDialog;
@@ -47,6 +49,7 @@ public class MarvusDataWindow extends SufuWindow
 	private TransactionDataTable table;
 	private DataDisplayMode dataDisplayMode;
 	private CategoryDetailWindow mdt;
+	private File curretntDataFile;
 	
 	/**
 	 * Creates window in fullscreen mode
@@ -69,15 +72,14 @@ public class MarvusDataWindow extends SufuWindow
 		this.table = new TransactionDataTable(this);
 		this.dataDisplayMode = new SimpleList(this, table);
 		this.mdt = null;
-		//this.addKeyListener(this);
 		MarvusCategory.init();
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
 		{
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_F11)
-						MarvusMain.fullScreen();
+				//if (e.getKeyCode() == KeyEvent.VK_F11)
+						//MarvusMain.fullScreen();
 				return false;
 			}
 		});
@@ -85,18 +87,19 @@ public class MarvusDataWindow extends SufuWindow
 	
 	private void setupJMenu()
 	{
-		SufuMenuCreator jmc = new SufuMenuCreator(AppTexts.BUDGET_TABLE_MENU, AppTexts.BUDGET_TABLE_MENU_ITEMS, 3);
+		SufuMenuCreator jmc = new SufuMenuCreator(AppTexts.BUDGET_TABLE_MENU, AppTexts.BUDGET_TABLE_MENU_ITEMS, 4);
 		final int max = jmc.getNumberOfMenuItems();
 		for (int i = 0; i < max; i++)
 		{
 			switch (jmc.getItemName(i))
 			{
-				// Basic
-				case "About" -> jmc.setItemAction(i, event -> about());
+				// File
+				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> importData());
+				case "Save" -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> quickSaveFile());
 				case "Exit" -> jmc.setItemAction(i, event -> onClose());
 				case "Export"-> jmc.setItemAction(i,event -> exportData());
 				case "Import" -> jmc.setItemAction(i, event -> importData());
-				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
+				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
 				// Data tools
 				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this ,table.getDataBox()); table.rebuild(); });
@@ -104,7 +107,7 @@ public class MarvusDataWindow extends SufuWindow
 				case "Income to outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(SufuDateUtils.showMonthChooser(this).getValue())));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
 				// Data handling
-				case "Add" -> jmc.setItemAction(i, event -> add());//new AddDialog(this).showDialog()); // TODO: Optimalize adding to CYT - 4
+				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());//new AddDialog(this).showDialog()); // TODO: Optimalize adding to CYT - 4
 				// Display modes
 				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new SimpleList(this, table)));
 				//case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
@@ -112,10 +115,12 @@ public class MarvusDataWindow extends SufuWindow
 				case "Earning/Spending summary" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new YearOverviewTable(this, table, 2023)));
 				case "Categorized month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new CategorizedMonthList(this, table)));
 				case "Year category list" -> jmc.setItemAction(i, event -> updateDataDisplayMode(new YearCategoryList(this, table))); 
-				// Other
+				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new SettingsDialog(this).showDialog());
+				case "Fullscreen" -> jmc.setItemAction(i, KeyEvent.VK_F11, event -> MarvusMain.fullScreen());
+				// Help
+				case "About" -> jmc.setItemAction(i, event -> about());
 				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
-				//case "Backup" -> jmc.setItemAction(i,event -> backupData());
 				default -> jmc.setItemAction(i, event -> SufuDialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
 			}
 		}
@@ -123,13 +128,6 @@ public class MarvusDataWindow extends SufuWindow
 	}
 	
 	// Utils
-	
-	/*
-	public void displayTable()
-	{
-		table.rebuild();
-		table.displayData();
-	}*/
 	
 	/**
 	 * 
@@ -215,10 +213,17 @@ public class MarvusDataWindow extends SufuWindow
 		fio.showSaveChooser();
 	}
 	
+	private void quickSaveFile()
+	{
+		if (curretntDataFile != null)
+			MarvusIO.quickSave(this, curretntDataFile.getAbsolutePath(), table.getDataBox().getList());
+		else
+			SufuDialogHelper.warningDialog(this, "No save destination found!", "No save destination");
+	}
+	
 	private void importData()
 	{
-		createTransactionIO().showLoadChooser();
-		//fio.loadFile();
+		curretntDataFile = createTransactionIO().showLoadChooser();
 	}
 
 	private void about()

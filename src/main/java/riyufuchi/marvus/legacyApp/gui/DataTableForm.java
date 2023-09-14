@@ -179,9 +179,9 @@ public final class DataTableForm extends SufuWindow
 	
 	private void about()
 	{
-		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: 0.1.22\nLegacy update version: 0.3\n"
-			+ "This is leagacy functionality.\n It will not be updated anymore probably.\nIt was ment to replace old version that used object DB (JPA), "
-			+ "but funtionility become outdated, so rework is needed.\nThis will be part of new app as legacy functionality.");
+		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: 0.1.22\nLegacy update version: 0.4\n"
+			+ "This is leagacy functionality.\nIt will not be updated anymore probably.\nThis app was ment to replace old version that used object DB (JPA), "
+			+ "but funtionility become outdated, so rework was needed.");
 	}
 	
 	// GETTERS
