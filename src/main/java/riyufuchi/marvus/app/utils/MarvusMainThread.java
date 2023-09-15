@@ -22,7 +22,7 @@ import riyufuchi.sufuLib.utils.time.SufuTimer;
  *
  * @author Riyufuchi
  */
-public class MarvusMain
+public class MarvusMainThread
 {
 	private static SufuWindow app;
 	private static SufuTimer timer;

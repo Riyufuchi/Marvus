@@ -3,16 +3,16 @@ package riyufuchi.marvus.marvusLib.data;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import riyufuchi.marvus.marvusLib.legacy.DateUtils;
+import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Transaction class represents simple transaction<br><br>
  * 
  * Created On: 13.04.2023<br>
- * Last Edit: 12.09.2023
+ * Last Edit: 15.09.2023
 
  * @author Riyufuchi
- * @version 1.8
+ * @version 1.9
  * @since 1.22
  */
 public class Transaction extends Money
@@ -112,8 +112,8 @@ public class Transaction extends Money
 	
 	public void setDate(String date)
 	{
-		this.dateString = DateUtils.dateToString(date);
-		this.date = DateUtils.toLocalDateTime(dateString);
+		this.dateString = SufuDateUtils.dateToString(date);
+		this.date = SufuDateUtils.toLocalDateTime(dateString);
 	}
 	
 	//GETTERS

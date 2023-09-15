@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
@@ -13,11 +13,14 @@ public class MonthCategoryDetail extends DataDisplayMode
 	private FinancialCategory fc;
 	private int day, numberOfDays;
 	
-	public MonthCategoryDetail(SufuWindow targetWindow, FinancialCategory fc)
+	public MonthCategoryDetail(MarvusDataFrame targetWindow, FinancialCategory fc, boolean dynamicNumberOfDays)
 	{
 		super(targetWindow, null);
 		initialize(fc);
-		this.numberOfDays = fc.getFirst().getDate().getMonth().length(SufuDateUtils.isLeapYear(fc.getFirst().getDate().getYear()));
+		if (dynamicNumberOfDays)
+			this.numberOfDays = fc.getFirst().getDate().getMonth().length(SufuDateUtils.isLeapYear(fc.getFirst().getDate().getYear()));
+		else
+			this.numberOfDays = 31;
 	}
 	
 	private void initialize(FinancialCategory fc)
@@ -59,6 +62,7 @@ public class MonthCategoryDetail extends DataDisplayMode
 		});
 	}
 	
+	@Deprecated
 	public void setNumberOfDays(int num)
 	{
 		this.numberOfDays = num;

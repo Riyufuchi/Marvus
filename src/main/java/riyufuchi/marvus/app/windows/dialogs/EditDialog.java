@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.sufuLib.utils.gui.SufuGuiInputTools;
+import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
  * Dialog for editing Transaction<br><br>
@@ -49,7 +49,7 @@ public class EditDialog extends AddDialog
 	protected void onOK()
 	{
 		transaction.setName(name.getText());
-		transaction.setCategory(SufuGuiInputTools.extractComboboxValue(categoryBox));
+		transaction.setCategory(SufuComponentTools.extractComboboxValue(categoryBox));
 		transaction.setValue(money.getText());
 		transaction.setDate(date.getText());
 		transaction.setNote(note.getText());

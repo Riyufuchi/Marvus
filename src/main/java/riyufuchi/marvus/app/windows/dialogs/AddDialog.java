@@ -13,8 +13,8 @@ import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.SufuDialog;
+import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuGuiInputTools;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
@@ -86,7 +86,7 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void onOK()
 	{
-		((MarvusDataWindow)parentFrame).getTable().add(new Transaction(name.getText(), SufuGuiInputTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
+		((MarvusDataWindow)parentFrame).getTable().add(new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
 		((MarvusDataWindow)parentFrame).refresh();
 	}
 }

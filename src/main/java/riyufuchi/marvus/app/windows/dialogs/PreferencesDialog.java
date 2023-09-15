@@ -20,8 +20,8 @@ import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
+import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuGuiInputTools;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
@@ -30,14 +30,14 @@ import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
  * 
  * @author Riyufuchi
  */
-public class SettingsDialog extends SufuDialog
+public class PreferencesDialog extends SufuDialog
 {
 	private JComboBox<AppThemeUI> themes;
 	private JComboBox<String> dateFormat, windowSize;
 	private JButton workFile;
 	private JCheckBox showQuitDialog;
 	
-	public SettingsDialog(JFrame parentFrame)
+	public PreferencesDialog(JFrame parentFrame)
 	{
 		super("Preferences", parentFrame, DialogType.YesCancel);
 	}
@@ -80,8 +80,8 @@ public class SettingsDialog extends SufuDialog
 		try
 		{
 			SufuPersistence.saveToCSV(SufuFileHelper.checkFile(MarvusConfig.SETTINGS_FILE_PATH).getPath(),
-					SufuGuiInputTools.extractComboboxValue(windowSize),
-					SufuGuiInputTools.<AppThemeUI>extractComboboxValue(themes).toString(),
+					SufuComponentTools.extractComboboxValue(windowSize),
+					SufuComponentTools.<AppThemeUI>extractComboboxValue(themes).toString(),
 					String.valueOf(dateFormat.getSelectedIndex()),
 					path,
 					String.valueOf(showQuitDialog.isSelected()));
@@ -91,8 +91,8 @@ public class SettingsDialog extends SufuDialog
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			return;
 		}
-		if (!SufuGuiInputTools.<AppThemeUI>extractComboboxValue(themes).equals(MarvusConfig.appTheme) ||
-			!SufuGuiInputTools.<String>extractComboboxValue(windowSize).equals(MarvusConfig.width + "x" + MarvusConfig.height))
+		if (!SufuComponentTools.<AppThemeUI>extractComboboxValue(themes).equals(MarvusConfig.appTheme) ||
+			!SufuComponentTools.<String>extractComboboxValue(windowSize).equals(MarvusConfig.width + "x" + MarvusConfig.height))
 		{
 			SufuDialogHelper.informationDialog(parentFrame, "The application requires a restart for the changes to take effect.", "Applying settings");
 			CustomizeUI.setUI(themes.getItemAt(themes.getSelectedIndex()));

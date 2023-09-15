@@ -8,20 +8,25 @@ import riyufuchi.marvus.app.windows.dialogs.EditDialog;
 import riyufuchi.marvus.app.windows.dialogs.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
-import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 
 /**
  * 
  * @author riyufuchi
- * @version 1.1
+ * @version 1.2
  * @since 0.1.67
  */
 public abstract class DataDisplayMode
 {
-	protected SufuWindow targetWindow;
+	protected MarvusDataFrame targetWindow;
 	protected TransactionDataTable dataSource;
 	
-	public DataDisplayMode(SufuWindow targetWindow, TransactionDataTable dataSource)
+	/**
+	 * 
+	 * @param targetWindow
+	 * @param dataSource
+	 */
+	public DataDisplayMode(MarvusDataFrame targetWindow, TransactionDataTable dataSource)
 	{
 		this.targetWindow = targetWindow;
 		this.dataSource = dataSource;
@@ -48,11 +53,11 @@ public abstract class DataDisplayMode
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))
 		{
-			new EditDialog(targetWindow, t).showDialog();
+			new EditDialog(targetWindow.getSelf(), t).showDialog();
 		}
 		else if (SwingUtilities.isRightMouseButton(mEvt))
 		{
-			new RemoveDialog(targetWindow, t).showDialog();
+			new RemoveDialog(targetWindow.getSelf(), t).showDialog();
 		}
 	}
 }

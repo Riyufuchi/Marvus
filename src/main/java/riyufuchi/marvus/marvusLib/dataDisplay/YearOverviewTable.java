@@ -7,13 +7,13 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
-import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
 /**
  * @author Riyufuchi
- * @version 1.3 - Last Edit: 08.09.2023
+ * @version 1.4 - Last Edit: 15.09.2023
  * @since 0.1.66 - Created On: 05.09.2023
  */
 // TODO: Optimize this class for refresh method
@@ -21,7 +21,7 @@ public class YearOverviewTable extends DataDisplayMode
 {
 	private YearOverview yearOverview;
 	
-	public YearOverviewTable(SufuWindow targetWindow, TransactionDataTable source, int year)
+	public YearOverviewTable(MarvusDataFrame targetWindow, TransactionDataTable source, int year)
 	{
 		super(targetWindow, source);
 		this.yearOverview = dataSource.getYearOverview(year);

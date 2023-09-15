@@ -1,14 +1,15 @@
-package riyufuchi.marvus.marvusLib.dataDisplay;
+package riyufuchi.marvus.marvusLib.legacy;
 
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
-import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 public class SimpleList extends DataDisplayMode
 {
-	public SimpleList(SufuWindow targetWindow, TransactionDataTable source)
+	public SimpleList(MarvusDataFrame targetWindow, TransactionDataTable source)
 	{
 		super(targetWindow, source);
 	}
