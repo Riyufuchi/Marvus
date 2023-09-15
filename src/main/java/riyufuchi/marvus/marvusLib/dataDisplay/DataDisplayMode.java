@@ -39,6 +39,11 @@ public abstract class DataDisplayMode
 		displayData();
 	}
 	
+	public void setNewData(TransactionDataTable dataSource)
+	{
+		this.dataSource = dataSource;
+	}
+	
 	public void showExtednedInfo(Transaction t, MouseEvent mEvt)
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))

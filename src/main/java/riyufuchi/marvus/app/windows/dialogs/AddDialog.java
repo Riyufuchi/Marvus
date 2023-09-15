@@ -14,13 +14,14 @@ import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.utils.gui.SufuGuiInputTools;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 10.09.2023
+ * Last Edit: 15.09.2023
  * 
  * @author Riyufuchi
  */
@@ -85,12 +86,7 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void onOK()
 	{
-		((MarvusDataWindow)parentFrame).getTable().add(new Transaction(name.getText(), this.<String>getComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
+		((MarvusDataWindow)parentFrame).getTable().add(new Transaction(name.getText(), SufuGuiInputTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
 		((MarvusDataWindow)parentFrame).refresh();
-	}
-	
-	protected <E> E getComboboxValue(JComboBox<E> comboBox)
-	{
-		return comboBox.getItemAt(comboBox.getSelectedIndex());
 	}
 }

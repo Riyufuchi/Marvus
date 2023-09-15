@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.app.windows.MarvusDataWindow;
+import riyufuchi.marvus.app.windows.TransactionIO;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
@@ -14,7 +16,14 @@ public class MarvusUtils
 {
 	private MarvusUtils() {}
 	
-	public static void generateFile(JFrame frame, String path, String[] fileContent)
+	public static TransactionIO createTransactionIO(MarvusDataWindow mdw)
+	{
+		TransactionIO fio = new TransactionIO(mdw, MarvusConfig.workFolder);
+		fio.setFileFilters(MarvusConfig.SER, MarvusConfig.CSV);
+		return fio;
+	}
+	
+	public static void generateFile(JFrame frame, String path, String ... fileContent)
 	{
 		if (path == null)
 			path = "";
@@ -32,7 +41,7 @@ public class MarvusUtils
 	
 	public static void fixCategory(JFrame frame,DataBox<Transaction> data)
 	{
-		if(SufuDialogHelper.yesNoDialog(frame, "Set categroy automatically?", "Category fixing") == 0)
+		if(SufuDialogHelper.yesNoDialog(frame, "Set category automatically?", "Category fixing") == 0)
 			data.stream().forEach(transaction -> transaction.setCategory(MarvusCategory.categories[getCategoryID(transaction.getName())]));
 	}
 	

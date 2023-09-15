@@ -7,7 +7,7 @@ public class AppTexts
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
 			"Open", "Save", "Import", "Export", "Exit", "",
 			"Add", "Edit", "Delete", "",
-			"Simple list", "Category list", "Month list", "Categorized month list", "Earning/Spending summary", "Year category list", "",
+			"Simple month list", "Categorized month list", "Categorized month overview", "Categorized year summary", "Earning/Spending summary", "",
 			"Sort", "Fix category", "Month budget planning", "Data summary", "",
 			"Income to outcome", "Category manager", "Transaction macro", "",
 			"Preferences", "Fullscreen", "Refresh", "",
@@ -21,6 +21,7 @@ public class AppTexts
 	public static final String[] LOCAL_DATE_TIME_FORMAT_OPTIONS = {"dd.mm.yyyy", "MM.dd.yyyy"};
 	public static final String[] COLOR_OPTIONS = {"Theme colored", "Dark mode"};
 	public static final String[] THEMES = {"Default", "System matching", "Nimbus", "Dark Nimbus"};
+	public static final String[] WINDOW_SIZE = {"Fullscreen", "800x600", "1280x720", "1920x1080"};
 	// LEGACY TEXT
 	public static final String[] DTF_MENU = {"File", "MoneySum", "Sort by", "Window", "Help"};
 	public static final String[] DTF_MENU_ITEMS = {

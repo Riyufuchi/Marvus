@@ -3,16 +3,16 @@ package riyufuchi.marvus.app.windows;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
-import java.io.File;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.app.MarvusMain;
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusIO;
+import riyufuchi.marvus.app.utils.MarvusMain;
 import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.dialogs.AddDialog;
 import riyufuchi.marvus.app.windows.dialogs.SettingsDialog;
@@ -22,8 +22,6 @@ import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.dataDisplay.MonthList;
-import riyufuchi.marvus.marvusLib.dataDisplay.SimpleList;
-import riyufuchi.marvus.marvusLib.dataDisplay.SimpleOrderableList;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearCategoryList;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
@@ -35,12 +33,13 @@ import riyufuchi.marvus.marvusLib.financialRecords.DataSummary;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
+import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 14.09.2023
+ * Last Edit: 15.09.2023
  * 
  * @author Riyufuchi
  */
@@ -49,7 +48,6 @@ public class MarvusDataWindow extends SufuWindow
 	private TransactionDataTable table;
 	private DataDisplayMode dataDisplayMode;
 	private CategoryDetailWindow mdt;
-	private File curretntDataFile;
 	
 	/**
 	 * Creates window in fullscreen mode
@@ -70,7 +68,7 @@ public class MarvusDataWindow extends SufuWindow
 	protected void postWindowInit(JPanel content)
 	{
 		this.table = new TransactionDataTable(this);
-		this.dataDisplayMode = new SimpleList(this, table);
+		this.dataDisplayMode = new MonthList(this, table);
 		this.mdt = null;
 		MarvusCategory.init();
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
@@ -94,9 +92,9 @@ public class MarvusDataWindow extends SufuWindow
 			switch (jmc.getItemName(i))
 			{
 				// File
-				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> importData());
+				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> quickOpenFile());
 				case "Save" -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> quickSaveFile());
-				case "Exit" -> jmc.setItemAction(i, event -> onClose());
+				case "Exit" -> jmc.setItemAction(i, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
 				case "Export"-> jmc.setItemAction(i,event -> exportData());
 				case "Import" -> jmc.setItemAction(i, event -> importData());
 				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
@@ -109,12 +107,12 @@ public class MarvusDataWindow extends SufuWindow
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());//new AddDialog(this).showDialog()); // TODO: Optimalize adding to CYT - 4
 				// Display modes
-				case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new SimpleList(this, table)));
-				//case "Category list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(DataDisplay.categoryListByMonth(this)));
-				case "Month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new MonthList(this, table)));
-				case "Earning/Spending summary" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new YearOverviewTable(this, table, 2023)));
-				case "Categorized month list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new CategorizedMonthList(this, table)));
-				case "Year category list" -> jmc.setItemAction(i, event -> updateDataDisplayMode(new YearCategoryList(this, table))); 
+				//case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new SimpleList(this, table)));
+				case "Simple month list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> updateDataDisplayMode(new MonthList(this, table)));
+				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> updateDataDisplayMode(new CategorizedMonthList(this, table)));
+				//case "Categorized month overview" -> jmc.setItemAction(i, KeyEvent.VK_F3, null);
+				case "Categorized year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> updateDataDisplayMode(new YearCategoryList(this, table))); 
+				case "Earning/Spending summary" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTable(this, table, 2023)));
 				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new SettingsDialog(this).showDialog());
 				case "Fullscreen" -> jmc.setItemAction(i, KeyEvent.VK_F11, event -> MarvusMain.fullScreen());
@@ -151,6 +149,26 @@ public class MarvusDataWindow extends SufuWindow
 	}
 	
 	// Delegations
+	
+	private void quickOpenFile()
+	{
+		if (MarvusConfig.currentWorkFile == null)
+		{
+			importData();
+			return;
+		}
+		try
+		{
+			SufuFileHelper.checkFile(MarvusConfig.currentWorkFile.getAbsolutePath());
+			table.getDataBox().setList(MarvusIO.loadData(this, MarvusConfig.currentWorkFile.getAbsolutePath()));
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(this, e);
+		}
+		table.rebuild();
+		displayData();
+	}
 	
 	private void add()
 	{
@@ -191,39 +209,32 @@ public class MarvusDataWindow extends SufuWindow
 	private void sortData(Comparator<Transaction> comp)
 	{
 		table.getDataBox().setComparator(comp);
-		if (dataDisplayMode instanceof SimpleList)
-			updateDataDisplayMode(new SimpleOrderableList(this, table));
+		// if (dataDisplayMode instanceof SimpleList)
+			// updateDataDisplayMode(new SimpleOrderableList(this, table));
 		table.getDataBox().sort();
 		refresh();
-	}
-	
-	private TransactionIO createTransactionIO()
-	{
-		TransactionIO fio = new TransactionIO(this, MarvusConfig.workFolder);
-		fio.setFileFilters(MarvusConfig.SER, MarvusConfig.CSV);
-		return fio;
 	}
 	
 	private void exportData()
 	{
 		if (isOperationUnexucatable())
 			return;
-		TransactionIO fio = createTransactionIO();
+		TransactionIO fio = MarvusUtils.createTransactionIO(this);
 		fio.setAcceptAllFileFilterUsed(false);
 		fio.showSaveChooser();
 	}
 	
 	private void quickSaveFile()
 	{
-		if (curretntDataFile != null)
-			MarvusIO.quickSave(this, curretntDataFile.getAbsolutePath(), table.getDataBox().getList());
+		if (MarvusConfig.currentWorkFile != null)
+			MarvusIO.quickSave(this, MarvusConfig.currentWorkFile.getAbsolutePath(), table.getDataBox().getList());
 		else
 			SufuDialogHelper.warningDialog(this, "No save destination found!", "No save destination");
 	}
 	
 	private void importData()
 	{
-		curretntDataFile = createTransactionIO().showLoadChooser();
+		MarvusConfig.currentWorkFile =  MarvusUtils.createTransactionIO(this).showLoadChooser();
 	}
 
 	private void about()
@@ -268,7 +279,10 @@ public class MarvusDataWindow extends SufuWindow
 	@Override
 	protected void onClose()
 	{
-		if(SufuDialogHelper.yesNoDialog(this, "Exit application?", "Exit confirmation") == 0)
+		int result = 0;
+		if (MarvusConfig.showQuitDialog)
+			result = SufuDialogHelper.yesNoDialog(this, "Do you really want to exit the application?", "Exit confirmation");
+		if (result == 0)
 		{
 			if (mdt != null)
 				mdt.dispose();
@@ -281,7 +295,7 @@ public class MarvusDataWindow extends SufuWindow
 	public void setTable(TransactionDataTable table)
 	{
 		this.table = table;
-		this.dataDisplayMode = new SimpleList(this, table);
+		this.dataDisplayMode.setNewData(table);
 	}
 	
 	private void setConsumerFunction(Consumer<DataBox<Transaction>> operation)

@@ -1,5 +1,7 @@
 package riyufuchi.marvus.app.utils;
 
+import java.io.File;
+
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import riyufuchi.sufuLib.enums.AppThemeUI;
@@ -7,9 +9,14 @@ import riyufuchi.sufuLib.enums.AppThemeUI;
 public class MarvusConfig
 {
 	//Changeable configuration
+	public static boolean fullscreen = false;
+	public static int width = 800;
+	public static int height = 600;
 	public static String workFolder = "appdata/";
 	public static AppThemeUI appTheme = AppThemeUI.CROSS_PLATFORM; // Default value - changed when configuration file exists
 	public static int dateFormatIndex = 0;
+	public static File currentWorkFile = null;
+	public static boolean showQuitDialog = true;
 	//Unchangeable configuration
 	public static final FileNameExtensionFilter MONEY_SUM_FILES = new FileNameExtensionFilter(".ser, .csv, .xml", "ser", "csv", "xml");
 	//public static final FileNameExtensionFilter TRANSACTION_FILES = new FileNameExtensionFilter(".ser, .csv", "ser", "csv");

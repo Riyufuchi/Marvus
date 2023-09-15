@@ -1,11 +1,10 @@
-package riyufuchi.marvus.app;
+package riyufuchi.marvus.app.utils;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
-import riyufuchi.marvus.app.utils.AppTexts;
-import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.legacyApp.gui.DataTableForm;
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
@@ -14,11 +13,12 @@ import riyufuchi.sufuLib.enums.AppThemeUI;
 import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
+import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 import riyufuchi.sufuLib.utils.time.SufuTimer;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 13.09.2023
+ * Last Edit: 15.09.2023
  *
  * @author Riyufuchi
  */
@@ -36,13 +36,14 @@ public class MarvusMain
 		{
 			switch (arg)
 			{
-				case "--legacy" -> app = new DataTableForm(800, 600);
+				case "--legacy" -> app = new DataTableForm(MarvusConfig.width, MarvusConfig.height);
 			}
-			//if(arg.equals("--legacy"))
-				//app = new DataTableForm(800, 600);
 		}
 		if(app == null)
-			app = new MarvusDataWindow(1280, 720);
+			if (MarvusConfig.fullscreen)
+				app = new MarvusDataWindow();
+			else
+				app = new MarvusDataWindow(MarvusConfig.width, MarvusConfig.height);
 		app.toFront();
 	}
 	
@@ -52,14 +53,30 @@ public class MarvusMain
 		try
 		{
 			data = SufuPersistence.loadTextFile(MarvusConfig.SETTINGS_FILE_PATH);
-			MarvusConfig.appTheme = AppThemeUI.valueOf(data.getFirst()); // Throws exception when inputed incorrect data
+			if (data.getFirst().equals(AppTexts.WINDOW_SIZE[0]))
+			{
+				MarvusConfig.fullscreen = true;
+			}
+			else
+			{
+				MarvusConfig.width = Integer.valueOf(data.getFirst().substring(0, data.getFirst().indexOf("x")));
+				MarvusConfig.height = Integer.valueOf(data.getFirst().substring(data.getFirst().indexOf("x") + 1));
+			}
+			MarvusConfig.appTheme = AppThemeUI.valueOf(data.get(1)); // Throws exception when inputed incorrect data
+			SufuDateUtils.setDateFormat(new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex = Integer.valueOf(data.get(2))]));
+			MarvusConfig.currentWorkFile = new File(data.get(3));
+			MarvusConfig.showQuitDialog = Boolean.valueOf(data.get(4));
 		}
-		catch (IllegalArgumentException | NullPointerException | IOException e)
+		catch (Exception e)
 		{
 			SufuDialogHelper.exceptionDialog(app, e);
 			if (e instanceof IOException)
-				MarvusUtils.generateFile(app, MarvusConfig.SETTINGS_FILE_PATH, new String[] { MarvusConfig.appTheme.toString(),
-						AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]});
+				MarvusUtils.generateFile(app, MarvusConfig.SETTINGS_FILE_PATH, 
+						"800x600",
+						MarvusConfig.appTheme.toString(),
+						AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex],
+						"None",
+						"true");
 		}
 	}
 	
