@@ -7,9 +7,9 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 public abstract class MarvusIO
 {

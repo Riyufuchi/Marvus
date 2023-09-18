@@ -14,7 +14,7 @@ import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.financialRecords.DataSummary;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**

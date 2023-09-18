@@ -7,9 +7,9 @@ import java.util.List;
 
 import riyufuchi.marvus.legacyApp.utils.MoneySum;
 import riyufuchi.marvus.legacyApp.utils.XML;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * Created On: 27.03.2023<br>

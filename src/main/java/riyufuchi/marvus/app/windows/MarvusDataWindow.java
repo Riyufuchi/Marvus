@@ -1,7 +1,5 @@
 package riyufuchi.marvus.app.windows;
 
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Comparator;
@@ -17,9 +15,7 @@ import riyufuchi.marvus.app.utils.MarvusMainThread;
 import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.dialogs.AddDialog;
 import riyufuchi.marvus.app.windows.dialogs.PreferencesDialog;
-import riyufuchi.marvus.app.windows.legacy.CategoryDetailWindow;
 import riyufuchi.marvus.app.utils.MarvusCategory;
-import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
@@ -33,25 +29,23 @@ import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.financialRecords.DataSummary;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 15.09.2023
+ * Last Edit: 17.09.2023
  * 
  * @author Riyufuchi
  */
-@SuppressWarnings("deprecation")
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
 	private TransactionDataTable table;
 	private DataDisplayMode currentMode, prevMode;
-	private CategoryDetailWindow mdt;
 	
 	/**
 	 * Creates window in fullscreen mode
@@ -74,18 +68,17 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		this.table = new TransactionDataTable(this);
 		this.currentMode = new SimpleMonthList(this, table);
 		this.prevMode = currentMode;
-		this.mdt = null;
 		MarvusCategory.init();
-		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
+		/*KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
 		{
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent e)
 			{
-				//if (e.getKeyCode() == KeyEvent.VK_F11)
-						//MarvusMain.fullScreen();
+				if (e.getKeyCode() == KeyEvent.VK_F11)
+						MarvusMain.fullScreen();
 				return false;
 			}
-		});
+		})*/;
 	}
 	
 	private void setupJMenu()
@@ -133,18 +126,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	// Utils
 	
-	/**
-	 * 
-	 * @param fc
-	 */
-	@Deprecated
-	public void showMonthDetailTable(FinancialCategory fc, boolean dynamic)
-	{
-		if (mdt != null)
-			mdt.dispose();
-		mdt = new CategoryDetailWindow(this, fc, dynamic);
-	}
-	
 	private boolean isOperationUnexucatable()
 	{
 		if(table.isEmpty())
@@ -179,24 +160,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	private void add()
 	{
-		/*dataBox.add(new AddDialog(this).showDialogAndGetData());
-		refresh();*/
 		new AddDialog(this).showDialog();
-	}
-	
-	@SuppressWarnings({ "unused" })
-	@Deprecated
-	private void showMonthDetailTableOld()
-	{
-		if (isOperationUnexucatable())
-			return;
-		final int month = riyufuchi.marvus.marvusLib.legacy.DateUtils.showMonthChooser(this).getValue();
-		FinancialCategory fc = new FinancialCategory(SufuDialogHelper.<String>categoryDialog(this, "Category:", "Select category", MarvusCategory.names, true));
-		table.getDataBox().stream().forEach(t -> {
-			if (t.getName().equals(fc.getName()) && t.getDate().getMonthValue() == month)
-				fc.add(t);
-		});
-		mdt = new CategoryDetailWindow(this, fc, true);
 	}
 	
 	private void dataSummary()
@@ -216,8 +180,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	private void sortData(Comparator<Transaction> comp)
 	{
 		table.getDataBox().setComparator(comp);
-		// if (dataDisplayMode instanceof SimpleList)
-			// updateDataDisplayMode(new SimpleOrderableList(this, table));
 		table.getDataBox().sort();
 		refresh();
 	}
@@ -272,6 +234,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	/**
 	 * Refresh displayed data
 	 */
+	@Override
 	public void refresh()
 	{
 		if (isOperationUnexucatable())
@@ -300,11 +263,8 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		if (MarvusConfig.showQuitDialog)
 			result = SufuDialogHelper.yesNoDialog(this, "Do you really want to exit the application?", "Exit confirmation");
 		if (result == 0)
-		{
-			if (mdt != null)
-				mdt.dispose();
 			super.dispose();
-		}
+		
 	}
 	
 	// Setters
@@ -328,7 +288,21 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		setupJMenu();
 	}
 	
+	public void setDataDisplayMode(DataDisplayMode ddm)
+	{
+		if (ddm == null)
+			return;
+		table = ddm.getDataSource();
+		ddm.setTargetWindow(this);
+		updateDataDisplayMode(ddm);
+	}
+	
 	// Getters
+	
+	public DataDisplayMode getDataDisplayMode()
+	{
+		return currentMode;
+	}
 	
 	public TransactionDataTable getTable()
 	{

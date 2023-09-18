@@ -13,7 +13,7 @@ import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 /**
  * 
  * @author riyufuchi
- * @version 1.2
+ * @version 1.3
  * @since 0.1.67
  */
 public abstract class DataDisplayMode
@@ -44,11 +44,6 @@ public abstract class DataDisplayMode
 		displayData();
 	}
 	
-	public void setNewData(TransactionDataTable dataSource)
-	{
-		this.dataSource = dataSource;
-	}
-	
 	public void showExtednedInfo(Transaction t, MouseEvent mEvt)
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))
@@ -59,5 +54,24 @@ public abstract class DataDisplayMode
 		{
 			new RemoveDialog(targetWindow.getSelf(), t).showDialog();
 		}
+	}
+	
+	// Setters
+	
+	public void setNewData(TransactionDataTable dataSource)
+	{
+		this.dataSource = dataSource;
+	}
+	
+	public void setTargetWindow(MarvusDataFrame targetWindow)
+	{
+		this.targetWindow = targetWindow;
+	}
+	
+	// Getters
+	
+	public TransactionDataTable getDataSource()
+	{
+		return dataSource;
 	}
 }

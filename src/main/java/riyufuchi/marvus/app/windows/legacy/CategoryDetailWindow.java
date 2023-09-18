@@ -16,7 +16,7 @@ import riyufuchi.sufuLib.gui.SufuWindow;
  * NOTE: This window was causing problems when transaction was edited or deleted.<br><br>
  * 
  * Created On: 21.08.2023<br>
- * Last Edit: 15.09.2023
+ * Last Edit: 18.09.2023
  * 
  * @author Riyufuchi
  */
@@ -63,5 +63,11 @@ public class CategoryDetailWindow extends SufuWindow implements MarvusDataFrame
 	public JFrame getSelf()
 	{
 		return this;
+	}
+
+	@Override
+	public void refresh()
+	{
+		mcd.refresh();
 	}
 }

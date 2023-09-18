@@ -7,18 +7,17 @@ import java.util.LinkedList;
 
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.legacyApp.gui.DataTableForm;
-import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.enums.AppThemeUI;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 import riyufuchi.sufuLib.utils.time.SufuTimer;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 15.09.2023
+ * Last Edit: 17.09.2023
  *
  * @author Riyufuchi
  */
@@ -82,10 +81,9 @@ public class MarvusMainThread
 	
 	public static void fullScreen()
 	{
-		if(timer.intervalOk())
+		if(timer.intervalOk() && app instanceof MarvusDataWindow)
 		{
-			TransactionDataTable table = ((MarvusDataWindow)app).getTable();
-			SufuWindow w2;
+			MarvusDataWindow w2;
 			if(app.isResizable())
 			{
 				w2 = new MarvusDataWindow();
@@ -93,11 +91,10 @@ public class MarvusMainThread
 			else
 			{
 				w2 = new MarvusDataWindow(800, 600);
-				//w2 = null;
 			}
+			w2.setDataDisplayMode(((MarvusDataWindow)app).getDataDisplayMode());
 			app.dispose();
 			app = w2;
-			((MarvusDataWindow)app).setTable(table);
 			((MarvusDataWindow)app).displayData();
 		}
 	}

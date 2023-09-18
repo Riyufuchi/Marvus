@@ -30,7 +30,7 @@ import org.xml.sax.SAXException;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * Created On: 30.05.2021<br>

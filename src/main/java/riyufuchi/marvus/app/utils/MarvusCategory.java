@@ -3,8 +3,8 @@ package riyufuchi.marvus.app.utils;
 import java.io.IOException;
 import java.util.List;
 
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 public class MarvusCategory
 {

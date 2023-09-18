@@ -4,12 +4,13 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
+ * Dialog for removing transactions
+ * 
  * Created On: 16.05.2023<br>
  * Last Edit: 24.08.2023 <br>
- * Dialog for removing transaction
  * 
  * @author Riyufuchi
  */

@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * Utils for handling and formating dates. This class have been moved to SufuLib<br>

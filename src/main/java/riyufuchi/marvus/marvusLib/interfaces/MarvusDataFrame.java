@@ -5,14 +5,21 @@ import javax.swing.JFrame;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
 import riyufuchi.sufuLib.interfaces.SufuWindowCommon;
 
+/**
+ * This interface is for windows, that will display data using tools provided by <b>MarvusLib</b>
+ * 
+ * @author Riyufuchi
+ */
 public interface MarvusDataFrame extends SufuWindowCommon
 {
 	void updateDataDisplayMode(DataDisplayMode dataDisplayMode);
+	void refresh();
 	
 	/**
 	 * This method return it self, it is here to ensure, that this interface is implemented on JFrame as MarvusLib is Swing based library.
 	 * 
-	 * @return this
+	 * @return reference to it self 
 	 */
 	JFrame getSelf();
+	
 }

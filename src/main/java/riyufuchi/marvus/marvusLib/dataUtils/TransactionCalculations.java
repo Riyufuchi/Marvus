@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
-import riyufuchi.sufuLib.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * Created On: 18.04.2023<br>
