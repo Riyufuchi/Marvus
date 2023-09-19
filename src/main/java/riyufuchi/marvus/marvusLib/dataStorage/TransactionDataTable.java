@@ -21,10 +21,10 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * This class sort data into categories. Data starts from x = 0.
  * 
  * Created On: 24.08.2023<br>
- * Last Edit: 11.09.2023
+ * Last Edit: 18.09.2023
  * 
  * @author Riyufuchi
- * @version 1.6
+ * @version 1.7
  * @since 0.1.60
  */
 public class TransactionDataTable
@@ -178,13 +178,13 @@ public class TransactionDataTable
 	public YearOverview getYearOverview(int year)
 	{
 		BigDecimal[] income = new BigDecimal[12];
-		BigDecimal[] outcome = new BigDecimal[12];
+		BigDecimal[] spendings = new BigDecimal[12];
 		BigDecimal zero = new BigDecimal(0);
 		int index = 0;
 		for (int i = 0; i < 12; i++)
 		{
 			income[i] = new BigDecimal(0);
-			outcome[i] = new BigDecimal(0);
+			spendings[i] = new BigDecimal(0);
 		}
 		for (Transaction t : dataBox)
 		{
@@ -194,7 +194,7 @@ public class TransactionDataTable
 				switch (t.getValue().compareTo(zero))
 				{
 					case 1 -> income[index] = income[index].add(t.getValue());
-					case -1 -> outcome[index] = outcome[index].add(t.getValue());
+					case -1 -> spendings[index] = spendings[index].add(t.getValue());
 					case 0 -> SufuDialogHelper.warningDialog(bdt, "Zero value detected for: "
 					+ t.toString(), "Zero money in transaction " + t.getID());
 				}
@@ -204,9 +204,9 @@ public class TransactionDataTable
 		for (int i = 0; i < 12; i++)
 		{
 			zero = zero.add(income[i]);
-			totalOutcome = totalOutcome.add(outcome[i]);
+			totalOutcome = totalOutcome.add(spendings[i]);
 		}
-		return new YearOverview(year, income, outcome, zero, totalOutcome, zero.add(totalOutcome));
+		return new YearOverview(year, income, spendings, zero, totalOutcome, zero.add(totalOutcome));
 	}
 	
 	public DataSummary getDataSummary(int year)
@@ -249,6 +249,11 @@ public class TransactionDataTable
 	public LinkedList<FinancialCategory> getCategorizedMonth(int index)
 	{
 		return months.get(index);
+	}
+	
+	public LinkedList<FinancialCategory> getCategorizedMonthByCategory(int index)
+	{
+		return TransactionCalculations.categorizeMonthByCategories(dataBox, index + 1);
 	}
 	
 	public DataBox<Transaction> getDataBox()

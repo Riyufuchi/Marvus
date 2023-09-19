@@ -75,6 +75,31 @@ public class TransactionCalculations
 		return list;
 	}
 	
+	public static LinkedList<FinancialCategory> categorizeMonthByCategories(DataBox<Transaction> data, int month)
+	{
+		LinkedList<FinancialCategory> list = new LinkedList<>();
+		FinancialCategory holder = null;
+		for (Transaction t : data)
+		{
+			if (t.getDate().getMonthValue() == month)
+			{
+				holder = new FinancialCategory(t.getCategory(), t);
+				for (FinancialCategory mc : list)
+				{
+					if (mc.getCategory().equals(holder.getCategory()))
+					{
+						mc.add(t);
+						holder = null;
+						break;
+					}
+				}
+				if(holder != null)
+					list.add(holder);
+			}
+		}
+		return list;
+	}
+	
 	public static LinkedList<FinancialCategory> categorizeYearByCategories(DataBox<Transaction> data)
 	{
 		LinkedList<FinancialCategory> list = new LinkedList<>();

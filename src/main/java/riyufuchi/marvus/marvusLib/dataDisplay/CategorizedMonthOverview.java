@@ -1,10 +1,9 @@
 package riyufuchi.marvus.marvusLib.dataDisplay;
 
-import java.awt.event.ActionEvent;
 import java.time.Month;
 import java.util.Iterator;
+import java.util.LinkedList;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
@@ -13,11 +12,14 @@ import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
 
-public class CategorizedMonthList extends DataDisplayMode
+public class CategorizedMonthOverview extends CategorizedMonthList
 {
-	public CategorizedMonthList(MarvusDataFrame targetWindow, TransactionDataTable source)
+	private LinkedList<LinkedList<FinancialCategory>> categorizedMonths;
+	
+	public CategorizedMonthOverview(MarvusDataFrame targetWindow, TransactionDataTable dataSource)
 	{
-		super(targetWindow, source);
+		super(targetWindow, dataSource);
+		this.categorizedMonths = new LinkedList<>();
 	}
 
 	@Override
@@ -29,7 +31,8 @@ public class CategorizedMonthList extends DataDisplayMode
 		SufuWindowTools.createTableRowHeader(targetWindow, 0, Month.values());
 		for (int month = 0; month < 12; month++)
 		{
-			Iterator<FinancialCategory> it = dataSource.getCategorizedMonth(month).iterator();
+			categorizedMonths.add(dataSource.getCategorizedMonthByCategory(month));
+			Iterator<FinancialCategory> it = categorizedMonths.getLast().iterator();
 			while (it.hasNext())
 			{
 				fc = it.next();
@@ -45,20 +48,10 @@ public class CategorizedMonthList extends DataDisplayMode
 	{
 		hardRefresh();
 	}
-	
+
+	@Override
 	protected void showData(int x, int y)
 	{
-		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, dataSource.get(x, y), true));
-	}
-	
-	protected String createBtnName(int month, int y)
-	{
-		return month + ";" + (y - 1);
-	}
-	
-	protected void btnDataReference(ActionEvent e)
-	{
-		String point = ((JButton)e.getSource()).getName();
-		showData(Integer.valueOf(point.substring(0, point.indexOf(';'))), Integer.valueOf(point.substring(point.indexOf(';') + 1, point.length())));
+		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, categorizedMonths.get(x).get(y), false));
 	}
 }
