@@ -39,7 +39,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 17.09.2023
+ * Last Edit: 19.09.2023
  * 
  * @author Riyufuchi
  */
@@ -104,7 +104,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(SufuDateUtils.showMonthChooser(this).getValue())));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
 				// Data handling
-				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());//new AddDialog(this).showDialog()); // TODO: Optimalize adding to CYT - 4
+				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());
 				// Display modes
 				//case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new SimpleList(this, table)));
 				case "Simple month list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> updateDataDisplayMode(new SimpleMonthList(this, table)));
@@ -274,6 +274,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	{
 		this.table = table;
 		this.currentMode.setNewData(table);
+		this.prevMode.setNewData(table);
 	}
 	
 	private void setConsumerFunction(Consumer<DataBox<Transaction>> operation)
@@ -289,13 +290,19 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		setupJMenu();
 	}
 	
+	/**
+	 * This setter sets data disply mode when changing fullscreen and windowed mode
+	 * 
+	 * @param ddm
+	 */
 	public void setDataDisplayMode(DataDisplayMode ddm)
 	{
 		if (ddm == null)
 			return;
 		table = ddm.getDataSource();
-		ddm.setTargetWindow(this);
-		updateDataDisplayMode(ddm);
+		currentMode.setNewData(table); // current mode might have still old data table
+		ddm.setTargetWindow(this); // ddm have reference to old window
+		updateDataDisplayMode(ddm); 
 	}
 	
 	// Getters

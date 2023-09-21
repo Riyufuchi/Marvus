@@ -48,7 +48,7 @@ public class CategorizedMonthList extends DataDisplayMode
 	
 	protected void showData(int x, int y)
 	{
-		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, dataSource.get(x, y), true));
+		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, dataSource, x, y, true));
 	}
 	
 	protected String createBtnName(int month, int y)

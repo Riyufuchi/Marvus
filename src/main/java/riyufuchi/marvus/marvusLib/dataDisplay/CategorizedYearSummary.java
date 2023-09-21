@@ -45,6 +45,6 @@ public class CategorizedYearSummary extends DataDisplayMode
 	private void btnDataReference(ActionEvent e)
 	{
 		String point = ((JButton)e.getSource()).getName();
-		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, list.get(Integer.valueOf(point) - 2), false));
+		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, dataSource, list.get(Integer.valueOf(point) - 2), false));
 	}
 }

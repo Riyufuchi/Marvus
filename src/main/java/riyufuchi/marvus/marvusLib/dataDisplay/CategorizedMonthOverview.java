@@ -52,6 +52,6 @@ public class CategorizedMonthOverview extends CategorizedMonthList
 	@Override
 	protected void showData(int x, int y)
 	{
-		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, categorizedMonths.get(x).get(y), false));
+		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, dataSource, categorizedMonths.get(x).get(y), false));
 	}
 }

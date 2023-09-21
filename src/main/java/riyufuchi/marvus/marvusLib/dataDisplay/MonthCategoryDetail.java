@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
@@ -13,17 +14,19 @@ public class MonthCategoryDetail extends DataDisplayMode
 	private FinancialCategory fc;
 	private int day, numberOfDays;
 	
-	public MonthCategoryDetail(MarvusDataFrame targetWindow, FinancialCategory fc, boolean dynamicNumberOfDays)
+	public MonthCategoryDetail(MarvusDataFrame targetWindow, TransactionDataTable tdt, FinancialCategory fc, boolean dynamicNumberOfDays)
 	{
-		super(targetWindow, null);
-		initialize(fc);
-		if (dynamicNumberOfDays)
-			this.numberOfDays = fc.getFirst().getDate().getMonth().length(SufuDateUtils.isLeapYear(fc.getFirst().getDate().getYear()));
-		else
-			this.numberOfDays = 31;
+		super(targetWindow, tdt);
+		initialize(fc, dynamicNumberOfDays);
 	}
 	
-	private void initialize(FinancialCategory fc)
+	public MonthCategoryDetail(MarvusDataFrame targetWindow, TransactionDataTable tdt, int x, int y, boolean dynamicNumberOfDays)
+	{
+		super(targetWindow, tdt);
+		initialize(tdt.get(x, y), dynamicNumberOfDays);
+	}
+	
+	private void initialize(FinancialCategory fc, boolean dynamicNumberOfDays)
 	{
 		if (fc == null)
 			fc = new FinancialCategory(new Transaction());
@@ -31,6 +34,10 @@ public class MonthCategoryDetail extends DataDisplayMode
 			fc.add(new Transaction());
 		this.fc = fc;
 		this.day = 0;
+		if (dynamicNumberOfDays)
+			this.numberOfDays = fc.getFirst().getDate().getMonth().length(SufuDateUtils.isLeapYear(fc.getFirst().getDate().getYear()));
+		else
+			this.numberOfDays = 31;
 	}
 
 	@Override

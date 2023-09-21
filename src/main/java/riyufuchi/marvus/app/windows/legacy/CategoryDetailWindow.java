@@ -16,7 +16,7 @@ import riyufuchi.sufuLib.gui.SufuWindow;
  * NOTE: This window was causing problems when transaction was edited or deleted.<br><br>
  * 
  * Created On: 21.08.2023<br>
- * Last Edit: 18.09.2023
+ * Last Edit: 19.09.2023
  * 
  * @author Riyufuchi
  */
@@ -28,7 +28,7 @@ public class CategoryDetailWindow extends SufuWindow implements MarvusDataFrame
 	public CategoryDetailWindow(MarvusDataWindow bdt, FinancialCategory fc, boolean dynamic)
 	{
 		super("?", 800, 600, false, true, false);
-		this.mcd = new MonthCategoryDetail(this, fc, dynamic);
+		this.mcd = new MonthCategoryDetail(this, bdt.getTable(), fc, dynamic);
 		if (dynamic)
 			setTitle(createWindowTitle(fc.getFirst()));
 		else
