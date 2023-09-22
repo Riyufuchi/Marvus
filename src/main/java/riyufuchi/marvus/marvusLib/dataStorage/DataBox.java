@@ -14,10 +14,10 @@ import java.util.stream.Stream;
  *  Class for managing LinkedList and data interactions<br><br>
  *  
  * Created On: 10.09.2022<br>
- * Last Edit: 23.06.2023
+ * Last Edit: 22.09.2023
  * 
  * @author Riyufuchi
- * @version 1.8
+ * @version 1.9
  * @since 1.0
  */
 public class DataBox<E> implements Iterable<E>
@@ -74,6 +74,10 @@ public class DataBox<E> implements Iterable<E>
 	}
 	
 	//COLLECTIONS UTILS
+	public int size()
+	{
+		return data.size();
+	}
 	
 	public Iterator<E> iterator()
 	{

@@ -39,7 +39,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 19.09.2023
+ * Last Edit: 22.09.2023
  * 
  * @author Riyufuchi
  */
@@ -265,7 +265,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 			result = SufuDialogHelper.yesNoDialog(this, "Do you really want to exit the application?", "Exit confirmation");
 		if (result == 0)
 			super.dispose();
-		
 	}
 	
 	// Setters

@@ -6,7 +6,6 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
@@ -14,6 +13,7 @@ import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.financialRecords.DataSummary;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
+import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
@@ -21,27 +21,25 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * This class sort data into categories. Data starts from x = 0.
  * 
  * Created On: 24.08.2023<br>
- * Last Edit: 18.09.2023
+ * Last Edit: 22.09.2023
  * 
  * @author Riyufuchi
- * @version 1.7
+ * @version 1.8
  * @since 0.1.60
  */
 public class TransactionDataTable
 {
 	private ArrayList<LinkedList<FinancialCategory>> months;
 	private DataBox<Transaction> dataBox;
-	private MarvusDataWindow bdt;
+	private MarvusDataFrame mdt;
 	private int x, size;
 	
-	public TransactionDataTable(MarvusDataWindow bdt)
+	public TransactionDataTable(MarvusDataFrame mdt)
 	{
 		initialize();
 		this.x = 0;
-		//if (bdt == null)
-			//bdt = new BudgetDataTable();
-		this.bdt = bdt;
-		this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(bdt, e),
+		this.mdt = mdt;
+		this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(mdt.getSelf(), e),
 				TransactionComparation.compareBy(CompareMethod.OldestToNewest));
 	}
 	
@@ -195,7 +193,7 @@ public class TransactionDataTable
 				{
 					case 1 -> income[index] = income[index].add(t.getValue());
 					case -1 -> spendings[index] = spendings[index].add(t.getValue());
-					case 0 -> SufuDialogHelper.warningDialog(bdt, "Zero value detected for: "
+					case 0 -> SufuDialogHelper.warningDialog(mdt.getSelf(), "Zero value detected for: "
 					+ t.toString(), "Zero money in transaction " + t.getID());
 				}
 			}

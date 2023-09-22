@@ -1,41 +1,53 @@
 package riyufuchi.marvus.legacyApp.gui;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.function.Consumer;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.app.windows.dialogs.PreferencesDialog;
 import riyufuchi.marvus.legacyApp.utils.MarvusLegacyHelper;
 import riyufuchi.marvus.legacyApp.utils.MoneySum;
+import riyufuchi.marvus.legacyApp.utils.MoneySummaryOverview;
+import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
+import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
+import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.sufuLib.lib.Lib;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 13.09.2023
+ * Last Edit: 22.09.2023
  * 
  * @author Riyufuchi
  */
 @SuppressWarnings("deprecation")
-public final class DataTableForm extends SufuWindow
+public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 {
 	private DataBox<MoneySum> dataBox;
-	private JTextField[][] textFields;
+	private DataDisplayMode mso;
+	
+	public DataTableForm()
+	{
+		super("Marvus - Data table", true, true);
+		this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
+		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(this), dataBox);
+	}
 	
 	public DataTableForm(int width, int height)
 	{
 		super("Marvus - Data table", width, height, false, true, true);
-		Consumer<Exception> exceptionConsumer = e -> SufuDialogHelper.exceptionDialog(this, e);
-		this.dataBox = new DataBox<>(exceptionConsumer, byDate());
+		this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
+		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(this), dataBox);
 	}
 	
 	private Comparator<MoneySum> byDate()
@@ -53,10 +65,24 @@ public final class DataTableForm extends SufuWindow
 	@Override
 	protected void onClose()
 	{
-		if(SufuDialogHelper.yesNoDialog(this, "Exit application?", "Exit confirmation") == 0)
+		int result = 0;
+		if (MarvusConfig.showQuitDialog)
+			result = SufuDialogHelper.yesNoDialog(this, "Do you really want to exit the application?", "Exit confirmation");
+		if (result == 0)
 			super.dispose();
 	}
 
+	@Override
+	public void updateDataDisplayMode(DataDisplayMode dataDisplayMode)
+	{
+		if (dataDisplayMode == null)
+			return;
+		mso = dataDisplayMode;
+		getPane().removeAll();
+		mso.displayData();
+		refreshWindow();
+	}
+	
 	public final void loadData(LinkedList<MoneySum> data) throws NullPointerException, IllegalArgumentException
 	{
 		if(data == null)
@@ -65,34 +91,7 @@ public final class DataTableForm extends SufuWindow
 			throw new IllegalArgumentException("Inputed datalist is emtpy");
 		dataBox.setList(data);
 		getPane().removeAll();
-		textFields = new JTextField[data.size()][2];
-		String[] listData = data.get(0).toString().split(";");
-		char oldDate = listData[1].charAt(listData[1].length()-1);
-		Iterator<MoneySum> it = data.iterator();
-		int year = 0;
-		JPanel pane = getPane();
-		int y = 0;
-		for(int x = 0; x < textFields.length; x++)
-		{
-			listData = it.next().getDataArray();
-			if(oldDate != listData[1].charAt(listData[1].length() - 1))
-			{
-				year = year + 2;
-				y = 0;
-				oldDate = listData[1].charAt(listData[1].length() - 1);
-			}
-			for(int i = 0; i < textFields[0].length; i++)
-			{
-				textFields[x][i] = new JTextField(listData[i]);
-				//textFields[x][i].setEnabled(false);
-				textFields[x][i].setEditable(false);
-				//textFields[x][i].setBackground(Color.DARK_GRAY);
-				//textFields[x][i].setForeground(Color.LIGHT_GRAY);
-				pane.add(textFields[x][i], getGBC( i + year, y + 1));
-			}
-			y++;
-		}
-		revalidate();
+		mso = new MoneySummaryOverview(this, new TransactionDataTable(null), dataBox);
 	}
 	
 	private void setupJMenu()
@@ -104,14 +103,15 @@ public final class DataTableForm extends SufuWindow
 			switch (jmc.getItemName(i))
 			{
 				case "About" -> jmc.setItemAction(i, event -> about());
-				case "Exit" -> jmc.setItemAction(i, event -> onClose());
+				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
+				case "Exit" -> jmc.setItemAction(i, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
 				case "Export"-> jmc.setItemAction(i,event -> exportData());
-				case "Import" -> jmc.setItemAction(i, event -> importData());
-				case "Refresh" -> jmc.setItemAction(i,event -> refresh());
+				case "Import" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> importData());
+				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
 				case "Count" -> jmc.setItemAction(i,event -> new Counter(this));
 				case "Date" -> jmc.setItemAction(i,event -> sort());
-				case "Preferences" -> jmc.setItemAction(i,event -> new Settings());
-				case "Backup" -> jmc.setItemAction(i,event -> backupData());
+				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());
+				case "Backup" -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> backupData());
 				default -> jmc.setItemAction(i, event -> SufuDialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
 			}
 		}
@@ -164,22 +164,13 @@ public final class DataTableForm extends SufuWindow
 	
 	public void refresh()
 	{
-		getPane().removeAll();
-		try
-		{
-			loadData((LinkedList<MoneySum>) dataBox.getList());
-		}
-		catch (NullPointerException | IllegalArgumentException e)
-		{
-			SufuDialogHelper.exceptionDialog(this, e);
-		}
-		repaint();
-		revalidate();
+		mso.refresh();
+		refreshWindow();
 	}
 	
 	private void about()
 	{
-		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: 0.1.22\nLegacy update version: 0.4\n"
+		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: 0.1.22\nLegacy update version: 0.5\n"
 			+ "This is leagacy functionality.\nIt will not be updated anymore probably.\nThis app was ment to replace old version that used object DB (JPA), "
 			+ "but funtionility become outdated, so rework was needed.");
 	}
@@ -189,5 +180,11 @@ public final class DataTableForm extends SufuWindow
 	public DataBox<MoneySum> getDataBox()
 	{
 		return dataBox;
+	}
+
+	@Override
+	public JFrame getSelf()
+	{
+		return this;
 	}
 }

@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 14.09.2023
+ * Last Edit: 22.09.2023
  * 
  * @author Riyufuchi
  */
@@ -34,6 +34,7 @@ public class Counter extends SufuWindow
 	private JTextField[] textFields;
 	private MoneyCalculations cals;
 	private boolean dataOk;
+	private final String LABELS_FILE = "appdata/legacy/counter.csv";
 
 	public Counter(DataTableForm dtf)
 	{
@@ -59,8 +60,8 @@ public class Counter extends SufuWindow
 			SufuDialogHelper.exceptionDialog(this, e);
 			try
 			{
-				SufuFileHelper.checkFile("data/counter.csv");
-				SufuPersistence.saveToCSV("data/counter.csv", new String[] {"Bank;+", "Paypal;+", "Owns;+" , "Depth;-", "Date;*"});
+				SufuFileHelper.checkFile(LABELS_FILE);
+				SufuPersistence.saveToCSV(LABELS_FILE, new String[] {"Bank;+", "Paypal;+", "Owns;+" , "Depth;-", "Date;*"});
 				SufuDialogHelper.informationDialog(dtf, "Generated counter.csv", "Counter dialog fix info");
 			}
 			catch (NullPointerException | IOException e1)
@@ -93,7 +94,7 @@ public class Counter extends SufuWindow
 	@SuppressWarnings("deprecation")
 	private void createLabels(JPanel content) throws NullPointerException, IOException
 	{
-		LinkedList<String> labelTexts = (LinkedList<String>) SufuPersistence.loadTextFile("data/counter.csv");
+		LinkedList<String> labelTexts = (LinkedList<String>) SufuPersistence.loadTextFile(LABELS_FILE);
 		Iterator<String> it = labelTexts.iterator();
 		String[] texts;
 		String[] actions = new String[labelTexts.size()];

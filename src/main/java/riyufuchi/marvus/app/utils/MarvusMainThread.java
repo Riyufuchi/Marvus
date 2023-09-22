@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.time.SufuTimer;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 17.09.2023
+ * Last Edit: 22.09.2023
  *
  * @author Riyufuchi
  */
@@ -35,7 +35,12 @@ public class MarvusMainThread
 		{
 			switch (arg)
 			{
-				case "--legacy" -> app = new DataTableForm(MarvusConfig.width, MarvusConfig.height);
+				case "--legacy" -> {
+					if (MarvusConfig.fullscreen)
+						app = new DataTableForm();
+					else
+						app = new DataTableForm(MarvusConfig.width, MarvusConfig.height);
+					}
 			}
 		}
 		if(app == null)

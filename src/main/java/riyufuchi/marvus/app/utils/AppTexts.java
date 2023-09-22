@@ -26,9 +26,10 @@ public class AppTexts
 	public static final String[] DTF_MENU = {"File", "MoneySum", "Sort by", "Window", "Help"};
 	public static final String[] DTF_MENU_ITEMS = {
 			"Backup", "Export", "Import", "Exit", "",
-			"Count", "Add", "Edit", "Delete", "Refresh", "",
-			"Date", "Hightest to lowest", "", "Preferences", "",
-			"About"};
+			"Count", "Add", "Edit", "Delete", "",
+			"Date", "Hightest to lowest", "",
+			"Preferences", "Refresh", "",
+			"About", "About SufuLib"};
 	public static final String[] FIO_LABELS = {"File type:", "Path type:", "File name:", "Actual path:"};
 	public static final String[][] FIO_COMBO_BOX_ITEMS = {  {".csv", ".xml", ".dat"},
 															{"Default", "Custom"}};
