@@ -14,7 +14,7 @@ import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.config.SufuLibConfig;
-import riyufuchi.sufuLib.enums.AppThemeUI;
+import riyufuchi.sufuLib.enums.AppTheme;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
@@ -31,7 +31,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
  */
 public class PreferencesDialog extends SufuDialog
 {
-	private JComboBox<AppThemeUI> themes;
+	private JComboBox<AppTheme> themes;
 	private JComboBox<String> dateFormat, windowSize;
 	private JButton workFile;
 	private JCheckBox showQuitDialog;
@@ -59,7 +59,7 @@ public class PreferencesDialog extends SufuDialog
 	protected void createInputs(JPanel content)
 	{
 		SufuGuiTools.addLabels(this, "Window size:", "Theme:", "Date format:", "Work file:", "Show quit dialog: ");
-		themes = SufuFactory.<AppThemeUI>newCombobox(AppThemeUI.values());
+		themes = SufuFactory.<AppTheme>newCombobox(AppTheme.values());
 		windowSize = SufuFactory.<String>newCombobox(AppTexts.WINDOW_SIZE);
 		dateFormat = SufuFactory.<String>newCombobox(AppTexts.DATE_FORMAT_OPTIONS);
 		workFile = SufuFactory.newButton("None", evt -> currentWorkFileBtnEvent());
@@ -78,7 +78,7 @@ public class PreferencesDialog extends SufuDialog
 		{
 			SufuPersistence.saveToCSV(SufuFileHelper.checkFile(MarvusConfig.SETTINGS_FILE_PATH).getPath(),
 					SufuComponentTools.extractComboboxValue(windowSize),
-					SufuComponentTools.<AppThemeUI>extractComboboxValue(themes).toString(),
+					SufuComponentTools.<AppTheme>extractComboboxValue(themes).toString(),
 					String.valueOf(dateFormat.getSelectedIndex()),
 					path,
 					String.valueOf(showQuitDialog.isSelected()));
@@ -88,7 +88,7 @@ public class PreferencesDialog extends SufuDialog
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			return;
 		}
-		if (!SufuComponentTools.<AppThemeUI>extractComboboxValue(themes).equals(MarvusConfig.appTheme) ||
+		if (!SufuComponentTools.<AppTheme>extractComboboxValue(themes).equals(MarvusConfig.appTheme) ||
 			!SufuComponentTools.<String>extractComboboxValue(windowSize).equals(MarvusConfig.width + "x" + MarvusConfig.height))
 		{
 			SufuDialogHelper.informationDialog(parentFrame, "The application requires a restart for the changes to take effect.", "Applying settings");

@@ -1,8 +1,8 @@
 Copyright © 2021 - 2023 Riyufuchi
 
-This license is only applicable for code with my copyright header and not for used 3rd party libraries.
-This software can be used for personal use (without limitation the rights to use, copy and modify), but not for redistribution with goal of making profit.  
-If modification are made end user have to be notified.
+This software can be used for personal use (without limitation of the rights to use, copy and modify).
+Redistribution with goal of making profit is strictly prohibited.
+If modification are made end user must be notified and credit to original creators must still be given.
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.

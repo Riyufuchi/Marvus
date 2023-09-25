@@ -39,7 +39,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 22.09.2023
+ * Last Edit: 25.09.2023
  * 
  * @author Riyufuchi
  */
@@ -119,6 +119,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				// Help
 				case "About" -> jmc.setItemAction(i, event -> about());
 				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
+				case "License" -> jmc.setItemAction(i, event -> Lib.licenseGUI(this));
 				default -> jmc.setItemAction(i, event -> SufuDialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
 			}
 		}

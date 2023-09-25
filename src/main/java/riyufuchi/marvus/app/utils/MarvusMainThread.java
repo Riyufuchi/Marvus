@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.legacyApp.gui.DataTableForm;
 import riyufuchi.sufuLib.config.CustomizeUI;
-import riyufuchi.sufuLib.enums.AppThemeUI;
+import riyufuchi.sufuLib.enums.AppTheme;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.time.SufuTimer;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 22.09.2023
+ * Last Edit: 25.09.2023
  *
  * @author Riyufuchi
  */
@@ -66,7 +66,7 @@ public class MarvusMainThread
 				MarvusConfig.width = Integer.valueOf(data.getFirst().substring(0, data.getFirst().indexOf("x")));
 				MarvusConfig.height = Integer.valueOf(data.getFirst().substring(data.getFirst().indexOf("x") + 1));
 			}
-			MarvusConfig.appTheme = AppThemeUI.valueOf(data.get(1)); // Throws exception when inputed incorrect data
+			MarvusConfig.appTheme = AppTheme.valueOf(data.get(1)); // Throws exception when inputed incorrect data
 			SufuDateUtils.setDateFormat(new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex = Integer.valueOf(data.get(2))]));
 			MarvusConfig.currentWorkFile = new File(data.get(3));
 			MarvusConfig.showQuitDialog = Boolean.valueOf(data.get(4));

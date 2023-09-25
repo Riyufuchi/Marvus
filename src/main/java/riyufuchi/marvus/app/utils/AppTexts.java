@@ -11,7 +11,7 @@ public class AppTexts
 			"Sort", "Fix category", "Month budget planning", "Data summary", "",
 			"Month outcome", "Category manager", "Transaction macro", "",
 			"Preferences", "Fullscreen", "Refresh", "",
-			"About", "About SufuLib"};
+			"About", "About SufuLib", "License"};
 	// Other
 	public static final String ABOUT_MARVUS = "<html>This is finance manager.<br>"
 			+ "Version: " + AppTexts.VERSION + "<br>Created by Riyufuchi."

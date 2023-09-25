@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import riyufuchi.sufuLib.enums.AppThemeUI;
+import riyufuchi.sufuLib.enums.AppTheme;
 
 public class MarvusConfig
 {
@@ -13,7 +13,7 @@ public class MarvusConfig
 	public static int width = 800;
 	public static int height = 600;
 	public static String workFolder = "appdata/";
-	public static AppThemeUI appTheme = AppThemeUI.CROSS_PLATFORM;
+	public static AppTheme appTheme = AppTheme.CROSS_PLATFORM;
 	public static int dateFormatIndex = 0;
 	public static File currentWorkFile = null;
 	public static boolean showQuitDialog = true;
