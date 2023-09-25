@@ -10,7 +10,7 @@ import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
+import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 public class CategorizedMonthOverview extends CategorizedMonthList
 {
@@ -28,7 +28,7 @@ public class CategorizedMonthOverview extends CategorizedMonthList
 		JPanel pane = targetWindow.getPane();
 		int y = 1;
 		FinancialCategory fc = null;
-		SufuWindowTools.createTableRowHeader(targetWindow, 0, Month.values());
+		SufuTableTools.addRowHeader(targetWindow, 0, 0, Month.values());
 		for (int month = 0; month < 12; month++)
 		{
 			categorizedMonths.add(dataSource.getCategorizedMonthByCategory(month));

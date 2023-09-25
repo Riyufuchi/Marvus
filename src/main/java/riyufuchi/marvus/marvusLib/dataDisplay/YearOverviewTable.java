@@ -9,11 +9,11 @@ import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
+import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 /**
  * @author Riyufuchi
- * @version 1.5 - 18.09.2023
+ * @version 1.6 - 25.09.2023
  * @since 1.66 - 05.09.2023
  */
 // TODO: Optimize this class for refresh method
@@ -33,8 +33,8 @@ public class YearOverviewTable extends DataDisplayMode
 		BigDecimal[] income = yearOverview.income();
 		BigDecimal[] spendings = yearOverview.spendigs();
 		JPanel panel = targetWindow.getPane();
-		SufuWindowTools.createTableColumnHeader(targetWindow, 0, String.valueOf(yearOverview.year()), "Income", "Spendings", "Outcome");
-		SufuWindowTools.<Month>createTableRowHeader(targetWindow, 1, 0, Month.values());
+		SufuTableTools.addColumnHeader(targetWindow, 0, 0, String.valueOf(yearOverview.year()), "Income", "Spendings", "Outcome");
+		SufuTableTools.addRowHeader(targetWindow, 1, 0, Month.values());
 		int xPos = 0;
 		for (int x = 1; x < 13; x++)
 		{
@@ -43,7 +43,7 @@ public class YearOverviewTable extends DataDisplayMode
 			panel.add(SufuFactory.newTextFieldHeader((income[xPos].add(spendings[xPos]).toString())), targetWindow.getGBC(x, 3)); // outcome is already negative
 			xPos++;
 		}
-		SufuWindowTools.createTableColumnHeader(targetWindow, 13 , "Year total", yearOverview.totalIncome(), yearOverview.totalOutcome(), yearOverview.totalResult());
+		SufuTableTools.addColumnHeader(targetWindow, 13, 0, "Year total", yearOverview.totalIncome(), yearOverview.totalOutcome(), yearOverview.totalResult());
 	}
 
 	@Override

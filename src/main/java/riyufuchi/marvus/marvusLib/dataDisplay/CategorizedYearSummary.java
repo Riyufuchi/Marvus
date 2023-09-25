@@ -11,7 +11,7 @@ import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
+import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 public class CategorizedYearSummary extends DataDisplayMode
 {
@@ -26,8 +26,8 @@ public class CategorizedYearSummary extends DataDisplayMode
 	public void displayData()
 	{
 		JPanel panel = targetWindow.getPane();
-		SufuWindowTools.createTableRowHeader(targetWindow, 1, "Category", "Sum");
-		int y = 2;
+		SufuTableTools.addRowHeader(targetWindow, 0, 0, "Category", "Sum");
+		int y = 1;
 		list = TransactionCalculations.categorizeYearByCategories(dataSource.getDataBox());
 		for(FinancialCategory category : list)
 		{

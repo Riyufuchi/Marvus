@@ -17,14 +17,14 @@ import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
+import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Provides display utility functions for data<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 08.09.2023
+ * Last Edit: 25.09.2023
  * 
  * @author Riyufuchi
  */
@@ -88,7 +88,7 @@ public class DataDisplay
 			int[] columnHeight = new int[12];
 			for (int i = 0; i < 12; i++)
 				columnHeight[i] = 0;
-			SufuWindowTools.createTableRow(bdt, 1, 0, (Object[])Month.values());
+			SufuTableTools.addRow(bdt, 1, 0, Month.values());
 			for (Transaction t : data)
 			{
 				panel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, bdt, evt)), bdt.getGBC(t.getDate().getMonthValue(), ++columnHeight[t.getDate().getMonthValue()]));
@@ -102,8 +102,8 @@ public class DataDisplay
 			int month = SufuDateUtils.showMonthChooser(bdt).getValue();
 			LinkedList<FinancialCategory> list = bdt.getTable().getCategorizedMonth(month);
 			JPanel panel = bdt.getPane();
-			SufuWindowTools.createTableRow(bdt, 0, "Month", Month.values()[month - 1]);
-			SufuWindowTools.createTableRow(bdt, 1, "Name", "Sum");
+			SufuTableTools.addRow(bdt, 0, 0, "Month", Month.values()[month - 1]);
+			SufuTableTools.addRow(bdt, 0, 1, "Name", "Sum");
 			month = 2; // Substitute for Y coordinate
 			for(FinancialCategory category : list)
 			{
@@ -119,8 +119,8 @@ public class DataDisplay
 		return data -> {
 			//LinkedList<FinancialCategory> list = TransactionCalculations.categorizeYearByCategories(data);
 			JPanel panel = bdt.getPane();
-			SufuWindowTools.createTableRow(bdt, 1, "Category", "Sum");
-			int y = 2;
+			SufuTableTools.addRow(bdt, 0, 0, "Category", "Sum");
+			int y = 1;
 			for(FinancialCategory category : TransactionCalculations.categorizeYearByCategories(data))
 			{
 				panel.add(SufuFactory.newTextFieldCell(category.getCategory()), bdt.getGBC(0, y));

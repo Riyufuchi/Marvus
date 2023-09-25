@@ -26,7 +26,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 22.09.2023
+ * Last Edit: 25.09.2023
  * 
  * @author Riyufuchi
  */
@@ -126,7 +126,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 			return;
 		}
 		FileIO fio = new FileIO(this, MarvusConfig.workFolder);
-		fio.setFileFilter(MarvusConfig.MONEY_SUM_FILES);
+		fio.setFileFilters(MarvusConfig.CSV, MarvusConfig.SER);
 		fio.setAcceptAllFileFilterUsed(false);
 		fio.showSaveChooser();
 	}
@@ -134,7 +134,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	private void importData()
 	{
 		FileIO fio = new FileIO(this, MarvusConfig.workFolder);
-		fio.setFileFilter(MarvusConfig.MONEY_SUM_FILES);
+		fio.setFileFilters(MarvusConfig.CSV, MarvusConfig.SER);
 		fio.setAcceptAllFileFilterUsed(false);
 		fio.showLoadChooser();
 	}

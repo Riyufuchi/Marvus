@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -22,11 +21,11 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
+import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
 /**
  * Created On: 14.07.2022<br>
- * Last Edit: 17.09.2023
+ * Last Edit: 25.09.2023
  * 
  * @author Riyufuchi
  */
@@ -59,16 +58,14 @@ public class PreferencesDialog extends SufuDialog
 	@Override
 	protected void createInputs(JPanel content)
 	{
-		SufuWindowTools.createLabels(this, "Window size:", "Theme:", "Date format:", "Work file:", "Show quit dialog: ");
+		SufuGuiTools.addLabels(this, "Window size:", "Theme:", "Date format:", "Work file:", "Show quit dialog: ");
 		themes = SufuFactory.<AppThemeUI>newCombobox(AppThemeUI.values());
 		windowSize = SufuFactory.<String>newCombobox(AppTexts.WINDOW_SIZE);
 		dateFormat = SufuFactory.<String>newCombobox(AppTexts.DATE_FORMAT_OPTIONS);
 		workFile = SufuFactory.newButton("None", evt -> currentWorkFileBtnEvent());
 		showQuitDialog = new JCheckBox();
 		selectConfig();
-		int y = 0;
-		for (JComponent comp : new JComponent[]{ windowSize, themes, dateFormat, workFile, showQuitDialog}) // TODO: Make this into SufuWindowTools
-			content.add(comp, getGBC(1, y++));
+		SufuGuiTools.addComponents(this, 1, 0, windowSize, themes, dateFormat, workFile, showQuitDialog);
 	}
 
 	@Override

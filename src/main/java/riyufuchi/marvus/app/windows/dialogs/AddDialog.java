@@ -1,7 +1,6 @@
 package riyufuchi.marvus.app.windows.dialogs;
 
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,13 +14,14 @@ import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  * 
  * Created On: 16.05.2023<br>
- * Last Edit: 15.09.2023
+ * Last Edit: 25.09.2023
  * 
  * @author Riyufuchi
  */
@@ -75,13 +75,8 @@ public class AddDialog extends SufuDialog
 		// Set labels
 		pane.add(new JLabel("Name:"), getGBC(0, 0));
 		pane.add(new JLabel("Category:"), getGBC(0, 2));
-		int y = 3;
-		for (String text : new String[]{ "Amount:", "Currency: ", "Date:", "Note:" })
-			pane.add(new JLabel(text), getGBC(0, y++));
-		y = 0;
-		// Set components
-		for (JComponent comp : new JComponent[]{ nameBox, name, categoryBox, money, currency, date, note})
-			pane.add(comp, getGBC(1, y++));
+		SufuGuiTools.addLabels(this, 0, 3, new String[]{ "Amount:", "Currency: ", "Date:", "Note:" });
+		SufuGuiTools.addComponents(this, 1, 0, nameBox, name, categoryBox, money, currency, date, note);
 	}
 	@Override
 	protected void onOK()

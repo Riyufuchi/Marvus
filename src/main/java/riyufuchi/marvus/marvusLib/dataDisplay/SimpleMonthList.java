@@ -8,7 +8,7 @@ import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuWindowTools;
+import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 public class SimpleMonthList extends DataDisplayMode
 {
@@ -24,13 +24,12 @@ public class SimpleMonthList extends DataDisplayMode
 		int[] columnHeight = new int[12];
 		for (int i = 0; i < 12; i++)
 			columnHeight[i] = 0;
-		SufuWindowTools.createTableRowHeader(targetWindow, 1, 0, Month.values());
+		SufuTableTools.addRowHeader(targetWindow, 1, 0, Month.values());
 		for (Transaction t : dataSource.getDataBox())
 		{
 			panel.add(SufuFactory.newTextFieldCell(t.toString(),
 					evt -> showExtednedInfo(t, evt)),
-					targetWindow.getGBC(t.getDate().getMonthValue(),
-					++columnHeight[t.getDate().getMonthValue()]));
+					targetWindow.getGBC(t.getDate().getMonthValue(), ++columnHeight[t.getDate().getMonthValue()]));
 		}
 	}
 

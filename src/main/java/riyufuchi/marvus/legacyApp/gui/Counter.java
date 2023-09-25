@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * Created On: 20.04.2022<br>
- * Last Edit: 22.09.2023
+ * Last Edit: 24.09.2023
  * 
  * @author Riyufuchi
  */
@@ -91,7 +91,6 @@ public class Counter extends SufuWindow
 		textFields[i - 1].setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void createLabels(JPanel content) throws NullPointerException, IOException
 	{
 		LinkedList<String> labelTexts = (LinkedList<String>) SufuPersistence.loadTextFile(LABELS_FILE);
@@ -106,8 +105,8 @@ public class Counter extends SufuWindow
 			content.add(SufuFactory.newLabel(texts[0] + ":"), getGBC(0, i));
 			i++;
 		}
-		content.add(SufuFactory.createButton("Cancel", event -> this.dispose()), getGBC(0, i));
-		content.add(SufuFactory.createButton("Calculate", event -> calculate()), getGBC(1, i));
+		content.add(SufuFactory.newButton("Cancel", event -> this.dispose()), getGBC(0, i));
+		content.add(SufuFactory.newButton("Calculate", event -> calculate()), getGBC(1, i));
 		createTextFilds(content, i, actions);
 	}
 	
