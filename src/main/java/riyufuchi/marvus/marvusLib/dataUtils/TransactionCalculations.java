@@ -75,7 +75,7 @@ public class TransactionCalculations
 		return list;
 	}
 	
-	public static LinkedList<FinancialCategory> categorizeMonthByCategories(DataBox<Transaction> data, int month)
+	public static LinkedList<FinancialCategory> categorizeMonthByCategories(Iterable<Transaction> data, int month)
 	{
 		LinkedList<FinancialCategory> list = new LinkedList<>();
 		FinancialCategory holder = null;
