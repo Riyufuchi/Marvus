@@ -8,10 +8,9 @@ import java.util.LinkedList;
 import riyufuchi.marvus.marvusLib.data.Money;
 
 /**
- * Created On: 21.08.2023<br>
- * Last Edit: 24.08.20233
- * 
  * @author Riyufuchi
+ * @version 1.1 - 01.10.2023
+ * @since 1.56 - 21.08.2023
  */
 public class MoneyCalculationsGeneric<E extends Money> extends LinkedList<E>
 {
@@ -19,6 +18,15 @@ public class MoneyCalculationsGeneric<E extends Money> extends LinkedList<E>
 	{
 	}
 	
+	
+	@Override
+	public boolean add(E e)
+	{
+		if (e == null)
+			return false;
+		return super.add(e);
+	}
+
 	/**
 	 * Calculates sum
 	 * 
@@ -41,6 +49,8 @@ public class MoneyCalculationsGeneric<E extends Money> extends LinkedList<E>
 	 */
 	public BigDecimal getAverage()
 	{
+		if (size() == 0)
+			return new BigDecimal(0);
 		return getSum().divide(BigDecimal.valueOf(size()), 2, RoundingMode.HALF_UP);
 	}
 }

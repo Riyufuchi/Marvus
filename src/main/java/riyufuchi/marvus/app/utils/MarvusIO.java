@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataUtils.TransactionXML;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -53,8 +54,12 @@ public abstract class MarvusIO
 					return false;
 				}
 			}
+			case ".xml" -> {
+				new TransactionXML(path).exportXML(data);
+				return true;
+			}
 			default -> {
-				SufuDialogHelper.errorDialog(parentFrame, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
+				SufuDialogHelper.errorDialog(parentFrame, "File is missing an extension or was not recognized\n" + "Extension: " + extension, "Extension not recognized");
 				return false;
 			}
 		}
@@ -76,6 +81,7 @@ public abstract class MarvusIO
 					SufuDialogHelper.exceptionDialog(parentFrame, e);
 				}
 			}
+			case ".xml" -> { return new TransactionXML(path).importXML(); }
 			default -> SufuDialogHelper.errorDialog(parentFrame, "File is missing an extension or extension was not recognized\n" + "Extension: " + extension, "Extension not recognized");
 		}
 		return new LinkedList<>();

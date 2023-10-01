@@ -14,21 +14,14 @@ public class FinancialCategoryTest
 		t2 = new Transaction("T2", "C2", "300.125", "17.05.2023", "Note");
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testToString01()
-	{
-		assertEquals("T1 0 CZK", new FinancialCategory("T1").toString());
-	}
-	
-	@Test
-	public void testToString02()
 	{
 		assertEquals("T1 300.125 CZK", new FinancialCategory(t1).toString());
 	}
 	
 	@Test
-	public void testToString03()
+	public void testToString02()
 	{
 		FinancialCategory fc = new FinancialCategory(t1);
 		fc.add(t2);

@@ -44,13 +44,6 @@ public class MoneyCalculationsTest
 		assertEquals("27.67", cal.getAverage().toString());
 	}
 	
-	@Test(expected = ArithmeticException.class)
-	public void testAverage3() {
-		cal = new MoneyCalculations();
-		cal.getAverage();
-		fail();
-	}
-	
 	@Test
 	public void testAverage4() {
 		cal = new MoneyCalculations();
@@ -68,5 +61,12 @@ public class MoneyCalculationsTest
 		cal = new MoneyCalculations();
 		cal.add("100.255");
 		assertEquals("100.26", cal.getAverage().toString());
+	}
+	
+	@Test
+	public void testAverage6()
+	{
+		cal = new MoneyCalculations();
+		assertEquals("0", cal.getAverage().toString());
 	}
 }

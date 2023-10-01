@@ -7,13 +7,11 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 /**
- * Created On: 26.04.2022 <br>
- * Last Edit: 18.04.2023<br><br>
  * Class that handles money calculations with use of BigDecimal
  * 
  * @author Riyufuchi
- * @version 1.3
- * @since 1.0
+ * @version 1.4 - 01.10.2023
+ * @since 1.0 - 26.04.2022
  */
 public class MoneyCalculations
 {
@@ -62,7 +60,6 @@ public class MoneyCalculations
 		return sum;
 	}
 	
-	//TODO: Should money be rounded normally or always up?
 	/**
 	 * Calculate average from list of BigDecimals and scale to 2 decimals and rounds half up
 	 * 
@@ -70,6 +67,8 @@ public class MoneyCalculations
 	 */
 	public BigDecimal getAverage()
 	{
+		if (moneyValues.size() == 0)
+			return new BigDecimal(0);
 		return getSum().divide(BigDecimal.valueOf(moneyValues.size()), 2, RoundingMode.HALF_UP);
 	}
 	

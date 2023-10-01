@@ -6,29 +6,13 @@ import riyufuchi.marvus.marvusLib.dataUtils.MoneyCalculationsGeneric;
  * Class representing transaction category and unites them into sum<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 01.09.2023
+ * Last Edit: 01.10.2023
  * 
  * @author Riyufuchi
  */
 public class FinancialCategory extends MoneyCalculationsGeneric<Transaction>
 {
 	private String category;
-	
-	@Deprecated
-	public FinancialCategory(String name)
-	{
-		super();
-		this.category = name;
-	}
-	
-	public FinancialCategory(String name, Transaction transaction)
-	{
-		super();
-		this.category = name;
-		if (transaction == null)
-			transaction = new Transaction();
-		add(transaction);
-	}
 	
 	public FinancialCategory(Transaction transaction)
 	{
@@ -39,10 +23,13 @@ public class FinancialCategory extends MoneyCalculationsGeneric<Transaction>
 		add(transaction);
 	}
 	
-	@Deprecated
-	public String getName()
+	public FinancialCategory(String name, Transaction transaction)
 	{
-		return category;
+		super();
+		this.category = name;
+		if (transaction == null)
+			transaction = new Transaction();
+		add(transaction);
 	}
 	
 	public String getCategory()

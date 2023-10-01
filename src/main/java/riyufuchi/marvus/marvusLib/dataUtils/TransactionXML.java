@@ -33,14 +33,10 @@ import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
- * Created On: 30.05.2021<br>
- * Last Edit: 31.08.2023
- * <hr>
  * @author Riyufuchi
- * @version 1.5
- * @since 1.3 
+ * @version 1.6 - 01.10.2023
+ * @since 1.3 - 30.05.2021
  */
-@Deprecated
 public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 {
 	private XMLOutputFactory xof;
@@ -51,8 +47,8 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 	private Document document;
 	private Transformer xformer;
 	private String path/*, mainElement, subElement*/;
-	private String name, value, note, date;
-	private boolean writeValue, writeDate, writeName, writeNote;
+	private String name, category, value, currency, note, date;
+	private boolean writeValue, writeDate, writeName, writeNote, writeCategory, writeCurrency;
 	private LinkedList<Transaction> list;
 	
 	/*
@@ -84,6 +80,8 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		this.writeName = false;
 		this.writeValue = false;
 		this.writeNote = false;
+		this.writeCategory = false;
+		this.writeCurrency = false;
 	}
 	
 	private void format() throws IOException, ParserConfigurationException, TransformerException, SAXException
@@ -130,13 +128,21 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 				xsw.writeStartElement(MarvusConfig.NAME);
 				xsw.writeCharacters(t.getName());
 				xsw.writeEndElement();
+				// CATEGORY
+				xsw.writeStartElement(MarvusConfig.CATEGORY);
+				xsw.writeCharacters(t.getCategory());
+				xsw.writeEndElement();
 				// sum
 				xsw.writeStartElement(MarvusConfig.VALUE);
 				xsw.writeCharacters(t.getValue().toString());
 				xsw.writeEndElement();
+				// currency
+				xsw.writeStartElement(MarvusConfig.CURRENCY);
+				xsw.writeCharacters(t.getCurrency());
+				xsw.writeEndElement();
 				// date
 				xsw.writeStartElement(MarvusConfig.DATE);
-				xsw.writeCharacters(t.getDate().toString());
+				xsw.writeCharacters(t.getStringDate());
 				xsw.writeEndElement();
 				// note
 				xsw.writeStartElement(MarvusConfig.NOTE);
@@ -216,7 +222,7 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		}
 	}*/
 	
-	public void parseTransaction()
+	public LinkedList<Transaction> importXML()
 	{
 		list = new LinkedList<Transaction>();
 		try 
@@ -228,6 +234,7 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		{
 			SufuDialogHelper.exceptionDialog(null, e);
 		}
+		return list;
 	}
 	
 	@Override
@@ -236,7 +243,9 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		switch (qName) 
 		{
 			case MarvusConfig.NAME -> writeName = true;
+			case MarvusConfig.CATEGORY -> writeCategory = true;
 			case MarvusConfig.VALUE -> writeValue = true;
+			case MarvusConfig.CURRENCY -> writeCurrency = true;
 			case MarvusConfig.DATE -> writeDate = true;
 			case MarvusConfig.NOTE -> writeNote = true;
 		}
@@ -248,10 +257,12 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		switch (qName) 
 		{
 			case MarvusConfig.NAME -> writeName = false;
+			case MarvusConfig.CATEGORY -> writeCategory = false;
 			case MarvusConfig.VALUE -> writeValue = false;
+			case MarvusConfig.CURRENCY -> writeCurrency = false;
 			case MarvusConfig.DATE -> writeDate = false;
 			case MarvusConfig.NOTE -> writeNote = false;
-			case MarvusConfig.SUB_ELEMENT -> list.add(new Transaction(name, "Other",value, date, note));
+			case MarvusConfig.SUB_ELEMENT -> list.add(new Transaction(name, category ,value, currency, date, note));
 		}
 	}
 
@@ -263,10 +274,18 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		{
 			name = text;
 		}
+		else if (writeCategory)
+		{
+			category = text;
+		}
 		else if (writeValue) 
 		{ 
 			value = text;
-		} 
+		}
+		else if (writeCurrency)
+		{
+			currency = text;
+		}
 		else if (writeDate) 
 		{ 
 			date = text;
@@ -279,6 +298,7 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 	
 	// GETTERS
 	
+	@Deprecated
 	public LinkedList<Transaction> getList()
 	{
 		return list;

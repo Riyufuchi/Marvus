@@ -24,11 +24,11 @@ public class MarvusConfig
 	public static final String SETTINGS_FILE_PATH = workFolder + "config.txt";
 	// XML money
 	public static final String NAME = "name";
+	public static final String CATEGORY = "category";
 	public static final String VALUE = "value";
+	public static final String CURRENCY = "currency";
 	public static final String DATE = "date";
 	public static final String NOTE = "note";
 	public static final String SUB_ELEMENT = "Transaction";
 	public static final String MAIN_ELEMENT = "Transactions";
-	//public static final String SUB_ELEMENT = "Money";
-	//public static final String MAIN_ELEMENT = "MoneyExport";
 }

@@ -24,7 +24,6 @@ import riyufuchi.marvus.marvusLib.dataDisplay.SimpleMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedYearSummary;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
-import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
@@ -39,7 +38,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 25.09.2023
+ * Last Edit: 01.10.2023
  * 
  * @author Riyufuchi
  */
@@ -101,7 +100,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this ,table.getDataBox()); table.rebuild(); });
 				// Tools
-				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToOutcome(SufuDateUtils.showMonthChooser(this).getValue())));
+				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this).getValue())));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());
@@ -277,11 +276,11 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		this.prevMode.setNewData(table);
 	}
 	
-	private void setConsumerFunction(Consumer<DataBox<Transaction>> operation)
+	private void setConsumerFunction(Consumer<Iterable<Transaction>> consumer)
 	{
 		if (isOperationUnexucatable())
 			return;
-		operation.accept(table.getDataBox());
+		consumer.accept(table.getDataBox());
 	}
 	
 	@Override
