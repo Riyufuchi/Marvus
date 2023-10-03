@@ -14,7 +14,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 01.10.2023
+ * Last Edit: 03.10.2023
  * 
  * @author Riyufuchi
  */
@@ -30,15 +30,18 @@ public class TransactionCalculations
 	 * @param month
 	 * @return
 	 */
-	public static Consumer<Iterable<Transaction>> incomeToSpendings(JFrame parentFrame, int month)
+	public static Consumer<Iterable<Transaction>> incomeToSpendings(JFrame parentFrame, Month month)
 	{
 		return data -> {
+			if (month == null)
+				return;
 			BigDecimal spendings = new BigDecimal(0);
 			BigDecimal income = new BigDecimal(0);
 			BigDecimal zero = new BigDecimal(0);
+			int monthNum = month.getValue();
 			for(Transaction t : data)
 			{
-				if (t.getDate().getMonthValue() == month)
+				if (t.getDate().getMonthValue() == monthNum)
 				{
 					switch (t.getValue().compareTo(zero))
 					{
@@ -48,7 +51,7 @@ public class TransactionCalculations
 					}
 				}
 			}
-			SufuDialogHelper.informationDialog(parentFrame, (income + " " + spendings + " = "  + income.add(spendings)), "Ratio in " + Month.values()[month - 1].toString());
+			SufuDialogHelper.informationDialog(parentFrame, (income + " " + spendings + " = "  + income.add(spendings)), "Ratio in " + month.toString());
 		};
 	}
 

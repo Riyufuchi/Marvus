@@ -69,12 +69,6 @@ public class MonthCategoryDetail extends DataDisplayMode
 		});
 	}
 	
-	@Deprecated
-	public void setNumberOfDays(int num)
-	{
-		this.numberOfDays = num;
-	}
-	
 	public FinancialCategory getFinancialCategory()
 	{
 		return fc;

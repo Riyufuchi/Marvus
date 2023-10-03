@@ -21,10 +21,10 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * This class sort data into categories. Data starts from x = 0.
  * 
  * Created On: 24.08.2023<br>
- * Last Edit: 22.09.2023
+ * Last Edit: 03.10.2023
  * 
  * @author Riyufuchi
- * @version 1.8
+ * @version 1.9
  * @since 0.1.60
  */
 public class TransactionDataTable
@@ -233,8 +233,13 @@ public class TransactionDataTable
 			avgTransactionsPerMonth[i] = avg / numOfDays;
 		}
 		
+		if (leapYear)
+			numOfDays = 365;
+		else
+			numOfDays = 366;
+		
 		return new DataSummary(size, yo.totalIncome().doubleValue(), yo.totalOutcome().doubleValue(), yo.totalResult().doubleValue(),
-				avgIncome, avgSpendings, avgTotal, avgTransactionsPerMonth, size / 365.0);
+				avgIncome, avgSpendings, avgTotal, avgTransactionsPerMonth, size / (double)numOfDays);
 	}
 
 	// Getters

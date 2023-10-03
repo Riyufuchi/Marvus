@@ -10,10 +10,10 @@ import riyufuchi.sufuLib.interfaces.CSVable;
  * Money class represents money<br><br>
  * 
  * Created On: 11.04.2022<br>
- * Last Edit: 05.09.2023
+ * Last Edit: 03.10.2023
  * 
  * @author Riyufuchi
- * @version 1.8
+ * @version 1.9
  * @since 1.0
  */
 public class Money implements Serializable, CSVable
@@ -23,27 +23,28 @@ public class Money implements Serializable, CSVable
 	private BigDecimal value;
 	private String currency;
 	
-	public Money(double value)
-	{
-		setValue(String.valueOf(value));
-		this.currency = defaultCurrency;
-	}
-	
 	public Money(String value)
 	{
 		setValue(value);
 		this.currency = defaultCurrency;
 	}
 	
-	public Money(double value, String currency)
-	{
-		setValue(String.valueOf(value));
-		this.currency = currency;
-	}
-	
 	public Money(String value, String currency)
 	{
 		setValue(value);
+		this.currency = currency;
+	}
+	
+	
+	public Money(double value)
+	{
+		setValue(String.valueOf(value));
+		this.currency = defaultCurrency;
+	}
+	
+	public Money(double value, String currency)
+	{
+		setValue(String.valueOf(value));
 		this.currency = currency;
 	}
 	
@@ -108,8 +109,6 @@ public class Money implements Serializable, CSVable
 	}
 
 	// OVERRIDE METHODS
-	
-	
 	
 	@Override
 	public String toString()

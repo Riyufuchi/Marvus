@@ -16,6 +16,17 @@ public class MarvusUtils
 {
 	private MarvusUtils() {}
 	
+	public static void exitApp(JFrame mainFrame)
+	{
+		if (mainFrame == null)
+			return;
+		int result = 0;
+		if (MarvusConfig.showQuitDialog)
+			result = SufuDialogHelper.yesNoDialog(mainFrame, "Do you really want to exit the application?", "Exit confirmation");
+		if (result == 0)
+			mainFrame.dispose();
+	}
+	
 	public static TransactionIO createTransactionIO(MarvusDataWindow mdw)
 	{
 		TransactionIO fio = new TransactionIO(mdw, MarvusConfig.workFolder);

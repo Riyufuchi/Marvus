@@ -38,7 +38,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Created On: 18.04.2023<br>
- * Last Edit: 01.10.2023
+ * Last Edit: 03.10.2023
  * 
  * @author Riyufuchi
  */
@@ -100,7 +100,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this ,table.getDataBox()); table.rebuild(); });
 				// Tools
-				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this).getValue())));
+				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());
@@ -260,11 +260,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	@Override
 	protected void onClose()
 	{
-		int result = 0;
-		if (MarvusConfig.showQuitDialog)
-			result = SufuDialogHelper.yesNoDialog(this, "Do you really want to exit the application?", "Exit confirmation");
-		if (result == 0)
-			super.dispose();
+		MarvusUtils.exitApp(this);
 	}
 	
 	// Setters

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.dialogs.PreferencesDialog;
 import riyufuchi.marvus.legacyApp.utils.MarvusLegacyHelper;
 import riyufuchi.marvus.legacyApp.utils.MoneySum;
@@ -26,7 +27,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 25.09.2023
+ * Last Edit: 01.10.2023
  * 
  * @author Riyufuchi
  */
@@ -35,17 +36,19 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 {
 	private DataBox<MoneySum> dataBox;
 	private DataDisplayMode mso;
+	private static final String VERSION = "1.22";
+	//UnsupportedOperationException
 	
 	public DataTableForm()
 	{
-		super("Marvus - Data table", true, true);
+		super("Marvus - Data table - " + VERSION, true, true);
 		this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
 		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(this), dataBox);
 	}
 	
 	public DataTableForm(int width, int height)
 	{
-		super("Marvus - Data table", width, height, false, true, true);
+		super("Marvus - Data table - " + VERSION, width, height, false, true, true);
 		this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
 		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(this), dataBox);
 	}
@@ -65,11 +68,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	@Override
 	protected void onClose()
 	{
-		int result = 0;
-		if (MarvusConfig.showQuitDialog)
-			result = SufuDialogHelper.yesNoDialog(this, "Do you really want to exit the application?", "Exit confirmation");
-		if (result == 0)
-			super.dispose();
+		MarvusUtils.exitApp(this);
 	}
 
 	@Override
@@ -86,7 +85,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	public final void loadData(LinkedList<MoneySum> data) throws NullPointerException, IllegalArgumentException
 	{
 		if(data == null)
-			throw new NullPointerException("Inputed datalist was null");
+			throw new NullPointerException("Inputed datalist is null");
 		if(data.isEmpty())
 			throw new IllegalArgumentException("Inputed datalist is emtpy");
 		dataBox.setList(data);
@@ -170,7 +169,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	
 	private void about()
 	{
-		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: 0.1.22\nLegacy update version: 0.5\n"
+		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: " + VERSION + "\nLegacy update version: 0.6\n"
 			+ "This is leagacy functionality.\nIt will not be updated anymore probably.\nThis app was ment to replace old version that used object DB (JPA), "
 			+ "but funtionility become outdated, so rework was needed.");
 	}
