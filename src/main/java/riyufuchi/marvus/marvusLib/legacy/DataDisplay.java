@@ -2,6 +2,7 @@ package riyufuchi.marvus.marvusLib.legacy;
 
 import java.awt.event.MouseEvent;
 import java.time.Month;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
@@ -24,7 +25,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * Provides display utility functions for data<br><br>
  * 
  * Created On: 18.04.2023<br>
- * Last Edit: 25.09.2023
+ * Last Edit: 04.10.2023
  * 
  * @author Riyufuchi
  */
@@ -114,7 +115,7 @@ public class DataDisplay
 		};
 	}
 
-	public static Consumer<DataBox<Transaction>> categoryYearList(MarvusDataWindow bdt)
+	public static Consumer<Collection<Transaction>> categoryYearList(MarvusDataWindow bdt)
 	{
 		return data -> {
 			//LinkedList<FinancialCategory> list = TransactionCalculations.categorizeYearByCategories(data);

@@ -37,10 +37,9 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
- * Created On: 18.04.2023<br>
- * Last Edit: 03.10.2023
- * 
  * @author Riyufuchi
+ * @version 04.10.2023
+ * @since 18.04.2023
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
@@ -98,7 +97,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
 				// Data tools
 				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
-				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this ,table.getDataBox()); table.rebuild(); });
+				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this ,table); table.rebuild(); });
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
@@ -149,13 +148,13 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		try
 		{
 			SufuFileHelper.checkFile(MarvusConfig.currentWorkFile.getAbsolutePath());
-			table.getDataBox().setList(MarvusIO.loadData(this, MarvusConfig.currentWorkFile.getAbsolutePath()));
+			table.addAll(MarvusIO.loadData(this, MarvusConfig.currentWorkFile.getAbsolutePath()));
 		}
 		catch (NullPointerException | IOException e)
 		{
 			SufuDialogHelper.exceptionDialog(this, e);
 		}
-		table.rebuild();
+		//table.rebuild();
 		displayData();
 	}
 	
@@ -180,9 +179,10 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	private void sortData(Comparator<Transaction> comp)
 	{
-		table.getDataBox().setComparator(comp);
-		table.getDataBox().sort();
-		refresh();
+		throw new UnsupportedOperationException("Not supported yet.");
+		//table.getDataBox().setComparator(comp);
+		//table.getDataBox().sort();
+		//refresh();
 	}
 	
 	private void exportData()
@@ -197,7 +197,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	private void quickSaveFile()
 	{
 		if (MarvusConfig.currentWorkFile != null)
-			MarvusIO.quickSave(this, MarvusConfig.currentWorkFile.getAbsolutePath(), table.getDataBox().getList());
+			MarvusIO.quickSave(this, MarvusConfig.currentWorkFile.getAbsolutePath(), table);
 		else
 			SufuDialogHelper.warningDialog(this, "No save destination found!", "No save destination");
 	}
@@ -225,6 +225,11 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	{
 		if (ddm == null)
 			return;
+		if (currentMode.getClass().getName().equals(ddm.getClass().getName()))
+		{
+			refresh();
+			return;
+		}
 		prevMode = currentMode;
 		currentMode = ddm;
 		if (isOperationUnexucatable())
@@ -276,7 +281,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	{
 		if (isOperationUnexucatable())
 			return;
-		consumer.accept(table.getDataBox());
+		consumer.accept(table);
 	}
 	
 	@Override

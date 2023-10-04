@@ -2,6 +2,7 @@ package riyufuchi.marvus.marvusLib.dataUtils;
 
 import java.math.BigDecimal;
 import java.time.Month;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
@@ -9,14 +10,12 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
- * Created On: 18.04.2023<br>
- * Last Edit: 03.10.2023
- * 
  * @author Riyufuchi
+ * @version 04.10.2023
+ * @since 18.04.2023
  */
 public class TransactionCalculations
 {
@@ -55,7 +54,7 @@ public class TransactionCalculations
 		};
 	}
 
-	public static LinkedList<FinancialCategory> categorizeMonth(DataBox<Transaction> data, int month)
+	public static LinkedList<FinancialCategory> categorizeMonth(Collection<Transaction> data, int month)
 	{
 		LinkedList<FinancialCategory> list = new LinkedList<>();
 		FinancialCategory holder = null;
@@ -105,7 +104,7 @@ public class TransactionCalculations
 		return list;
 	}
 	
-	public static LinkedList<FinancialCategory> categorizeYearByCategories(DataBox<Transaction> data)
+	public static LinkedList<FinancialCategory> categorizeYearByCategories(Collection<Transaction> data)
 	{
 		LinkedList<FinancialCategory> list = new LinkedList<>();
 		FinancialCategory holder = null;

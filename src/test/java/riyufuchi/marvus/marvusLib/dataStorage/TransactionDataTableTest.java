@@ -32,6 +32,36 @@ public class TransactionDataTableTest
 	}
 	
 	@Test
+	public void testAdd03()
+	{
+		ct.add(TestData.transaction1);
+		ct.add(TestData.transaction2);
+		assertEquals(true, ct.add(new Transaction()));
+	}
+	
+	@Test
+	public void testAdd04()
+	{
+		ct.add(TestData.transaction1);
+		ct.add(new Transaction());
+		assertEquals(true, ct.add(TestData.transaction2));
+	}
+	
+	@Test
+	public void testAdd05()
+	{
+		ct.add(TestData.transaction1);
+		ct.add(new Transaction());
+		assertEquals(true, ct.add(TestData.transaction1));
+	}
+	
+	@Test
+	public void testAdd06()
+	{
+		assertEquals(false, ct.add(null));
+	}
+	
+	@Test
 	public void testSet01()
 	{
 		ct.add(TestData.transaction1);
@@ -127,5 +157,20 @@ public class TransactionDataTableTest
 	{
 		ct.add(TestData.transaction1);
 		assertEquals(false, ct.isEmpty());
+	}
+	
+	@Test
+	public void testContains01()
+	{
+		assertEquals(false, ct.contains(new Transaction()));
+	}
+	
+	@Test
+	public void testContains02()
+	{
+		ct.add(TestData.transaction1);
+		ct.add(TestData.transaction2);
+		ct.add(new Transaction());
+		assertEquals(true, ct.contains(TestData.transaction2));
 	}
 }

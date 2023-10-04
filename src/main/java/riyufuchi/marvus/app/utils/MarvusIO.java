@@ -1,8 +1,8 @@
 package riyufuchi.marvus.app.utils;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -16,13 +16,13 @@ public abstract class MarvusIO
 {
 	private MarvusIO() { }
 	
-	public static void quickSave(JFrame parentFrame, String path, List<Transaction> data)
+	public static void quickSave(JFrame parentFrame, String path, Collection<Transaction> data)
 	{
 		if (saveData(parentFrame, path, data, true))
 			SufuDialogHelper.informationDialog(parentFrame, "Succesfuly saved to:\n " + path, "Save message");
 	}
 	
-	public static boolean saveData(JFrame parentFrame, String path, List<Transaction> data, boolean quicksava)
+	public static boolean saveData(JFrame parentFrame, String path, Collection<Transaction> data, boolean quicksava)
 	{
 		String extension = path.substring(path.lastIndexOf('.'));
 		if (!quicksava)

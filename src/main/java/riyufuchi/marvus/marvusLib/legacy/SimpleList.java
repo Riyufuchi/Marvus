@@ -18,9 +18,8 @@ public class SimpleList extends DataDisplayMode
 	public void displayData()
 	{
 		JPanel panel = targetWindow.getPane();
-		dataSource.getDataBox().stream().forEach(t -> panel.add(SufuFactory.newTextFieldCell(t.toString(),
+		dataSource.stream().forEach(t -> panel.add(SufuFactory.newTextFieldCell(t.toString(),
 				evt -> showExtednedInfo(t, evt)), targetWindow.getGBC(0, t.getID())));
-		//targetWindow.refreshWindow();
 	}
 
 	@Override

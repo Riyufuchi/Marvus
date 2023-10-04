@@ -20,7 +20,7 @@ public class SimpleOrderableList extends DataDisplayMode
 	{
 		JPanel panel = targetWindow.getPane();
 		int y = 0;
-		for (Transaction t : dataSource.getDataBox())
+		for (Transaction t : dataSource)
 		{
 			panel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, evt)), targetWindow.getGBC(0, y++));
 		}

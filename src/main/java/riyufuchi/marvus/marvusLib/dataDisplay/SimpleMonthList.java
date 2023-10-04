@@ -25,7 +25,7 @@ public class SimpleMonthList extends DataDisplayMode
 		for (int i = 0; i < 12; i++)
 			columnHeight[i] = 0;
 		SufuTableTools.addRowHeader(targetWindow, 1, 0, Month.values());
-		for (Transaction t : dataSource.getDataBox())
+		for (Transaction t : dataSource)
 		{
 			panel.add(SufuFactory.newTextFieldCell(t.toString(),
 					evt -> showExtednedInfo(t, evt)),

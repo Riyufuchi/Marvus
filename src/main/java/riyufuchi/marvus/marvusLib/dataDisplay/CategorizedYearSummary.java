@@ -28,7 +28,7 @@ public class CategorizedYearSummary extends DataDisplayMode
 		JPanel panel = targetWindow.getPane();
 		SufuTableTools.addRowHeader(targetWindow, 0, 0, "Category", "Sum");
 		int y = 1;
-		list = TransactionCalculations.categorizeYearByCategories(dataSource.getDataBox());
+		list = TransactionCalculations.categorizeYearByCategories(dataSource);
 		for(FinancialCategory category : list)
 		{
 			panel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), targetWindow.getGBC(0, y));

@@ -1,13 +1,13 @@
 package riyufuchi.marvus.app.utils;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.app.windows.TransactionIO;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -50,7 +50,7 @@ public class MarvusUtils
 		}
 	}
 	
-	public static void fixCategory(JFrame frame,DataBox<Transaction> data)
+	public static void fixCategory(JFrame frame, Collection<Transaction> data)
 	{
 		if(SufuDialogHelper.yesNoDialog(frame, "Set category automatically?", "Category fixing") == 0)
 			data.stream().forEach(transaction -> transaction.setCategory(MarvusCategory.categories[getCategoryID(transaction.getName())]));

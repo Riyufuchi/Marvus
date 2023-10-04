@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
-import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,7 +33,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 1.6 - 01.10.2023
+ * @version 1.7 - 04.10.2023
  * @since 1.3 - 30.05.2021
  */
 public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
@@ -114,7 +113,7 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 	
 	// PUBLIC METHODS
 	
-	public void exportXML(List<Transaction> data)
+	public void exportXML(Iterable<Transaction> data)
 	{
 		try
 		{
@@ -294,13 +293,5 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 		{
 			note = text;
 		}
-	}
-	
-	// GETTERS
-	
-	@Deprecated
-	public LinkedList<Transaction> getList()
-	{
-		return list;
 	}
 }

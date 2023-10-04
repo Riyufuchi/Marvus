@@ -8,10 +8,9 @@ import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
- * Created On: 27.03.2023<br>
- * Last Edit: 14.09.2023
- * 
  * @author Riyufuchi
+ * @version 04.10.2023
+ * @since 27.03.2023
  */
 public class TransactionIO extends SufuFileChooser
 {
@@ -27,7 +26,7 @@ public class TransactionIO extends SufuFileChooser
 	protected void onSave(String path)
 	{
 		path = addExtension(path);
-		if (MarvusIO.saveData(budgetDataTable, path, budgetDataTable.getTable().getDataBox().getList(), false))
+		if (MarvusIO.saveData(budgetDataTable, path, budgetDataTable.getTable(), false))
 			SufuDialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
 	}
 
@@ -48,7 +47,8 @@ public class TransactionIO extends SufuFileChooser
 	
 	private void setData(LinkedList<Transaction> list)
 	{
-		budgetDataTable.getTable().getDataBox().setList(list);
-		budgetDataTable.getTable().rebuild();
+		throw new UnsupportedOperationException("Not supported yet.");
+		//budgetDataTable.getTable().getDataBox().setList(list);
+		//budgetDataTable.getTable().rebuild();
 	}
 }
