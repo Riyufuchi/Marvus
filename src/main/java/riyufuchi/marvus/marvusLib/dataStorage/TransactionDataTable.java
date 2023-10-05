@@ -5,40 +5,54 @@ import java.math.RoundingMode;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.function.Consumer;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
+import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
+import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.financialRecords.DataSummary;
 import riyufuchi.marvus.marvusLib.financialRecords.YearOverview;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusCollection;
-import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * This class sort data into categories. Data starts from x = 0
  * 
  * @author Riyufuchi
- * @version 2.0 - 04.10.2023
- * @since 0.1.60 - 24.08.2023
+ * @version 2.1 - 05.10.2023
+ * @since 1.60 - 24.08.2023
  */
 public class TransactionDataTable implements MarvusCollection<Transaction>
 {
 	private ArrayList<LinkedList<FinancialCategory>> months;
-	//private DataBox<Transaction> dataBox;
-	private MarvusDataFrame mdt;
+	private Consumer<String> errorHandler;
+	private Comparator<FinancialCategory> sorter;
 	private int x, size;
 	
-	public TransactionDataTable(MarvusDataFrame mdt)
+	public TransactionDataTable()
 	{
 		initialize();
 		this.x = 0;
-		this.mdt = mdt;
-		/*this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(mdt.getSelf(), e),
-				TransactionComparation.compareBy(CompareMethod.OldestToNewest));*/
+		this.errorHandler = e -> System.out.println(e);
+		this.sorter = TransactionComparation.compareFC(CompareMethod.By_name);
+
+	}
+	
+	public TransactionDataTable(Consumer<String> errorHandler)
+	{
+		initialize();
+		this.x = 0;
+		if (errorHandler == null)
+			this.errorHandler = e -> System.out.println(e);
+		else
+			this.errorHandler = errorHandler;
+		this.sorter = TransactionComparation.compareFC(CompareMethod.By_name);
 	}
 	
 	private void initialize()
@@ -56,7 +70,6 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 	{
 		if (transaction == null)
 			return false;
-		//dataBox.add(transaction);
 		x = transaction.getDate().getMonthValue() - 1;
 		if (months.get(x).isEmpty())
 		{
@@ -92,8 +105,27 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 	@Override
 	public boolean remove(Object o)
 	{
-		if (o instanceof Transaction)
-			return remove((Transaction)o);
+		if (o == null || !(o instanceof Transaction))
+			return false;
+		Transaction transaction = (Transaction)o;
+		x = transaction.getDate().getMonthValue() - 1;
+		if (months.get(x).isEmpty())
+			return false;
+		months.get(x).forEach(data -> {
+			if (data.getCategory().equals(transaction.getName()))
+			{
+				if (data.remove(transaction))
+				{
+					if (data.isEmpty())
+						months.get(x).remove(data);
+					size--;
+					x = -1;
+					return;
+				}
+			}
+		});
+		if (x == -1)
+			return true;
 		return false;
 	}
 	
@@ -183,6 +215,27 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 	
 	// Specific methods
 	
+	@Deprecated
+	public void sortData(Comparator<Transaction> comp)
+	{
+		for(int i = 0; i < 11; i++)
+		{
+			for (FinancialCategory fc : months.get(i))
+			{
+				Collections.sort(fc, comp);
+			}
+		}
+	}
+	
+	public void sortStructure(Comparator<FinancialCategory> comp)
+	{
+		if (comp == null)
+			return;
+		sorter = comp;
+		for (int i = 0; i < 11; i++)
+			Collections.sort(months.get(i), comp);
+	}
+	
 	public void rebuild()
 	{
 		Iterator<Transaction> it = iterator();
@@ -191,12 +244,6 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 		{
 			add(it.next());
 		}
-		/*
-		for (int i = 1; i < 13; i++)
-		{
-			months.set(i - 1, TransactionCalculations.categorizeMonth(this, i));
-		}
-		//size = dataBox.getList().size();*/
 	}
 	
 	public void set(Transaction transaction)
@@ -219,6 +266,7 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 		});
 	}
 	
+	@Deprecated
 	public void remove(int month, String name, int id)
 	{
 		if(name == null || name.isBlank())
@@ -232,7 +280,6 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 				data.forEach(t -> {
 					if (t.getID() == id)
 					{
-						//dataBox.getList().remove(t);
 						data.remove(t);
 						size--;
 						return;
@@ -241,25 +288,6 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 				return;
 			}
 		});
-	}
-	
-	public boolean remove(Transaction transaction)
-	{
-		if (transaction == null)
-			return false;
-		x = transaction.getDate().getMonthValue() - 1;
-		if (months.get(x).isEmpty())
-			return false;
-		months.get(x).forEach(data -> {
-			if (data.getCategory().equals(transaction.getName()))
-			{
-				//dataBox.getList().remove(transaction);
-				data.remove(transaction);
-				return;
-			}
-		});
-		size--;
-		return true;
 	}
 	
 	public FinancialCategory get(int x, int y)
@@ -289,8 +317,7 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 				{
 					case 1 -> income[index] = income[index].add(t.getValue());
 					case -1 -> spendings[index] = spendings[index].add(t.getValue());
-					case 0 -> SufuDialogHelper.warningDialog(mdt.getSelf(), "Zero value detected for: "
-					+ t.toString(), "Zero money in transaction " + t.getID());
+					case 0 -> errorHandler.accept("Zero value detected for:\n" + t.getID() + " -> " + t.toString());
 				}
 			}
 		}
@@ -352,7 +379,9 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 	
 	public LinkedList<FinancialCategory> getCategorizedMonthByCategory(int index)
 	{
-		return TransactionCalculations.categorizeMonthByCategories(this, index + 1);
+		LinkedList<FinancialCategory> list = TransactionCalculations.categorizeMonthByCategories(this, index + 1);
+		Collections.sort(list, sorter);
+		return list;
 	}
 
 	@Override
@@ -372,10 +401,4 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	/*
-	public DataBox<Transaction> getDataBox()
-	{
-		return dataBox;
-	}*/
 }

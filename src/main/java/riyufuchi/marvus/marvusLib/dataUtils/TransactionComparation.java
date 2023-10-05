@@ -2,44 +2,59 @@ package riyufuchi.marvus.marvusLib.dataUtils;
 
 import java.util.Comparator;
 
+import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 
 /**
- * Created On: 18.04.2023<br>
- * Last Edit: 27.04.2023
- * 
  * @author Riyufuchi
+ * @version 05.10.2023
+ * @version 18.04.2023
  */
 public class TransactionComparation
 {
+	/**
+	 * This used in combobox for user to select from
+	 */
 	public enum CompareMethod
 	{
-		OldestToNewest,
-		NewestToOldest,
-		Up,
-		Down,
-		ByName,
+		Oldest_to_newest,
+		Newest_to_oldest,
+		Lowest_to_highest,
+		Highest_to_lowest,
+		By_name,
 		ID;
 	};
 	
 	private TransactionComparation()
 	{}
 	
-	//TODO: Finish implementation of the comparators
+	public static Comparator<FinancialCategory> compareFC(CompareMethod compareMethod)
+	{
+		if(compareMethod == null)
+			compareMethod = CompareMethod.By_name;
+		switch (compareMethod)
+		{
+			case By_name -> { return (m1, m2) -> { return m1.getCategory().compareTo(m2.getCategory()); };}
+			case Lowest_to_highest -> { return (m1, m2) -> { return m1.getSum().compareTo(m2.getSum()); };}
+			case Highest_to_lowest -> { return (m1, m2) -> { return m2.getSum().compareTo(m1.getSum()); };}
+			default -> { return (m1, m2) -> { return m1.getCategory().compareTo(m2.getCategory()); };}
+		}
+	}
+	
 	public static Comparator<Transaction> compareBy(CompareMethod compareMethod)
 	{
 		if(compareMethod == null)
-			return (m1, m2) -> compareID(m1, m2);
+			compareMethod = CompareMethod.Oldest_to_newest;
 		switch (compareMethod)
 		{
-			case ByName -> { return (m1, m2) -> { return m1.getName().compareTo(m2.getName()); };}
-			case Down -> { }
-			case NewestToOldest -> { return (m1, m2) -> { return m2.getDate().compareTo(m1.getDate()); };}
-			case OldestToNewest -> { return (m1, m2) -> { return m1.getDate().compareTo(m2.getDate()); };}
-			case Up -> { }
+			case By_name -> { return (m1, m2) -> { return m1.getName().compareTo(m2.getName()); };}
+			case Lowest_to_highest -> { return (m1, m2) -> { return m1.getValue().compareTo(m2.getValue()); };}
+			case Newest_to_oldest -> { return (m1, m2) -> { return m2.getDate().compareTo(m1.getDate()); };}
+			case Oldest_to_newest -> { return (m1, m2) -> { return m1.getDate().compareTo(m2.getDate()); };}
+			case Highest_to_lowest -> { return (m1, m2) -> { return m2.getValue().compareTo(m1.getValue()); };}
 			case ID -> { return (m1, m2) -> compareID(m1, m2); }
+			default -> { return (m1, m2) -> compareID(m1, m2); }
 		}
-		return null;
 	}
 	
 	private static int compareID(Transaction m1, Transaction m2)

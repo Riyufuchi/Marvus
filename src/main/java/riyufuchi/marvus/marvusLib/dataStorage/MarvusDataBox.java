@@ -1,10 +1,10 @@
 package riyufuchi.marvus.marvusLib.dataStorage;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,21 +12,18 @@ import java.util.stream.Stream;
 
 /**
  *  Class for managing LinkedList and data interactions<br><br>
- *  
- * Created On: 10.09.2022<br>
- * Last Edit: 22.09.2023
- * 
+ *
  * @author Riyufuchi
- * @version 1.9
- * @since 1.0
+ * @version 2.0 - 05.10.2023
+ * @since 1.0 - 10.09.2022
  */
-public class DataBox<E> implements Iterable<E>
+public class MarvusDataBox<E> implements Iterable<E>
 {
 	private LinkedList<E> data;
 	private Comparator<E> comparator;
 	private Consumer<Exception> errorLoger;
 	
-	public DataBox(Consumer<Exception> errorLoger, Comparator<E> comparator)
+	public MarvusDataBox(Consumer<Exception> errorLoger, Comparator<E> comparator)
 	{
 		checkArguments(errorLoger, comparator);
 		this.data = new LinkedList<>();
@@ -35,7 +32,7 @@ public class DataBox<E> implements Iterable<E>
 	private void checkArguments(Consumer<Exception> errorLoger, Comparator<E> comparator)
 	{
 		if (errorLoger == null)
-			this.errorLoger = e -> Logger.getLogger(DataBox.class.getName()).log(Level.SEVERE, null, e);
+			this.errorLoger = e -> Logger.getLogger(MarvusDataBox.class.getName()).log(Level.SEVERE, null, e);
 		else
 			this.errorLoger = errorLoger;
 		
@@ -63,7 +60,7 @@ public class DataBox<E> implements Iterable<E>
 		data.add(money);
 	}
 	
-	public void addMultiple(List<E> newData) //throws NullPointerException
+	public void addMultiple(Collection<E> newData) //throws NullPointerException
 	{
 		if (newData == null)
 		{
@@ -74,6 +71,7 @@ public class DataBox<E> implements Iterable<E>
 	}
 	
 	//COLLECTIONS UTILS
+	
 	public int size()
 	{
 		return data.size();

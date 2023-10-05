@@ -16,6 +16,7 @@ import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.dialogs.AddDialog;
 import riyufuchi.marvus.app.windows.dialogs.PreferencesDialog;
 import riyufuchi.marvus.app.utils.MarvusCategory;
+import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthOverview;
@@ -64,7 +65,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	@Override
 	protected void postWindowInit(JPanel content)
 	{
-		this.table = new TransactionDataTable(this);
+		this.table = new TransactionDataTable(s -> SufuDialogHelper.warningDialog(this, s, "Data error"));
 		this.currentMode = new CategorizedMonthList(this, table);
 		this.prevMode = currentMode;
 		MarvusCategory.init();
@@ -96,7 +97,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Import" -> jmc.setItemAction(i, event -> importData());
 				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
 				// Data tools
-				case "Sort" -> jmc.setItemAction(i, e -> sortData(TransactionComparation.compareBy(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
+				case "Sort" -> jmc.setItemAction(i, e -> sort(TransactionComparation.compareFC(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this ,table); table.rebuild(); });
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
@@ -177,12 +178,10 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		SufuDialogHelper.informationDialog(this, data, "Data summary");
 	}
 	
-	private void sortData(Comparator<Transaction> comp)
+	private void sort(Comparator<FinancialCategory> comp)
 	{
-		throw new UnsupportedOperationException("Not supported yet.");
-		//table.getDataBox().setComparator(comp);
-		//table.getDataBox().sort();
-		//refresh();
+		table.sortStructure(comp);
+		refresh();
 	}
 	
 	private void exportData()

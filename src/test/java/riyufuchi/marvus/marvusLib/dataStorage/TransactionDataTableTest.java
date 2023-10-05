@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import riyufuchi.marvus.appTesting.TestData;
+import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 
 public class TransactionDataTableTest
@@ -86,7 +87,7 @@ public class TransactionDataTableTest
 	{
 		ct.add(TestData.transaction1);
 		ct.remove(TestData.transaction1);
-		assertEquals(0, ct.get(4, 0).size());
+		assertEquals(0, ct.size());
 	}
 	
 	@Test
@@ -112,7 +113,6 @@ public class TransactionDataTableTest
 	@Test
 	public void testRemove04()
 	{
-		ct.clear();
 		Transaction t = new Transaction("T", "CT", "10", "01.02.2023", "note"); 
 		Transaction tr = new Transaction("T", "CT", "10", "01.02.2023", "note");
 		ct.add(t);
@@ -120,6 +120,35 @@ public class TransactionDataTableTest
 		ct.add(new Transaction("T", "CT", "10", "01.02.2023", "note"));
 		ct.remove(tr);
 		assertEquals(t.getID() , ct.get(1, 0).get(0).getID());
+	}
+	
+	@Test
+	public void testRemove05()
+	{
+		assertEquals(false , ct.remove(null));
+	}
+	
+	@Test
+	public void testRemove06()
+	{
+		assertEquals(false , ct.remove(new Money(0)));
+	}
+	
+	@Test
+	public void testRemove07()
+	{
+		assertEquals(false , ct.remove(new Transaction()));
+	}
+	
+	@Test
+	public void testRemove08()
+	{
+		Transaction t = new Transaction("T", "CT", "10", "01.02.2023", "note"); 
+		Transaction tr = new Transaction("T", "CT", "10", "01.02.2023", "note");
+		ct.add(t);
+		ct.add(tr);
+		ct.remove(tr);
+		assertEquals(false , ct.remove(tr));
 	}
 	
 	@Test
@@ -142,7 +171,7 @@ public class TransactionDataTableTest
 	{
 		ct.add(TestData.transaction1);
 		ct.add(TestData.transaction2);
-		ct.remove(TestData.transaction2_equal);
+		ct.remove(TestData.transaction2);
 		assertEquals(1, ct.size());
 	}
 	

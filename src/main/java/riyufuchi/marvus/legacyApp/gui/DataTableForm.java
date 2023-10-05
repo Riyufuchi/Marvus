@@ -16,7 +16,7 @@ import riyufuchi.marvus.legacyApp.utils.MarvusLegacyHelper;
 import riyufuchi.marvus.legacyApp.utils.MoneySum;
 import riyufuchi.marvus.legacyApp.utils.MoneySummaryOverview;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
-import riyufuchi.marvus.marvusLib.dataStorage.DataBox;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.gui.ErrorWindow;
@@ -27,14 +27,14 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 01.10.2023
+ * Last Edit: 05.10.2023
  * 
  * @author Riyufuchi
  */
 @SuppressWarnings("deprecation")
 public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 {
-	private DataBox<MoneySum> dataBox;
+	private MarvusDataBox<MoneySum> dataBox;
 	private DataDisplayMode mso;
 	private static final String VERSION = "1.22";
 	//UnsupportedOperationException
@@ -42,15 +42,15 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	public DataTableForm()
 	{
 		super("Marvus - Data table - " + VERSION, true, true);
-		this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
-		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(this), dataBox);
+		this.dataBox = new MarvusDataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
+		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(), dataBox);
 	}
 	
 	public DataTableForm(int width, int height)
 	{
 		super("Marvus - Data table - " + VERSION, width, height, false, true, true);
-		this.dataBox = new DataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
-		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(this), dataBox);
+		this.dataBox = new MarvusDataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
+		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(), dataBox);
 	}
 	
 	private Comparator<MoneySum> byDate()
@@ -176,7 +176,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	
 	// GETTERS
 	
-	public DataBox<MoneySum> getDataBox()
+	public MarvusDataBox<MoneySum> getDataBox()
 	{
 		return dataBox;
 	}

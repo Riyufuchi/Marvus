@@ -5,5 +5,10 @@ import java.util.LinkedList;
 
 public interface MarvusCollection<E> extends Collection<E>
 {
+	/**
+	 * Converts collection into LinkedList
+	 * 
+	 * @return linked list containing all of the elements in this collection
+	 */
 	LinkedList<E> toList();
 }
