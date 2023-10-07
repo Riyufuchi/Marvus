@@ -2,9 +2,10 @@ package riyufuchi.marvus.marvusLib.dataDisplay;
 
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
+import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
@@ -14,13 +15,13 @@ public class MonthCategoryDetail extends DataDisplayMode
 	private FinancialCategory fc;
 	private int day, numberOfDays;
 	
-	public MonthCategoryDetail(MarvusDataFrame targetWindow, MarvusDataTable tdt, FinancialCategory fc, boolean dynamicNumberOfDays)
+	public MonthCategoryDetail(MarvusDataFrame targetWindow, MarvusDatabase tdt, FinancialCategory fc, boolean dynamicNumberOfDays)
 	{
 		super(targetWindow, tdt);
 		initialize(fc, dynamicNumberOfDays);
 	}
 	
-	public MonthCategoryDetail(MarvusDataFrame targetWindow, MarvusDataTable tdt, int x, int y, boolean dynamicNumberOfDays)
+	public MonthCategoryDetail(MarvusDataFrame targetWindow, MarvusDatabase tdt, int x, int y, boolean dynamicNumberOfDays)
 	{
 		super(targetWindow, tdt);
 		initialize(tdt.get(x, y), dynamicNumberOfDays);

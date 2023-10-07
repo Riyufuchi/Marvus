@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.financialRecords;
+package riyufuchi.marvus.marvusLib.records;
 
 import java.math.BigDecimal;
 

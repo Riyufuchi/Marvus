@@ -2,13 +2,10 @@ package riyufuchi.marvus.marvusLib.dataUtils;
 
 import java.math.BigDecimal;
 import java.time.Month;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.function.Consumer;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
@@ -52,77 +49,5 @@ public class TransactionCalculations
 			}
 			SufuDialogHelper.informationDialog(parentFrame, (income + " " + spendings + " = "  + income.add(spendings)), "Ratio in " + month.toString());
 		};
-	}
-
-	public static LinkedList<FinancialCategory> categorizeMonth(Collection<Transaction> data, int month)
-	{
-		LinkedList<FinancialCategory> list = new LinkedList<>();
-		FinancialCategory holder = null;
-		for (Transaction t : data)
-		{
-			if (t.getDate().getMonthValue() == month)
-			{
-				holder = new FinancialCategory(t);
-				for (FinancialCategory mc : list)
-				{
-					if (mc.getCategory().equals(holder.getCategory()))
-					{
-						mc.add(t);
-						holder = null;
-						break;
-					}
-				}
-				if(holder != null)
-					list.add(holder);
-			}
-		}
-		return list;
-	}
-	
-	public static LinkedList<FinancialCategory> categorizeMonthByCategories(Iterable<? extends Transaction> data, int month)
-	{
-		LinkedList<FinancialCategory> list = new LinkedList<>();
-		FinancialCategory holder = null;
-		for (Transaction t : data)
-		{
-			if (t.getDate().getMonthValue() == month)
-			{
-				holder = new FinancialCategory(t.getCategory(), t);
-				for (FinancialCategory mc : list)
-				{
-					if (mc.getCategory().equals(holder.getCategory()))
-					{
-						mc.add(t);
-						holder = null;
-						break;
-					}
-				}
-				if(holder != null)
-					list.add(holder);
-			}
-		}
-		return list;
-	}
-	
-	public static LinkedList<FinancialCategory> categorizeYearByCategories(Collection<Transaction> data)
-	{
-		LinkedList<FinancialCategory> list = new LinkedList<>();
-		FinancialCategory holder = null;
-		for (Transaction t : data)
-		{
-			holder = new FinancialCategory(t.getCategory(), t);
-			for (FinancialCategory mc : list)
-			{
-				if (mc.getCategory().equals(holder.getCategory()))
-				{
-					mc.add(t);
-					holder = null;
-					break;
-				}
-			}
-			if(holder != null)
-				list.add(holder);
-		}
-		return list;
 	}
 }

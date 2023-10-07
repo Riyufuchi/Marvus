@@ -39,6 +39,8 @@ public class MarvusUtils
 	{
 		if (path == null)
 			path = "";
+		if (fileContent == null)
+			fileContent = new String[] {"No content was specified!"};
 		try
 		{
 			SufuFileHelper.checkFile(path);

@@ -6,9 +6,9 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
-import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
-import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
+import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
@@ -17,7 +17,7 @@ public class CategorizedYearSummary extends DataDisplayMode
 {
 	private LinkedList<FinancialCategory> list;
 	
-	public CategorizedYearSummary(MarvusDataFrame targetWindow, MarvusDataTable dataSource)
+	public CategorizedYearSummary(MarvusDataFrame targetWindow, MarvusDatabase dataSource)
 	{
 		super(targetWindow, dataSource);
 	}
@@ -28,7 +28,7 @@ public class CategorizedYearSummary extends DataDisplayMode
 		JPanel panel = targetWindow.getPane();
 		SufuTableTools.addRowHeader(targetWindow, 0, 0, "Category", "Sum");
 		int y = 1;
-		list = TransactionCalculations.categorizeYearByCategories(dataSource);
+		list = dataSource.gatCategorizedYearByCategories(2023);
 		for(FinancialCategory category : list)
 		{
 			panel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), targetWindow.getGBC(0, y));

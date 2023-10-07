@@ -2,7 +2,7 @@ package riyufuchi.marvus.marvusLib.interfaces;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
+import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.sufuLib.interfaces.SufuWindowCommon;
 
 /**

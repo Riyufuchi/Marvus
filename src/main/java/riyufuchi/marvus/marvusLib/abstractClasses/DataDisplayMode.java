@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.dataDisplay;
+package riyufuchi.marvus.marvusLib.abstractClasses;
 
 import java.awt.event.MouseEvent;
 
@@ -7,26 +7,26 @@ import javax.swing.SwingUtilities;
 import riyufuchi.marvus.app.windows.dialogs.EditDialog;
 import riyufuchi.marvus.app.windows.dialogs.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
+import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 
 /**
  * 
  * @author riyufuchi
- * @version 1.4
+ * @version 1.5 - 07.10.2023
  * @since 1.67
  */
 public abstract class DataDisplayMode
 {
 	protected MarvusDataFrame targetWindow;
-	protected MarvusDataTable dataSource;
+	protected MarvusDatabase dataSource;
 	
 	/**
 	 * 
 	 * @param targetWindow
 	 * @param dataSource
 	 */
-	public DataDisplayMode(MarvusDataFrame targetWindow, MarvusDataTable dataSource)
+	public DataDisplayMode(MarvusDataFrame targetWindow, MarvusDatabase dataSource)
 	{
 		this.targetWindow = targetWindow;
 		this.dataSource = dataSource;
@@ -58,7 +58,7 @@ public abstract class DataDisplayMode
 	
 	// Setters
 	
-	public void setNewData(MarvusDataTable dataSource)
+	public void setNewData(MarvusDatabase dataSource)
 	{
 		this.dataSource = dataSource;
 	}
@@ -70,7 +70,7 @@ public abstract class DataDisplayMode
 	
 	// Getters
 	
-	public MarvusDataTable getDataSource()
+	public MarvusDatabase getDataSource()
 	{
 		return dataSource;
 	}

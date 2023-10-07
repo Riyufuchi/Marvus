@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
-import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
+import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
@@ -16,7 +16,7 @@ public class CategorizedMonthOverview extends CategorizedMonthList
 {
 	private LinkedList<LinkedList<FinancialCategory>> categorizedMonths;
 	
-	public CategorizedMonthOverview(MarvusDataFrame targetWindow, MarvusDataTable dataSource)
+	public CategorizedMonthOverview(MarvusDataFrame targetWindow, MarvusDatabase dataSource)
 	{
 		super(targetWindow, dataSource);
 		this.categorizedMonths = new LinkedList<>();
@@ -28,15 +28,17 @@ public class CategorizedMonthOverview extends CategorizedMonthList
 		JPanel pane = targetWindow.getPane();
 		int y = 1;
 		FinancialCategory fc = null;
-		SufuTableTools.addRowHeader(targetWindow, 0, 0, Month.values());
-		for (int month = 0; month < 12; month++)
+		Month[] months = Month.values();
+		SufuTableTools.addRowHeader(targetWindow, 1, 0, months); // Because January is 1 in enumeration Month
+		//for (int month = 0; month < 12; month++)
+		for (Month month : months)
 		{
 			categorizedMonths.add(dataSource.getCategorizedMonthByCategory(month));
 			Iterator<FinancialCategory> it = categorizedMonths.getLast().iterator();
 			while (it.hasNext())
 			{
 				fc = it.next();
-				pane.add(SufuFactory.newButton(fc.toString(), createBtnName(month, y), evt -> btnDataReference(evt)), targetWindow.getGBC(month, y));
+				pane.add(SufuFactory.newButton(fc.toString(), createBtnName(month.getValue(), y), evt -> btnDataReference(evt)), targetWindow.getGBC(month.getValue(), y));
 				y++;
 			}
 			y = 1;
