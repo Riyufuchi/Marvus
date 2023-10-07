@@ -17,15 +17,6 @@ public class MoneyCalculationsGeneric<E extends Money> extends LinkedList<E>
 	public MoneyCalculationsGeneric()
 	{
 	}
-	
-	
-	@Override
-	public boolean add(E e)
-	{
-		if (e == null)
-			return false;
-		return super.add(e);
-	}
 
 	/**
 	 * Calculates sum

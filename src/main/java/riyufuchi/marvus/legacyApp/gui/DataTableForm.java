@@ -17,7 +17,7 @@ import riyufuchi.marvus.legacyApp.utils.MoneySum;
 import riyufuchi.marvus.legacyApp.utils.MoneySummaryOverview;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataBox;
-import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;
@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 05.10.2023
+ * Last Edit: 07.10.2023
  * 
  * @author Riyufuchi
  */
@@ -43,14 +43,14 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	{
 		super("Marvus - Data table - " + VERSION, true, true);
 		this.dataBox = new MarvusDataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
-		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(), dataBox);
+		this.mso = new MoneySummaryOverview(this, new MarvusDataTable(), dataBox);
 	}
 	
 	public DataTableForm(int width, int height)
 	{
 		super("Marvus - Data table - " + VERSION, width, height, false, true, true);
 		this.dataBox = new MarvusDataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
-		this.mso = new MoneySummaryOverview(this, new TransactionDataTable(), dataBox);
+		this.mso = new MoneySummaryOverview(this, new MarvusDataTable(), dataBox);
 	}
 	
 	private Comparator<MoneySum> byDate()
@@ -90,7 +90,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 			throw new IllegalArgumentException("Inputed datalist is emtpy");
 		dataBox.setList(data);
 		getPane().removeAll();
-		mso = new MoneySummaryOverview(this, new TransactionDataTable(null), dataBox);
+		mso = new MoneySummaryOverview(this, new MarvusDataTable(null), dataBox);
 	}
 	
 	private void setupJMenu()

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
-import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
@@ -16,7 +16,7 @@ public class CategorizedMonthOverview extends CategorizedMonthList
 {
 	private LinkedList<LinkedList<FinancialCategory>> categorizedMonths;
 	
-	public CategorizedMonthOverview(MarvusDataFrame targetWindow, TransactionDataTable dataSource)
+	public CategorizedMonthOverview(MarvusDataFrame targetWindow, MarvusDataTable dataSource)
 	{
 		super(targetWindow, dataSource);
 		this.categorizedMonths = new LinkedList<>();

@@ -14,7 +14,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 04.10.2023
+ * @version 07.10.2023
  * @since 18.04.2023
  */
 public class TransactionCalculations
@@ -79,7 +79,7 @@ public class TransactionCalculations
 		return list;
 	}
 	
-	public static LinkedList<FinancialCategory> categorizeMonthByCategories(Iterable<Transaction> data, int month)
+	public static LinkedList<FinancialCategory> categorizeMonthByCategories(Iterable<? extends Transaction> data, int month)
 	{
 		LinkedList<FinancialCategory> list = new LinkedList<>();
 		FinancialCategory holder = null;

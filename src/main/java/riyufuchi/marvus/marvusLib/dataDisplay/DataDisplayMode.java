@@ -7,26 +7,26 @@ import javax.swing.SwingUtilities;
 import riyufuchi.marvus.app.windows.dialogs.EditDialog;
 import riyufuchi.marvus.app.windows.dialogs.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 
 /**
  * 
  * @author riyufuchi
- * @version 1.3
- * @since 0.1.67
+ * @version 1.4
+ * @since 1.67
  */
 public abstract class DataDisplayMode
 {
 	protected MarvusDataFrame targetWindow;
-	protected TransactionDataTable dataSource;
+	protected MarvusDataTable dataSource;
 	
 	/**
 	 * 
 	 * @param targetWindow
 	 * @param dataSource
 	 */
-	public DataDisplayMode(MarvusDataFrame targetWindow, TransactionDataTable dataSource)
+	public DataDisplayMode(MarvusDataFrame targetWindow, MarvusDataTable dataSource)
 	{
 		this.targetWindow = targetWindow;
 		this.dataSource = dataSource;
@@ -58,7 +58,7 @@ public abstract class DataDisplayMode
 	
 	// Setters
 	
-	public void setNewData(TransactionDataTable dataSource)
+	public void setNewData(MarvusDataTable dataSource)
 	{
 		this.dataSource = dataSource;
 	}
@@ -70,7 +70,7 @@ public abstract class DataDisplayMode
 	
 	// Getters
 	
-	public TransactionDataTable getDataSource()
+	public MarvusDataTable getDataSource()
 	{
 		return dataSource;
 	}

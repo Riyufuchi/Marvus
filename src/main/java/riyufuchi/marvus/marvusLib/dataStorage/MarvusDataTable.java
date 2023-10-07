@@ -25,17 +25,17 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * This class sort data into categories. Data starts from x = 0
  * 
  * @author Riyufuchi
- * @version 2.1 - 05.10.2023
+ * @version 2.1 - 07.10.2023
  * @since 1.60 - 24.08.2023
  */
-public class TransactionDataTable implements MarvusCollection<Transaction>
+public class MarvusDataTable implements MarvusCollection<Transaction>
 {
 	private ArrayList<LinkedList<FinancialCategory>> months;
 	private Consumer<String> errorHandler;
 	private Comparator<FinancialCategory> sorter;
 	private int x, size;
 	
-	public TransactionDataTable()
+	public MarvusDataTable()
 	{
 		initialize();
 		this.x = 0;
@@ -44,7 +44,7 @@ public class TransactionDataTable implements MarvusCollection<Transaction>
 
 	}
 	
-	public TransactionDataTable(Consumer<String> errorHandler)
+	public MarvusDataTable(Consumer<String> errorHandler)
 	{
 		initialize();
 		this.x = 0;

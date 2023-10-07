@@ -3,18 +3,16 @@ package riyufuchi.marvus.app.windows.dialogs;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
- * Dialog for editing Transaction<br><br>
+ * Dialog for editing Transaction
  * 
- * Created On: 11.05.2023<br>
- * Last Edit: 15.09.2023<br>
- *
  * @author Riyufuchi
+ * @version 07.10.2023
+ * @since 11.05.2023
  */
 public class EditDialog extends AddDialog
 {
@@ -32,7 +30,7 @@ public class EditDialog extends AddDialog
 	{
 		nameBox.setSelectedItem(transaction.getName());
 		name.setText(transaction.getName());
-		categoryBox.setSelectedIndex(MarvusCategory.getIndexIn(MarvusCategory.categoryList, transaction.getCategory()));
+		categoryBox.setSelectedIndex(utils.getMacroIndex(utils.getCategories(), transaction.getCategory()));
 		money.setText(transaction.getValue().toString());
 		date.setText(transaction.getStringDate());
 		note.setText(transaction.getNote());

@@ -8,14 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
-import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 public class CategorizedMonthList extends DataDisplayMode
 {
-	public CategorizedMonthList(MarvusDataFrame targetWindow, TransactionDataTable source)
+	public CategorizedMonthList(MarvusDataFrame targetWindow, MarvusDataTable source)
 	{
 		super(targetWindow, source);
 	}

@@ -7,10 +7,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataBase.MaruvsDatabaseUtils;
+import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
@@ -19,17 +20,17 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
- * 
- * Created On: 16.05.2023<br>
- * Last Edit: 25.09.2023
- * 
+ *
  * @author Riyufuchi
+ * @version 07.10.2023
+ * @since 16.05.2023
  */
 public class AddDialog extends SufuDialog
 {
 	protected JTextField name, money, date, currency;
 	protected JComboBox<String> nameBox, categoryBox;
 	protected JTextArea note;
+	protected MaruvsDatabaseUtils utils;
 	
 	public AddDialog(JFrame parentFrame)
 	{
@@ -39,8 +40,9 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void createInputs(JPanel pane)
 	{
-		nameBox = SufuFactory.<String>newCombobox(MarvusCategory.names);
-		categoryBox = SufuFactory.<String>newCombobox(MarvusCategory.categoryList);
+		utils = MarvusDatabase.utils;
+		nameBox = SufuFactory.<String>newCombobox(utils.getNames());
+		categoryBox = SufuFactory.<String>newCombobox(utils.getCategoryList());
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
 		date = SufuFactory.newTextField(SufuDateUtils.nowDateString());
@@ -60,7 +62,7 @@ public class AddDialog extends SufuDialog
 			int i = 0;
 			for (i = 0; i < categoryBox.getItemCount(); i++)
 			{
-				if (categoryBox.getItemAt(i).equals(MarvusCategory.categories[nameBox.getSelectedIndex()]))
+				if (categoryBox.getItemAt(i).equals(utils.getCategories()[nameBox.getSelectedIndex()]))
 				{
 					categoryBox.setSelectedIndex(i);
 					break;
@@ -68,7 +70,7 @@ public class AddDialog extends SufuDialog
 			}
 			if (i == categoryBox.getItemCount())
 				categoryBox.setSelectedIndex(0);
-			money.setText(MarvusCategory.values[nameBox.getSelectedIndex()]);
+			money.setText(utils.getValues()[nameBox.getSelectedIndex()]);
 			if (money.getText().equals("0"))
 				money.setText("");
 		});

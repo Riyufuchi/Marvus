@@ -10,27 +10,27 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.marvus.app.utils.MarvusIO;
 import riyufuchi.marvus.app.utils.MarvusMainThread;
 import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.dialogs.AddDialog;
-import riyufuchi.marvus.app.windows.dialogs.CategoryManager;
+import riyufuchi.marvus.app.windows.dialogs.AppManager;
 import riyufuchi.marvus.app.windows.dialogs.PreferencesDialog;
-import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthOverview;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.dataDisplay.SimpleMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedYearSummary;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
-import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.financialRecords.DataSummary;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvus.marvusLib.io.MarvusIO;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
@@ -40,12 +40,12 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * @author Riyufuchi
- * @version 04.10.2023
+ * @version 07.10.2023
  * @since 18.04.2023
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
-	private TransactionDataTable table;
+	private MarvusDataTable table;
 	private DataDisplayMode currentMode, prevMode;
 	
 	/**
@@ -66,10 +66,10 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	@Override
 	protected void postWindowInit(JPanel content)
 	{
-		this.table = new TransactionDataTable(s -> SufuDialogHelper.warningDialog(this, s, "Data error"));
+		this.table = new MarvusDataTable(s -> SufuDialogHelper.warningDialog(this, s, "Data error"));
 		this.currentMode = new CategorizedMonthList(this, table);
 		this.prevMode = currentMode;
-		MarvusCategory.init();
+		MarvusDatabase.utils.setParentframe(this);
 		/*KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
 		{
 			@Override
@@ -103,7 +103,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
-				case "Category manager" -> jmc.setItemAction(i, event -> new CategoryManager(this).showDialog());
+				case "App manager" -> jmc.setItemAction(i, event -> new AppManager(this).showDialog());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());
 				// Display modes
@@ -271,7 +271,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	// Setters
 	
-	public void setTable(TransactionDataTable table)
+	public void setTable(MarvusDataTable table)
 	{
 		this.table = table;
 		this.currentMode.setNewData(table);
@@ -313,7 +313,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		return currentMode;
 	}
 	
-	public TransactionDataTable getTable()
+	public MarvusDataTable getTable()
 	{
 		return table;
 	}

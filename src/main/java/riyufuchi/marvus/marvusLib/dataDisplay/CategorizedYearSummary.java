@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
-import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
@@ -17,7 +17,7 @@ public class CategorizedYearSummary extends DataDisplayMode
 {
 	private LinkedList<FinancialCategory> list;
 	
-	public CategorizedYearSummary(MarvusDataFrame targetWindow, TransactionDataTable dataSource)
+	public CategorizedYearSummary(MarvusDataFrame targetWindow, MarvusDataTable dataSource)
 	{
 		super(targetWindow, dataSource);
 	}

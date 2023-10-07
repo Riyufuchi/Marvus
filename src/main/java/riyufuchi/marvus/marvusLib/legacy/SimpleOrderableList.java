@@ -4,13 +4,13 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataDisplayMode;
-import riyufuchi.marvus.marvusLib.dataStorage.TransactionDataTable;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 public class SimpleOrderableList extends DataDisplayMode
 {
-	public SimpleOrderableList(MarvusDataFrame targetWindow, TransactionDataTable source)
+	public SimpleOrderableList(MarvusDataFrame targetWindow, MarvusDataTable source)
 	{
 		super(targetWindow, source);
 	}
