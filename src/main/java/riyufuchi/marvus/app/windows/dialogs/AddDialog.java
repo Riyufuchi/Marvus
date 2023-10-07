@@ -72,6 +72,7 @@ public class AddDialog extends SufuDialog
 			if (money.getText().equals("0"))
 				money.setText("");
 		});
+		nameBox.setSelectedIndex(0);
 		// Set labels
 		pane.add(new JLabel("Name:"), getGBC(0, 0));
 		pane.add(new JLabel("Category:"), getGBC(0, 2));

@@ -90,6 +90,7 @@ public class TransactionDataTableTest
 		assertEquals(0, ct.size());
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testRemove02()
 	{
@@ -98,6 +99,7 @@ public class TransactionDataTableTest
 		assertEquals(0, ct.get(4, 0).size());
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testRemove03()
 	{

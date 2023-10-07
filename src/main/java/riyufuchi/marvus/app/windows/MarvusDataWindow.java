@@ -14,6 +14,7 @@ import riyufuchi.marvus.app.utils.MarvusIO;
 import riyufuchi.marvus.app.utils.MarvusMainThread;
 import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.dialogs.AddDialog;
+import riyufuchi.marvus.app.windows.dialogs.CategoryManager;
 import riyufuchi.marvus.app.windows.dialogs.PreferencesDialog;
 import riyufuchi.marvus.app.utils.MarvusCategory;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
@@ -102,6 +103,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
+				case "Category manager" -> jmc.setItemAction(i, event -> new CategoryManager(this).showDialog());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());
 				// Display modes
