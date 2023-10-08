@@ -13,7 +13,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 07.10.2023
+ * @version 08.10.2023
  * @since 07.10.2023
  */
 public class MaruvsDatabaseUtils
@@ -51,6 +51,8 @@ public class MaruvsDatabaseUtils
 		}
 		loadCategoryList();
 	}
+	
+	// LOAD FUNCTIONS
 	
 	private String[] loadTransactionMacro()
 	{

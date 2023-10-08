@@ -21,6 +21,7 @@ public class MarvusConfig
 	public static final FileNameExtensionFilter SER = new FileNameExtensionFilter(".ser", "ser");
 	public static final FileNameExtensionFilter CSV = new FileNameExtensionFilter(".csv", "csv");
 	public static final FileNameExtensionFilter XML = new FileNameExtensionFilter(".xml", "xml");
+	public static final FileNameExtensionFilter MDB = new FileNameExtensionFilter(".mdb", "mdb");
 	public static final String SETTINGS_FILE_PATH = workFolder + "config.txt";
 	// XML money
 	public static final String NAME = "name";

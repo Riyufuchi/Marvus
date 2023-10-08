@@ -1,15 +1,18 @@
 package riyufuchi.marvus.app.windows;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
+import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.io.MarvusIO;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 07.10.2023
+ * @version 08.10.2023
  * @since 27.03.2023
  */
 public class TransactionIO extends SufuFileChooser
@@ -26,15 +29,32 @@ public class TransactionIO extends SufuFileChooser
 	protected void onSave(String path)
 	{
 		path = addExtension(path);
-		if (MarvusIO.saveData(budgetDataTable, path, budgetDataTable.getTable(), false))
-			SufuDialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
+		try
+		{
+			if (MarvusIO.saveData(budgetDataTable, path, budgetDataTable.getTable(), false))
+				SufuDialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(budgetDataTable, e);
+		}
 	}
 
 	@Override
 	protected void onLoad(String path)
 	{
 		path = addExtension(path);
-		setData(MarvusIO.loadData(budgetDataTable, path));
+		LinkedList<?> list = null;
+		try
+		{
+			list = MarvusIO.loadData(path);
+		}
+		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(budgetDataTable, e);
+			return;
+		}
+		setData(list);
 		budgetDataTable.displayData();
 	}
 	
@@ -45,10 +65,13 @@ public class TransactionIO extends SufuFileChooser
 		return path;
 	}
 	
-	private void setData(LinkedList<Transaction> list)
+	@SuppressWarnings("unchecked")
+	private void setData(LinkedList<?> list)
 	{
-		throw new UnsupportedOperationException("Not supported yet.");
-		//budgetDataTable.getTable().getDataBox().setList(list);
-		//budgetDataTable.getTable().rebuild();
+		switch (MarvusIO.getExtension(MarvusConfig.currentWorkFile.getAbsolutePath()))
+		{
+			case ".mdb" -> budgetDataTable.setDatabase((MarvusDatabase)list.getFirst());
+			default -> budgetDataTable.getDatabase().addAll((LinkedList<Transaction>)list);
+		}
 	}
 }

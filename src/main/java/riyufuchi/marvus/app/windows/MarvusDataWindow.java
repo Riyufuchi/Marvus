@@ -3,6 +3,7 @@ package riyufuchi.marvus.app.windows;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.function.Consumer;
 
 import javax.swing.JFrame;
@@ -40,7 +41,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * @author Riyufuchi
- * @version 07.10.2023
+ * @version 08.10.2023
  * @since 18.04.2023
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
@@ -141,6 +142,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	// Delegations
 	
+	@SuppressWarnings("unchecked")
 	private void quickOpenFile()
 	{
 		if (MarvusConfig.currentWorkFile == null)
@@ -151,13 +153,17 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		try
 		{
 			SufuFileHelper.checkFile(MarvusConfig.currentWorkFile.getAbsolutePath());
-			database.addAll(MarvusIO.loadData(this, MarvusConfig.currentWorkFile.getAbsolutePath()));
+			switch (MarvusIO.getExtension(MarvusConfig.currentWorkFile.getAbsolutePath()))
+			{
+				case ".mdb" -> database = (MarvusDatabase)MarvusIO.loadData(MarvusConfig.currentWorkFile.getAbsolutePath()).getFirst();
+				default -> database.addAll((LinkedList<Transaction>)MarvusIO.loadData(MarvusConfig.currentWorkFile.getAbsolutePath()));
+			}
+
 		}
-		catch (NullPointerException | IOException e)
+		catch (NullPointerException | IOException | ClassNotFoundException | ClassCastException e)
 		{
 			SufuDialogHelper.exceptionDialog(this, e);
 		}
-		//table.rebuild();
 		displayData();
 	}
 	
@@ -271,7 +277,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	// Setters
 	
-	public void setTable(MarvusDatabase database)
+	public void setDatabase(MarvusDatabase database)
 	{
 		this.database = database;
 		this.currentMode.setNewData(database);

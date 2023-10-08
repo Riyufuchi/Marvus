@@ -10,11 +10,11 @@ import riyufuchi.marvus.marvusLib.data.Transaction;
 
 public class TransactionDataTableTest
 {
-	private MarvusDataTable ct = new MarvusDataTable(null);
+	private MarvusDataTable ct = new MarvusDataTable();
 	
 	public TransactionDataTableTest()
 	{
-		this.ct = new MarvusDataTable(null);
+		this.ct = new MarvusDataTable();
 	}
 	
 	@Test

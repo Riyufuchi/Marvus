@@ -31,7 +31,7 @@ public class MarvusUtils
 	public static TransactionIO createTransactionIO(MarvusDataWindow mdw)
 	{
 		TransactionIO fio = new TransactionIO(mdw, MarvusConfig.workFolder);
-		fio.setFileFilters(MarvusConfig.SER,  MarvusConfig.XML, MarvusConfig.CSV);
+		fio.setFileFilters(MarvusConfig.SER,  MarvusConfig.XML, MarvusConfig.MDB, MarvusConfig.CSV);
 		return fio;
 	}
 	

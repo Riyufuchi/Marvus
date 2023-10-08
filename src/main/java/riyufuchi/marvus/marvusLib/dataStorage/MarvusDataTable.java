@@ -1,35 +1,30 @@
 package riyufuchi.marvus.marvusLib.dataStorage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.function.Consumer;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusCollection;
+
 /**
  * This class sort data into categories. Data starts from x = 0
  * 
  * @author Riyufuchi
- * @version 2.1 - 07.10.2023
+ * @version 2.2 - 07.10.2023
  * @since 1.60 - 24.08.2023
  */
-public class MarvusDataTable implements MarvusCollection<Transaction>
+public class MarvusDataTable implements Serializable, MarvusCollection<Transaction>
 {
 	private ArrayList<LinkedList<FinancialCategory>> months;
 	private int x, size;
 	
 	public MarvusDataTable()
-	{
-		initialize();
-		this.x = 0;
-	}
-	
-	public MarvusDataTable(Consumer<String> errorHandler)
 	{
 		initialize();
 		this.x = 0;
