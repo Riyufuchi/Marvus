@@ -41,7 +41,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * @author Riyufuchi
- * @version 08.10.2023
+ * @version 09.10.2023
  * @since 18.04.2023
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
@@ -155,7 +155,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 			SufuFileHelper.checkFile(MarvusConfig.currentWorkFile.getAbsolutePath());
 			switch (MarvusIO.getExtension(MarvusConfig.currentWorkFile.getAbsolutePath()))
 			{
-				case ".mdb" -> database = (MarvusDatabase)MarvusIO.loadData(MarvusConfig.currentWorkFile.getAbsolutePath()).getFirst();
+				case ".dat" -> database = (MarvusDatabase)MarvusIO.loadData(MarvusConfig.currentWorkFile.getAbsolutePath()).getFirst();
 				default -> database.addAll((LinkedList<Transaction>)MarvusIO.loadData(MarvusConfig.currentWorkFile.getAbsolutePath()));
 			}
 
@@ -170,6 +170,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	private void add()
 	{
 		new AddDialog(this).showDialog();
+		refresh();
 	}
 	
 	private void dataSummary()
@@ -282,6 +283,9 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		this.database = database;
 		this.currentMode.setNewData(database);
 		this.prevMode.setNewData(database);
+		// Because if database is loaded from serialization, comparator and errorHandler will be null
+		database.setComparator(TransactionComparation.compareFC(CompareMethod.By_name));
+		database.setErrorHandler(s -> SufuDialogHelper.warningDialog(this, s, "Data error"));
 	}
 	
 	private void setConsumerFunction(Consumer<Iterable<Transaction>> consumer)

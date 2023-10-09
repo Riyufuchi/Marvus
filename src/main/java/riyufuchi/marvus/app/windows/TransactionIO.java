@@ -3,7 +3,6 @@ package riyufuchi.marvus.app.windows;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.io.MarvusIO;
@@ -12,7 +11,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 08.10.2023
+ * @version 09.10.2023
  * @since 27.03.2023
  */
 public class TransactionIO extends SufuFileChooser
@@ -31,7 +30,7 @@ public class TransactionIO extends SufuFileChooser
 		path = addExtension(path);
 		try
 		{
-			if (MarvusIO.saveData(budgetDataTable, path, budgetDataTable.getTable(), false))
+			if (MarvusIO.saveData(budgetDataTable, path, budgetDataTable.getDatabase(), false))
 				SufuDialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
 		}
 		catch (NullPointerException | IOException e)
@@ -54,7 +53,7 @@ public class TransactionIO extends SufuFileChooser
 			SufuDialogHelper.exceptionDialog(budgetDataTable, e);
 			return;
 		}
-		setData(list);
+		setData(path, list);
 		budgetDataTable.displayData();
 	}
 	
@@ -66,11 +65,11 @@ public class TransactionIO extends SufuFileChooser
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void setData(LinkedList<?> list)
+	private void setData(String path, LinkedList<?> list)
 	{
-		switch (MarvusIO.getExtension(MarvusConfig.currentWorkFile.getAbsolutePath()))
+		switch (MarvusIO.getExtension(path))
 		{
-			case ".mdb" -> budgetDataTable.setDatabase((MarvusDatabase)list.getFirst());
+			case ".dat" -> budgetDataTable.setDatabase((MarvusDatabase)list.getFirst());
 			default -> budgetDataTable.getDatabase().addAll((LinkedList<Transaction>)list);
 		}
 	}

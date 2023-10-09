@@ -22,7 +22,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  *
  * @author Riyufuchi
- * @version 07.10.2023
+ * @version 09.10.2023
  * @since 16.05.2023
  */
 public class AddDialog extends SufuDialog
@@ -74,7 +74,7 @@ public class AddDialog extends SufuDialog
 			if (money.getText().equals("0"))
 				money.setText("");
 		});
-		nameBox.setSelectedIndex(0);
+		SufuComponentTools.setSelectedItem(nameBox, "Custom");
 		// Set labels
 		pane.add(new JLabel("Name:"), getGBC(0, 0));
 		pane.add(new JLabel("Category:"), getGBC(0, 2));

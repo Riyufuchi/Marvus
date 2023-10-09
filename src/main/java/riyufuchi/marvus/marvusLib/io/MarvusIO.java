@@ -42,7 +42,7 @@ public class MarvusIO
 			case ".csv" -> SufuPersistence.<Transaction>saveToCSV(path, data);
 			case ".ser" -> SufuPersistence.<Transaction>serialize(path, data);
 			case ".xml" -> new TransactionXML(path).exportXML(data);
-			case ".mdb" -> SufuPersistence.<Transaction>serialize(path, data);
+			case ".dat" -> SufuPersistence.<MarvusDatabase>serializeStructure(path, (MarvusDatabase)data);
 			default -> throw new IOException("File is missing an extension or extension was not recognized\n" + "Extension: " + extension);
 		}
 		return true;
@@ -56,7 +56,7 @@ public class MarvusIO
 			case ".csv" -> { return SufuPersistence.<Transaction>loadFromCSV(path, new Transaction(), ";", 6); }
 			case ".ser" -> { return ((LinkedList<Transaction>)SufuPersistence.<Transaction>deserialize(path)); }
 			case ".xml" -> { return new TransactionXML(path).importXML(); }
-			case ".mdb" -> { return loadDatabase(path); }
+			case ".dat" -> { return loadDatabase(path); }
 			default -> throw new IOException("File is missing an extension or extension was not recognized\n" + "Extension: " + extension);
 		}
 	}

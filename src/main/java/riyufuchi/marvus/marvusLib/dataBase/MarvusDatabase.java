@@ -23,19 +23,20 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * This class doesn't represent actual connection to database, just "simulates" it
  * 
  * @author Riyufuchi
- * @version 1.0 - 07.10.2023
+ * @version 1.1 - 09.10.2023
  * @since 1.94 - 07.10.2023
  */
 public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transaction>
 {
 	public static MaruvsDatabaseUtils utils = new MaruvsDatabaseUtils();
-	private Consumer<String> errorHandler;
-	private Comparator<FinancialCategory> sorter;
+	private transient Consumer<String> errorHandler;
+	private transient Comparator<FinancialCategory> sorter;
 	
 	public MarvusDatabase()
 	{
 		super();
 		this.errorHandler = e -> System.out.println(e);
+		this.sorter = TransactionComparation.compareFC(CompareMethod.By_name);
 	}
 	
 	public MarvusDatabase(Consumer<String> errorHandler)
@@ -68,9 +69,16 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 			Collections.sort(getCategorizedMonth(i), comp);
 	}
 	
+	public void setErrorHandler(Consumer<String> errorHandler)
+	{
+		if (errorHandler == null)
+			return;
+		this.errorHandler = errorHandler;
+	}
+	
 	// GETTERS
 	
-	public LinkedList<FinancialCategory> gatCategorizedYearByCategories(int year)
+	public LinkedList<FinancialCategory> getCategorizedYearByCategories(int year)
 	{
 		LinkedList<FinancialCategory> list = new LinkedList<>();
 		FinancialCategory holder = null;

@@ -22,11 +22,10 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Provides display utility functions for data<br><br>
- * 
- * Created On: 18.04.2023<br>
- * Last Edit: 07.10.2023
- * 
+ *
  * @author Riyufuchi
+ * @version 09.10.2023
+ * @since 18.04.2023
  */
 @Deprecated
 public class DataDisplay
@@ -121,7 +120,7 @@ public class DataDisplay
 			JPanel panel = bdt.getPane();
 			SufuTableTools.addRow(bdt, 0, 0, "Category", "Sum");
 			int y = 1;
-			for(FinancialCategory category : bdt.getDatabase().gatCategorizedYearByCategories(2023))
+			for(FinancialCategory category : bdt.getDatabase().getCategorizedYearByCategories(2023))
 			{
 				panel.add(SufuFactory.newTextFieldCell(category.getCategory()), bdt.getGBC(0, y));
 				panel.add(SufuFactory.newTextFieldCell(category.getSum().toString()), bdt.getGBC(1, y++));

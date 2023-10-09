@@ -8,11 +8,11 @@ import riyufuchi.marvus.appTesting.TestData;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 
-public class TransactionDataTableTest
+public class MarvusDataTableTest
 {
 	private MarvusDataTable ct = new MarvusDataTable();
 	
-	public TransactionDataTableTest()
+	public MarvusDataTableTest()
 	{
 		this.ct = new MarvusDataTable();
 	}

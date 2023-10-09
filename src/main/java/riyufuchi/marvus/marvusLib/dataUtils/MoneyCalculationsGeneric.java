@@ -9,13 +9,21 @@ import riyufuchi.marvus.marvusLib.data.Money;
 
 /**
  * @author Riyufuchi
- * @version 1.1 - 01.10.2023
+ * @version 1.2 - 09.10.2023
  * @since 1.56 - 21.08.2023
  */
 public class MoneyCalculationsGeneric<E extends Money> extends LinkedList<E>
 {
 	public MoneyCalculationsGeneric()
 	{
+	}
+
+	@Override
+	public boolean add(E e)
+	{
+		if (e == null)
+			return false;
+		return super.add(e);
 	}
 
 	/**

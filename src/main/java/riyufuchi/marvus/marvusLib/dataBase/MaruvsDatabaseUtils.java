@@ -1,6 +1,7 @@
 package riyufuchi.marvus.marvusLib.dataBase;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -13,10 +14,10 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 08.10.2023
+ * @version 1.2 - 09.10.2023
  * @since 07.10.2023
  */
-public class MaruvsDatabaseUtils
+public class MaruvsDatabaseUtils implements Serializable
 {
 	private String[] names, categories, values, categoryList;
 	private JFrame parentFrame;
@@ -56,18 +57,17 @@ public class MaruvsDatabaseUtils
 	
 	private String[] loadTransactionMacro()
 	{
-		String path =  MarvusConfig.workFolder + "transactionsMacro.txt";
 		String[] categoryList = { "Custom;Other;0" };
 		List<String> l = null;
 		try
 		{
-			l = SufuPersistence.loadTextFile(path);
+			l = SufuPersistence.loadTextFile(MarvusConfig.TRANSACTION_MACRO_FILE_PATH);
 		}
 		catch (NullPointerException | IOException e)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			if (e instanceof IOException)
-				MarvusUtils.generateFile(parentFrame, path, categoryList);
+				MarvusUtils.generateFile(parentFrame, MarvusConfig.TRANSACTION_MACRO_FILE_PATH, categoryList);
 		}
 		categoryList = new String[l.size()];
 		int i = 0;
@@ -78,10 +78,9 @@ public class MaruvsDatabaseUtils
 	
 	private void loadCategoryList()
 	{
-		String path = MarvusConfig.workFolder + "category.txt";
 		try
 		{
-			List<String> list = SufuPersistence.loadTextFile(path);
+			List<String> list = SufuPersistence.loadTextFile(MarvusConfig.CATEGORY_FILE_PATH);
 			categoryList = new String[list.size()];
 			categoryList = list.toArray(categoryList);
 		}
@@ -89,7 +88,7 @@ public class MaruvsDatabaseUtils
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			if (e instanceof IOException)
-				MarvusUtils.generateFile(parentFrame, path, new String[]{ "Other" });
+				MarvusUtils.generateFile(parentFrame, MarvusConfig.CATEGORY_FILE_PATH, new String[]{ "Other" });
 		}
 	}
 	
@@ -104,7 +103,7 @@ public class MaruvsDatabaseUtils
 	
 	public TransactionMacro getMacro(int index)
 	{
-		if (index > 0 && index < names.length)
+		if (index >= 0 && index < names.length)
 			return new TransactionMacro(names[index], categories[index], values[index]);
 		else
 			return getMacro(0);

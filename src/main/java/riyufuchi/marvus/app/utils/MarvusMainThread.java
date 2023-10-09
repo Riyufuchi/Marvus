@@ -16,10 +16,9 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 import riyufuchi.sufuLib.utils.time.SufuTimer;
 
 /**
- * Created On: 20.04.2022<br>
- * Last Edit: 25.09.2023
- *
  * @author Riyufuchi
+ * @version 09.10.2023
+ * @since 1.0 - 20.04.2022
  */
 public class MarvusMainThread
 {
@@ -86,7 +85,7 @@ public class MarvusMainThread
 	
 	public static void fullScreen()
 	{
-		if(timer.intervalOk() && app instanceof MarvusDataWindow)
+		if(timer.isIntervalOk() && app instanceof MarvusDataWindow)
 		{
 			MarvusDataWindow w2;
 			if(app.isResizable())
