@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 import riyufuchi.marvus.app.windows.dialogs.EditDialog;
 import riyufuchi.marvus.app.windows.dialogs.RemoveDialog;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
+import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 
 /**

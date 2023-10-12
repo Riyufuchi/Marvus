@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.dataBase;
+package riyufuchi.marvus.marvusLib.database;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -10,6 +10,7 @@ import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
+import riyufuchi.sufuLib.utils.general.SufuGeneralUtils;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
@@ -97,6 +98,21 @@ public class MaruvsDatabaseUtils implements Serializable
 	public void setParentframe(JFrame parentFrame)
 	{
 		this.parentFrame = parentFrame;
+	}
+	
+	public void setMacro(TransactionMacro transactionMacro)
+	{
+		if (transactionMacro == null)
+			return;
+		names = SufuGeneralUtils.addToArray(names, transactionMacro.name());
+		categories = SufuGeneralUtils.addToArray(categories, transactionMacro.category());
+		values = SufuGeneralUtils.addToArray(values, transactionMacro.value());
+	}
+	public void setCategory(String[] newCategories)
+	{
+		if (newCategories == null)
+			return;
+		categoryList = SufuGeneralUtils.addToArray(categoryList, newCategories);
 	}
 	
 	// GETTERS

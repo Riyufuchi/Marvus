@@ -1,4 +1,4 @@
-package riyufuchi.marvus.marvusLib.dataBase;
+package riyufuchi.marvus.marvusLib.database;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
+import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.io.MarvusIO;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;

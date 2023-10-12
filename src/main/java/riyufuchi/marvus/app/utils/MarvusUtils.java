@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.app.windows.TransactionIO;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
+import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;

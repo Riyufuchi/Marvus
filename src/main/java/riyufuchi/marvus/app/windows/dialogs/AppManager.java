@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
+import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
@@ -36,18 +36,42 @@ public class AppManager extends SufuDialog
 	@Override
 	protected void createInputs(JPanel arg0)
 	{
-		addCategoryBtn = SufuFactory.newButton("Add category", null);
+		addCategoryBtn = SufuFactory.newButton("Add category", evt -> addCategoryBtnEvt());
 		editCategoryBtn = SufuFactory.newButton("Edit category", null);
 		removeCategoryBtn = SufuFactory.newButton("Remove category", null);
 		sortCategoriesBtn = SufuFactory.newButton("Sort categories", evt -> sortCategories());
 		
-		addMacroBtn = SufuFactory.newButton("Add macro", null);
+		addMacroBtn = SufuFactory.newButton("Add macro", evt -> addTransactionMacroBtnEvt());
 		editMacroBtn = SufuFactory.newButton("Edit macro", null);
 		removeMacroBtn = SufuFactory.newButton("Remove macro", null);
 		sortMacroBtn = SufuFactory.newButton("Sort macro", evt -> sortTransactionMacro());
 		
 		SufuGuiTools.addComponents(this, 0, 0, addCategoryBtn, editCategoryBtn, removeCategoryBtn, sortCategoriesBtn);
 		SufuGuiTools.addComponents(this, 1, 0, addMacroBtn, editMacroBtn, removeMacroBtn, sortMacroBtn);
+	}
+	
+	private void addCatagory() throws NullPointerException, IOException
+	{
+		String[] categories = new AddCategory(parentFrame).showAndGet();
+		if (categories == null)
+			return;
+		LinkedList<String> list = SufuPersistence.loadTextFile(MarvusConfig.CATEGORY_FILE_PATH);
+		for (String s : categories)
+			list.add(s);
+		MarvusDatabase.utils.setCategory(categories);
+		SufuPersistence.saveToCSVtoString(MarvusConfig.CATEGORY_FILE_PATH, list);
+	}
+	
+	private void addCategoryBtnEvt()
+	{
+		try
+		{
+			addCatagory();
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(parentFrame, e);
+		}
 	}
 	
 	private void sortCategories()
@@ -63,6 +87,30 @@ public class AppManager extends SufuDialog
 			return;
 		}
 		SufuDialogHelper.informationDialog(parentFrame, "Done!", "Category sort");
+	}
+	
+	
+	private void addTransactionMacro() throws NullPointerException, IOException
+	{
+		TransactionMacro tm = new AddTransactionMacro(parentFrame).showAndGet();
+		if (tm == null)
+			return;
+		LinkedList<String> list = SufuPersistence.loadTextFile(MarvusConfig.TRANSACTION_MACRO_FILE_PATH);
+		list.add(tm.toCSV());
+		MarvusDatabase.utils.setMacro(tm);
+		SufuPersistence.saveToCSVtoString(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, list);
+	}	
+	
+	private void addTransactionMacroBtnEvt()
+	{
+		try
+		{
+			addTransactionMacro();
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(parentFrame, e);
+		}
 	}
 	
 	private void sortTransactionMacro()

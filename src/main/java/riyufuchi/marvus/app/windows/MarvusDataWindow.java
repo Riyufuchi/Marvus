@@ -19,7 +19,6 @@ import riyufuchi.marvus.app.windows.dialogs.PreferencesDialog;
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataBase.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthOverview;
 import riyufuchi.marvus.marvusLib.dataDisplay.SimpleMonthList;
@@ -29,6 +28,7 @@ import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
+import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvus.marvusLib.io.MarvusIO;
 import riyufuchi.marvus.marvusLib.records.DataSummary;
@@ -104,7 +104,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
 				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
-				case "App manager" -> jmc.setItemAction(i, event -> new AppManager(this).showDialog());
+				case "Application manager" -> jmc.setItemAction(i, event -> new AppManager(this).showDialog());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());
 				// Display modes

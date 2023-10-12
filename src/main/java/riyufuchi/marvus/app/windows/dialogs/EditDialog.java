@@ -11,7 +11,7 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
  * Dialog for editing Transaction
  * 
  * @author Riyufuchi
- * @version 07.10.2023
+ * @version 09.10.2023
  * @since 11.05.2023
  */
 public class EditDialog extends AddDialog
@@ -30,7 +30,7 @@ public class EditDialog extends AddDialog
 	{
 		nameBox.setSelectedItem(transaction.getName());
 		name.setText(transaction.getName());
-		categoryBox.setSelectedIndex(utils.getMacroIndex(utils.getCategories(), transaction.getCategory()));
+		SufuComponentTools.setSelectedItem(categoryBox, transaction.getCategory());
 		money.setText(transaction.getValue().toString());
 		date.setText(transaction.getStringDate());
 		note.setText(transaction.getNote());
