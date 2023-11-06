@@ -27,7 +27,7 @@ public class CategorizedMonthList extends DataDisplayMode
 		JPanel pane = targetWindow.getPane();
 		int y = 1;
 		FinancialCategory fc = null;
-		SufuTableTools.addRowHeader(targetWindow, 0, 0, Month.values());
+		SufuTableTools.addRowHeader(targetWindow, 1, 0, Month.values());
 		for (int month = 0; month < 12; month++)
 		{
 			Iterator<FinancialCategory> it = dataSource.getCategorizedMonth(month).iterator();

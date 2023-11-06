@@ -33,7 +33,7 @@ public class CategorizedMonthOverview extends CategorizedMonthList
 		//for (int month = 0; month < 12; month++)
 		for (Month month : months)
 		{
-			categorizedMonths.add(dataSource.getCategorizedMonthByCategory(month));
+			categorizedMonths.add(dataSource.getCategorizedMonth(month));
 			Iterator<FinancialCategory> it = categorizedMonths.getLast().iterator();
 			while (it.hasNext())
 			{

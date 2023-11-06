@@ -12,6 +12,11 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
+/**
+ * @author Riyufuchi
+ * @version 1.0 - 12.10.2023
+ * @since 1.97 - 12.10.2023
+ */
 public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 {
 	private JTextField name, value;
@@ -41,5 +46,4 @@ public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 		data = new TransactionMacro(name.getText(), SufuComponentTools.extractComboboxValue(category), value.getText());
 		closeDialog();
 	}
-
 }

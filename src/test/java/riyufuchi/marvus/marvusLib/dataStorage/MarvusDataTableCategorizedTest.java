@@ -8,13 +8,13 @@ import riyufuchi.marvus.appTesting.TestData;
 import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 
-public class MarvusDataTableTest
+public class MarvusDataTableCategorizedTest
 {
-	private MarvusDataTable ct = new MarvusDataTable();
+	private MarvusDataTableCategorized ct = new MarvusDataTableCategorized();
 	
-	public MarvusDataTableTest()
+	public MarvusDataTableCategorizedTest()
 	{
-		this.ct = new MarvusDataTable();
+		this.ct = new MarvusDataTableCategorized();
 	}
 	
 	@Test

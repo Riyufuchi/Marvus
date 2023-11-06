@@ -11,4 +11,6 @@ public interface MarvusCollection<E> extends Collection<E>
 	 * @return linked list containing all of the elements in this collection
 	 */
 	LinkedList<E> toList();
+	
+	boolean set(E e);
 }

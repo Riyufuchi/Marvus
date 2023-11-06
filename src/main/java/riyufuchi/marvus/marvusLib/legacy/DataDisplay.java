@@ -16,6 +16,7 @@ import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataBox;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTableCategorized;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
@@ -24,7 +25,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * Provides display utility functions for data<br><br>
  *
  * @author Riyufuchi
- * @version 09.10.2023
+ * @version 06.11.2023
  * @since 18.04.2023
  */
 @Deprecated
@@ -95,11 +96,11 @@ public class DataDisplay
 		};
 	}
 	
-	public static Consumer<MarvusDataBox<Transaction>> categoryListByMonth(MarvusDataWindow bdt)
+	public static Consumer<MarvusDataBox<Transaction>> categoryListByMonth(MarvusDataWindow bdt, MarvusDataTableCategorized mdtc)
 	{
 		return data -> {
 			int month = SufuDateUtils.showMonthChooser(bdt).getValue();
-			LinkedList<FinancialCategory> list = bdt.getTable().getCategorizedMonth(month);
+			LinkedList<FinancialCategory> list = mdtc.getCategorizedMonth(month);
 			JPanel panel = bdt.getPane();
 			SufuTableTools.addRow(bdt, 0, 0, "Month", Month.values()[month - 1]);
 			SufuTableTools.addRow(bdt, 0, 1, "Name", "Sum");

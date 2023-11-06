@@ -2,7 +2,6 @@ package riyufuchi.marvus.app.windows;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
@@ -17,7 +16,6 @@ import riyufuchi.marvus.app.windows.dialogs.AddDialog;
 import riyufuchi.marvus.app.windows.dialogs.AppManager;
 import riyufuchi.marvus.app.windows.dialogs.PreferencesDialog;
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
-import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthOverview;
@@ -41,7 +39,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * @author Riyufuchi
- * @version 09.10.2023
+ * @version 06.11.2023
  * @since 18.04.2023
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
@@ -99,7 +97,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Import" -> jmc.setItemAction(i, event -> importData());
 				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
 				// Data tools
-				case "Sort" -> jmc.setItemAction(i, e -> sort(TransactionComparation.compareFC(SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values()))));
+				case "Sort" -> jmc.setItemAction(i, e -> sortData());
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this , database); });
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
@@ -187,9 +185,10 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		SufuDialogHelper.informationDialog(this, data, "Data summary");
 	}
 	
-	private void sort(Comparator<FinancialCategory> comp)
+	private void sortData()
 	{
-		database.setComparator(comp);
+		var res = SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values());
+		database.sortData(TransactionComparation.compareBy(res));
 		refresh();
 	}
 	

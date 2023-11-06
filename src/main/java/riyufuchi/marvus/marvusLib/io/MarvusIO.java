@@ -14,6 +14,10 @@ import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
+/**
+ * @author Riyufuchi
+ * @version 1.3 - 12.10.2023
+ */
 public class MarvusIO
 {
 	private MarvusIO() { }

@@ -15,7 +15,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 1.2 - 09.10.2023
+ * @version 1.3 - 12.10.2023
  * @since 07.10.2023
  */
 public class MaruvsDatabaseUtils implements Serializable

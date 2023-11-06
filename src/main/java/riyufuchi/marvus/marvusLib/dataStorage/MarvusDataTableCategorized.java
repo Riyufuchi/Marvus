@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusCollection;
 
@@ -18,12 +19,12 @@ import riyufuchi.marvus.marvusLib.interfaces.MarvusCollection;
  * @version 2.3 - 06.11.2023
  * @since 1.60 - 24.08.2023
  */
-public class MarvusDataTable implements Serializable, MarvusCollection<Transaction>
+public class MarvusDataTableCategorized implements Serializable, MarvusCollection<Transaction>
 {
-	private ArrayList<LinkedList<Transaction>> months;
+	private ArrayList<LinkedList<FinancialCategory>> months;
 	private int x, size;
 	
-	public MarvusDataTable()
+	public MarvusDataTableCategorized()
 	{
 		initialize();
 		this.x = 0;
@@ -44,8 +45,28 @@ public class MarvusDataTable implements Serializable, MarvusCollection<Transacti
 	{
 		if (transaction == null)
 			return false;
-		months.get(transaction.getDate().getMonthValue() - 1).add(transaction);
-		size++;
+		x = transaction.getDate().getMonthValue() - 1;
+		if (months.get(x).isEmpty())
+		{
+			months.get(x).add(new FinancialCategory(transaction));
+			size++;
+			return true;
+		}
+		months.get(x).stream().forEach(data -> {
+			if (data.getCategory().equals(transaction.getName()))
+			{
+				data.add(transaction);
+				x = -1;
+				size++;
+				return;
+			}
+		});
+		if (x != -1)
+		{
+			months.get(x).add(new FinancialCategory(transaction));
+			size++;
+			return true;
+		}
 		return true;
 	}
 	
@@ -62,11 +83,24 @@ public class MarvusDataTable implements Serializable, MarvusCollection<Transacti
 		if (o == null || !(o instanceof Transaction))
 			return false;
 		Transaction transaction = (Transaction)o;
-		if(months.get(transaction.getDate().getMonthValue() - 1).remove(transaction))
-		{
-			size--;
+		x = transaction.getDate().getMonthValue() - 1;
+		if (months.get(x).isEmpty())
+			return false;
+		months.get(x).forEach(data -> {
+			if (data.getCategory().equals(transaction.getName()))
+			{
+				if (data.remove(transaction))
+				{
+					if (data.isEmpty())
+						months.get(x).remove(data);
+					size--;
+					x = -1;
+					return;
+				}
+			}
+		});
+		if (x == -1)
 			return true;
-		}
 		return false;
 	}
 	
@@ -146,18 +180,25 @@ public class MarvusDataTable implements Serializable, MarvusCollection<Transacti
 		LinkedList<Transaction> data = new LinkedList<>();
 		for (int i = 0; i < 11; i++)
 		{
-			data.addAll(months.get(i));
+			for (FinancialCategory fc : months.get(i))
+			{
+				data.addAll(fc);
+			}
 		}
 		return data;
 	}
 	
 	// Specific methods
 	
+	@Deprecated
 	public void sortData(Comparator<Transaction> comp)
 	{
-		for(int i = 0; i < 12; i++)
+		for(int i = 0; i < 11; i++)
 		{
-			Collections.sort(months.get(i), comp);
+			for (FinancialCategory fc : months.get(i))
+			{
+				Collections.sort(fc, comp);
+			}
 		}
 	}
 	
@@ -177,13 +218,49 @@ public class MarvusDataTable implements Serializable, MarvusCollection<Transacti
 		if (transaction == null)
 			return false;
 		x = transaction.getDate().getMonthValue() - 1;
-		for (Transaction transactionOld : months.get(x))
-			if (transactionOld.getID() == transaction.getID())
+		months.get(x).forEach(data -> {
+			if (data.getCategory().equals(transaction.getName()))
 			{
-				transactionOld = transaction;
-				return true;
+				data.forEach(transactionOld -> {
+					if (transactionOld.getID() == transaction.getID())
+					{
+						transactionOld = transaction;
+						return;
+					}
+				});
+				return;
 			}
-		return false;
+		});
+		return true;
+	}
+	
+	@Deprecated
+	public void remove(int month, String name, int id)
+	{
+		if(name == null || name.isBlank())
+			return;
+		x = month - 1;
+		if (months.get(x).isEmpty())
+			return;
+		months.get(x).stream().forEach(data -> {
+			if (data.getCategory().equals(name))
+			{
+				data.forEach(t -> {
+					if (t.getID() == id)
+					{
+						data.remove(t);
+						size--;
+						return;
+					}
+				});
+				return;
+			}
+		});
+	}
+	
+	public FinancialCategory get(int x, int y)
+	{
+		return months.get(x).get(y);
 	}
 
 	// Getters
@@ -193,7 +270,7 @@ public class MarvusDataTable implements Serializable, MarvusCollection<Transacti
 	 * @param index month number - 1
 	 * @return
 	 */
-	public LinkedList<Transaction> getMonth(int index)
+	public LinkedList<FinancialCategory> getCategorizedMonth(int index)
 	{
 		return months.get(index);
 	}

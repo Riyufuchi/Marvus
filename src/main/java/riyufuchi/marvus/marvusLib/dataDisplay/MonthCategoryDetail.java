@@ -24,7 +24,7 @@ public class MonthCategoryDetail extends DataDisplayMode
 	public MonthCategoryDetail(MarvusDataFrame targetWindow, MarvusDatabase tdt, int x, int y, boolean dynamicNumberOfDays)
 	{
 		super(targetWindow, tdt);
-		initialize(tdt.get(x, y), dynamicNumberOfDays);
+		initialize(tdt.getCategorizedMonth(x).get(y), dynamicNumberOfDays);
 	}
 	
 	private void initialize(FinancialCategory fc, boolean dynamicNumberOfDays)

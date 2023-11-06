@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
+import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTableCategorized;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvus.marvusLib.interfaces.IDatabase;
@@ -23,23 +24,23 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * This class doesn't represent actual connection to database, just "simulates" it
  * 
  * @author Riyufuchi
- * @version 1.2 - 06.11.2023
+ * @version 1.1 - 09.10.2023
  * @since 1.94 - 07.10.2023
  */
-public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transaction>
+public class MarvusDatabase2 extends MarvusDataTableCategorized implements IDatabase<Transaction>
 {
 	public static MaruvsDatabaseUtils utils = new MaruvsDatabaseUtils();
 	private transient Consumer<String> errorHandler;
 	private transient Comparator<FinancialCategory> sorter;
 	
-	public MarvusDatabase()
+	public MarvusDatabase2()
 	{
 		super();
 		this.errorHandler = e -> System.out.println(e);
 		this.sorter = TransactionComparation.compareFC(CompareMethod.By_name);
 	}
 	
-	public MarvusDatabase(Consumer<String> errorHandler)
+	public MarvusDatabase2(Consumer<String> errorHandler)
 	{
 		super();
 		this.sorter = TransactionComparation.compareFC(CompareMethod.By_name);
@@ -170,14 +171,14 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 				avgIncome, avgSpendings, avgTotal, avgTransactionsPerMonth, size() / (double)numOfDays);
 	}
 	
-	public LinkedList<FinancialCategory> getCategorizedMonth(Month month)
+	public LinkedList<FinancialCategory> getCategorizedMonthByCategory(Month month)
 	{
 		if (month == null)
 			return new LinkedList<>();
-		return  getCategorizedMonth(month.getValue());
+		return  getCategorizedMonthByCategory(month.getValue());
 	}
 	
-	public LinkedList<FinancialCategory> getCategorizedMonth(int monthOrderNum)
+	private LinkedList<FinancialCategory> getCategorizedMonthByCategory(int monthOrderNum)
 	{
 		LinkedList<FinancialCategory> list = new LinkedList<>();
 		FinancialCategory holder = null;
@@ -206,14 +207,18 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 	@Override
 	public Optional<Transaction> getByID(final int ID)
 	{
-		for(int i = 0; i < 12; i++)
+		for (int i = 0; i < 11; i++)
 		{
-			for(Transaction t : getMonth(i))
+			for (FinancialCategory fc : getCategorizedMonth(i))
 			{
-				if (t.getID() == ID)
-					return Optional.of(t);
+				for (Transaction t : fc)
+				{
+					if (t.getID() == ID)
+						return Optional.of(t);
+				}
 			}
 		}
 		return Optional.empty();
 	}
+
 }

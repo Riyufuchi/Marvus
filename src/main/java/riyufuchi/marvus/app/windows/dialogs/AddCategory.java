@@ -9,6 +9,11 @@ import riyufuchi.sufuLib.gui.SufuDataDialog;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
+/**
+ * @author Riyufuchi
+ * @version 1.0 - 12.10.2023
+ * @since 1.97 - 12.10.2023
+ */
 public class AddCategory extends SufuDataDialog<String[]>
 {
 	private JTextArea categoryInput;
