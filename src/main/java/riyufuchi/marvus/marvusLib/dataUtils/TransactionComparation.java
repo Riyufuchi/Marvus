@@ -22,6 +22,7 @@ public class TransactionComparation
 		Lowest_to_highest,
 		Highest_to_lowest,
 		By_name,
+		By_catagory,
 		ID;
 	};
 	
@@ -48,6 +49,7 @@ public class TransactionComparation
 		switch (compareMethod)
 		{
 			case By_name -> { return (m1, m2) -> { return m1.getName().compareTo(m2.getName()); };}
+			case By_catagory -> { return (m1, m2) -> { return m1.getCategory().compareTo(m2.getCategory()); };}
 			case Lowest_to_highest -> { return (m1, m2) -> { return m1.getValue().compareTo(m2.getValue()); };}
 			case Newest_to_oldest -> { return (m1, m2) -> { return m2.getDate().compareTo(m1.getDate()); };}
 			case Oldest_to_newest -> { return (m1, m2) -> { return m1.getDate().compareTo(m2.getDate()); };}

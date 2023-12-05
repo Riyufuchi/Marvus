@@ -15,7 +15,7 @@ import riyufuchi.marvus.marvusLib.interfaces.MarvusCollection;
  * This class sort data into categories. Data starts from x = 0
  * 
  * @author Riyufuchi
- * @version 2.3 - 06.11.2023
+ * @version 2.4 - 05.12.2023
  * @since 1.60 - 24.08.2023
  */
 public class MarvusDataTable implements Serializable, MarvusCollection<Transaction>
@@ -144,7 +144,7 @@ public class MarvusDataTable implements Serializable, MarvusCollection<Transacti
 	public LinkedList<Transaction> toList()
 	{
 		LinkedList<Transaction> data = new LinkedList<>();
-		for (int i = 0; i < 11; i++)
+		for (int i = 0; i < 12; i++)
 		{
 			data.addAll(months.get(i));
 		}

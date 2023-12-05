@@ -30,7 +30,7 @@ public class SimpleMonthList extends DataDisplayMode
 		{
 			panel.add(SufuFactory.newTextFieldCell(t.toString(),
 					evt -> showExtednedInfo(t, evt)),
-					targetWindow.getGBC(t.getDate().getMonthValue(), ++columnHeight[t.getDate().getMonthValue()]));
+					targetWindow.getGBC(t.getDate().getMonthValue(), ++columnHeight[t.getDate().getMonthValue() - 1]));
 		}
 	}
 

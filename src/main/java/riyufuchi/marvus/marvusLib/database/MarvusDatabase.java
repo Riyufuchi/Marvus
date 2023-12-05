@@ -23,7 +23,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * This class doesn't represent actual connection to database, just "simulates" it
  * 
  * @author Riyufuchi
- * @version 1.2 - 06.11.2023
+ * @version 1.3 - 05.12.2023
  * @since 1.94 - 07.10.2023
  */
 public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transaction>
@@ -51,7 +51,7 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 	
 	public void sort()
 	{
-		for (int i = 0; i < 11; i++)
+		for (int i = 0; i < 12; i++)
 			Collections.sort(getCategorizedMonth(i), sorter);
 	}
 	
@@ -65,7 +65,7 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 		if (comp == null)
 			return;
 		sorter = comp;
-		for (int i = 0; i < 11; i++)
+		for (int i = 0; i < 12; i++)
 			Collections.sort(getCategorizedMonth(i), comp);
 	}
 	
@@ -151,7 +151,7 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 		boolean leapYear = SufuDateUtils.isLeapYear(year); 
 		int numOfDays = 0;
 		
-		for(int i = 0; i < 11; i++)
+		for(int i = 0; i < 12; i++)
 		{
 			numOfDays = monthsArr[i].length(leapYear);
 			for(FinancialCategory fc : getCategorizedMonth(i))
@@ -174,7 +174,7 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 	{
 		if (month == null)
 			return new LinkedList<>();
-		return  getCategorizedMonth(month.getValue());
+		return getCategorizedMonth(month.getValue());
 	}
 	
 	public LinkedList<FinancialCategory> getCategorizedMonth(int monthOrderNum)
@@ -186,6 +186,32 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 			if (t.getDate().getMonthValue() == monthOrderNum)
 			{
 				holder = new FinancialCategory(t.getCategory(), t);
+				for (FinancialCategory mc : list)
+				{
+					if (mc.getCategory().equals(holder.getCategory()))
+					{
+						mc.add(t);
+						holder = null;
+						break;
+					}
+				}
+				if(holder != null)
+					list.add(holder);
+			}
+		}
+		Collections.sort(list, sorter);
+		return list;
+	}
+	
+	public LinkedList<FinancialCategory> getCategorizedMonthByNames(int monthOrderNum)
+	{
+		LinkedList<FinancialCategory> list = new LinkedList<>();
+		FinancialCategory holder = null;
+		for (Transaction t : this)
+		{
+			if (t.getDate().getMonthValue() == monthOrderNum)
+			{
+				holder = new FinancialCategory(t);
 				for (FinancialCategory mc : list)
 				{
 					if (mc.getCategory().equals(holder.getCategory()))

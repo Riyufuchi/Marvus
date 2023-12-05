@@ -21,6 +21,7 @@ import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthOverview;
 import riyufuchi.marvus.marvusLib.dataDisplay.SimpleMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedYearSummary;
+import riyufuchi.marvus.marvusLib.dataDisplay.DataSummaryOverview;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
@@ -29,7 +30,6 @@ import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod
 import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvus.marvusLib.io.MarvusIO;
-import riyufuchi.marvus.marvusLib.records.DataSummary;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
@@ -101,7 +101,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this , database); });
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
-				case "Data summary" -> jmc.setItemAction(i, event -> dataSummary());
 				case "Application manager" -> jmc.setItemAction(i, event -> new AppManager(this).showDialog());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());
@@ -112,6 +111,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Categorized month overview" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> updateDataDisplayMode(new CategorizedMonthOverview(this, database)));
 				case "Categorized year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> updateDataDisplayMode(new CategorizedYearSummary(this, database))); 
 				case "Earning/Spending summary" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTable(this, database, 2023)));
+				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> updateDataDisplayMode(new DataSummaryOverview(this, database)));
 				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> switchDataDisplayMode());
 				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());
@@ -169,20 +169,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	{
 		new AddDialog(this).showDialog();
 		refresh();
-	}
-	
-	private void dataSummary()
-	{
-		DataSummary ds = database.getDataSummary(2023);
-		String data = "Total transactions: %d (avg: %.2f)\n"
-				+ "Total income: %.2f (avg: %.2f)\n"
-				+ "Total spendings: %.2f (avg: %.2f)\n"
-				+ "Total outcome: %.2f (avg: %.2f)\n";
-		data = String.format(data, ds.transactionsTotal(), ds.avgTransactionPerYear(),
-				ds.totalIncome(), ds.avgIncome(),
-				ds.totalSpendigs(), ds.avgSpendings(),
-				ds.totalOutcome(), ds.avgOutcome());
-		SufuDialogHelper.informationDialog(this, data, "Data summary");
 	}
 	
 	private void sortData()

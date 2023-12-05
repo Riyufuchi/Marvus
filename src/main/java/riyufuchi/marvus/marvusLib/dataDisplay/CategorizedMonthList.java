@@ -27,14 +27,15 @@ public class CategorizedMonthList extends DataDisplayMode
 		JPanel pane = targetWindow.getPane();
 		int y = 1;
 		FinancialCategory fc = null;
-		SufuTableTools.addRowHeader(targetWindow, 1, 0, Month.values());
+		Month[] months = Month.values();
+		SufuTableTools.addRowHeader(targetWindow, 0, 0, months);
 		for (int month = 0; month < 12; month++)
 		{
-			Iterator<FinancialCategory> it = dataSource.getCategorizedMonth(month).iterator();
+			Iterator<FinancialCategory> it = dataSource.getCategorizedMonth(months[month]).iterator();
 			while (it.hasNext())
 			{
 				fc = it.next();
-				pane.add(SufuFactory.newButton(fc.toString(), createBtnName(month, y), evt -> btnDataReference(evt)), targetWindow.getGBC(month, y));
+				pane.add(SufuFactory.newButton(fc.toString(), createBtnName(month + 1, y), evt -> btnDataReference(evt)), targetWindow.getGBC(month, y));
 				y++;
 			}
 			y = 1;

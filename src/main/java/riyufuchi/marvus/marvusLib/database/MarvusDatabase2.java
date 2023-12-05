@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataTableCategorized;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation.CompareMethod;
