@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
-import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
@@ -17,9 +16,9 @@ public class CategorizedYearSummary extends DataDisplayMode
 {
 	private LinkedList<FinancialCategory> list;
 	
-	public CategorizedYearSummary(MarvusDataFrame targetWindow, MarvusDatabase dataSource)
+	public CategorizedYearSummary(MarvusDataFrame targetWindow)
 	{
-		super(targetWindow, dataSource);
+		super(targetWindow);
 	}
 
 	@Override
@@ -45,7 +44,7 @@ public class CategorizedYearSummary extends DataDisplayMode
 	private void btnDataReference(ActionEvent e)
 	{
 		//String point = ((JButton)e.getSource()).getName();
-		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, dataSource, 
+		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, 
 				list.get(Integer.valueOf(((JButton)e.getSource()).getName()) - 1), false));
 	}
 }

@@ -13,7 +13,7 @@ import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 /**
  * 
  * @author riyufuchi
- * @version 1.5 - 07.10.2023
+ * @version 1.6 - 25.12.2023
  * @since 1.67
  */
 public abstract class DataDisplayMode
@@ -26,10 +26,17 @@ public abstract class DataDisplayMode
 	 * @param targetWindow
 	 * @param dataSource
 	 */
+	@Deprecated
 	public DataDisplayMode(MarvusDataFrame targetWindow, MarvusDatabase dataSource)
 	{
 		this.targetWindow = targetWindow;
-		this.dataSource = dataSource;
+		this.dataSource = targetWindow.getController().getDatabase();
+	}
+	
+	public DataDisplayMode(MarvusDataFrame targetWindow)
+	{
+		this.targetWindow = targetWindow;
+		this.dataSource = targetWindow.getController().getDatabase();
 	}
 	
 	public abstract void displayData();

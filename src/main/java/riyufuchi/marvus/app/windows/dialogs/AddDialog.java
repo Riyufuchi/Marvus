@@ -22,7 +22,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  *
  * @author Riyufuchi
- * @version 09.10.2023
+ * @version 25.12.2023
  * @since 16.05.2023
  */
 public class AddDialog extends SufuDialog
@@ -84,7 +84,7 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void onOK()
 	{
-		((MarvusDataWindow)parentFrame).getTable().add(new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
+		((MarvusDataWindow)parentFrame).getDatabase().add(new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
 		((MarvusDataWindow)parentFrame).refresh();
 	}
 }

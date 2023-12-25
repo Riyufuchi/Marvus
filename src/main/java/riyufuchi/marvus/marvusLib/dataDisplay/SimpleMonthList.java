@@ -6,16 +6,15 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.data.Transaction;
-import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 public class SimpleMonthList extends DataDisplayMode
 {
-	public SimpleMonthList(MarvusDataFrame targetWindow, MarvusDatabase source)
+	public SimpleMonthList(MarvusDataFrame targetWindow)
 	{
-		super(targetWindow, source);
+		super(targetWindow);
 	}
 
 	@Override

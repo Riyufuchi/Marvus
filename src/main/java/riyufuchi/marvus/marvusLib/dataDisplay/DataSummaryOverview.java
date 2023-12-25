@@ -1,16 +1,15 @@
 package riyufuchi.marvus.marvusLib.dataDisplay;
 
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
-import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvus.marvusLib.records.DataSummary;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 public class DataSummaryOverview extends DataDisplayMode
 {
-	public DataSummaryOverview(MarvusDataFrame targetWindow, MarvusDatabase dataSource)
+	public DataSummaryOverview(MarvusDataFrame targetWindow)
 	{
-		super(targetWindow, dataSource);
+		super(targetWindow);
 	}
 
 	@Override

@@ -9,16 +9,15 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.data.FinancialCategory;
-import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 public class CategorizedMonthList extends DataDisplayMode
 {
-	public CategorizedMonthList(MarvusDataFrame targetWindow, MarvusDatabase source)
+	public CategorizedMonthList(MarvusDataFrame targetWindow)
 	{
-		super(targetWindow, source);
+		super(targetWindow);
 	}
 
 	@Override
@@ -50,7 +49,7 @@ public class CategorizedMonthList extends DataDisplayMode
 	
 	protected void showData(int x, int y)
 	{
-		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, dataSource, x, y, true));
+		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, x, y, true));
 	}
 	
 	protected final String createBtnName(int month, int y)

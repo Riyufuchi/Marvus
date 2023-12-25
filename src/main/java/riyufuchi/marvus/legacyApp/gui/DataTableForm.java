@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.app.controller.MarvusController;
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusUtils;
@@ -17,7 +18,6 @@ import riyufuchi.marvus.legacyApp.utils.MoneySum;
 import riyufuchi.marvus.legacyApp.utils.MoneySummaryOverview;
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataBox;
-import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;
@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * Created On: 11.04.2022<br>
- * Last Edit: 07.10.2023
+ * Last Edit: 25.12.2023
  * 
  * @author Riyufuchi
  */
@@ -43,14 +43,14 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	{
 		super("Marvus - Data table - " + VERSION, true, true);
 		this.dataBox = new MarvusDataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
-		this.mso = new MoneySummaryOverview(this, new MarvusDatabase(null), dataBox);
+		this.mso = new MoneySummaryOverview(this, dataBox);
 	}
 	
 	public DataTableForm(int width, int height)
 	{
 		super("Marvus - Data table - " + VERSION, width, height, false, true, true);
 		this.dataBox = new MarvusDataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
-		this.mso = new MoneySummaryOverview(this, new MarvusDatabase(null), dataBox);
+		this.mso = new MoneySummaryOverview(this, dataBox);
 	}
 	
 	private Comparator<MoneySum> byDate()
@@ -90,7 +90,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 			throw new IllegalArgumentException("Inputed datalist is emtpy");
 		dataBox.setList(data);
 		getPane().removeAll();
-		mso = new MoneySummaryOverview(this, new MarvusDatabase(null), dataBox);
+		mso = new MoneySummaryOverview(this, dataBox);
 	}
 	
 	private void setupJMenu()
@@ -171,7 +171,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	{
 		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: " + VERSION + "\nLegacy update version: 0.6\n"
 			+ "This is leagacy functionality.\nIt will not be updated anymore probably.\nThis app was ment to replace old version that used object DB (JPA), "
-			+ "but funtionility become outdated, so rework was needed.");
+			+ "but funtionility become 	MarvusController getController();outdated, so rework was needed.");
 	}
 	
 	// GETTERS
@@ -185,5 +185,16 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	public JFrame getSelf()
 	{
 		return this;
+	}
+
+	@Override
+	public void displayData()
+	{
+	}
+
+	@Override
+	public MarvusController getController()
+	{
+		return null;
 	}
 }

@@ -6,7 +6,6 @@ import java.time.Month;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
-import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvus.marvusLib.records.YearOverview;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
@@ -14,7 +13,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 /**
  * @author Riyufuchi
- * @version 1.8 - 07.10.2023
+ * @version 1.9 - 25.12.2023
  * @since 1.66 - 05.09.2023
  */
 // TODO: Optimize this class for refresh method
@@ -22,9 +21,9 @@ public class YearOverviewTable extends DataDisplayMode
 {
 	private YearOverview yearOverview;
 	
-	public YearOverviewTable(MarvusDataFrame targetWindow, MarvusDatabase source, int year)
+	public YearOverviewTable(MarvusDataFrame targetWindow, int year)
 	{
-		super(targetWindow, source);
+		super(targetWindow);
 		this.yearOverview = dataSource.getYearOverview(year);
 	}
 

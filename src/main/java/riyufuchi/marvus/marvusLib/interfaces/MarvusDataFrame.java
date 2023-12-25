@@ -10,10 +10,11 @@ import riyufuchi.sufuLib.interfaces.SufuWindowCommon;
  * 
  * @author Riyufuchi
  */
-public interface MarvusDataFrame extends SufuWindowCommon
+public interface MarvusDataFrame extends SufuWindowCommon, MarvusControllable
 {
 	void updateDataDisplayMode(DataDisplayMode dataDisplayMode);
 	void refresh();
+	void displayData();
 	
 	/**
 	 * This method return it self, it is here to ensure, that this interface is implemented on JFrame as MarvusLib is Swing based library.

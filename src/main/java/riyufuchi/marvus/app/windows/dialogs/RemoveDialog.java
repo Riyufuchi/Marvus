@@ -9,10 +9,9 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * Dialog for removing transactions
  * 
- * Created On: 16.05.2023<br>
- * Last Edit: 24.08.2023 <br>
- * 
  * @author Riyufuchi
+ * @since 16.05.2023
+ * @version 25.12.2023
  */
 public class RemoveDialog extends EditDialog
 {
@@ -28,7 +27,7 @@ public class RemoveDialog extends EditDialog
 		if(SufuDialogHelper.yesNoDialog(parentFrame, "Delete transaction number: " + getTransaction().getID() + "\n" + getTransaction().toString(), "Are you sure?") == 0)
 		{
 			MarvusDataWindow budgetDataTable = (MarvusDataWindow)parentFrame;
-			budgetDataTable.getTable().remove(getTransaction());
+			budgetDataTable.getDatabase().remove(getTransaction());
 			budgetDataTable.refresh();
 		}
 	}

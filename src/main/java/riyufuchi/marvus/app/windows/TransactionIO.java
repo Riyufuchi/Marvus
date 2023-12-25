@@ -5,22 +5,23 @@ import java.util.LinkedList;
 
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
+import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvus.marvusLib.io.MarvusIO;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 09.10.2023
+ * @version 25.12.2023
  * @since 27.03.2023
  */
 public class TransactionIO extends SufuFileChooser
 {
-	private MarvusDataWindow budgetDataTable;
+	private MarvusDataFrame budgetDataTable;
 	
-	public TransactionIO(MarvusDataWindow budgetDataTable, String filePath)
+	public TransactionIO(MarvusDataFrame budgetDataTable, String filePath)
 	{
-		super(budgetDataTable, filePath);
+		super(budgetDataTable.getSelf(), filePath);
 		this.budgetDataTable = budgetDataTable;
 	}
 
@@ -30,12 +31,12 @@ public class TransactionIO extends SufuFileChooser
 		path = addExtension(path);
 		try
 		{
-			if (MarvusIO.saveData(budgetDataTable, path, budgetDataTable.getDatabase(), false))
-				SufuDialogHelper.informationDialog(budgetDataTable, "Succesfuly saved to:\n" + path, "Save progress");
+			if (MarvusIO.saveData(budgetDataTable.getSelf(), path, budgetDataTable.getController().getDatabase(), false))
+				SufuDialogHelper.informationDialog(budgetDataTable.getSelf(), "Succesfuly saved to:\n" + path, "Save progress");
 		}
 		catch (NullPointerException | IOException e)
 		{
-			SufuDialogHelper.exceptionDialog(budgetDataTable, e);
+			SufuDialogHelper.exceptionDialog(budgetDataTable.getSelf(), e);
 		}
 	}
 
@@ -50,7 +51,7 @@ public class TransactionIO extends SufuFileChooser
 		}
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e)
 		{
-			SufuDialogHelper.exceptionDialog(budgetDataTable, e);
+			SufuDialogHelper.exceptionDialog(budgetDataTable.getSelf(), e);
 			return;
 		}
 		setData(path, list);
@@ -69,8 +70,8 @@ public class TransactionIO extends SufuFileChooser
 	{
 		switch (MarvusIO.getExtension(path))
 		{
-			case ".dat" -> budgetDataTable.setDatabase((MarvusDatabase)list.getFirst());
-			default -> budgetDataTable.getDatabase().addAll((LinkedList<Transaction>)list);
+			case ".dat" -> budgetDataTable.getController().setDatabase((MarvusDatabase)list.getFirst());
+			default -> budgetDataTable.getController().getDatabase().addAll((LinkedList<Transaction>)list);
 		}
 	}
 }

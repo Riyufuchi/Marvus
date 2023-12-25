@@ -25,7 +25,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * Provides display utility functions for data<br><br>
  *
  * @author Riyufuchi
- * @version 06.11.2023
+ * @version 25.12.2023
  * @since 18.04.2023
  */
 @Deprecated
@@ -138,7 +138,7 @@ public class DataDisplay
 	public static Consumer<MarvusDataBox<Transaction>> yearOverview(MarvusDataWindow bdt)
 	{
 		return data -> {
-			new YearOverviewTable(bdt, bdt.getDatabase(), 2023).displayData();;
+			new YearOverviewTable(bdt, 2023).displayData();;
 		};
 	}
 }

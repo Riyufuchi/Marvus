@@ -7,7 +7,6 @@ import javax.swing.JTextField;
 
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.dataStorage.MarvusDataBox;
-import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
@@ -16,9 +15,9 @@ public class MoneySummaryOverview extends DataDisplayMode
 	private JTextField[][] textFields;
 	private MarvusDataBox<MoneySum> data;
 	
-	public MoneySummaryOverview(MarvusDataFrame targetWindow, MarvusDatabase dataSource, MarvusDataBox<MoneySum> data)
+	public MoneySummaryOverview(MarvusDataFrame targetWindow, MarvusDataBox<MoneySum> data)
 	{
-		super(targetWindow, dataSource);
+		super(targetWindow);
 		this.data = data;
 	}
 
