@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.app.controller.MarvusController;
 import riyufuchi.marvus.app.controller.MarvusDeleg;
 import riyufuchi.marvus.app.utils.AppTexts;
+import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusMainThread;
 import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.dialogs.AddDialog;
@@ -35,8 +36,8 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * @author Riyufuchi
- * @version 25.12.2023
  * @since 18.04.2023
+ * @version 04.01.2024
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
@@ -79,7 +80,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	private void setupJMenu()
 	{
-		SufuMenuCreator jmc = new SufuMenuCreator(AppTexts.BUDGET_TABLE_MENU, AppTexts.BUDGET_TABLE_MENU_ITEMS, 4);
+		SufuMenuCreator jmc = new SufuMenuCreator(AppTexts.BUDGET_TABLE_MENU, AppTexts.BUDGET_TABLE_MENU_ITEMS, 5);
 		final int max = jmc.getNumberOfMenuItems();
 		for (int i = 0; i < max; i++)
 		{
@@ -88,6 +89,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				// File
 				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickOpenFile());
 				case "Save" -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickSaveFile());
+				case "Save As..." -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK, event -> controller.saveFile());
 				case "Exit" -> jmc.setItemAction(i, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
 				case "Export"-> jmc.setItemAction(i,event -> controller.exportData());
 				case "Import" -> jmc.setItemAction(i, event -> controller.importData());
@@ -106,7 +108,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> updateDataDisplayMode(new CategorizedMonthList(this)));
 				case "Categorized month overview" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> updateDataDisplayMode(new CategorizedMonthOverview(this)));
 				case "Categorized year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> updateDataDisplayMode(new CategorizedYearSummary(this))); 
-				case "Earning/Spending summary" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTable(this, 2023)));
+				case "Earning/Spending summary" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTable(this, MarvusConfig.financialYear)));
 				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> updateDataDisplayMode(new DataSummaryOverview(this)));
 				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> switchDataDisplayMode());
 				// Window

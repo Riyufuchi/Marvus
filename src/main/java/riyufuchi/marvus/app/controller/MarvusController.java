@@ -16,8 +16,8 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 25.12.2023
  * @since 25.12.2023
+ * @version 04.01.2024
  */
 public class MarvusController implements IMarvusController
 {
@@ -40,6 +40,23 @@ public class MarvusController implements IMarvusController
 			MarvusIO.quickSave(controledWindow.getSelf(), MarvusConfig.currentWorkFile.getAbsolutePath(), database);
 		else
 			SufuDialogHelper.warningDialog(controledWindow.getSelf(), "No save destination found!", "No save destination");
+	}
+	
+	public void saveFile()
+	{
+		if (MarvusConfig.currentWorkFile == null)
+		{
+			SufuDialogHelper.warningDialog(controledWindow.getSelf(), "No save destination found!", "No save destination");
+			return;
+		}
+		try
+		{
+			MarvusIO.saveData(controledWindow.getSelf(), MarvusConfig.currentWorkFile.getAbsolutePath(), database, false);
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(controledWindow.getSelf(), e);
+		}
 	}
 	
 	public void exportData()

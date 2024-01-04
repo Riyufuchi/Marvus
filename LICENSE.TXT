@@ -1,4 +1,4 @@
-Copyright © 2021 - 2023 Riyufuchi
+Copyright © 2021 - 2024 Riyufuchi
 
 This software can be used for personal use (without limitation of the rights to use, copy and modify).
 Redistribution with goal of making profit is strictly prohibited.

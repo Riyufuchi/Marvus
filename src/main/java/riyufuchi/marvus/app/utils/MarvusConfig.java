@@ -5,6 +5,7 @@ import java.io.File;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import riyufuchi.sufuLib.enums.AppTheme;
+import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 public class MarvusConfig
 {
@@ -17,6 +18,7 @@ public class MarvusConfig
 	public static int dateFormatIndex = 0;
 	public static File currentWorkFile = null;
 	public static boolean showQuitDialog = true;
+	public static int financialYear = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString()).getYear(); // TODO: Let user set this value
 	// Unchangeable configuration
 	public static final FileNameExtensionFilter SER = new FileNameExtensionFilter(".ser", "ser");
 	public static final FileNameExtensionFilter CSV = new FileNameExtensionFilter(".csv", "csv");
