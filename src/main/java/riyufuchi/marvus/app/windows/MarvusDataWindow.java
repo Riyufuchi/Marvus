@@ -31,6 +31,7 @@ import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
+import riyufuchi.sufuLib.lib.SufuLib;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
@@ -38,7 +39,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 04.01.2024
+ * @version 12.02.2024
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
@@ -120,7 +121,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "About" -> jmc.setItemAction(i, event -> MarvusDeleg.aboutMarvus(this));
 				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
 				case "License" -> jmc.setItemAction(i, event -> Lib.licenseGUI(this));
-				default -> jmc.setItemAction(i, event -> SufuDialogHelper.informationDialog(this, "This functionality haven't been implemented yet.", "Info"));
+				default -> jmc.setItemAction(i, event -> SufuLib.functionalityNotYetImplementedDialog(this));
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
