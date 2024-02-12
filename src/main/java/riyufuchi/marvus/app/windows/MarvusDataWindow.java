@@ -22,6 +22,7 @@ import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedMonthOverview;
 import riyufuchi.marvus.marvusLib.dataDisplay.SimpleMonthList;
 import riyufuchi.marvus.marvusLib.dataDisplay.CategorizedYearSummary;
 import riyufuchi.marvus.marvusLib.dataDisplay.DataSummaryOverview;
+import riyufuchi.marvus.marvusLib.dataDisplay.MultiYearTable;
 import riyufuchi.marvus.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionComparation;
@@ -110,6 +111,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Categorized year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> updateDataDisplayMode(new CategorizedYearSummary(this))); 
 				case "Earning/Spending summary" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTable(this, MarvusConfig.financialYear)));
 				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> updateDataDisplayMode(new DataSummaryOverview(this)));
+				case "Multi year table" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> updateDataDisplayMode(new MultiYearTable(this)));
 				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> switchDataDisplayMode());
 				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());

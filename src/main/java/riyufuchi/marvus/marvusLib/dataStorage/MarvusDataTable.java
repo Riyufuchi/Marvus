@@ -16,7 +16,7 @@ import riyufuchi.marvus.marvusLib.interfaces.MarvusCollection;
  * 
  * @author Riyufuchi
  * @version 2.4 - 05.12.2023
- * @since 1.60 - 24.08.2023
+ * @since 1.7 - 12.02.2024
  */
 public class MarvusDataTable implements Serializable, MarvusCollection<Transaction>
 {
@@ -46,6 +46,7 @@ public class MarvusDataTable implements Serializable, MarvusCollection<Transacti
 			return false;
 		months.get(transaction.getDate().getMonthValue() - 1).add(transaction);
 		size++;
+		transaction.setID(size);
 		return true;
 	}
 	

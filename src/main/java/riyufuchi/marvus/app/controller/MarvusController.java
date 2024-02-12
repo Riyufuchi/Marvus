@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 04.01.2024
+ * @version 12.02.2024
  */
 public class MarvusController implements IMarvusController
 {
@@ -71,9 +71,11 @@ public class MarvusController implements IMarvusController
 	public void importData()
 	{
 		MarvusConfig.currentWorkFile =  MarvusUtils.createTransactionIO(controledWindow).showLoadChooser();
+		if(!database.isEmpty())
+			MarvusConfig.financialYear = database.getByID(1).get().getDate().getYear();
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public void quickOpenFile()
 	{
 		if (MarvusConfig.currentWorkFile == null)
@@ -86,10 +88,9 @@ public class MarvusController implements IMarvusController
 			SufuFileHelper.checkFile(MarvusConfig.currentWorkFile.getAbsolutePath());
 			switch (MarvusIO.getExtension(MarvusConfig.currentWorkFile.getAbsolutePath()))
 			{
-				case ".dat" -> database = (MarvusDatabase)MarvusIO.loadData(MarvusConfig.currentWorkFile.getAbsolutePath()).getFirst();
+				case ".dat" -> database = MarvusIO.inputFile(MarvusConfig.currentWorkFile.getAbsolutePath()).convertDataToDB();
 				default -> database.addAll((LinkedList<Transaction>)MarvusIO.loadData(MarvusConfig.currentWorkFile.getAbsolutePath()));
 			}
-
 		}
 		catch (NullPointerException | IOException | ClassNotFoundException | ClassCastException e)
 		{

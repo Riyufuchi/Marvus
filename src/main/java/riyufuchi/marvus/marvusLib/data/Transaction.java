@@ -7,19 +7,16 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * Transaction class represents simple transaction<br><br>
- * 
- * Created On: 13.04.2023<br>
- * Last Edit: 15.09.2023
-
+ *
  * @author Riyufuchi
- * @version 1.9
- * @since 1.22
+ * @since 1.22 - 13.04.2023
+ * @version 2.0 - 12.02.2024
  */
 public class Transaction extends Money
 {
 	private static final long serialVersionUID = 1L;
 	private static int Static_ID = 0;
-	private final int ID;
+	private int ID;
 	private String name;
 	private String category;
 	private String note;
@@ -94,6 +91,11 @@ public class Transaction extends Money
 	}
 	
 	//SETTERS
+	
+	public void setID(int id)
+	{
+		this.ID = id;
+	}
 	
 	public void setName(String name)
 	{

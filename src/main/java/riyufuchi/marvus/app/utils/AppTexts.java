@@ -8,7 +8,7 @@ public class AppTexts
 			"Open", "Save", "Save As...", "Import", "Export", "Exit", "",
 			"Add", "Edit", "Delete", "View", "",
 			"Simple month list", "Categorized month list", "Categorized month overview",
-			"Categorized year summary", "Earning/Spending summary", "Data summary", "Previous mode", "",
+			"Categorized year summary", "Earning/Spending summary", "Data summary", "Multi year table", "Previous mode", "",
 			"Sort", "Fix category", "Month budget planning", "Month outcome", "",
 			"Application manager", "",
 			"Preferences", "Fullscreen", "Refresh", "",

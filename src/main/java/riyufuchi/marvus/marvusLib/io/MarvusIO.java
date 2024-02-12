@@ -10,13 +10,14 @@ import javax.swing.JFrame;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.dataUtils.TransactionXML;
 import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
+import riyufuchi.marvus.marvusLib.records.FileInput;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 1.3 - 12.10.2023
+ * @version 1.4 - 12.02.2024
  */
 public class MarvusIO
 {
@@ -52,6 +53,7 @@ public class MarvusIO
 		return true;
 	}
 	
+	@Deprecated
 	public static LinkedList<?> loadData(String path) throws FileNotFoundException, ClassNotFoundException, NullPointerException, ClassCastException, IOException
 	{
 		String extension = getExtension(path);
@@ -61,6 +63,19 @@ public class MarvusIO
 			case ".ser" -> { return ((LinkedList<Transaction>)SufuPersistence.<Transaction>deserialize(path)); }
 			case ".xml" -> { return new TransactionXML(path).importXML(); }
 			case ".dat" -> { return loadDatabase(path); }
+			default -> throw new IOException("File is missing an extension or extension was not recognized\n" + "Extension: " + extension);
+		}
+	}
+	
+	public static FileInput inputFile(String path) throws FileNotFoundException, ClassNotFoundException, NullPointerException, ClassCastException, IOException
+	{
+		String extension = getExtension(path);
+		switch(extension)
+		{
+			case ".csv" -> { return new FileInput(extension, SufuPersistence.<Transaction>loadFromCSV(path, new Transaction(), ";", 6)); }
+			case ".ser" -> { return new FileInput(extension, ((LinkedList<Transaction>)SufuPersistence.<Transaction>deserialize(path))); }
+			case ".xml" -> { return new FileInput(extension, new TransactionXML(path).importXML()); }
+			case ".dat" -> { return new FileInput(extension, loadDatabase(path)); }
 			default -> throw new IOException("File is missing an extension or extension was not recognized\n" + "Extension: " + extension);
 		}
 	}

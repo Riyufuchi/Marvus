@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @version 1.3 - 05.12.2023
- * @since 1.94 - 07.10.2023
+ * @since 1.95 - 12.02.2024
  */
 public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transaction>
 {
@@ -54,6 +54,16 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 		for (int i = 0; i < 12; i++)
 			Collections.sort(getCategorizedMonth(i), sorter);
 	}
+	
+	public int assumeYear()
+	{
+		Transaction t = getByID(1).orElse(new Transaction());
+		if (t.getID() == -1)
+			return -1;
+		return t.getDate().getYear();
+	}
+	
+	// SETTERS
 	
 	/**
 	 * Set new comparator and sort by it
