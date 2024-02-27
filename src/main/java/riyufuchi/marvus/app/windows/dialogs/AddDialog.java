@@ -1,5 +1,8 @@
 package riyufuchi.marvus.app.windows.dialogs;
 
+import java.time.LocalDateTime;
+
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,6 +15,7 @@ import riyufuchi.marvus.marvusLib.data.Money;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.database.MaruvsDatabaseUtils;
 import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
+import riyufuchi.sufuLib.gui.SufuDatePicker;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
@@ -22,8 +26,8 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
  *
  * @author Riyufuchi
- * @version 25.12.2023
  * @since 16.05.2023
+ * @version 27.02.2024
  */
 public class AddDialog extends SufuDialog
 {
@@ -31,6 +35,7 @@ public class AddDialog extends SufuDialog
 	protected JComboBox<String> nameBox, categoryBox;
 	protected JTextArea note;
 	protected MaruvsDatabaseUtils utils;
+	protected LocalDateTime localDate;
 	
 	public AddDialog(JFrame parentFrame)
 	{
@@ -75,11 +80,17 @@ public class AddDialog extends SufuDialog
 				money.setText("");
 		});
 		SufuComponentTools.setSelectedItem(nameBox, "Custom");
+		
+		JButton datePicker = SufuFactory.newButton("Date picker", evt -> {
+			localDate = new SufuDatePicker(parentFrame).showAndGet();
+			date.setText((localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear()));
+		});
+		
 		// Set labels
 		pane.add(new JLabel("Name:"), getGBC(0, 0));
 		pane.add(new JLabel("Category:"), getGBC(0, 2));
-		SufuGuiTools.addLabels(this, 0, 3, new String[]{ "Amount:", "Currency: ", "Date:", "Note:" });
-		SufuGuiTools.addComponents(this, 1, 0, nameBox, name, categoryBox, money, currency, date, note);
+		SufuGuiTools.addLabels(this, 0, 3, new String[]{ "Amount:", "Currency: ", "Date:", "", "Note:" });
+		SufuGuiTools.addComponents(this, 1, 0, nameBox, name, categoryBox, money, currency, datePicker, date, note);
 	}
 	@Override
 	protected void onOK()

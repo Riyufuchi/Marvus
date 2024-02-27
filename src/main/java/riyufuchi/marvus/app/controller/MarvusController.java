@@ -36,6 +36,8 @@ public class MarvusController implements IMarvusController
 	
 	public void quickSaveFile()
 	{
+		if (isOperationExucatable()) // Prevents accidental data deletion
+			return;
 		if (MarvusConfig.currentWorkFile != null)
 			MarvusIO.quickSave(controledWindow.getSelf(), MarvusConfig.currentWorkFile.getAbsolutePath(), database);
 		else
