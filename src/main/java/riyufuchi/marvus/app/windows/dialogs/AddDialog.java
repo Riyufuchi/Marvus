@@ -27,11 +27,12 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 27.02.2024
+ * @version 28.02.2024
  */
 public class AddDialog extends SufuDialog
 {
-	protected JTextField name, money, date, currency;
+	protected JTextField name, money, currency;
+	protected JButton date;
 	protected JComboBox<String> nameBox, categoryBox;
 	protected JTextArea note;
 	protected MaruvsDatabaseUtils utils;
@@ -50,7 +51,10 @@ public class AddDialog extends SufuDialog
 		categoryBox = SufuFactory.<String>newCombobox(utils.getCategoryList());
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
-		date = SufuFactory.newTextField(SufuDateUtils.nowDateString());
+		date = SufuFactory.newButton(SufuDateUtils.nowDateString(), evt -> {
+			localDate = new SufuDatePicker(parentFrame).showAndGet();
+			date.setText((localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear()));
+		});
 		currency = SufuFactory.newTextField(Money.getDefaultCurrency());
 		note = SufuFactory.newTextArea("");
 		nameBox.addActionListener(evt -> {
@@ -80,17 +84,11 @@ public class AddDialog extends SufuDialog
 				money.setText("");
 		});
 		SufuComponentTools.setSelectedItem(nameBox, "Custom");
-		
-		JButton datePicker = SufuFactory.newButton("Date picker", evt -> {
-			localDate = new SufuDatePicker(parentFrame).showAndGet();
-			date.setText((localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear()));
-		});
-		
 		// Set labels
 		pane.add(new JLabel("Name:"), getGBC(0, 0));
 		pane.add(new JLabel("Category:"), getGBC(0, 2));
-		SufuGuiTools.addLabels(this, 0, 3, new String[]{ "Amount:", "Currency: ", "Date:", "", "Note:" });
-		SufuGuiTools.addComponents(this, 1, 0, nameBox, name, categoryBox, money, currency, datePicker, date, note);
+		SufuGuiTools.addLabels(this, 0, 3, new String[]{ "Amount:", "Currency: ", "Date:", "Note:" });
+		SufuGuiTools.addComponents(this, 1, 0, nameBox, name, categoryBox, money, currency, date, note);
 	}
 	@Override
 	protected void onOK()
