@@ -1,16 +1,18 @@
 package riyufuchi.marvus.app.windows;
 
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.util.function.Consumer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.MarvusMainThread;
 import riyufuchi.marvus.app.controller.MarvusController;
 import riyufuchi.marvus.app.controller.MarvusDeleg;
 import riyufuchi.marvus.app.utils.AppTexts;
 import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.marvus.app.utils.MarvusMainThread;
 import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.dialogs.AddDialog;
 import riyufuchi.marvus.app.windows.dialogs.AppManager;
@@ -39,7 +41,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 12.02.2024
+ * @version 03.06.2024
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
@@ -59,7 +61,14 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	{
 		super("Marvus - " + AppTexts.VERSION, width, height, false, true, true);
 		postWindowInit(getPane());
+		URL iconURL = MarvusDataWindow.class.getResource("/riyufuchi/marvus/icon.png");
+		if (iconURL != null)
+			this.setIconImage(new ImageIcon(iconURL).getImage());
+		else
+			SufuDialogHelper.errorDialog(this, "Icon image not found!", "Icon IO error");
+
 	}
+
 	
 	@Override
 	protected void postWindowInit(JPanel content)
@@ -68,6 +77,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		this.currentMode = new CategorizedMonthList(this);
 		this.prevMode = currentMode;
 		MarvusDatabase.utils.setParentframe(this);
+		
 		/*KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
 		{
 			@Override
@@ -96,6 +106,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Export"-> jmc.setItemAction(i,event -> controller.exportData());
 				case "Import" -> jmc.setItemAction(i, event -> controller.importData());
 				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
+				case "Backup" -> jmc.setItemAction(i, KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK, event -> controller.createBackup());
 				// Data tools
 				case "Sort" -> jmc.setItemAction(i, e -> sortData());
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this , controller.getDatabase()); });

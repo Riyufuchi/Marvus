@@ -1,10 +1,13 @@
-package riyufuchi.marvus.app.utils;
+package riyufuchi.marvus;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
+import riyufuchi.marvus.app.utils.AppTexts;
+import riyufuchi.marvus.app.utils.MarvusConfig;
+import riyufuchi.marvus.app.utils.MarvusUtils;
 import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.legacyApp.gui.DataTableForm;
 import riyufuchi.sufuLib.config.CustomizeUI;
@@ -27,6 +30,7 @@ public class MarvusMainThread
 	
 	public static void main(String[] args)
 	{
+		System.setProperty("sun.java2d.opengl", "true");
 		loadSettings();
 		timer = new SufuTimer(500);
 		CustomizeUI.setUI(MarvusConfig.appTheme);

@@ -1,5 +1,6 @@
 package riyufuchi.marvus.marvusLib.dataDisplay;
 
+import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvus.marvusLib.records.DataSummary;
@@ -26,7 +27,7 @@ public class DataSummaryOverview extends DataDisplayMode
 
 	private void dataSummary()
 	{
-		DataSummary ds = dataSource.getDataSummary(2023);
+		DataSummary ds = dataSource.getDataSummary(MarvusConfig.financialYear);
 		String data = "Total transactions: %d (avg: %.2f)\n"
 				+ "Total income: %.2f (avg: %.2f)\n"
 				+ "Total spendings: %.2f (avg: %.2f)\n"

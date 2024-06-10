@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 12.02.2024
+ * @version 03.06.2024
  */
 public class MarvusController implements IMarvusController
 {
@@ -33,6 +33,18 @@ public class MarvusController implements IMarvusController
 	// Utility
 	
 	// Functions to delegate
+	
+	public void createBackup()
+	{
+		try
+		{
+			MarvusDeleg.backupData(controledWindow);
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(controledWindow.getSelf(), e);
+		}
+	}
 	
 	public void quickSaveFile()
 	{
