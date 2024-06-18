@@ -77,6 +77,8 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		this.currentMode = new CategorizedMonthList(this);
 		this.prevMode = currentMode;
 		MarvusDatabase.utils.setParentframe(this);
+		if (MarvusConfig.autoLoadData)
+			controller.quickOpenFile()
 		
 		/*KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
 		{
@@ -99,12 +101,12 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 			switch (jmc.getItemName(i))
 			{
 				// File
-				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickOpenFile(this));
+				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickOpenFile());
 				case "Save" -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickSaveFile());
 				case "Save As..." -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK, event -> controller.saveFile());
 				case "Exit" -> jmc.setItemAction(i, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
-				case "Export"-> jmc.setItemAction(i,event -> controller.exportData(this));
-				case "Import" -> jmc.setItemAction(i, event -> controller.importData(this));
+				case "Export"-> jmc.setItemAction(i,event -> controller.exportData());
+				case "Import" -> jmc.setItemAction(i, event -> controller.importData());
 				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
 				case "Backup" -> jmc.setItemAction(i, KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK, event -> controller.createBackup());
 				// Data tools

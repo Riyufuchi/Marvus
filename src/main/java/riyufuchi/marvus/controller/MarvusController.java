@@ -10,7 +10,6 @@ import riyufuchi.marvus.windows.TransactionIO;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.IMarvusController;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -23,9 +22,9 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 public class MarvusController implements IMarvusController
 {
 	private MarvusDatabase database;
-	private final MarvusDataFrame controledWindow;
+	private final MarvusDataWindow controledWindow;
 	
-	public MarvusController(MarvusDataFrame controledWindow)
+	public MarvusController(MarvusDataWindow controledWindow)
 	{
 		this.database = new MarvusDatabase();
 		this.controledWindow = controledWindow;
@@ -74,28 +73,28 @@ public class MarvusController implements IMarvusController
 		}
 	}
 	
-	public void exportData(MarvusDataWindow mdw)
+	public void exportData()
 	{
 		if (isOperationExucatable())
 			return;
-		TransactionIO fio = MarvusUtils.createTransactionIO(mdw);
+		TransactionIO fio = MarvusUtils.createTransactionIO(controledWindow);
 		fio.setAcceptAllFileFilterUsed(false);
 		fio.showSaveChooser();
 	}
 	
-	public void importData(MarvusDataWindow mdw)
+	public void importData()
 	{
-		MarvusConfig.currentWorkFile =  MarvusUtils.createTransactionIO(mdw).showLoadChooser();
+		MarvusConfig.currentWorkFile =  MarvusUtils.createTransactionIO(controledWindow).showLoadChooser();
 		if(!database.isEmpty())
 			MarvusConfig.financialYear = database.getByID(1).get().getDate().getYear();
 	}
 	
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public void quickOpenFile(MarvusDataWindow mdw)
+	public void quickOpenFile()
 	{
 		if (MarvusConfig.currentWorkFile == null)
 		{
-			importData(mdw);
+			importData();
 			return;
 		}
 		try

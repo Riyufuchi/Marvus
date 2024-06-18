@@ -20,8 +20,8 @@ import riyufuchi.sufuLib.utils.time.SufuTimer;
 
 /**
  * @author Riyufuchi
- * @version 09.10.2023
- * @since 1.0 - 20.04.2022
+ * @since 20.04.2022
+ * @version 18.06.2024
  */
 public class MarvusMainThread
 {
@@ -54,6 +54,17 @@ public class MarvusMainThread
 		app.toFront();
 	}
 	
+	private static void createConfigFile()
+	{
+		MarvusUtils.generateFile(app, MarvusConfig.SETTINGS_FILE_PATH,
+				(MarvusConfig.width + "x" + MarvusConfig.height),
+				MarvusConfig.appTheme.toString(),
+				Integer.toString(MarvusConfig.dateFormatIndex),
+				MarvusConfig.currentWorkFile.toString(),
+				Boolean.toString(MarvusConfig.showQuitDialog),
+				Boolean.toString(MarvusConfig.autoLoadData));
+	}
+	
 	public static void loadSettings()
 	{
 		LinkedList<String> data = null;
@@ -73,17 +84,15 @@ public class MarvusMainThread
 			SufuDateUtils.setDateFormat(new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex = Integer.valueOf(data.get(2))]));
 			MarvusConfig.currentWorkFile = new File(data.get(3));
 			MarvusConfig.showQuitDialog = Boolean.valueOf(data.get(4));
+			MarvusConfig.autoLoadData = Boolean.valueOf(data.get(5));
 		}
 		catch (Exception e)
 		{
 			SufuDialogHelper.exceptionDialog(app, e);
-			if (e instanceof IOException)
-				MarvusUtils.generateFile(app, MarvusConfig.SETTINGS_FILE_PATH, 
-						"800x600",
-						MarvusConfig.appTheme.toString(),
-						AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex],
-						"None",
-						"true");
+			if ((e instanceof IOException) || (e instanceof IndexOutOfBoundsException))
+				createConfigFile();
+			else if (SufuDialogHelper.yesNoDialog(app, "Generate config file?", "New config file") == 0)
+				createConfigFile();
 		}
 	}
 	

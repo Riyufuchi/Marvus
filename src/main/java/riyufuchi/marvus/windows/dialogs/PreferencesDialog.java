@@ -24,10 +24,9 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
 /**
- * Created On: 14.07.2022<br>
- * Last Edit: 25.09.2023
- * 
  * @author Riyufuchi
+ * @since 14.07.2022
+ * @version 18.06.2024
  */
 public class PreferencesDialog extends SufuDialog
 {
@@ -35,6 +34,7 @@ public class PreferencesDialog extends SufuDialog
 	private JComboBox<String> dateFormat, windowSize;
 	private JButton workFile;
 	private JCheckBox showQuitDialog;
+	private JCheckBox autoLoadCheck;
 	
 	public PreferencesDialog(JFrame parentFrame)
 	{
@@ -53,19 +53,21 @@ public class PreferencesDialog extends SufuDialog
 		if (MarvusConfig.currentWorkFile != null)
 			workFile.setText(MarvusConfig.currentWorkFile.getName());
 		showQuitDialog.setSelected(MarvusConfig.showQuitDialog);
+		autoLoadCheck.setSelected(MarvusConfig.autoLoadData);
 	}
 	
 	@Override
 	protected void createInputs(JPanel content)
 	{
-		SufuGuiTools.addLabels(this, "Window size:", "Theme:", "Date format:", "Work file:", "Show quit dialog: ");
+		SufuGuiTools.addLabels(this, "Window size:", "Theme:", "Date format:", "Work file:", "Show quit dialog: ", "Auto load data: ");
 		themes = SufuFactory.<AppTheme>newCombobox(AppTheme.values());
 		windowSize = SufuFactory.<String>newCombobox(AppTexts.WINDOW_SIZE);
 		dateFormat = SufuFactory.<String>newCombobox(AppTexts.DATE_FORMAT_OPTIONS);
 		workFile = SufuFactory.newButton("None", evt -> currentWorkFileBtnEvent());
 		showQuitDialog = new JCheckBox();
+		autoLoadCheck = new JCheckBox();
 		selectConfig();
-		SufuGuiTools.addComponents(this, 1, 0, windowSize, themes, dateFormat, workFile, showQuitDialog);
+		SufuGuiTools.addComponents(this, 1, 0, windowSize, themes, dateFormat, workFile, showQuitDialog, autoLoadCheck);
 	}
 
 	@Override
@@ -81,7 +83,8 @@ public class PreferencesDialog extends SufuDialog
 					SufuComponentTools.<AppTheme>extractComboboxValue(themes).toString(),
 					String.valueOf(dateFormat.getSelectedIndex()),
 					path,
-					String.valueOf(showQuitDialog.isSelected()));
+					String.valueOf(showQuitDialog.isSelected()),
+					String.valueOf(autoLoadCheck.isSelected()));
 		}
 		catch (NullPointerException | IOException e)
 		{

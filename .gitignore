@@ -3,6 +3,7 @@ appdata/
 data/
 target/
 bin/
+bin
 lib/
 deprecated/
 jars/
