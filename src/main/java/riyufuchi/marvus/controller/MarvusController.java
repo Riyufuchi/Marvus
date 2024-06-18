@@ -1,16 +1,15 @@
 package riyufuchi.marvus.controller;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvus.windows.MarvusDataWindow;
 import riyufuchi.marvus.windows.TransactionIO;
-import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.IMarvusController;
 import riyufuchi.marvusLib.io.MarvusIO;
+import riyufuchi.marvusLib.records.FileInput;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
@@ -88,8 +87,7 @@ public class MarvusController implements IMarvusController
 		if(!database.isEmpty())
 			MarvusConfig.financialYear = database.getByID(1).get().getDate().getYear();
 	}
-	
-	@SuppressWarnings({ "unchecked", "deprecation" })
+
 	public void quickOpenFile()
 	{
 		if (MarvusConfig.currentWorkFile == null)
@@ -97,19 +95,18 @@ public class MarvusController implements IMarvusController
 			importData();
 			return;
 		}
+		FileInput fi = null;
 		try
 		{
 			SufuFileHelper.checkFile(MarvusConfig.currentWorkFile.getAbsolutePath());
-			switch (MarvusIO.getExtension(MarvusConfig.currentWorkFile.getAbsolutePath()))
-			{
-				case ".dat" -> database = MarvusIO.inputFile(MarvusConfig.currentWorkFile.getAbsolutePath()).convertDataToDB();
-				default -> database.addAll((LinkedList<Transaction>)MarvusIO.loadData(MarvusConfig.currentWorkFile.getAbsolutePath()));
-			}
+			fi = MarvusIO.inputFile(MarvusConfig.currentWorkFile.getAbsolutePath());
 		}
-		catch (NullPointerException | IOException | ClassNotFoundException | ClassCastException e)
+		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e)
 		{
-			SufuDialogHelper.exceptionDialog(controledWindow.getSelf(), e);
+			SufuDialogHelper.exceptionDialog(controledWindow, e);
+			return;
 		}
+		fi.setDataTo(this);
 		controledWindow.displayData();
 	}
 	

@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
- * @version 1.4 - 12.02.2024
+ * @since 12.02.2024
  */
 public class MarvusIO
 {
@@ -51,20 +51,6 @@ public class MarvusIO
 			default -> throw new IOException("File is missing an extension or extension was not recognized\n" + "Extension: " + extension);
 		}
 		return true;
-	}
-	
-	@Deprecated
-	public static LinkedList<?> loadData(String path) throws FileNotFoundException, ClassNotFoundException, NullPointerException, ClassCastException, IOException
-	{
-		String extension = getExtension(path);
-		switch(extension)
-		{
-			case ".csv" -> { return SufuPersistence.<Transaction>loadFromCSV(path, new Transaction(), ";", 6); }
-			case ".ser" -> { return ((LinkedList<Transaction>)SufuPersistence.<Transaction>deserialize(path)); }
-			case ".xml" -> { return new TransactionXML(path).importXML(); }
-			case ".dat" -> { return loadDatabase(path); }
-			default -> throw new IOException("File is missing an extension or extension was not recognized\n" + "Extension: " + extension);
-		}
 	}
 	
 	public static FileInput inputFile(String path) throws FileNotFoundException, ClassNotFoundException, NullPointerException, ClassCastException, IOException
