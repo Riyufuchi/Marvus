@@ -2,25 +2,21 @@ package riyufuchi.marvus.app.windows;
 
 import java.io.IOException;
 
-import riyufuchi.marvus.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvus.marvusLib.io.MarvusIO;
 import riyufuchi.marvus.marvusLib.records.FileInput;
-import riyufuchi.sufuLib.gui.SufuFileChooser;
+import riyufuchi.sufuLib.gui.SufuFileChooserGeneric;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
  * @since 27.03.2023
- * @version 17.06.2024
+ * @version 18.06.2024
  */
-public class TransactionIO extends SufuFileChooser
+public class TransactionIO extends SufuFileChooserGeneric<MarvusDataWindow>
 {
-	private MarvusDataFrame budgetDataTable;
-	
-	public TransactionIO(MarvusDataFrame budgetDataTable, String filePath)
+	public TransactionIO(MarvusDataWindow budgetDataTable, String filePath)
 	{
-		super(budgetDataTable.getSelf(), filePath);
-		this.budgetDataTable = budgetDataTable;
+		super(budgetDataTable, filePath);
 	}
 
 	@Override
@@ -29,12 +25,12 @@ public class TransactionIO extends SufuFileChooser
 		path = addExtension(path);
 		try
 		{
-			if (MarvusIO.saveData(budgetDataTable.getSelf(), path, budgetDataTable.getController().getDatabase(), false))
-				SufuDialogHelper.informationDialog(budgetDataTable.getSelf(), "Succesfuly saved to:\n" + path, "Save progress");
+			if (MarvusIO.saveData(parentFrame, path, parentFrame.getController().getDatabase(), false))
+				SufuDialogHelper.informationDialog(parentFrame, "Succesfuly saved to:\n" + path, "Save progress");
 		}
 		catch (NullPointerException | IOException e)
 		{
-			SufuDialogHelper.exceptionDialog(budgetDataTable.getSelf(), e);
+			SufuDialogHelper.exceptionDialog(parentFrame, e);
 		}
 	}
 
@@ -51,8 +47,8 @@ public class TransactionIO extends SufuFileChooser
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			return;
 		}
-		fi.setDataTo(budgetDataTable.getController());
-		budgetDataTable.displayData();
+		fi.setDataTo(parentFrame.getController());
+		parentFrame.displayData();
 	}
 	
 	private String addExtension(String path)

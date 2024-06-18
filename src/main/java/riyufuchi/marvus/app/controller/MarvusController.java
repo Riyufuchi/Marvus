@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import riyufuchi.marvus.app.utils.MarvusConfig;
 import riyufuchi.marvus.app.utils.MarvusUtils;
+import riyufuchi.marvus.app.windows.MarvusDataWindow;
 import riyufuchi.marvus.app.windows.TransactionIO;
 import riyufuchi.marvus.marvusLib.data.Transaction;
 import riyufuchi.marvus.marvusLib.database.MarvusDatabase;
@@ -17,7 +18,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 03.06.2024
+ * @version 18.06.2024
  */
 public class MarvusController implements IMarvusController
 {
@@ -73,28 +74,28 @@ public class MarvusController implements IMarvusController
 		}
 	}
 	
-	public void exportData()
+	public void exportData(MarvusDataWindow mdw)
 	{
 		if (isOperationExucatable())
 			return;
-		TransactionIO fio = MarvusUtils.createTransactionIO(controledWindow);
+		TransactionIO fio = MarvusUtils.createTransactionIO(mdw);
 		fio.setAcceptAllFileFilterUsed(false);
 		fio.showSaveChooser();
 	}
 	
-	public void importData()
+	public void importData(MarvusDataWindow mdw)
 	{
-		MarvusConfig.currentWorkFile =  MarvusUtils.createTransactionIO(controledWindow).showLoadChooser();
+		MarvusConfig.currentWorkFile =  MarvusUtils.createTransactionIO(mdw).showLoadChooser();
 		if(!database.isEmpty())
 			MarvusConfig.financialYear = database.getByID(1).get().getDate().getYear();
 	}
 	
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public void quickOpenFile()
+	public void quickOpenFile(MarvusDataWindow mdw)
 	{
 		if (MarvusConfig.currentWorkFile == null)
 		{
-			importData();
+			importData(mdw);
 			return;
 		}
 		try

@@ -41,7 +41,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 03.06.2024
+ * @version 18.06.2024
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
@@ -99,12 +99,12 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 			switch (jmc.getItemName(i))
 			{
 				// File
-				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickOpenFile());
+				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickOpenFile(this));
 				case "Save" -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickSaveFile());
 				case "Save As..." -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK, event -> controller.saveFile());
 				case "Exit" -> jmc.setItemAction(i, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
-				case "Export"-> jmc.setItemAction(i,event -> controller.exportData());
-				case "Import" -> jmc.setItemAction(i, event -> controller.importData());
+				case "Export"-> jmc.setItemAction(i,event -> controller.exportData(this));
+				case "Import" -> jmc.setItemAction(i, event -> controller.importData(this));
 				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
 				case "Backup" -> jmc.setItemAction(i, KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK, event -> controller.createBackup());
 				// Data tools
