@@ -1,6 +1,6 @@
 package riyufuchi.marvus.appTesting;
 
-import riyufuchi.marvus.marvusLib.data.Transaction;
+import riyufuchi.marvusLib.data.Transaction;
 
 /**
  * This class contains test data so each test don't have to initialize them

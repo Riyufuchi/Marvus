@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
-import riyufuchi.marvus.app.utils.AppTexts;
-import riyufuchi.marvus.app.utils.MarvusConfig;
-import riyufuchi.marvus.app.utils.MarvusUtils;
-import riyufuchi.marvus.app.windows.MarvusDataWindow;
-import riyufuchi.marvus.legacyApp.gui.DataTableForm;
+import riyufuchi.legacyMarvus.gui.DataTableForm;
+import riyufuchi.marvus.utils.AppTexts;
+import riyufuchi.marvus.utils.MarvusConfig;
+import riyufuchi.marvus.utils.MarvusUtils;
+import riyufuchi.marvus.windows.MarvusDataWindow;
 import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.enums.AppTheme;
 import riyufuchi.sufuLib.gui.SufuWindow;
