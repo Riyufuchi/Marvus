@@ -33,6 +33,7 @@ import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
+import riyufuchi.sufuLib.lib.SufuAppTools;
 import riyufuchi.sufuLib.lib.SufuLib;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
@@ -41,7 +42,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 18.06.2024
+ * @version 20.06.2024
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
@@ -133,7 +134,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				// Help
 				case "About" -> jmc.setItemAction(i, event -> MarvusDeleg.aboutMarvus(this));
 				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
-				case "License" -> jmc.setItemAction(i, event -> Lib.licenseGUI(this));
+				case "License" -> jmc.setItemAction(i, event -> SufuAppTools.licenseGUI(this, "/LICENSE.TXT"));
 				default -> jmc.setItemAction(i, event -> SufuLib.functionalityNotYetImplementedDialog(this));
 			}
 		}
