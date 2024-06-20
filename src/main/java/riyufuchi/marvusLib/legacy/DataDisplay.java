@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import riyufuchi.marvus.windows.MarvusDataWindow;
-import riyufuchi.marvus.windows.dialogs.EditDialog;
-import riyufuchi.marvus.windows.dialogs.RemoveDialog;
+import riyufuchi.marvus.dialogs.EditDialog;
+import riyufuchi.marvus.dialogs.RemoveDialog;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataDisplay.YearOverviewTable;

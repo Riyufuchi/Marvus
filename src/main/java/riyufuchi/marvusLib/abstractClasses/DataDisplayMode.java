@@ -4,8 +4,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
-import riyufuchi.marvus.windows.dialogs.EditDialog;
-import riyufuchi.marvus.windows.dialogs.RemoveDialog;
+import riyufuchi.marvus.dialogs.EditDialog;
+import riyufuchi.marvus.dialogs.RemoveDialog;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;

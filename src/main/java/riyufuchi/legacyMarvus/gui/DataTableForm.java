@@ -15,7 +15,7 @@ import riyufuchi.marvus.controller.MarvusController;
 import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusUtils;
-import riyufuchi.marvus.windows.dialogs.PreferencesDialog;
+import riyufuchi.marvus.dialogs.PreferencesDialog;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;

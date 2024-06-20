@@ -1,4 +1,4 @@
-package riyufuchi.marvus.windows.dialogs;
+package riyufuchi.marvus.dialogs;
 
 import java.io.IOException;
 
@@ -26,7 +26,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 14.07.2022
- * @version 18.06.2024
+ * @version 20.06.2024
  */
 public class PreferencesDialog extends SufuDialog
 {
@@ -59,7 +59,6 @@ public class PreferencesDialog extends SufuDialog
 	@Override
 	protected void createInputs(JPanel content)
 	{
-		SufuGuiTools.addLabels(this, "Window size:", "Theme:", "Date format:", "Work file:", "Show quit dialog: ", "Auto load data: ");
 		themes = SufuFactory.<AppTheme>newCombobox(AppTheme.values());
 		windowSize = SufuFactory.<String>newCombobox(AppTexts.WINDOW_SIZE);
 		dateFormat = SufuFactory.<String>newCombobox(AppTexts.DATE_FORMAT_OPTIONS);
@@ -67,7 +66,12 @@ public class PreferencesDialog extends SufuDialog
 		showQuitDialog = new JCheckBox();
 		autoLoadCheck = new JCheckBox();
 		selectConfig();
-		SufuGuiTools.addComponents(this, 1, 0, windowSize, themes, dateFormat, workFile, showQuitDialog, autoLoadCheck);
+		// Column 1
+		SufuGuiTools.addLabels(this, "Window size:", "Theme:", "Date format:", "Work file:");
+		SufuGuiTools.addComponents(this, 1, 0, windowSize, themes, dateFormat, workFile);
+		// Column 2
+		SufuGuiTools.addLabels(this, 2, "Show quit dialog: ", "Auto load data: ");
+		SufuGuiTools.addComponents(this, 3, 0, showQuitDialog, autoLoadCheck);
 	}
 
 	@Override
