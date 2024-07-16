@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
+import javax.swing.JFrame;
+
 import riyufuchi.legacyMarvus.gui.DataTableForm;
 import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
@@ -23,7 +25,7 @@ import riyufuchi.sufuLib.utils.time.SufuTimer;
  * @since 20.04.2022
  * @version 18.06.2024
  */
-public class MarvusMainThread
+public class Marvus
 {
 	private static SufuWindow app;
 	private static SufuTimer timer;
@@ -47,10 +49,14 @@ public class MarvusMainThread
 			}
 		}
 		if(app == null)
+		{
 			if (MarvusConfig.fullscreen)
 				app = new MarvusDataWindow();
 			else
 				app = new MarvusDataWindow(MarvusConfig.width, MarvusConfig.height);
+			if (MarvusConfig.autoMaximize)
+				app.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		}
 		app.toFront();
 	}
 	
@@ -62,7 +68,8 @@ public class MarvusMainThread
 				Integer.toString(MarvusConfig.dateFormatIndex),
 				MarvusConfig.currentWorkFile.toString(),
 				Boolean.toString(MarvusConfig.showQuitDialog),
-				Boolean.toString(MarvusConfig.autoLoadData));
+				Boolean.toString(MarvusConfig.autoLoadData),
+				Boolean.toString(MarvusConfig.autoMaximize));
 	}
 	
 	public static void loadSettings()
@@ -85,6 +92,7 @@ public class MarvusMainThread
 			MarvusConfig.currentWorkFile = new File(data.get(3));
 			MarvusConfig.showQuitDialog = Boolean.valueOf(data.get(4));
 			MarvusConfig.autoLoadData = Boolean.valueOf(data.get(5));
+			MarvusConfig.autoMaximize = Boolean.valueOf(data.get(6));
 		}
 		catch (Exception e)
 		{

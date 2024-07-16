@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.MarvusMainThread;
+import riyufuchi.marvus.Marvus;
 import riyufuchi.marvus.controller.MarvusController;
 import riyufuchi.marvus.controller.MarvusDeleg;
 import riyufuchi.marvus.utils.AppTexts;
@@ -130,7 +130,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> switchDataDisplayMode());
 				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());
-				case "Fullscreen" -> jmc.setItemAction(i, KeyEvent.VK_F11, event -> MarvusMainThread.fullScreen());
+				case "Fullscreen" -> jmc.setItemAction(i, KeyEvent.VK_F11, event -> Marvus.fullScreen());
 				// Help
 				case "About" -> jmc.setItemAction(i, event -> MarvusDeleg.aboutMarvus(this));
 				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));

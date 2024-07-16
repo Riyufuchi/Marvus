@@ -20,6 +20,7 @@ public class MarvusConfig
 	public static boolean showQuitDialog = true;
 	public static int financialYear = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString()).getYear(); // TODO: Let user set this value
 	public static boolean autoLoadData = false;
+	public static boolean autoMaximize = false;
 	// Unchangeable configuration
 	public static final FileNameExtensionFilter SER = new FileNameExtensionFilter(".ser", "ser");
 	public static final FileNameExtensionFilter CSV = new FileNameExtensionFilter(".csv", "csv");
