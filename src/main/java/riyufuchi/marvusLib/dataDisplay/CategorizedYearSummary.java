@@ -42,6 +42,7 @@ public class CategorizedYearSummary extends DataDisplayMode
 		hardRefresh();
 	}
 	
+	//TODO: Create new display mode that display everything in category and sorts it by name
 	private void btnDataReference(ActionEvent e)
 	{
 		//String point = ((JButton)e.getSource()).getName();

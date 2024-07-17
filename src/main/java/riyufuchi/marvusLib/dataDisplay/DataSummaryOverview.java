@@ -10,7 +10,8 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 public class DataSummaryOverview extends DataDisplayMode
 {
-	private String[] captions = {"Total transactions", " Total income", "Total spendings", "Total outcome"};
+	private final String[] captions = {"Total transactions", " Total income", "Total spendings", "Total outcome"};
+	private final String perYear = "per Year";
 	
 	public DataSummaryOverview(MarvusDataFrame targetWindow)
 	{
@@ -23,7 +24,10 @@ public class DataSummaryOverview extends DataDisplayMode
 		JPanel panel = targetWindow.getPane();
 		int y = 0;
 		for (String s : captions)
-			panel.add(SufuFactory.newTextFieldHeader(s), targetWindow.getGBC(0, y++));
+		{
+			panel.add(SufuFactory.newTextFieldHeader(s), targetWindow.getGBC(0, y));
+			panel.add(SufuFactory.newTextFieldHeader(perYear), targetWindow.getGBC(2, y++));
+		}
 		DataSummary ds = dataSource.getDataSummary(MarvusConfig.financialYear);
 		panel.add(SufuFactory.newTextFieldHeader(String.format("%d (avg: %.2f)", ds.transactionsTotal(), ds.avgTransactionPerYear())), targetWindow.getGBC(1, 0));
 		panel.add(SufuFactory.newTextFieldHeader(String.format("%.2f (avg: %.2f)", ds.totalIncome(), ds.avgIncome())), targetWindow.getGBC(1, 1));

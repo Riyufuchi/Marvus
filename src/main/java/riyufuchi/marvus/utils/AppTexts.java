@@ -2,7 +2,7 @@ package riyufuchi.marvus.utils;
 
 public class AppTexts
 {
-	public static final String VERSION = "2.1.4";
+	public static final String VERSION = "2.1.5";
 	public static final String APP_NAME =  "Marvus - " + AppTexts.VERSION;
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Data tools", "Application Tools", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {

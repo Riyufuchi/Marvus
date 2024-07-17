@@ -16,7 +16,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 18.06.2024
+ * @version 17.07.2024
  */
 public class MarvusController implements IMarvusController
 {
@@ -25,7 +25,7 @@ public class MarvusController implements IMarvusController
 	
 	public MarvusController(MarvusDataWindow controledWindow)
 	{
-		this.database = new MarvusDatabase();
+		this.database = new MarvusDatabase(e -> SufuDialogHelper.errorDialog(controledWindow, e, "Marvus database error"));
 		this.controledWindow = controledWindow;
 	}
 	
