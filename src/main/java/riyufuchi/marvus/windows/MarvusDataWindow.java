@@ -22,6 +22,7 @@ import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataDisplay.CategorizedMonthList;
 import riyufuchi.marvusLib.dataDisplay.CategorizedMonthOverview;
 import riyufuchi.marvusLib.dataDisplay.SimpleMonthList;
+import riyufuchi.marvusLib.dataDisplay.TimedDetail;
 import riyufuchi.marvusLib.dataDisplay.CategorizedYearSummary;
 import riyufuchi.marvusLib.dataDisplay.DataSummaryOverview;
 import riyufuchi.marvusLib.dataDisplay.MultiYearTable;
@@ -67,7 +68,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 			this.setIconImage(new ImageIcon(iconURL).getImage());
 		else
 			SufuDialogHelper.errorDialog(this, "Icon image not found!", "Icon IO error");
-
 	}
 
 	
@@ -128,6 +128,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> updateDataDisplayMode(new DataSummaryOverview(this)));
 				case "Multi year table" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> updateDataDisplayMode(new MultiYearTable(this)));
 				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> switchDataDisplayMode());
+				case "Timed detail" -> jmc.setItemAction(i, KeyEvent.VK_F8, event -> updateDataDisplayMode(new TimedDetail(this)));
 				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());
 				case "Fullscreen" -> jmc.setItemAction(i, KeyEvent.VK_F11, event -> Marvus.fullScreen());

@@ -11,8 +11,8 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
  * Dialog for editing Transaction
  * 
  * @author Riyufuchi
- * @version 09.10.2023
  * @since 11.05.2023
+ * @version 18.06.2024
  */
 public class EditDialog extends AddDialog
 {
@@ -35,6 +35,7 @@ public class EditDialog extends AddDialog
 		date.setText(transaction.getStringDate());
 		note.setText(transaction.getNote());
 		currency.setText(transaction.getCurrency());
+		localDate = transaction.getDate();
 	}
 	
 	@Override

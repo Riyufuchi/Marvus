@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 28.02.2024
+ * @version 18.06.2024
  */
 public class AddDialog extends SufuDialog
 {
@@ -52,7 +52,7 @@ public class AddDialog extends SufuDialog
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
 		date = SufuFactory.newButton(SufuDateUtils.nowDateString(), evt -> {
-			localDate = new SufuDatePicker(parentFrame).showAndGet();
+			localDate = new SufuDatePicker(parentFrame, localDate).showAndGet();
 			date.setText((localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear()));
 		});
 		currency = SufuFactory.newTextField(Money.getDefaultCurrency());

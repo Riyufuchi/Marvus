@@ -1,8 +1,10 @@
 package riyufuchi.marvus.utils;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.windows.MarvusDataWindow;
@@ -68,5 +70,10 @@ public class MarvusUtils
 			else
 				i++;
 		return 0;
+	}
+	
+	public static void editDateText(JButton button, LocalDateTime localDate)
+	{
+		button.setText((localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear()));
 	}
 }
