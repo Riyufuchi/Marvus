@@ -41,6 +41,8 @@ public class AddDialog extends SufuDialog
 	public AddDialog(JFrame parentFrame)
 	{
 		super("New transaction", parentFrame, DialogType.OK, true, true);
+		if (localDate == null)
+			localDate = LocalDateTime.now();
 	}
 	
 	@Override

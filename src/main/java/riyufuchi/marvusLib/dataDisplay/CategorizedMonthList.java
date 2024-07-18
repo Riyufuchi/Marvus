@@ -52,12 +52,7 @@ public class CategorizedMonthList extends DataDisplayMode
 		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, x, y, true));
 	}
 	
-	protected final String createBtnName(int month, int y)
-	{
-		return month + ";" + (y - 1);
-	}
-	
-	protected final void btnDataReference(ActionEvent e)
+	protected void btnDataReference(ActionEvent e)
 	{
 		String point = ((JButton)e.getSource()).getName();
 		showData(Integer.valueOf(point.substring(0, point.indexOf(';'))), Integer.valueOf(point.substring(point.indexOf(';') + 1, point.length())));

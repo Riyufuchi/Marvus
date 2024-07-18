@@ -11,27 +11,14 @@ import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 
 /**
- * 
- * @author riyufuchi
- * @version 1.6 - 25.12.2023
+ * @author Riyufuchi
  * @since 1.67
+ * @version 1.7 - 19.07.2024
  */
 public abstract class DataDisplayMode
 {
 	protected MarvusDataFrame targetWindow;
 	protected MarvusDatabase dataSource;
-	
-	/**
-	 * 
-	 * @param targetWindow
-	 * @param dataSource
-	 */
-	@Deprecated
-	public DataDisplayMode(MarvusDataFrame targetWindow, MarvusDatabase dataSource)
-	{
-		this.targetWindow = targetWindow;
-		this.dataSource = targetWindow.getController().getDatabase();
-	}
 	
 	public DataDisplayMode(MarvusDataFrame targetWindow)
 	{
@@ -61,6 +48,11 @@ public abstract class DataDisplayMode
 		{
 			new RemoveDialog(targetWindow.getSelf(), t).showDialog();
 		}
+	}
+	
+	protected final String createBtnName(int month, int y)
+	{
+		return month + ";" + (y - 1);
 	}
 	
 	// Setters

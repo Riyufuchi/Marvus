@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @since 1.95 - 12.02.2024
- * @version 1.4 - 17.07.2024
+ * @version 1.5 - 18.07.2024
  */
 public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transaction>
 {
@@ -222,6 +222,11 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 	public LinkedList<FinancialCategory> getCategorizedMonthByNames(int monthOrderNum)
 	{
 		LinkedList<FinancialCategory> list = new LinkedList<>();
+		if (!(monthOrderNum > 0 && monthOrderNum < 13))
+		{
+			errorHandler.accept(("Error at getCategorizedMonth(int).\nMonth order number values are 1 - 12.\nInputed value: " + monthOrderNum));
+			return list;
+		}
 		FinancialCategory holder = null;
 		for (Transaction t : this)
 		{

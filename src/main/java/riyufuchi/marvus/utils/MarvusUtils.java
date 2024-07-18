@@ -1,5 +1,7 @@
 package riyufuchi.marvus.utils;
 
+import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -75,5 +77,11 @@ public class MarvusUtils
 	public static void editDateText(JButton button, LocalDateTime localDate)
 	{
 		button.setText((localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear()));
+	}
+	
+	public static Point extractPointFromButtonName(ActionEvent e)
+	{
+		String point = ((JButton)e.getSource()).getName();
+		return new Point(Integer.valueOf(point.substring(0, point.indexOf(';'))), Integer.valueOf(point.substring(point.indexOf(';') + 1, point.length())));
 	}
 }
