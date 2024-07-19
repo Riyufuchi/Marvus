@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 19.06.2024
+ * @version 20.06.2024
  */
 public class TimedDetail extends DataDisplayMode
 {
@@ -39,6 +39,7 @@ public class TimedDetail extends DataDisplayMode
 		super(targetWindow);
 		this.toDate = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString());
 		this.fromDate = LocalDateTime.now().minusDays(4);
+		this.fromDate = fromDate.toLocalDate().atStartOfDay();
 		this.categorizedMonths = new LinkedList<>();
 	}
 
@@ -52,6 +53,8 @@ public class TimedDetail extends DataDisplayMode
 		printData();
 		dataPane.revalidate();
 		dataPane.repaint();
+		pane.revalidate();
+		pane.repaint();
 	}
 
 	@Override
@@ -90,23 +93,36 @@ public class TimedDetail extends DataDisplayMode
 	
 	private void printData()
 	{
-		BigDecimal sum = new BigDecimal(0);
+		BigDecimal income = new BigDecimal(0);
+		BigDecimal spendings = new BigDecimal(0);
+		BigDecimal zero = new BigDecimal(0);
+		BigDecimal holder = null;
 		int x = 0;
 		int y = 1; // Because createBtnName(x, y) subtracts - 1 from y
 		for (LinkedList<FinancialCategory> data : categorizedMonths)
 		{
 			for (FinancialCategory cat : data)
 			{
+				holder = cat.getSum();
 				dataPane.add(SufuFactory.newButton(cat.getCategory(), createBtnName(x, y), evt -> {
 					p = MarvusUtils.extractPointFromButtonName(evt);
 					targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, categorizedMonths.get(p.x).get(p.y), false));
 				}));
-				dataPane.add(SufuFactory.newTextFieldHeader(cat.getSum().toString()));
-				sum = sum.add(cat.getSum());
+				dataPane.add(SufuFactory.newTextFieldHeader(holder.toString()));
+				if (holder.compareTo(zero) > 0)
+					income = income.add(holder);
+				else
+					spendings = spendings.add(holder);
+				y++;
 			}
+			x++;
 		}
-		dataPane.add(SufuFactory.newTextFieldHeader("Sum:"));
-		dataPane.add(SufuFactory.newTextFieldHeader(sum.toString()));
+		dataPane.add(SufuFactory.newTextFieldHeader("Income:"));
+		dataPane.add(SufuFactory.newTextFieldHeader(income.toString()));
+		dataPane.add(SufuFactory.newTextFieldHeader("Spendings:"));
+		dataPane.add(SufuFactory.newTextFieldHeader(spendings.toString()));
+		dataPane.add(SufuFactory.newTextFieldHeader("Outcome:"));
+		dataPane.add(SufuFactory.newTextFieldHeader(income.add(spendings).toString()));
 	}
 	
 	private void prepData()
@@ -129,7 +145,7 @@ public class TimedDetail extends DataDisplayMode
 				while (it.hasNext())
 				{
 					t = it.next();
-					if (!((t.getDate().isAfter(fromDate) && t.getDate().isBefore(toDate)) || t.getDate().equals(fromDate) || t.getDate().equals(toDate)))
+					if (!((t.getDate().isAfter(fromDate) || t.getDate().equals(fromDate)) && (t.getDate().isBefore(toDate) || t.getDate().equals(toDate))))
 						it.remove();
 				}
 				if (cat.getSum().intValue() == 0)
