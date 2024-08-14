@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionXML;
 import riyufuchi.marvusLib.database.MarvusDatabase;
@@ -18,6 +19,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 12.02.2024
+ * @version 12.08.2024
  */
 public class MarvusIO
 {
@@ -47,7 +49,7 @@ public class MarvusIO
 			case ".csv" -> SufuPersistence.<Transaction>saveToCSV(path, data);
 			case ".ser" -> SufuPersistence.<Transaction>serialize(path, data);
 			case ".xml" -> new TransactionXML(path).exportXML(data);
-			case ".dat" -> SufuPersistence.<MarvusDatabase>serializeStructure(path, (MarvusDatabase)data);
+			case MarvusConfig.MDB_EXT -> SufuPersistence.<MarvusDatabase>serializeStructure(path, (MarvusDatabase)data);
 			default -> throw new IOException("File is missing an extension or extension was not recognized\n" + "Extension: " + extension);
 		}
 		return true;
@@ -61,7 +63,7 @@ public class MarvusIO
 			case ".csv" -> { return new FileInput(extension, SufuPersistence.<Transaction>loadFromCSV(path, new Transaction(), ";", 6)); }
 			case ".ser" -> { return new FileInput(extension, ((LinkedList<Transaction>)SufuPersistence.<Transaction>deserialize(path))); }
 			case ".xml" -> { return new FileInput(extension, new TransactionXML(path).importXML()); }
-			case ".dat" -> { return new FileInput(extension, loadDatabase(path)); }
+			case MarvusConfig.MDB_EXT -> { return new FileInput(extension, loadDatabase(path)); }
 			default -> throw new IOException("File is missing an extension or extension was not recognized\n" + "Extension: " + extension);
 		}
 	}

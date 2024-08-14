@@ -1,11 +1,13 @@
-package riyufuchi.marvus.controller;
+package riyufuchi.marvus.app;
 
 import java.io.IOException;
 
+import riyufuchi.marvus.dialogs.TransactionIO;
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvus.utils.MarvusUtils;
-import riyufuchi.marvus.windows.MarvusDataWindow;
-import riyufuchi.marvus.windows.TransactionIO;
+import riyufuchi.marvus.utils.MarvusDeleg;
+import riyufuchi.marvus.utils.MarvusGuiUtils;
+import riyufuchi.marvusLib.dataUtils.TransactionComparation;
+import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.IMarvusController;
 import riyufuchi.marvusLib.io.MarvusIO;
@@ -16,7 +18,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 17.07.2024
+ * @version 26.07.2024
  */
 public class MarvusController implements IMarvusController
 {
@@ -76,14 +78,14 @@ public class MarvusController implements IMarvusController
 	{
 		if (isOperationExucatable())
 			return;
-		TransactionIO fio = MarvusUtils.createTransactionIO(controledWindow);
+		TransactionIO fio = MarvusGuiUtils.createTransactionIO(controledWindow);
 		fio.setAcceptAllFileFilterUsed(false);
 		fio.showSaveChooser();
 	}
 	
 	public void importData()
 	{
-		MarvusConfig.currentWorkFile =  MarvusUtils.createTransactionIO(controledWindow).showLoadChooser();
+		MarvusConfig.currentWorkFile =  MarvusGuiUtils.createTransactionIO(controledWindow).showLoadChooser();
 		if(!database.isEmpty())
 			MarvusConfig.financialYear = database.getByID(1).get().getDate().getYear();
 	}
@@ -132,9 +134,14 @@ public class MarvusController implements IMarvusController
 	}
 
 	@Override
-	public void setDatabase(MarvusDatabase md)
+	public void setDatabase(MarvusDatabase database)
 	{
-		this.database = md;
+		this.database = database;
+		controledWindow.getCurrent().setNewData(this.database);
+		controledWindow.getPrev().setNewData(this.database);
+		// Because if database is loaded from serialization, comparator and errorHandler will be null
+		this.database.setErrorHandler(s -> SufuDialogHelper.warningDialog(controledWindow, s, "Data error"));
+		this.database.setComparator(TransactionComparation.compareFC(CompareMethod.By_name));
 	}
 
 }

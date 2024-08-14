@@ -9,12 +9,12 @@ import java.util.function.Consumer;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import riyufuchi.marvus.windows.MarvusDataWindow;
+import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.EditDialog;
 import riyufuchi.marvus.dialogs.RemoveDialog;
+import riyufuchi.marvus.tabs.YearOverviewTable;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.marvusLib.dataStorage.MarvusDataTableCategorized;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;

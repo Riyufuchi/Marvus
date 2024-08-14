@@ -1,4 +1,4 @@
-package riyufuchi.marvus.windows;
+package riyufuchi.marvus.app;
 
 import java.awt.event.KeyEvent;
 import java.net.URL;
@@ -9,24 +9,24 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.Marvus;
-import riyufuchi.marvus.controller.MarvusController;
-import riyufuchi.marvus.controller.MarvusDeleg;
 import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
+import riyufuchi.marvus.utils.MarvusDeleg;
+import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvus.dialogs.AddDialog;
 import riyufuchi.marvus.dialogs.AppManager;
 import riyufuchi.marvus.dialogs.PreferencesDialog;
+import riyufuchi.marvus.tabs.CategorizedMonthList;
+import riyufuchi.marvus.tabs.CategorizedMonthOverview;
+import riyufuchi.marvus.tabs.CategorizedYearSummary;
+import riyufuchi.marvus.tabs.DataSummaryOverview;
+import riyufuchi.marvus.tabs.MultiYearTable;
+import riyufuchi.marvus.tabs.SimpleMonthList;
+import riyufuchi.marvus.tabs.TimedDetail;
+import riyufuchi.marvus.tabs.YearOverviewTable;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.dataDisplay.CategorizedMonthList;
-import riyufuchi.marvusLib.dataDisplay.CategorizedMonthOverview;
-import riyufuchi.marvusLib.dataDisplay.SimpleMonthList;
-import riyufuchi.marvusLib.dataDisplay.TimedDetail;
-import riyufuchi.marvusLib.dataDisplay.CategorizedYearSummary;
-import riyufuchi.marvusLib.dataDisplay.DataSummaryOverview;
-import riyufuchi.marvusLib.dataDisplay.MultiYearTable;
-import riyufuchi.marvusLib.dataDisplay.YearOverviewTable;
 import riyufuchi.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
@@ -43,12 +43,12 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 20.06.2024
+ * @version 26.07.2024
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
 	private MarvusController controller;
-	private DataDisplayMode currentMode, prevMode;
+	private DataDisplayMode currentMode, prevMode, dummyMode;
 	
 	/**
 	 * Creates window in fullscreen mode
@@ -159,9 +159,9 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	private void switchDataDisplayMode()
 	{
-		DataDisplayMode mode = currentMode;
+		dummyMode = currentMode;
 		currentMode = prevMode;
-		prevMode = mode;
+		prevMode = dummyMode;
 		displayData();
 	}
 	
@@ -210,20 +210,10 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	@Override
 	protected void onClose()
 	{
-		MarvusUtils.exitApp(this);
+		MarvusGuiUtils.exitApp(this);
 	}
 	
 	// Setters
-	
-	public void setDatabase(MarvusDatabase database)
-	{
-		controller.setDatabase(database);
-		this.currentMode.setNewData(database);
-		this.prevMode.setNewData(database);
-		// Because if database is loaded from serialization, comparator and errorHandler will be null
-		database.setComparator(TransactionComparation.compareFC(CompareMethod.By_name));
-		database.setErrorHandler(s -> SufuDialogHelper.warningDialog(this, s, "Data error"));
-	}
 	
 	private void setConsumerFunction(Consumer<Iterable<Transaction>> consumer)
 	{
@@ -275,5 +265,17 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	public MarvusController getController()
 	{
 		return controller;
+	}
+
+	@Override
+	public DataDisplayMode getCurrent()
+	{
+		return currentMode;
+	}
+
+	@Override
+	public DataDisplayMode getPrev()
+	{
+		return prevMode;
 	}
 }

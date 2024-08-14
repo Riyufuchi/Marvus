@@ -1,4 +1,4 @@
-package riyufuchi.legacyMarvus.gui;
+package riyufuchi.marvus.legacy.gui;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import riyufuchi.legacyMarvus.utils.ComponentParts;
-import riyufuchi.legacyMarvus.utils.MoneySum;
+import riyufuchi.marvus.legacy.utils.ComponentParts;
+import riyufuchi.marvus.legacy.utils.MoneySum;
 import riyufuchi.marvusLib.dataUtils.MoneyCalculations;
 import riyufuchi.sufuLib.config.SufuLibFonts;
 import riyufuchi.sufuLib.gui.SufuWindow;

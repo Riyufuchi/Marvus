@@ -1,7 +1,8 @@
-package riyufuchi.marvus.windows;
+package riyufuchi.marvus.dialogs;
 
 import java.io.IOException;
 
+import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.FileInput;
 import riyufuchi.sufuLib.gui.SufuFileChooserGeneric;

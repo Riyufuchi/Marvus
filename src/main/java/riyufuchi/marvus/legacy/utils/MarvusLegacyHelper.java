@@ -1,9 +1,9 @@
-package riyufuchi.legacyMarvus.utils;
+package riyufuchi.marvus.legacy.utils;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
-import riyufuchi.legacyMarvus.gui.DataTableForm;
+import riyufuchi.marvus.legacy.gui.DataTableForm;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;

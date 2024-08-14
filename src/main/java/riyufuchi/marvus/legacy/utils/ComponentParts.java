@@ -1,4 +1,4 @@
-package riyufuchi.legacyMarvus.utils;
+package riyufuchi.marvus.legacy.utils;
 
 import java.awt.Color;
 

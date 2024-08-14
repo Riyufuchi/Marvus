@@ -8,10 +8,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvus.utils.MarvusUtils;
-import riyufuchi.marvus.windows.MarvusDataWindow;
+import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.enums.AppTheme;
@@ -26,7 +26,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 14.07.2022
- * @version 20.06.2024
+ * @version 14.08.2024
  */
 public class PreferencesDialog extends SufuDialog
 {
@@ -39,7 +39,7 @@ public class PreferencesDialog extends SufuDialog
 	
 	public PreferencesDialog(JFrame parentFrame)
 	{
-		super("Preferences", parentFrame, DialogType.YesCancel);
+		super("Preferences", parentFrame, DialogType.YesCancel, true, true);
 	}
 
 	private void selectConfig()
@@ -111,7 +111,7 @@ public class PreferencesDialog extends SufuDialog
 	
 	private void currentWorkFileBtnEvent()
 	{
-		MarvusConfig.currentWorkFile =  MarvusUtils.createTransactionIO(((MarvusDataWindow)parentFrame)).showLoadChooser();
+		MarvusConfig.currentWorkFile =  MarvusGuiUtils.createTransactionIO(((MarvusDataWindow)parentFrame)).showLoadChooser();
 		if (MarvusConfig.currentWorkFile != null)
 			workFile.setText(MarvusConfig.currentWorkFile.getName());
 	}

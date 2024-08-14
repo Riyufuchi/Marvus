@@ -1,12 +1,12 @@
-package riyufuchi.legacyMarvus.gui;
+package riyufuchi.marvus.legacy.gui;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import riyufuchi.legacyMarvus.utils.MoneySum;
-import riyufuchi.legacyMarvus.utils.XML;
+import riyufuchi.marvus.legacy.utils.MoneySum;
+import riyufuchi.marvus.legacy.utils.XML;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;

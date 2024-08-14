@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.dataDisplay;
+package riyufuchi.marvus.tabs;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.utils.MarvusUtils;
+import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 20.06.2024
+ * @version 26.07.2024
  */
 public class TimedDetail extends DataDisplayMode
 {
@@ -38,7 +38,7 @@ public class TimedDetail extends DataDisplayMode
 	{
 		super(targetWindow);
 		this.toDate = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString());
-		this.fromDate = LocalDateTime.now().minusDays(4);
+		this.fromDate = LocalDateTime.now().minusDays(7); // So we get data for past 7 days by default
 		this.fromDate = fromDate.toLocalDate().atStartOfDay();
 		this.categorizedMonths = new LinkedList<>();
 	}
@@ -71,17 +71,17 @@ public class TimedDetail extends DataDisplayMode
 		
 		dateFrom = SufuFactory.newButton("", evt -> {
 			fromDate = new SufuDatePicker(targetWindow.getSelf(), fromDate).showAndGet();
-			MarvusUtils.editDateText(dateFrom, fromDate);
+			MarvusGuiUtils.editDateText(dateFrom, fromDate);
 			refresh();
 		}); 
 		dateTo = SufuFactory.newButton("", evt -> {
 			toDate = new SufuDatePicker(targetWindow.getSelf(), toDate).showAndGet();
-			MarvusUtils.editDateText(dateTo, toDate);
+			MarvusGuiUtils.editDateText(dateTo, toDate);
 			refresh();
 		}); 
 		
-		MarvusUtils.editDateText(dateFrom, fromDate);
-		MarvusUtils.editDateText(dateTo, toDate);
+		MarvusGuiUtils.editDateText(dateFrom, fromDate);
+		MarvusGuiUtils.editDateText(dateTo, toDate);
 		
 		flowPane.add(dateFrom);
 		flowPane.add(new JLabel("to"));
@@ -98,14 +98,14 @@ public class TimedDetail extends DataDisplayMode
 		BigDecimal zero = new BigDecimal(0);
 		BigDecimal holder = null;
 		int x = 0;
-		int y = 1; // Because createBtnName(x, y) subtracts - 1 from y
+		int y = 0;
 		for (LinkedList<FinancialCategory> data : categorizedMonths)
 		{
 			for (FinancialCategory cat : data)
 			{
 				holder = cat.getSum();
-				dataPane.add(SufuFactory.newButton(cat.getCategory(), createBtnName(x, y), evt -> {
-					p = MarvusUtils.extractPointFromButtonName(evt);
+				dataPane.add(SufuFactory.newButton(cat.getCategory(), MarvusGuiUtils.encodeCords(x, y), evt -> {
+					p = MarvusGuiUtils.extractPointFromButtonName(evt);
 					targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, categorizedMonths.get(p.x).get(p.y), false));
 				}));
 				dataPane.add(SufuFactory.newTextFieldHeader(holder.toString()));

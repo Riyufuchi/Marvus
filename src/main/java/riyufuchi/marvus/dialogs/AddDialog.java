@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.windows.MarvusDataWindow;
+import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvusLib.data.Money;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MaruvsDatabaseUtils;

@@ -1,4 +1,4 @@
-package riyufuchi.legacyMarvus.gui;
+package riyufuchi.marvus.legacy.gui;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -8,14 +8,14 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import riyufuchi.legacyMarvus.utils.MarvusLegacyHelper;
-import riyufuchi.legacyMarvus.utils.MoneySum;
-import riyufuchi.legacyMarvus.utils.MoneySummaryOverview;
-import riyufuchi.marvus.controller.MarvusController;
 import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvus.utils.MarvusUtils;
+import riyufuchi.marvus.utils.MarvusGuiUtils;
+import riyufuchi.marvus.app.MarvusController;
 import riyufuchi.marvus.dialogs.PreferencesDialog;
+import riyufuchi.marvus.legacy.utils.MarvusLegacyHelper;
+import riyufuchi.marvus.legacy.utils.MoneySum;
+import riyufuchi.marvus.legacy.utils.MoneySummaryOverview;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
@@ -26,10 +26,9 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
- * Created On: 11.04.2022<br>
- * Last Edit: 25.12.2023
- * 
  * @author Riyufuchi
+ * @since 11.04.2022
+ * @version 26.07.2024
  */
 @SuppressWarnings("deprecation")
 public final class DataTableForm extends SufuWindow implements MarvusDataFrame
@@ -37,7 +36,6 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	private MarvusDataBox<MoneySum> dataBox;
 	private DataDisplayMode mso;
 	private static final String VERSION = "1.22";
-	//UnsupportedOperationException
 	
 	public DataTableForm()
 	{
@@ -68,7 +66,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	@Override
 	protected void onClose()
 	{
-		MarvusUtils.exitApp(this);
+		MarvusGuiUtils.exitApp(this);
 	}
 
 	@Override
@@ -194,6 +192,18 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 
 	@Override
 	public MarvusController getController()
+	{
+		return null;
+	}
+
+	@Override
+	public DataDisplayMode getCurrent()
+	{
+		return mso;
+	}
+
+	@Override
+	public DataDisplayMode getPrev()
 	{
 		return null;
 	}

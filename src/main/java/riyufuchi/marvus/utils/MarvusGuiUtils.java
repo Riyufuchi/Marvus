@@ -1,21 +1,43 @@
 package riyufuchi.marvus.utils;
 
+import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.app.MarvusDataWindow;
+import riyufuchi.marvus.dialogs.TransactionIO;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
-public class MarvusUtils
+public final class MarvusGuiUtils
 {
-	private MarvusUtils() {}
+	private MarvusGuiUtils() {}
 	
+	public static void exitApp(JFrame mainFrame)
+	{
+		if (mainFrame == null)
+			return;
+		int result = 0;
+		if (MarvusConfig.showQuitDialog)
+			result = SufuDialogHelper.yesNoDialog(mainFrame, "Do you really want to exit the application?", "Exit confirmation");
+		if (result == 0)
+			mainFrame.dispose();
+	}
 	
+	public static TransactionIO createTransactionIO(MarvusDataWindow mdw)
+	{
+		TransactionIO fio = new TransactionIO(mdw, MarvusConfig.workFolder);
+		fio.setFileFilters(MarvusConfig.SER,  MarvusConfig.XML, MarvusConfig.MDB, MarvusConfig.CSV);
+		return fio;
+	}
 	
 	public static void generateFile(JFrame frame, String path, String ... fileContent)
 	{
@@ -50,5 +72,21 @@ public class MarvusUtils
 			else
 				i++;
 		return 0;
+	}
+	
+	public static String encodeCords(int month, int y)
+	{
+		return month + ";" + y;
+	}
+	
+	public static void editDateText(JButton button, LocalDateTime localDate)
+	{
+		button.setText((localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear()));
+	}
+	
+	public static Point extractPointFromButtonName(ActionEvent e)
+	{
+		String point = ((JButton)e.getSource()).getName();
+		return new Point(Integer.valueOf(point.substring(0, point.indexOf(';'))), Integer.valueOf(point.substring(point.indexOf(';') + 1, point.length())));
 	}
 }

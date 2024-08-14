@@ -7,11 +7,11 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-import riyufuchi.legacyMarvus.gui.DataTableForm;
+import riyufuchi.marvus.app.MarvusDataWindow;
+import riyufuchi.marvus.legacy.gui.DataTableForm;
 import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusUtils;
-import riyufuchi.marvus.windows.MarvusDataWindow;
 import riyufuchi.sufuLib.config.CustomizeUI;
 import riyufuchi.sufuLib.enums.AppTheme;
 import riyufuchi.sufuLib.gui.SufuWindow;

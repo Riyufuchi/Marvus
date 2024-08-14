@@ -1,12 +1,10 @@
-package riyufuchi.marvus.controller;
+package riyufuchi.marvus.utils;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.utils.AppTexts;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;

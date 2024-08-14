@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.dataDisplay;
+package riyufuchi.marvus.tabs;
 
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;

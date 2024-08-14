@@ -50,11 +50,6 @@ public abstract class DataDisplayMode
 		}
 	}
 	
-	protected final String createBtnName(int month, int y)
-	{
-		return month + ";" + (y - 1);
-	}
-	
 	// Setters
 	
 	public void setNewData(MarvusDatabase dataSource)

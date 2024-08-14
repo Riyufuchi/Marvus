@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.dataDisplay;
+package riyufuchi.marvus.tabs;
 
 import java.time.Month;
 import java.util.Iterator;
@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
@@ -29,15 +30,15 @@ public class CategorizedMonthOverview extends CategorizedMonthList
 		FinancialCategory fc = null;
 		Month[] months = Month.values();
 		SufuTableTools.addRowHeader(targetWindow, 1, 0, months); // Because January is 1 in enumeration Month
-		//for (int month = 0; month < 12; month++)
-		for (Month month : months)
+		Iterator<FinancialCategory> it = null;
+		for (Month month : months) // for (int month = 0; month < 12; month++)
 		{
 			categorizedMonths.add(dataSource.getCategorizedMonthByNames(month.getValue()));
-			Iterator<FinancialCategory> it = categorizedMonths.getLast().iterator();
+			it = categorizedMonths.getLast().iterator();
 			while (it.hasNext())
 			{
 				fc = it.next();
-				pane.add(SufuFactory.newButton(fc.toString(), createBtnName(month.getValue(), y), evt -> btnDataReference(evt)), targetWindow.getGBC(month.getValue(), y));
+				pane.add(SufuFactory.newButton(fc.toString(), MarvusGuiUtils.encodeCords(month.getValue(), y - 1), evt -> btnDataReference(evt)), targetWindow.getGBC(month.getValue(), y));
 				y++;
 			}
 			y = 1;

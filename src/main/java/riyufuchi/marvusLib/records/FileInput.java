@@ -2,15 +2,16 @@ package riyufuchi.marvusLib.records;
 
 import java.util.LinkedList;
 
-import riyufuchi.marvus.controller.MarvusController;
-import riyufuchi.marvus.windows.MarvusDataWindow;
+import riyufuchi.marvus.app.MarvusController;
+import riyufuchi.marvus.app.MarvusDataWindow;
+import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 
 /**
  * @author Riyufuchi
  * @since 11.02.2024
- * @version 17.06.2024
+ * @version 12.08.2024
  */
 public record FileInput(String fromFileType, LinkedList<?> data)
 {
@@ -20,7 +21,7 @@ public record FileInput(String fromFileType, LinkedList<?> data)
 	{
 		switch (fromFileType)
 		{
-			case ".dat" -> mdw.getController().setDatabase((MarvusDatabase)data.getFirst());
+			case MarvusConfig.MDB_EXT -> mdw.getController().setDatabase((MarvusDatabase)data.getFirst());
 			default -> mdw.getController().getDatabase().addAll((LinkedList<Transaction>)data);
 		}
 	}
@@ -30,7 +31,10 @@ public record FileInput(String fromFileType, LinkedList<?> data)
 	{
 		switch (fromFileType)
 		{
-			case ".dat" -> mc.setDatabase((MarvusDatabase)data.getFirst());
+			case MarvusConfig.MDB_EXT -> { 
+				mc.setDatabase((MarvusDatabase)data.getFirst());
+				//mc.getDatabase().sort();
+				}
 			default -> mc.getDatabase().addAll((LinkedList<Transaction>)data);
 		}
 	}
@@ -40,7 +44,7 @@ public record FileInput(String fromFileType, LinkedList<?> data)
 	{
 		switch (fromFileType)
 		{
-			case ".dat" -> { return (MarvusDatabase)data.getFirst(); }
+			case MarvusConfig.MDB_EXT -> { return (MarvusDatabase)data.getFirst(); }
 			default -> {
 				MarvusDatabase database = new MarvusDatabase();
 				database.addAll((LinkedList<Transaction>)data);
