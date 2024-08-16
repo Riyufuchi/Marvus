@@ -1,4 +1,4 @@
-package riyufuchi.marvus.legacy.utils;
+package riyufuchi.marvus.legacy.data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

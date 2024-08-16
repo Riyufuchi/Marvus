@@ -77,4 +77,10 @@ public class MultiYearTable extends DataDisplayMode
 		//TODO: Sort data
 		targetWindow.refresh();
 	}
+
+	@Override
+	public void prepareUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

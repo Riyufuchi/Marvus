@@ -1,7 +1,5 @@
 package riyufuchi.marvus.tabs;
 
-import javax.swing.JPanel;
-
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
@@ -12,38 +10,71 @@ public class DataSummaryOverview extends DataDisplayMode
 {
 	private final String[] captions = {"Transactions", "Income", "Spendings", "Outcome"};
 	private final String format = "%.2f";
+	private int xIndex, yIndex;
+	private DataSummary ds;
 	
 	public DataSummaryOverview(MarvusDataFrame targetWindow)
 	{
 		super(targetWindow);
+		resetValues();
+		this.ds = dataSource.getDataSummary(MarvusConfig.financialYear);
+	}
+	
+	@Override
+	public void prepareUI()
+	{
+		int y = 1;
+		for (String s : captions)
+			masterPanel.add(SufuFactory.newTextFieldHeader(s), targetWindow.getGBC(0, y++));
+		masterPanel.add(SufuFactory.newTextFieldHeader("Total"), targetWindow.getGBC(1, 0));
+		masterPanel.add(SufuFactory.newTextFieldHeader("Average per year"), targetWindow.getGBC(2, 0));
+		masterPanel.add(SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.financialYear)), targetWindow.getGBC(0, 0));
 	}
 
 	@Override
 	public void displayData()
 	{
-		JPanel panel = targetWindow.getPane();
-		int y = 1;
-		for (String s : captions)
-			panel.add(SufuFactory.newTextFieldHeader(s), targetWindow.getGBC(0, y++));
-		panel.add(SufuFactory.newTextFieldHeader("Total"), targetWindow.getGBC(1, 0));
-		panel.add(SufuFactory.newTextFieldHeader("Average per year"), targetWindow.getGBC(2, 0));
-		panel.add(SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.financialYear)), targetWindow.getGBC(0, 0));
-		DataSummary ds = dataSource.getDataSummary(MarvusConfig.financialYear);
 		// total values
-		panel.add(SufuFactory.newTextFieldHeader(String.valueOf(ds.transactionsTotal())), targetWindow.getGBC(1, 1));
-		panel.add(SufuFactory.newTextFieldHeader(String.valueOf(ds.totalIncome())), targetWindow.getGBC(1, 2));
-		panel.add(SufuFactory.newTextFieldHeader(String.valueOf(ds.totalSpendigs())), targetWindow.getGBC(1, 3));
-		panel.add(SufuFactory.newTextFieldHeader(String.valueOf(ds.totalOutcome())), targetWindow.getGBC(1, 4));
+		addInfoItem(String.valueOf(ds.transactionsTotal()));
+		addInfoItem(String.valueOf(ds.totalIncome()));
+		addInfoItem(String.valueOf(ds.totalSpendigs()));
+		addInfoItem(String.valueOf(ds.totalOutcome()));
 		// avg. values
-		panel.add(SufuFactory.newTextFieldHeader(String.format(format, ds.avgTransactionPerYear())), targetWindow.getGBC(2, 1));
-		panel.add(SufuFactory.newTextFieldHeader(String.format(format, ds.avgIncome())), targetWindow.getGBC(2, 2));
-		panel.add(SufuFactory.newTextFieldHeader(String.format(format, ds.avgSpendings())), targetWindow.getGBC(2, 3));
-		panel.add(SufuFactory.newTextFieldHeader(String.format(format, ds.avgOutcome())), targetWindow.getGBC(2, 4));
+		newColumn();
+		addInfoItem(String.format(format, ds.avgTransactionPerYear()));
+		addInfoItem(String.format(format, ds.avgIncome()));
+		addInfoItem(String.format(format, ds.avgSpendings()));
+		addInfoItem(String.format(format, ds.avgOutcome()));
+		totalItems += yIndex;
 	}
 
 	@Override
 	public void refresh()
 	{
-		hardRefresh();
+		totalItems += 6;
+		clearPanel(masterPanel, 6);
+		resetValues();
+		ds = dataSource.getDataSummary(MarvusConfig.financialYear);
+		displayData();
+	}
+	
+	private void resetValues()
+	{
+		yIndex = 0;
+		xIndex = 1;
+		totalItems = 0;
+	}
+	
+	private void newColumn()
+	{
+		totalItems += yIndex;
+		yIndex = 0;
+		xIndex++;
+	}
+	
+	private void addInfoItem(String info)
+	{
+		yIndex++;
+		masterPanel.add(SufuFactory.newTextFieldHeader(info), targetWindow.getGBC(xIndex, yIndex));
 	}
 }

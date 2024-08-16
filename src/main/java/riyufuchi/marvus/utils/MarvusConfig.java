@@ -16,13 +16,14 @@ public class MarvusConfig
 	public static String workFolder = "appdata/";
 	public static AppTheme appTheme = AppTheme.CROSS_PLATFORM;
 	public static int dateFormatIndex = 0;
-	public static File currentWorkFile = new File(workFolder + "data.csv");
+	public static File defaultWorkFile = new File(workFolder + "data.csv");
+	public static File currentWorkFile = defaultWorkFile;
 	public static boolean showQuitDialog = true;
 	public static int financialYear = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString()).getYear(); // TODO: Let user set this value
 	public static boolean autoLoadData = false;
 	public static boolean autoMaximize = false;
 	// Unchangeable configuration
-	public static final String MDB_EXT = ".marvusdb-test";
+	public static final String MDB_EXT = ".marvusdb";
 	public static final String SETTINGS_FILE_PATH = workFolder + "config.txt";
 	public static final String CATEGORY_FILE_PATH = workFolder + "category.txt";
 	public static final String TRANSACTION_MACRO_FILE_PATH = workFolder + "transactionsMacro.txt";

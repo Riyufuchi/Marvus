@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
@@ -26,7 +27,7 @@ public class MarvusDeleg
 	
 	public static void aboutMarvus(JFrame marvusWindow)
 	{
-		SufuDialogHelper.informationDialog(marvusWindow, AppTexts.ABOUT_MARVUS, "About");
+		SufuDialogHelper.informationDialog(marvusWindow, MarvusTexts.ABOUT_MARVUS, "About");
 	}
 	
 	public static void backupData(MarvusDataFrame mdw) throws NullPointerException, IOException

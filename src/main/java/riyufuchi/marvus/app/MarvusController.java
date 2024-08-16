@@ -2,6 +2,7 @@ package riyufuchi.marvus.app;
 
 import java.io.IOException;
 
+import riyufuchi.marvus.dialogs.AddDialog;
 import riyufuchi.marvus.dialogs.TransactionIO;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusDeleg;
@@ -18,7 +19,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 26.07.2024
+ * @version 15.08.2024
  */
 public class MarvusController implements IMarvusController
 {
@@ -34,6 +35,19 @@ public class MarvusController implements IMarvusController
 	// Utility
 	
 	// Functions to delegate
+	
+	public void addNewTransaction()
+	{
+		new AddDialog(controledWindow).showDialog();
+		controledWindow.refresh();
+	}
+	
+	public void sortData()
+	{
+		var result = SufuDialogHelper.<CompareMethod>optionDialog(controledWindow, "Choose sorting method", "Sorting method chooser", CompareMethod.values());
+		database.sortData(TransactionComparation.compareBy(result));
+		controledWindow.refresh();
+	}
 	
 	public void createBackup()
 	{

@@ -28,6 +28,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 

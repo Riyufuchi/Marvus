@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 26.07.2024
+ * @version 15.08.2024
  */
 public class TimedDetail extends DataDisplayMode
 {
@@ -46,49 +46,17 @@ public class TimedDetail extends DataDisplayMode
 	@Override
 	public void displayData()
 	{
-		createUI();
-		dataPane.removeAll();
-		categorizedMonths.clear();
 		prepData();
 		printData();
-		dataPane.revalidate();
-		dataPane.repaint();
-		pane.revalidate();
-		pane.repaint();
 	}
 
 	@Override
 	public void refresh()
 	{
-		hardRefresh();
-	}
-	
-	private void createUI()
-	{
-		pane = targetWindow.getPane();
-		flowPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		dataPane = new JPanel(new GridLayout(0, 2));
-		
-		dateFrom = SufuFactory.newButton("", evt -> {
-			fromDate = new SufuDatePicker(targetWindow.getSelf(), fromDate).showAndGet();
-			MarvusGuiUtils.editDateText(dateFrom, fromDate);
-			refresh();
-		}); 
-		dateTo = SufuFactory.newButton("", evt -> {
-			toDate = new SufuDatePicker(targetWindow.getSelf(), toDate).showAndGet();
-			MarvusGuiUtils.editDateText(dateTo, toDate);
-			refresh();
-		}); 
-		
-		MarvusGuiUtils.editDateText(dateFrom, fromDate);
-		MarvusGuiUtils.editDateText(dateTo, toDate);
-		
-		flowPane.add(dateFrom);
-		flowPane.add(new JLabel("to"));
-		flowPane.add(dateTo);
-		
-		pane.add(flowPane, targetWindow.getGBC(0, 0));
-		pane.add(dataPane, targetWindow.getGBC(0, 1));
+		dataPane.removeAll();
+		categorizedMonths.clear();
+		prepData();
+		printData();
 	}
 	
 	private void printData()
@@ -152,5 +120,34 @@ public class TimedDetail extends DataDisplayMode
 					it_fc.remove();
 			}
 		}
+	}
+
+	@Override
+	public void prepareUI()
+	{
+		pane = targetWindow.getPane();
+		flowPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		dataPane = new JPanel(new GridLayout(0, 2));
+		
+		dateFrom = SufuFactory.newButton("", evt -> {
+			fromDate = new SufuDatePicker(targetWindow.getSelf(), fromDate).showAndGet();
+			MarvusGuiUtils.editDateText(dateFrom, fromDate);
+			refresh();
+		}); 
+		dateTo = SufuFactory.newButton("", evt -> {
+			toDate = new SufuDatePicker(targetWindow.getSelf(), toDate).showAndGet();
+			MarvusGuiUtils.editDateText(dateTo, toDate);
+			refresh();
+		}); 
+		
+		MarvusGuiUtils.editDateText(dateFrom, fromDate);
+		MarvusGuiUtils.editDateText(dateTo, toDate);
+		
+		flowPane.add(dateFrom);
+		flowPane.add(new JLabel("to"));
+		flowPane.add(dateTo);
+		
+		pane.add(flowPane, targetWindow.getGBC(0, 0));
+		pane.add(dataPane, targetWindow.getGBC(0, 1));
 	}
 }

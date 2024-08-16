@@ -1,21 +1,21 @@
-package riyufuchi.marvus.utils;
+package riyufuchi.marvus.app;
 
-public class AppTexts
+public class MarvusTexts
 {
-	public static final String VERSION = "2.2.0";
-	public static final String APP_NAME =  "Marvus - " + AppTexts.VERSION;
+	public static final String VERSION = "2.2.1";
+	public static final String APP_NAME =  "Marvus - " + MarvusTexts.VERSION;
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
 			"Open", "Save", "Save As...", "Import", "Export", "Exit", "",
 			"Add", "Edit", "Delete", "View", "Backup", "Sort", "",
 			"Simple month list", "Categorized month list", "Categorized month overview",
-			"Categorized year summary", "Earning/Spending summary", "Data summary", "Multi year table", "Timed detail", "Previous mode", "",
+			"Categorized year summary", "Earning/Spending summary", "Data summary", "Timed detail", "Previous mode", "",
 			"Fix category", "Month budget planning", "Month outcome", "Application manager", "",
 			"Preferences", "Fullscreen", "Refresh", "",
 			"About", "About SufuLib", "License"};
 	// Other
 	public static final String ABOUT_MARVUS = "<html>This is finance manager.<br>"
-			+ "Version: " + AppTexts.VERSION + "<br>Created by Riyufuchi © 2021 - 2024."
+			+ "Version: " + MarvusTexts.VERSION + "<br>Created by Riyufuchi © 2021 - 2024."
 			+ "<br>My code is under respective license.</html>";
 	// SEETINGS DIALOG TEXTS
 	public static final String[] DATE_FORMAT_OPTIONS = {"dd.MM.yyyy", "MM.dd.yyyy"};

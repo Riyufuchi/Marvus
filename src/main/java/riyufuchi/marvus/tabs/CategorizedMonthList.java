@@ -59,4 +59,10 @@ public class CategorizedMonthList extends DataDisplayMode
 		String point = ((JButton)e.getSource()).getName();
 		showData(Integer.valueOf(point.substring(0, point.indexOf(';'))), Integer.valueOf(point.substring(point.indexOf(';') + 1, point.length())));
 	}
+
+	@Override
+	public void prepareUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

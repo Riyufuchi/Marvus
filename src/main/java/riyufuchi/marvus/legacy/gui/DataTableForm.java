@@ -8,14 +8,14 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
+import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.app.MarvusController;
 import riyufuchi.marvus.dialogs.PreferencesDialog;
+import riyufuchi.marvus.legacy.data.MoneySum;
+import riyufuchi.marvus.legacy.tabs.MoneySummaryOverview;
 import riyufuchi.marvus.legacy.utils.MarvusLegacyHelper;
-import riyufuchi.marvus.legacy.utils.MoneySum;
-import riyufuchi.marvus.legacy.utils.MoneySummaryOverview;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
@@ -93,7 +93,7 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	
 	private void setupJMenu()
 	{
-		SufuMenuCreator jmc = new SufuMenuCreator(AppTexts.DTF_MENU, AppTexts.DTF_MENU_ITEMS, 3);
+		SufuMenuCreator jmc = new SufuMenuCreator(MarvusTexts.DTF_MENU, MarvusTexts.DTF_MENU_ITEMS, 3);
 		final int max = jmc.getNumberOfMenuItems();
 		for (int i = 0; i < max; i++)
 		{

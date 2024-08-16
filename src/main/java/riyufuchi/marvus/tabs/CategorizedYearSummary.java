@@ -49,4 +49,10 @@ public class CategorizedYearSummary extends DataDisplayMode
 		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, 
 				list.get(Integer.valueOf(((JButton)e.getSource()).getName()) - 1), false));
 	}
+
+	@Override
+	public void prepareUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

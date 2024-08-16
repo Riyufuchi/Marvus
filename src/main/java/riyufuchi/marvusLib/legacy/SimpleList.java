@@ -26,4 +26,10 @@ public class SimpleList extends DataDisplayMode
 	{
 		hardRefresh();
 	}
+
+	@Override
+	public void prepareUI() {
+		// TODO Auto-generated method stub
+		
+	}
 }

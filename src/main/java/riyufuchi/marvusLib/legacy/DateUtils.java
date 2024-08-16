@@ -9,7 +9,7 @@ import java.util.Date;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.utils.AppTexts;
+import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 @Deprecated
 public class DateUtils
 {
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]);
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat(MarvusTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]);
 	//private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex]);
 	
 	public static Month showMonthChooser(JFrame frame)

@@ -1,10 +1,11 @@
-package riyufuchi.marvus.legacy.utils;
+package riyufuchi.marvus.legacy.tabs;
 
 import java.util.Iterator;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
@@ -17,7 +18,7 @@ public class MoneySummaryOverview extends DataDisplayMode
 	
 	public MoneySummaryOverview(MarvusDataFrame targetWindow, MarvusDataBox<MoneySum> data)
 	{
-		super(targetWindow);
+		super(targetWindow, null);
 		this.data = data;
 	}
 
@@ -55,5 +56,10 @@ public class MoneySummaryOverview extends DataDisplayMode
 	public void refresh()
 	{
 		hardRefresh();
+	}
+
+	@Override
+	public void prepareUI()
+	{
 	}
 }

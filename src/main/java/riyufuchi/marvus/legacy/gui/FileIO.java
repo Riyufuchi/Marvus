@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import riyufuchi.marvus.legacy.utils.MoneySum;
+import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.utils.XML;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;

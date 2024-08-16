@@ -8,8 +8,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.app.MarvusDataWindow;
-import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.sufuLib.config.CustomizeUI;
@@ -26,7 +26,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 14.07.2022
- * @version 14.08.2024
+ * @version 16.08.2024
  */
 public class PreferencesDialog extends SufuDialog
 {
@@ -51,8 +51,8 @@ public class PreferencesDialog extends SufuDialog
 		{
 			windowSize.setSelectedItem(MarvusConfig.width + "x" + MarvusConfig.height);
 		}
-		if (MarvusConfig.currentWorkFile != null)
-			workFile.setText(MarvusConfig.currentWorkFile.getName());
+		if (MarvusConfig.defaultWorkFile != null)
+			workFile.setText(MarvusConfig.defaultWorkFile.getName());
 		showQuitDialog.setSelected(MarvusConfig.showQuitDialog);
 		autoLoadCheck.setSelected(MarvusConfig.autoLoadData);
 		autoMaximizeCheck.setSelected(MarvusConfig.autoMaximize);
@@ -62,8 +62,8 @@ public class PreferencesDialog extends SufuDialog
 	protected void createInputs(JPanel content)
 	{
 		themes = SufuFactory.<AppTheme>newCombobox(AppTheme.values());
-		windowSize = SufuFactory.<String>newCombobox(AppTexts.WINDOW_SIZE);
-		dateFormat = SufuFactory.<String>newCombobox(AppTexts.DATE_FORMAT_OPTIONS);
+		windowSize = SufuFactory.<String>newCombobox(MarvusTexts.WINDOW_SIZE);
+		dateFormat = SufuFactory.<String>newCombobox(MarvusTexts.DATE_FORMAT_OPTIONS);
 		workFile = SufuFactory.newButton("None", evt -> currentWorkFileBtnEvent());
 		showQuitDialog = new JCheckBox();
 		autoLoadCheck = new JCheckBox();
@@ -81,8 +81,8 @@ public class PreferencesDialog extends SufuDialog
 	protected void onOK()
 	{
 		String path = "None";
-		if (MarvusConfig.currentWorkFile != null)
-			path = MarvusConfig.currentWorkFile.getAbsolutePath();
+		if (MarvusConfig.defaultWorkFile != null)
+			path = MarvusConfig.defaultWorkFile.getAbsolutePath();
 		try
 		{
 			SufuPersistence.saveToCSV(SufuFileHelper.checkFile(MarvusConfig.SETTINGS_FILE_PATH).getPath(),
@@ -113,6 +113,9 @@ public class PreferencesDialog extends SufuDialog
 	{
 		MarvusConfig.currentWorkFile =  MarvusGuiUtils.createTransactionIO(((MarvusDataWindow)parentFrame)).showLoadChooser();
 		if (MarvusConfig.currentWorkFile != null)
+		{
 			workFile.setText(MarvusConfig.currentWorkFile.getName());
+			MarvusConfig.defaultWorkFile = MarvusConfig.currentWorkFile;
+		}
 	}
 }

@@ -31,4 +31,10 @@ public class SimpleOrderableList extends DataDisplayMode
 		hardRefresh();
 	}
 
+	@Override
+	public void prepareUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

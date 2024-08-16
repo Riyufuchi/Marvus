@@ -9,27 +9,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.Marvus;
-import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusDeleg;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
-import riyufuchi.marvus.dialogs.AddDialog;
 import riyufuchi.marvus.dialogs.AppManager;
 import riyufuchi.marvus.dialogs.PreferencesDialog;
 import riyufuchi.marvus.tabs.CategorizedMonthList;
 import riyufuchi.marvus.tabs.CategorizedMonthOverview;
 import riyufuchi.marvus.tabs.CategorizedYearSummary;
 import riyufuchi.marvus.tabs.DataSummaryOverview;
-import riyufuchi.marvus.tabs.MultiYearTable;
 import riyufuchi.marvus.tabs.SimpleMonthList;
 import riyufuchi.marvus.tabs.TimedDetail;
 import riyufuchi.marvus.tabs.YearOverviewTable;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionCalculations;
-import riyufuchi.marvusLib.dataUtils.TransactionComparation;
-import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.gui.SufuWindow;
@@ -43,7 +38,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 26.07.2024
+ * @version 15.08.2024
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
@@ -55,13 +50,13 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	 */
 	public MarvusDataWindow()
 	{
-		super("Marvus - " + AppTexts.VERSION, false, true);
+		super("Marvus - " + MarvusTexts.VERSION, false, true);
 		postWindowInit(getPane());
 	}
 	
 	public MarvusDataWindow(int width, int height)
 	{
-		super("Marvus - " + AppTexts.VERSION, width, height, false, true, true);
+		super("Marvus - " + MarvusTexts.VERSION, width, height, false, true, true);
 		postWindowInit(getPane());
 		URL iconURL = MarvusDataWindow.class.getResource("/riyufuchi/marvus/icon.png");
 		if (iconURL != null)
@@ -95,7 +90,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	private void setupJMenu()
 	{
-		SufuMenuCreator jmc = new SufuMenuCreator(AppTexts.BUDGET_TABLE_MENU, AppTexts.BUDGET_TABLE_MENU_ITEMS, 5);
+		SufuMenuCreator jmc = new SufuMenuCreator(MarvusTexts.BUDGET_TABLE_MENU, MarvusTexts.BUDGET_TABLE_MENU_ITEMS, 5);
 		final int max = jmc.getNumberOfMenuItems();
 		for (int i = 0; i < max; i++)
 		{
@@ -111,24 +106,22 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
 				case "Backup" -> jmc.setItemAction(i, KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK, event -> controller.createBackup());
 				// Data tools
-				case "Sort" -> jmc.setItemAction(i, e -> sortData());
+				case "Sort" -> jmc.setItemAction(i, e -> controller.sortData());
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this , controller.getDatabase()); });
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
 				case "Application manager" -> jmc.setItemAction(i, event -> new AppManager(this).showDialog());
 				// Data handling
-				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> add());
+				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
 				// Display modes
-				//case "Simple list" -> jmc.setItemAction(i,event -> updateDataDisplayMode(new SimpleList(this, table)));
 				case "Simple month list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> updateDataDisplayMode(new SimpleMonthList(this)));
 				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> updateDataDisplayMode(new CategorizedMonthList(this)));
 				case "Categorized month overview" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> updateDataDisplayMode(new CategorizedMonthOverview(this)));
 				case "Categorized year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> updateDataDisplayMode(new CategorizedYearSummary(this))); 
 				case "Earning/Spending summary" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTable(this, MarvusConfig.financialYear)));
 				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> updateDataDisplayMode(new DataSummaryOverview(this)));
-				case "Multi year table" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> updateDataDisplayMode(new MultiYearTable(this)));
+				case "Timed detail" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> updateDataDisplayMode(new TimedDetail(this)));
 				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> switchDataDisplayMode());
-				case "Timed detail" -> jmc.setItemAction(i, KeyEvent.VK_F8, event -> updateDataDisplayMode(new TimedDetail(this)));
 				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());
 				case "Fullscreen" -> jmc.setItemAction(i, KeyEvent.VK_F11, event -> Marvus.fullScreen());
@@ -140,21 +133,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
-	}
-	
-	// Delegations
-	
-	private void add()
-	{
-		new AddDialog(this).showDialog();
-		refresh();
-	}
-	
-	private void sortData()
-	{
-		var res = SufuDialogHelper.<CompareMethod>optionDialog(this, "Choose sorting method", "Sorting method chooser", CompareMethod.values());
-		controller.getDatabase().sortData(TransactionComparation.compareBy(res));
-		refresh();
 	}
 	
 	private void switchDataDisplayMode()
@@ -199,10 +177,10 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	 */
 	public void displayData()
 	{
-		//displayMode.accept(table.getDataBox());
-		getPane().removeAll();
-		currentMode.displayData();
-		refreshWindow();
+		getPane().removeAll(); // Removes all previous content
+		currentMode.prepareUI(); // Prepares static content such as menus
+		currentMode.displayData(); // Displays/ prepares data to by displayed
+		refreshWindow(); 
 	}
 	
 	// OnEvent

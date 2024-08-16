@@ -7,9 +7,9 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.legacy.gui.DataTableForm;
-import riyufuchi.marvus.utils.AppTexts;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.sufuLib.config.CustomizeUI;
@@ -78,7 +78,7 @@ public class Marvus
 		try
 		{
 			data = SufuPersistence.loadTextFile(MarvusConfig.SETTINGS_FILE_PATH);
-			if (data.getFirst().equals(AppTexts.WINDOW_SIZE[0]))
+			if (data.getFirst().equals(MarvusTexts.WINDOW_SIZE[0]))
 			{
 				MarvusConfig.fullscreen = true;
 			}
@@ -88,8 +88,9 @@ public class Marvus
 				MarvusConfig.height = Integer.valueOf(data.getFirst().substring(data.getFirst().indexOf("x") + 1));
 			}
 			MarvusConfig.appTheme = AppTheme.valueOf(data.get(1)); // Throws exception when inputed incorrect data
-			SufuDateUtils.setDateFormat(new SimpleDateFormat(AppTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex = Integer.valueOf(data.get(2))]));
+			SufuDateUtils.setDateFormat(new SimpleDateFormat(MarvusTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex = Integer.valueOf(data.get(2))]));
 			MarvusConfig.currentWorkFile = new File(data.get(3));
+			MarvusConfig.defaultWorkFile = MarvusConfig.currentWorkFile;
 			MarvusConfig.showQuitDialog = Boolean.valueOf(data.get(4));
 			MarvusConfig.autoLoadData = Boolean.valueOf(data.get(5));
 			MarvusConfig.autoMaximize = Boolean.valueOf(data.get(6));

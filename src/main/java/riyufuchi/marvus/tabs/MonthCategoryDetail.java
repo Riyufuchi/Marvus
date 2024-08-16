@@ -74,4 +74,10 @@ public class MonthCategoryDetail extends DataDisplayMode
 		return fc;
 	}
 
+	@Override
+	public void prepareUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
