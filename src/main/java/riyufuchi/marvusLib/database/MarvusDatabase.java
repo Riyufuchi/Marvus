@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @since 1.95 - 12.02.2024
- * @version 12.08.2024
+ * @version 17.08.2024
  */
 public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transaction>
 {
@@ -34,9 +34,7 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 	
 	public MarvusDatabase()
 	{
-		super();
-		this.errorHandler = e -> System.out.println(e);
-		this.sorter = TransactionComparation.compareFC(CompareMethod.By_name);
+		this(null);
 	}
 	
 	public MarvusDatabase(Consumer<String> errorHandler)
@@ -51,7 +49,7 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 	
 	public void sort()
 	{
-		for (int i = 0; i < 12; i++)
+		for (int i = 1; i < 13; i++) // Months are 1 - 12
 			Collections.sort(getCategorizedMonth(i), sorter);
 	}
 	
@@ -76,8 +74,6 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 			return;
 		sorter = comp;
 		sort();
-		/*for (int i = 0; i < 12; i++)
-			Collections.sort(getCategorizedMonth(i), comp);*/
 	}
 	
 	public void setErrorHandler(Consumer<String> errorHandler)

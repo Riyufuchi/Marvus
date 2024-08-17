@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Month;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
@@ -24,11 +23,12 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 2.1 - 15.08.2024
+ * @version 17.08.2024
  */
 public class YearOverviewTable extends DataDisplayMode
 {
 	private final int OFFSET = 5;
+	private final int NUM_OF_GENENERATED_COLUMNS = 13;
 	private JPanel menuPane;
 	private SufuGridPane contentPane;
 	private LinkedList<YearOverview> yearOverviews;
@@ -45,21 +45,6 @@ public class YearOverviewTable extends DataDisplayMode
 	// OVERRIDES
 	
 	@Override
-	public void refresh()
-	{
-		//yearOverview = dataSource.getYearOverview(yearOverview.year());
-		contentPane.removeAll();
-		yOffset = 0;
-		Iterator<YearOverview> it = yearOverviews.iterator();
-		buildTable(it.next(), 0, yOffset, true);
-		while (it.hasNext())
-		{
-			yOffset += OFFSET;
-			buildTable(it.next(), 0, yOffset, false);
-		}
-	}
-
-	@Override
 	public void prepareUI()
 	{
 		menuPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -69,12 +54,28 @@ public class YearOverviewTable extends DataDisplayMode
 		
 		masterPanel.add(menuPane, targetWindow.getGBC(0, 0));
 		masterPanel.add(contentPane, targetWindow.getGBC(0, 1));
+		buildTableHeader();
 	}
-
+	
 	@Override
 	public void displayData()
 	{
-		buildTable(yearOverviews.getFirst(), 0, 0, true);
+		buildTable(yearOverviews.getFirst(), 0, 0);
+	}
+	
+	@Override
+	public void refresh()
+	{
+		yearOverviews.addFirst(dataSource.getYearOverview(yearOverviews.getFirst().year()));
+		yearOverviews.remove(1);
+		clearPanel(contentPane, NUM_OF_GENENERATED_COLUMNS);
+		yOffset = 0;
+		totalItems = 13;
+		for (YearOverview yearOverview : yearOverviews)
+		{
+			buildTable(yearOverview, 0, yOffset);
+			yOffset += OFFSET;
+		}
 	}
 	
 	// TODO: Allow adding more tables and operations with them
@@ -82,7 +83,6 @@ public class YearOverviewTable extends DataDisplayMode
 	{
 		SufuLib.functionalityNotYetImplementedDialog(targetWindow.getSelf());
 		String path = MarvusConfig.currentWorkFile.getAbsolutePath().replace("2024", "2023");
-		System.out.print(path);
 		MarvusDatabase db = null;
 		try
 		{
@@ -93,41 +93,39 @@ public class YearOverviewTable extends DataDisplayMode
 			SufuDialogHelper.exceptionDialog(targetWindow.getSelf(), e);
 			return;
 		}
-		/*if (db == null)
-		{
-			SufuDialogHelper.errorDialog(targetWindow.getSelf(), "File not loaded", "Input error");
-			return;
-		}*/
 		yearOverviews.add(db.getYearOverview(db.assumeYear()));
 		targetWindow.refresh();
 	}
 	
-	public void buildTable(YearOverview yearOverview, int baseX, int baseY, boolean addHeader)
+	private void buildTableHeader()
+	{
+		SufuTableTools.addRowHeader(contentPane, 1, 0, Month.values());
+		SufuTableTools.addColumnHeader(contentPane, NUM_OF_GENENERATED_COLUMNS, 0, "YEAR TOTAL");
+		totalItems += 13;
+	}
+	
+	private void buildTable(YearOverview yearOverview, int baseX, int baseY)
 	{
 		if (yearOverview == null)
 		{
-			SufuDialogHelper.errorDialog(targetWindow.getSelf(), "No input data!", "Data IO error");
+			SufuDialogHelper.errorDialog(targetWindow.getSelf(), "No data inputed!", "Data IO error");
 			return;
 		}
 		BigDecimal[] income = yearOverview.income();
 		BigDecimal[] spendings = yearOverview.spendigs();
 		SufuTableTools.addColumnHeader(contentPane, baseX++, baseY, String.valueOf(yearOverview.year()), "Income", "Spendings", "Outcome");
-		if (addHeader)
-		{
-			SufuTableTools.addRowHeader(contentPane, baseX, baseY, Month.values());
-			SufuTableTools.addColumnHeader(contentPane, 13, baseY, "Year total");
-		}
 		int xPos = 0;
 		int incomeY = baseY + 1;
 		int spendigsY = incomeY + 1;
 		int outcomeY = spendigsY + 1;
-		for (int x = baseX; x < 13; x++)
+		for (int x = baseX; x < NUM_OF_GENENERATED_COLUMNS; x++)
 		{
 			contentPane.add(SufuFactory.newTextFieldHeader(income[xPos].toString()), contentPane.getGBC(x, incomeY));
 			contentPane.add(SufuFactory.newTextFieldHeader(spendings[xPos].toString()), contentPane.getGBC(x, spendigsY));
 			contentPane.add(SufuFactory.newTextFieldHeader((income[xPos].add(spendings[xPos]).toString())), contentPane.getGBC(x, outcomeY)); // outcome is already negative
 			xPos++;
 		}
-		SufuTableTools.addColumnHeader(contentPane, 13, ++baseY, yearOverview.totalIncome(), yearOverview.totalOutcome(), yearOverview.totalResult());
+		SufuTableTools.addColumnHeader(contentPane, NUM_OF_GENENERATED_COLUMNS, ++baseY, yearOverview.totalIncome(), yearOverview.totalOutcome(), yearOverview.totalResult());
+		totalItems += 42;
 	}
 }
