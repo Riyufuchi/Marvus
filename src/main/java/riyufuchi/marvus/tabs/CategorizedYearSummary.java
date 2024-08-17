@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
@@ -25,14 +24,13 @@ public class CategorizedYearSummary extends DataDisplayMode
 	@Override
 	public void displayData()
 	{
-		JPanel panel = targetWindow.getPane();
 		SufuTableTools.addRowHeader(targetWindow, 0, 0, "Category", "Sum");
 		int y = 1;
 		list = dataSource.getCategorizedYearByCategories(MarvusConfig.financialYear);
 		for(FinancialCategory category : list)
 		{
-			panel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), targetWindow.getGBC(0, y));
-			panel.add(SufuFactory.newTextFieldHeader(category.getSum().toString()), targetWindow.getGBC(1, y++));
+			masterPanel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), targetWindow.getGBC(0, y));
+			masterPanel.add(SufuFactory.newTextFieldHeader(category.getSum().toString()), targetWindow.getGBC(1, y++));
 		}
 	}
 

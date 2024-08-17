@@ -5,7 +5,6 @@ import java.time.Month;
 import java.util.Iterator;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
@@ -16,37 +15,55 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 public class CategorizedMonthList extends DataDisplayMode
 {
+	protected final Month[] months;
+	protected int y;
+	protected FinancialCategory fc;
+	private String point;
+	
 	public CategorizedMonthList(MarvusDataFrame targetWindow)
 	{
 		super(targetWindow);
+		this.months = Month.values();
+		this.totalItems = 11;
+		this.y = 1;
+		this.fc = null;
+		this.point = "";
+	}
+	
+
+	@Override
+	public void prepareUI()
+	{
+		SufuTableTools.addRowHeader(targetWindow, 1, 0, months);
 	}
 
 	@Override
 	public void displayData()
 	{
-		JPanel pane = targetWindow.getPane();
-		int y = 1;
-		FinancialCategory fc = null;
-		Month[] months = Month.values();
-		SufuTableTools.addRowHeader(targetWindow, 0, 0, months);
-		Iterator<FinancialCategory> it = null;
-		for (int month = 0; month < 12; month++)
+		for (Month month : months)
 		{
-			it = dataSource.getCategorizedMonth(months[month]).iterator();
-			while (it.hasNext())
-			{
-				fc = it.next();
-				pane.add(SufuFactory.newButton(fc.toString(), MarvusGuiUtils.encodeCords(month + 1, y - 1), evt -> btnDataReference(evt)), targetWindow.getGBC(month, y));
-				y++;
-			}
-			y = 1;
+			createDataTable(dataSource.getCategorizedMonth(month).iterator(), month);
 		}
 	}
 
 	@Override
 	public void refresh()
 	{
-		hardRefresh();
+		clearPanel(masterPanel, 11);
+		totalItems = 11;
+		displayData();
+	}
+	
+	protected void createDataTable(Iterator<FinancialCategory> it, Month month)
+	{
+		while (it.hasNext())
+		{
+			fc = it.next();
+			masterPanel.add(SufuFactory.newButton(fc.toString(), MarvusGuiUtils.encodeCords(month.getValue(), y - 1), evt -> btnDataReference(evt)), targetWindow.getGBC(month.getValue(), y));
+			y++;
+		}
+		totalItems += --y;
+		y = 1;
 	}
 	
 	protected void showData(int x, int y)
@@ -56,13 +73,7 @@ public class CategorizedMonthList extends DataDisplayMode
 	
 	protected void btnDataReference(ActionEvent e)
 	{
-		String point = ((JButton)e.getSource()).getName();
+		point = ((JButton)e.getSource()).getName();
 		showData(Integer.valueOf(point.substring(0, point.indexOf(';'))), Integer.valueOf(point.substring(point.indexOf(';') + 1, point.length())));
-	}
-
-	@Override
-	public void prepareUI() {
-		// TODO Auto-generated method stub
-		
 	}
 }

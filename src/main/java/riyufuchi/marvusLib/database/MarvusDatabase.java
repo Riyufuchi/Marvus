@@ -34,7 +34,7 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 	
 	public MarvusDatabase()
 	{
-		this(null);
+		this(e -> System.out.println(e));
 	}
 	
 	public MarvusDatabase(Consumer<String> errorHandler)

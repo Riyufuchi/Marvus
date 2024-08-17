@@ -14,7 +14,6 @@ import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
-import riyufuchi.sufuLib.lib.SufuLib;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGridPane;
@@ -78,10 +77,9 @@ public class YearOverviewTable extends DataDisplayMode
 		}
 	}
 	
-	// TODO: Allow adding more tables and operations with them
+	// TODO: Add proper import dialog
 	private void addTable()
 	{
-		SufuLib.functionalityNotYetImplementedDialog(targetWindow.getSelf());
 		String path = MarvusConfig.currentWorkFile.getAbsolutePath().replace("2024", "2023");
 		MarvusDatabase db = null;
 		try
