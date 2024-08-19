@@ -1,10 +1,9 @@
-package riyufuchi.legacyMarvus.utils;
+package riyufuchi.marvus.legacy.data;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvusLib.dataUtils.MoneyCalculations;
 
 public class MoneySumTest

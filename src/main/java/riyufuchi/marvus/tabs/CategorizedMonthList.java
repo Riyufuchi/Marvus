@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import javax.swing.JButton;
 
+import riyufuchi.marvus.subTabs.MonthDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.data.FinancialCategory;
@@ -24,7 +25,6 @@ public class CategorizedMonthList extends DataDisplayMode
 	{
 		super(targetWindow);
 		this.months = Month.values();
-		this.totalItems = 11;
 		this.y = 1;
 		this.fc = null;
 		this.point = "";
@@ -50,7 +50,6 @@ public class CategorizedMonthList extends DataDisplayMode
 	public void refresh()
 	{
 		clearPanel(masterPanel, 11);
-		totalItems = 11;
 		displayData();
 	}
 	
@@ -62,13 +61,12 @@ public class CategorizedMonthList extends DataDisplayMode
 			masterPanel.add(SufuFactory.newButton(fc.toString(), MarvusGuiUtils.encodeCords(month.getValue(), y - 1), evt -> btnDataReference(evt)), targetWindow.getGBC(month.getValue(), y));
 			y++;
 		}
-		totalItems += --y;
 		y = 1;
 	}
 	
 	protected void showData(int x, int y)
 	{
-		targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, x, y, true));
+		targetWindow.updateDataDisplayMode(new MonthDetail(targetWindow, x, y, true));
 	}
 	
 	protected void btnDataReference(ActionEvent e)

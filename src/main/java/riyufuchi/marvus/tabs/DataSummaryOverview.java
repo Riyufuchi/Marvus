@@ -23,12 +23,13 @@ public class DataSummaryOverview extends DataDisplayMode
 	@Override
 	public void prepareUI()
 	{
-		int y = 1;
+		yIndex = 1;
 		for (String s : captions)
-			masterPanel.add(SufuFactory.newTextFieldHeader(s), targetWindow.getGBC(0, y++));
+			masterPanel.add(SufuFactory.newTextFieldHeader(s), targetWindow.getGBC(0, yIndex++));
+		masterPanel.add(SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.financialYear)), targetWindow.getGBC(0, 0));
 		masterPanel.add(SufuFactory.newTextFieldHeader("Total"), targetWindow.getGBC(1, 0));
 		masterPanel.add(SufuFactory.newTextFieldHeader("Average per year"), targetWindow.getGBC(2, 0));
-		masterPanel.add(SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.financialYear)), targetWindow.getGBC(0, 0));
+		resetValues();
 	}
 
 	@Override
@@ -45,13 +46,11 @@ public class DataSummaryOverview extends DataDisplayMode
 		addInfoItem(String.format(format, ds.avgIncome()));
 		addInfoItem(String.format(format, ds.avgSpendings()));
 		addInfoItem(String.format(format, ds.avgOutcome()));
-		totalItems += yIndex;
 	}
 
 	@Override
 	public void refresh()
 	{
-		totalItems += 6;
 		clearPanel(masterPanel, 6);
 		resetValues();
 		ds = dataSource.getDataSummary(MarvusConfig.financialYear);
@@ -62,12 +61,10 @@ public class DataSummaryOverview extends DataDisplayMode
 	{
 		yIndex = 0;
 		xIndex = 1;
-		totalItems = 0;
 	}
 	
 	private void newColumn()
 	{
-		totalItems += yIndex;
 		yIndex = 0;
 		xIndex++;
 	}

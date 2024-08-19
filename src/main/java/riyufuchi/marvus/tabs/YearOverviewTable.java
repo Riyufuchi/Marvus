@@ -69,7 +69,6 @@ public class YearOverviewTable extends DataDisplayMode
 		yearOverviews.remove(1);
 		clearPanel(contentPane, NUM_OF_GENENERATED_COLUMNS);
 		yOffset = 0;
-		totalItems = 13;
 		for (YearOverview yearOverview : yearOverviews)
 		{
 			buildTable(yearOverview, 0, yOffset);
@@ -99,7 +98,6 @@ public class YearOverviewTable extends DataDisplayMode
 	{
 		SufuTableTools.addRowHeader(contentPane, 1, 0, Month.values());
 		SufuTableTools.addColumnHeader(contentPane, NUM_OF_GENENERATED_COLUMNS, 0, "YEAR TOTAL");
-		totalItems += 13;
 	}
 	
 	private void buildTable(YearOverview yearOverview, int baseX, int baseY)
@@ -124,6 +122,5 @@ public class YearOverviewTable extends DataDisplayMode
 			xPos++;
 		}
 		SufuTableTools.addColumnHeader(contentPane, NUM_OF_GENENERATED_COLUMNS, ++baseY, yearOverview.totalIncome(), yearOverview.totalOutcome(), yearOverview.totalResult());
-		totalItems += 42;
 	}
 }

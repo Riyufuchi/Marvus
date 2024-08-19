@@ -38,7 +38,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 15.08.2024
+ * @version 19.08.2024
  */
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
@@ -58,11 +58,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	{
 		super("Marvus - " + MarvusTexts.VERSION, width, height, false, true, true);
 		postWindowInit(getPane());
-		URL iconURL = MarvusDataWindow.class.getResource("/riyufuchi/marvus/icon.png");
-		if (iconURL != null)
-			this.setIconImage(new ImageIcon(iconURL).getImage());
-		else
-			SufuDialogHelper.errorDialog(this, "Icon image not found!", "Icon IO error");
 	}
 
 	
@@ -74,7 +69,12 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		this.prevMode = currentMode;
 		MarvusDatabase.utils.setParentframe(this);
 		if (MarvusConfig.autoLoadData)
-			controller.quickOpenFile()
+			controller.quickOpenFile();
+		URL iconURL = MarvusDataWindow.class.getClassLoader().getResource("riyufuchi/marvus/icon.png");
+		if (iconURL != null)
+			this.setIconImage(new ImageIcon(iconURL).getImage());
+		else
+			SufuDialogHelper.errorDialog(this, "Icon image not found!", "Icon IO error");
 		
 		/*KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
 		{
@@ -226,11 +226,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	public DataDisplayMode getDataDisplayMode()
 	{
 		return currentMode;
-	}
-	
-	public MarvusDatabase getDatabase()
-	{
-		return controller.getDatabase();
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.subTabs.MonthDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
 import riyufuchi.marvusLib.data.FinancialCategory;
@@ -42,86 +43,7 @@ public class TimedDetail extends DataDisplayMode
 		this.fromDate = fromDate.toLocalDate().atStartOfDay();
 		this.categorizedMonths = new LinkedList<>();
 	}
-
-	@Override
-	public void displayData()
-	{
-		prepData();
-		printData();
-	}
-
-	@Override
-	public void refresh()
-	{
-		dataPane.removeAll();
-		categorizedMonths.clear();
-		prepData();
-		printData();
-	}
 	
-	private void printData()
-	{
-		BigDecimal income = new BigDecimal(0);
-		BigDecimal spendings = new BigDecimal(0);
-		BigDecimal zero = new BigDecimal(0);
-		BigDecimal holder = null;
-		int x = 0;
-		int y = 0;
-		for (LinkedList<FinancialCategory> data : categorizedMonths)
-		{
-			for (FinancialCategory cat : data)
-			{
-				holder = cat.getSum();
-				dataPane.add(SufuFactory.newButton(cat.getCategory(), MarvusGuiUtils.encodeCords(x, y), evt -> {
-					p = MarvusGuiUtils.extractPointFromButtonName(evt);
-					targetWindow.updateDataDisplayMode(new MonthCategoryDetail(targetWindow, categorizedMonths.get(p.x).get(p.y), false));
-				}));
-				dataPane.add(SufuFactory.newTextFieldHeader(holder.toString()));
-				if (holder.compareTo(zero) > 0)
-					income = income.add(holder);
-				else
-					spendings = spendings.add(holder);
-				y++;
-			}
-			x++;
-		}
-		dataPane.add(SufuFactory.newTextFieldHeader("Income:"));
-		dataPane.add(SufuFactory.newTextFieldHeader(income.toString()));
-		dataPane.add(SufuFactory.newTextFieldHeader("Spendings:"));
-		dataPane.add(SufuFactory.newTextFieldHeader(spendings.toString()));
-		dataPane.add(SufuFactory.newTextFieldHeader("Outcome:"));
-		dataPane.add(SufuFactory.newTextFieldHeader(income.add(spendings).toString()));
-	}
-	
-	private void prepData()
-	{
-		for (int x = fromDate.getMonthValue(); x <= toDate.getMonthValue(); x++)
-		{
-			categorizedMonths.add(dataSource.getCategorizedMonthByNames(x));
-		}
-		Iterator<Transaction> it;
-		Iterator<FinancialCategory> it_fc;
-		Transaction t = null;
-		FinancialCategory cat = null;
-		for (LinkedList<FinancialCategory> data : categorizedMonths)
-		{
-			it_fc = data.iterator();
-			while (it_fc.hasNext())
-			{
-				cat = it_fc.next();
-				it = cat.iterator();
-				while (it.hasNext())
-				{
-					t = it.next();
-					if (!((t.getDate().isAfter(fromDate) || t.getDate().equals(fromDate)) && (t.getDate().isBefore(toDate) || t.getDate().equals(toDate))))
-						it.remove();
-				}
-				if (cat.getSum().intValue() == 0)
-					it_fc.remove();
-			}
-		}
-	}
-
 	@Override
 	public void prepareUI()
 	{
@@ -149,5 +71,84 @@ public class TimedDetail extends DataDisplayMode
 		
 		pane.add(flowPane, targetWindow.getGBC(0, 0));
 		pane.add(dataPane, targetWindow.getGBC(0, 1));
+		prepData();
+	}
+
+	@Override
+	public void displayData()
+	{
+		printData();
+	}
+
+	@Override
+	public void refresh()
+	{
+		dataPane.removeAll();
+		prepData();
+		printData();
+	}
+	
+	private void printData()
+	{
+		BigDecimal income = new BigDecimal(0);
+		BigDecimal spendings = new BigDecimal(0);
+		BigDecimal zero = new BigDecimal(0);
+		BigDecimal holder = null;
+		int x = 0;
+		int y = 0;
+		for (LinkedList<FinancialCategory> data : categorizedMonths)
+		{
+			for (FinancialCategory cat : data)
+			{
+				holder = cat.getSum();
+				dataPane.add(SufuFactory.newButton(cat.getCategory(), MarvusGuiUtils.encodeCords(x, y), evt -> {
+					p = MarvusGuiUtils.extractPointFromButtonName(evt);
+					targetWindow.updateDataDisplayMode(new MonthDetail(targetWindow, categorizedMonths.get(p.x).get(p.y), false));
+				}));
+				dataPane.add(SufuFactory.newTextFieldHeader(holder.toString()));
+				if (holder.compareTo(zero) > 0)
+					income = income.add(holder);
+				else
+					spendings = spendings.add(holder);
+				y++;
+			}
+			x++;
+		}
+		dataPane.add(SufuFactory.newTextFieldHeader("Income:"));
+		dataPane.add(SufuFactory.newTextFieldHeader(income.toString()));
+		dataPane.add(SufuFactory.newTextFieldHeader("Spendings:"));
+		dataPane.add(SufuFactory.newTextFieldHeader(spendings.toString()));
+		dataPane.add(SufuFactory.newTextFieldHeader("Outcome:"));
+		dataPane.add(SufuFactory.newTextFieldHeader(income.add(spendings).toString()));
+	}
+	
+	private void prepData()
+	{
+		categorizedMonths.clear();
+		for (int x = fromDate.getMonthValue(); x <= toDate.getMonthValue(); x++)
+		{
+			categorizedMonths.add(dataSource.getCategorizedMonthByNames(x));
+		}
+		Iterator<Transaction> it;
+		Iterator<FinancialCategory> it_fc;
+		Transaction t = null;
+		FinancialCategory cat = null;
+		for (LinkedList<FinancialCategory> data : categorizedMonths)
+		{
+			it_fc = data.iterator();
+			while (it_fc.hasNext())
+			{
+				cat = it_fc.next();
+				it = cat.iterator();
+				while (it.hasNext())
+				{
+					t = it.next();
+					if (!((t.getDate().isAfter(fromDate) || t.getDate().equals(fromDate)) && (t.getDate().isBefore(toDate) || t.getDate().equals(toDate))))
+						it.remove();
+				}
+				if (cat.getSum().intValue() == 0)
+					it_fc.remove();
+			}
+		}
 	}
 }

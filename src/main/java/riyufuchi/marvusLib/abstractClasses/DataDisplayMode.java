@@ -14,14 +14,13 @@ import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 1.9 - 16.08.2024
+ * @version 18.08.2024
  */
 public abstract class DataDisplayMode
 {
 	protected MarvusDataFrame targetWindow;
 	protected MarvusDatabase dataSource;
 	protected JPanel masterPanel;
-	protected int totalItems;
 	
 	public DataDisplayMode(MarvusDataFrame targetWindow)
 	{
@@ -33,7 +32,6 @@ public abstract class DataDisplayMode
 		this.targetWindow = targetWindow;
 		this.dataSource = mdb;
 		this.masterPanel = targetWindow.getPane();
-		this.totalItems = 0;
 	}
 	
 	public abstract void prepareUI();
@@ -45,7 +43,7 @@ public abstract class DataDisplayMode
 	 */
 	public void hardRefresh()
 	{
-		targetWindow.getPane().removeAll();
+		masterPanel.removeAll();
 		displayData();
 	}
 	
@@ -64,17 +62,18 @@ public abstract class DataDisplayMode
 	/**
 	 * @param panel targeted panel
 	 * @param numOfHeaderItems
-	 * @param totalItems total number of items
 	 * 
 	 * For this to work properly, header/menu components must be added before other items/components
 	 */
-	public void clearPanel(JPanel panel, int numOfHeaderItems, int totalItems)
+	public void clearPanel(JPanel panel, int numOfHeaderItems)
 	{
+		int totalItems = panel.getComponentCount() - 1;
 		for (int x = totalItems; x > numOfHeaderItems; x--)
 			panel.remove(x);
 	}
 	
-	public void clearPanel(JPanel panel, int numOfHeaderItems)
+	@Deprecated
+	public void clearPanel(JPanel panel, int numOfHeaderItems, int totalItems)
 	{
 		for (int x = totalItems; x > numOfHeaderItems; x--)
 			panel.remove(x);

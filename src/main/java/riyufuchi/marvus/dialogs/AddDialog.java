@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 18.06.2024
+ * @version 18.08.2024
  */
 public class AddDialog extends SufuDialog
 {
@@ -95,7 +95,7 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void onOK()
 	{
-		((MarvusDataWindow)parentFrame).getDatabase().add(new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
+		((MarvusDataWindow)parentFrame).getController().getDatabase().add(new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
 		((MarvusDataWindow)parentFrame).refresh();
 	}
 }

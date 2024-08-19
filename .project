@@ -3,6 +3,7 @@
 	<name>Marvus</name>
 	<comment></comment>
 	<projects>
+		<project>SufuLib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

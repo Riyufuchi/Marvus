@@ -42,9 +42,6 @@ public class SimpleMonthList extends DataDisplayMode
 	@Override
 	public void refresh()
 	{
-		totalItems = 11; // Because first 11 components are table header
-		for (int i = 1; i < NUM_OF_COLUMNS; i++)
-			totalItems += columnHeight[i];
 		clearPanel(masterPanel, 11);
 		displayData();
 	}
