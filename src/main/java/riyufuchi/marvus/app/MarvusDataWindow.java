@@ -18,11 +18,11 @@ import riyufuchi.marvus.dialogs.PreferencesDialog;
 import riyufuchi.marvus.tabs.CategorizedMonthList;
 import riyufuchi.marvus.tabs.CategorizedMonthOverview;
 import riyufuchi.marvus.tabs.CategorizedYearSummary;
-import riyufuchi.marvus.tabs.DataSummaryOverview;
+import riyufuchi.marvus.tabs.DataSummaryTab;
 import riyufuchi.marvus.tabs.SimpleMonthList;
 import riyufuchi.marvus.tabs.TimedDetail;
-import riyufuchi.marvus.tabs.YearOverviewTable;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvus.tabs.YearOverviewTab;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvusLib.database.MarvusDatabase;
@@ -43,7 +43,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 {
 	private MarvusController controller;
-	private DataDisplayMode currentMode, prevMode, dummyMode;
+	private DataDisplayTab currentMode, prevMode, dummyMode;
 	
 	/**
 	 * Creates window in fullscreen mode
@@ -118,8 +118,8 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> updateDataDisplayMode(new CategorizedMonthList(this)));
 				case "Categorized month overview" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> updateDataDisplayMode(new CategorizedMonthOverview(this)));
 				case "Categorized year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> updateDataDisplayMode(new CategorizedYearSummary(this))); 
-				case "Earning/Spending summary" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTable(this, MarvusConfig.financialYear)));
-				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> updateDataDisplayMode(new DataSummaryOverview(this)));
+				case "Year overview" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTab(this, MarvusConfig.financialYear)));
+				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> updateDataDisplayMode(new DataSummaryTab(this)));
 				case "Timed detail" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> updateDataDisplayMode(new TimedDetail(this)));
 				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> switchDataDisplayMode());
 				// Window
@@ -138,13 +138,16 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	private void switchDataDisplayMode()
 	{
 		dummyMode = currentMode;
-		currentMode = prevMode;
+		if (currentMode.parentTab() == null)
+			currentMode = prevMode;
+		else
+			currentMode = currentMode.parentTab();
 		prevMode = dummyMode;
 		displayData();
 	}
 	
 	@Override
-	public void updateDataDisplayMode(DataDisplayMode ddm)
+	public void updateDataDisplayMode(DataDisplayTab ddm)
 	{
 		if (ddm == null)
 			return;
@@ -211,7 +214,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	 * 
 	 * @param ddm
 	 */
-	public void setDataDisplayMode(DataDisplayMode ddm)
+	public void setDataDisplayMode(DataDisplayTab ddm)
 	{
 		if (ddm == null)
 			return;
@@ -223,7 +226,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	
 	// Getters
 	
-	public DataDisplayMode getDataDisplayMode()
+	public DataDisplayTab getDataDisplayMode()
 	{
 		return currentMode;
 	}
@@ -241,13 +244,13 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	}
 
 	@Override
-	public DataDisplayMode getCurrent()
+	public DataDisplayTab getCurrent()
 	{
 		return currentMode;
 	}
 
 	@Override
-	public DataDisplayMode getPrev()
+	public DataDisplayTab getPrev()
 	{
 		return prevMode;
 	}

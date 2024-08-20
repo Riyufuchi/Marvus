@@ -1,44 +1,56 @@
 package riyufuchi.marvus.tabs;
 
 import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
 
-import riyufuchi.marvus.subTabs.MonthDetail;
+import riyufuchi.marvus.subTabs.CategoryDetail;
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
+import riyufuchi.marvusLib.dataUtils.TransactionComparation;
+import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
-public class CategorizedYearSummary extends DataDisplayMode
+public class CategorizedYearSummary extends DataDisplayTab
 {
 	private LinkedList<FinancialCategory> list;
+	private BigDecimal outcome;
 	
 	public CategorizedYearSummary(MarvusDataFrame targetWindow)
 	{
 		super(targetWindow);
 		this.list = dataSource.getCategorizedYearByCategories(MarvusConfig.financialYear);
+		this.outcome = new BigDecimal(0);
+		Collections.sort(list, TransactionComparation.compareFC(CompareMethod.By_catagory));
 	}
 	
 	@Override
 	public void prepareUI()
 	{
-		SufuTableTools.addRowHeader(targetWindow, 0, 0, "Category", "Sum");	
+		SufuTableTools.addRowHeader(targetWindow, 0, 0, "Category", "Sum");
 	}
 
 	@Override
 	public void displayData()
 	{
+		this.outcome = new BigDecimal(0);
 		int y = 1;
-		
+		BigDecimal bd = null;
 		for(FinancialCategory category : list)
 		{
+			bd = category.getSum();
 			masterPanel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), targetWindow.getGBC(0, y));
-			masterPanel.add(SufuFactory.newTextFieldHeader(category.getSum().toString()), targetWindow.getGBC(1, y++));
+			masterPanel.add(SufuFactory.newTextFieldHeader(bd.toString()), targetWindow.getGBC(1, y++));
+			outcome = outcome.add(bd);
 		}
+		masterPanel.add(SufuFactory.newTextFieldHeader("Outcome"), targetWindow.getGBC(0, y));
+		masterPanel.add(SufuFactory.newTextFieldHeader(outcome.toString()), targetWindow.getGBC(1, y));
 	}
 
 	@Override
@@ -46,13 +58,12 @@ public class CategorizedYearSummary extends DataDisplayMode
 	{
 		clearPanel(masterPanel, 2);
 		list = dataSource.getCategorizedYearByCategories(MarvusConfig.financialYear);
+		Collections.sort(list, TransactionComparation.compareFC(CompareMethod.By_catagory));
 		displayData();
 	}
 	
-	//TODO: Create new display mode that display everything in category and sorts it by name
 	private void btnDataReference(ActionEvent e)
 	{
-		targetWindow.updateDataDisplayMode(new MonthDetail(targetWindow, 
-				list.get(Integer.valueOf(((JButton)e.getSource()).getName()) - 1), false));
+		targetWindow.updateDataDisplayMode(new CategoryDetail(targetWindow, list.get(Integer.valueOf(((JButton)e.getSource()).getName()) - 1), this));
 	}
 }

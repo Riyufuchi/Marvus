@@ -1,13 +1,11 @@
 package riyufuchi.marvusLib.legacy;
 
-import javax.swing.JPanel;
-
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
-public class SimpleOrderableList extends DataDisplayMode
+public class SimpleOrderableList extends DataDisplayTab
 {
 	public SimpleOrderableList(MarvusDataFrame targetWindow)
 	{
@@ -15,13 +13,17 @@ public class SimpleOrderableList extends DataDisplayMode
 	}
 
 	@Override
+	public void prepareUI()
+	{
+	}
+	
+	@Override
 	public void displayData()
 	{
-		JPanel panel = targetWindow.getPane();
 		int y = 0;
 		for (Transaction t : dataSource)
 		{
-			panel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, evt)), targetWindow.getGBC(0, y++));
+			masterPanel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, evt)), targetWindow.getGBC(0, y++));
 		}
 	}
 
@@ -30,11 +32,4 @@ public class SimpleOrderableList extends DataDisplayMode
 	{
 		hardRefresh();
 	}
-
-	@Override
-	public void prepareUI() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

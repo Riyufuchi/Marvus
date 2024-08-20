@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.subTabs.MonthDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
@@ -25,9 +25,9 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 15.08.2024
+ * @version 20.08.2024
  */
-public class TimedDetail extends DataDisplayMode
+public class TimedDetail extends DataDisplayTab
 {
 	private LocalDateTime fromDate, toDate;
 	private JButton dateFrom, dateTo;
@@ -39,8 +39,7 @@ public class TimedDetail extends DataDisplayMode
 	{
 		super(targetWindow);
 		this.toDate = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString());
-		this.fromDate = LocalDateTime.now().minusDays(7); // So we get data for past 7 days by default
-		this.fromDate = fromDate.toLocalDate().atStartOfDay();
+		this.fromDate = LocalDateTime.now().minusDays(7).toLocalDate().atStartOfDay(); // So we get data for past 7 days by default
 		this.categorizedMonths = new LinkedList<>();
 	}
 	
@@ -103,7 +102,7 @@ public class TimedDetail extends DataDisplayMode
 				holder = cat.getSum();
 				dataPane.add(SufuFactory.newButton(cat.getCategory(), MarvusGuiUtils.encodeCords(x, y), evt -> {
 					p = MarvusGuiUtils.extractPointFromButtonName(evt);
-					targetWindow.updateDataDisplayMode(new MonthDetail(targetWindow, categorizedMonths.get(p.x).get(p.y), false));
+					targetWindow.updateDataDisplayMode(new MonthDetail(targetWindow, categorizedMonths.get(p.x).get(p.y), false, this));
 				}));
 				dataPane.add(SufuFactory.newTextFieldHeader(holder.toString()));
 				if (holder.compareTo(zero) > 0)

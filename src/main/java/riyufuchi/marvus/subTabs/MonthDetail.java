@@ -1,6 +1,6 @@
 package riyufuchi.marvus.subTabs;
 
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
@@ -11,12 +11,12 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * @author Riyufuchi
  * @version 19.08.2024
  */
-public class MonthDetail extends DataDisplayMode
+public class MonthDetail extends DataDisplayTab
 {
 	private FinancialCategory fc;
 	private int day, numberOfDays, x, y;
 	
-	public MonthDetail(MarvusDataFrame targetWindow, FinancialCategory fc, boolean dynamicNumberOfDays)
+	public MonthDetail(MarvusDataFrame targetWindow, FinancialCategory fc, boolean dynamicNumberOfDays, DataDisplayTab parentTab)
 	{
 		super(targetWindow);
 		if (fc == null || fc.size() == 0)
@@ -30,11 +30,12 @@ public class MonthDetail extends DataDisplayMode
 		this.day = 0;
 		this.x = 0;
 		this.y = 0;
+		setParentTab(parentTab);
 	}
 	
-	public MonthDetail(MarvusDataFrame targetWindow, int x, int y, boolean dynamicNumberOfDays)
+	public MonthDetail(MarvusDataFrame targetWindow, int x, int y, boolean dynamicNumberOfDays, DataDisplayTab parentTab)
 	{
-		this(targetWindow, targetWindow.getController().getDatabase().getCategorizedMonth(x).get(y), dynamicNumberOfDays);
+		this(targetWindow, targetWindow.getController().getDatabase().getCategorizedMonth(x).get(y), dynamicNumberOfDays, parentTab);
 		this.x = x;
 		this.y = y;
 	}
@@ -78,7 +79,7 @@ public class MonthDetail extends DataDisplayMode
 			masterPanel.add(SufuFactory.newTextFieldCell(data.toString(),
 					evt -> showExtednedInfo(data, evt)),
 					targetWindow.getGBC(day, yColumn[day]));
-			yColumn[day] = yColumn[day] + 1;
+			yColumn[day]++;
 		});
 	}
 	

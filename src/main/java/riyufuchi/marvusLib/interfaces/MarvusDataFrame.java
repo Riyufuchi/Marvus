@@ -2,7 +2,7 @@ package riyufuchi.marvusLib.interfaces;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.sufuLib.interfaces.SufuWindowCommon;
 
 /**
@@ -12,11 +12,11 @@ import riyufuchi.sufuLib.interfaces.SufuWindowCommon;
  */
 public interface MarvusDataFrame extends SufuWindowCommon, MarvusControllable
 {
-	void updateDataDisplayMode(DataDisplayMode dataDisplayMode);
+	void updateDataDisplayMode(DataDisplayTab dataDisplayMode);
 	void refresh();
 	void displayData();
-	DataDisplayMode getCurrent();
-	DataDisplayMode getPrev();
+	DataDisplayTab getCurrent();
+	DataDisplayTab getPrev();
 	
 	/**
 	 * This method return it self, it is here to ensure, that this interface is implemented on JFrame as MarvusLib is Swing based library.

@@ -14,29 +14,41 @@ import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 18.08.2024
+ * @version 19.08.2024
  */
-public abstract class DataDisplayMode
+public abstract class DataDisplayTab
 {
 	protected MarvusDataFrame targetWindow;
 	protected MarvusDatabase dataSource;
 	protected JPanel masterPanel;
+	private DataDisplayTab ddt;
 	
-	public DataDisplayMode(MarvusDataFrame targetWindow)
+	public DataDisplayTab(MarvusDataFrame targetWindow)
 	{
-		this(targetWindow, targetWindow.getController().getDatabase());
+		this(targetWindow, targetWindow.getController().getDatabase(), null);
 	}
 	
-	public DataDisplayMode(MarvusDataFrame targetWindow, MarvusDatabase mdb)
+	public DataDisplayTab(MarvusDataFrame targetWindow, MarvusDatabase mdb)
+	{
+		this(targetWindow, mdb, null);
+	}
+	
+	public DataDisplayTab(MarvusDataFrame targetWindow, MarvusDatabase mdb, DataDisplayTab parentTab)
 	{
 		this.targetWindow = targetWindow;
 		this.dataSource = mdb;
 		this.masterPanel = targetWindow.getPane();
+		this.ddt = parentTab;
 	}
 	
 	public abstract void prepareUI();
 	public abstract void displayData();
 	public abstract void refresh();
+	
+	public DataDisplayTab parentTab()
+	{
+		return ddt;
+	}
 	
 	/**
 	 * Hard refresh is used when refresh() haven't been implemented yet
@@ -89,6 +101,11 @@ public abstract class DataDisplayMode
 	public void setTargetWindow(MarvusDataFrame targetWindow)
 	{
 		this.targetWindow = targetWindow;
+	}
+	
+	protected void setParentTab(DataDisplayTab parentTab)
+	{
+		this.ddt = parentTab;
 	}
 	
 	// Getters

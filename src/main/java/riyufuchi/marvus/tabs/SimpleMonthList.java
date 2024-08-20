@@ -2,13 +2,13 @@ package riyufuchi.marvus.tabs;
 
 import java.time.Month;
 
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
-public class SimpleMonthList extends DataDisplayMode
+public class SimpleMonthList extends DataDisplayTab
 {
 	private int[] columnHeight;
 	private final int NUM_OF_COLUMNS;

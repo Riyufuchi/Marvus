@@ -1,19 +1,19 @@
 package riyufuchi.marvus.tabs;
 
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvusLib.records.DataSummary;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
-public class DataSummaryOverview extends DataDisplayMode
+public class DataSummaryTab extends DataDisplayTab
 {
 	private final String[] captions = {"Transactions", "Income", "Spendings", "Outcome"};
 	private final String format = "%.2f";
 	private int xIndex, yIndex;
 	private DataSummary ds;
 	
-	public DataSummaryOverview(MarvusDataFrame targetWindow)
+	public DataSummaryTab(MarvusDataFrame targetWindow)
 	{
 		super(targetWindow);
 		resetValues();

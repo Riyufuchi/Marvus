@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
@@ -24,7 +24,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
  * @since 1.66 - 05.09.2023
  * @version 17.08.2024
  */
-public class YearOverviewTable extends DataDisplayMode
+public class YearOverviewTab extends DataDisplayTab
 {
 	private final int OFFSET = 5;
 	private final int NUM_OF_GENENERATED_COLUMNS = 13;
@@ -33,7 +33,7 @@ public class YearOverviewTable extends DataDisplayMode
 	private LinkedList<YearOverview> yearOverviews;
 	private int yOffset;
 	
-	public YearOverviewTable(MarvusDataFrame targetWindow, int year)
+	public YearOverviewTab(MarvusDataFrame targetWindow, int year)
 	{
 		super(targetWindow);
 		this.yOffset = 0;

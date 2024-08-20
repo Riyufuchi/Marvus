@@ -6,12 +6,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.legacy.data.MoneySum;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
-public class MoneySummaryOverview extends DataDisplayMode
+public class MoneySummaryOverview extends DataDisplayTab
 {
 	private JTextField[][] textFields;
 	private MarvusDataBox<MoneySum> data;

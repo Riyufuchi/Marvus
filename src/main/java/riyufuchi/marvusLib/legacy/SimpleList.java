@@ -1,12 +1,10 @@
 package riyufuchi.marvusLib.legacy;
 
-import javax.swing.JPanel;
-
-import riyufuchi.marvusLib.abstractClasses.DataDisplayMode;
+import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
-public class SimpleList extends DataDisplayMode
+public class SimpleList extends DataDisplayTab
 {
 	public SimpleList(MarvusDataFrame targetWindow)
 	{
@@ -14,10 +12,14 @@ public class SimpleList extends DataDisplayMode
 	}
 
 	@Override
+	public void prepareUI()
+	{
+	}
+	
+	@Override
 	public void displayData()
 	{
-		JPanel panel = targetWindow.getPane();
-		dataSource.stream().forEach(t -> panel.add(SufuFactory.newTextFieldCell(t.toString(),
+		dataSource.stream().forEach(t -> masterPanel.add(SufuFactory.newTextFieldCell(t.toString(),
 				evt -> showExtednedInfo(t, evt)), targetWindow.getGBC(0, t.getID())));
 	}
 
@@ -25,11 +27,5 @@ public class SimpleList extends DataDisplayMode
 	public void refresh()
 	{
 		hardRefresh();
-	}
-
-	@Override
-	public void prepareUI() {
-		// TODO Auto-generated method stub
-		
 	}
 }
