@@ -15,12 +15,12 @@ import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvus.dialogs.AppManager;
 import riyufuchi.marvus.dialogs.PreferencesDialog;
-import riyufuchi.marvus.tabs.CategorizedMonthList;
-import riyufuchi.marvus.tabs.CategorizedMonthOverview;
-import riyufuchi.marvus.tabs.CategorizedYearSummary;
+import riyufuchi.marvus.tabs.CategorizedMonthListTab;
+import riyufuchi.marvus.tabs.UncategorizedMonthListTab;
+import riyufuchi.marvus.tabs.YearSummaryTab;
 import riyufuchi.marvus.tabs.DataSummaryTab;
-import riyufuchi.marvus.tabs.SimpleMonthList;
-import riyufuchi.marvus.tabs.TimedDetail;
+import riyufuchi.marvus.tabs.SimpleMonthListTab;
+import riyufuchi.marvus.tabs.TimedDetailTab;
 import riyufuchi.marvus.tabs.YearOverviewTab;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
@@ -65,7 +65,7 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	protected void postWindowInit(JPanel content)
 	{
 		this.controller = new MarvusController(this);
-		this.currentMode = new CategorizedMonthList(this);
+		this.currentMode = new CategorizedMonthListTab(this);
 		this.prevMode = currentMode;
 		MarvusDatabase.utils.setParentframe(this);
 		if (MarvusConfig.autoLoadData)
@@ -114,13 +114,13 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
 				// Display modes
-				case "Simple month list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> updateDataDisplayMode(new SimpleMonthList(this)));
-				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> updateDataDisplayMode(new CategorizedMonthList(this)));
-				case "Categorized month overview" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> updateDataDisplayMode(new CategorizedMonthOverview(this)));
-				case "Categorized year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> updateDataDisplayMode(new CategorizedYearSummary(this))); 
+				case "Simple month list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> updateDataDisplayMode(new SimpleMonthListTab(this)));
+				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> updateDataDisplayMode(new CategorizedMonthListTab(this)));
+				case "Uncategorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> updateDataDisplayMode(new UncategorizedMonthListTab(this)));
+				case "Year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> updateDataDisplayMode(new YearSummaryTab(this))); 
 				case "Year overview" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTab(this, MarvusConfig.financialYear)));
 				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> updateDataDisplayMode(new DataSummaryTab(this)));
-				case "Timed detail" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> updateDataDisplayMode(new TimedDetail(this)));
+				case "Timed detail" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> updateDataDisplayMode(new TimedDetailTab(this)));
 				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> switchDataDisplayMode());
 				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());

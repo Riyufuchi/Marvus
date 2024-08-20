@@ -1,20 +1,18 @@
 package riyufuchi.marvus.tabs;
 
 import java.time.Month;
-import java.util.LinkedList;
 
 import riyufuchi.marvus.subTabs.MonthDetail;
-import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 
-public class CategorizedMonthOverview extends CategorizedMonthList
+/**
+ * Uncategorized month list originally called CategorizedMonthOverview
+ */
+public class UncategorizedMonthListTab extends CategorizedMonthListTab
 {
-	private LinkedList<LinkedList<FinancialCategory>> categorizedMonths;
-	
-	public CategorizedMonthOverview(MarvusDataFrame targetWindow)
+	public UncategorizedMonthListTab(MarvusDataFrame targetWindow)
 	{
 		super(targetWindow);
-		this.categorizedMonths = new LinkedList<>();
 	}
 
 	@Override

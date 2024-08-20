@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * @since 18.06.2024
  * @version 20.08.2024
  */
-public class TimedDetail extends DataDisplayTab
+public class TimedDetailTab extends DataDisplayTab
 {
 	private LocalDateTime fromDate, toDate;
 	private JButton dateFrom, dateTo;
@@ -35,7 +35,7 @@ public class TimedDetail extends DataDisplayTab
 	private JPanel dataPane, pane, flowPane;
 	private Point p;
 
-	public TimedDetail(MarvusDataFrame targetWindow)
+	public TimedDetailTab(MarvusDataFrame targetWindow)
 	{
 		super(targetWindow);
 		this.toDate = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString());
@@ -112,6 +112,7 @@ public class TimedDetail extends DataDisplayTab
 				y++;
 			}
 			x++;
+			y = 0;
 		}
 		dataPane.add(SufuFactory.newTextFieldHeader("Income:"));
 		dataPane.add(SufuFactory.newTextFieldHeader(income.toString()));

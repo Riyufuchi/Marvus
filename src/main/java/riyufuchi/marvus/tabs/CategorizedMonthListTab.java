@@ -3,10 +3,11 @@ package riyufuchi.marvus.tabs;
 import java.awt.event.ActionEvent;
 import java.time.Month;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 
-import riyufuchi.marvus.subTabs.MonthDetail;
+import riyufuchi.marvus.subTabs.CategoryDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
@@ -14,23 +15,24 @@ import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
-public class CategorizedMonthList extends DataDisplayTab
+public class CategorizedMonthListTab extends DataDisplayTab
 {
 	protected final Month[] months;
 	protected int y;
 	protected FinancialCategory fc;
+	protected LinkedList<LinkedList<FinancialCategory>> categorizedMonths;
 	private String point;
 	
-	public CategorizedMonthList(MarvusDataFrame targetWindow)
+	public CategorizedMonthListTab(MarvusDataFrame targetWindow)
 	{
 		super(targetWindow);
 		this.months = Month.values();
 		this.y = 1;
 		this.fc = null;
 		this.point = "";
+		this.categorizedMonths = new LinkedList<>();
 	}
 	
-
 	@Override
 	public void prepareUI()
 	{
@@ -42,7 +44,8 @@ public class CategorizedMonthList extends DataDisplayTab
 	{
 		for (Month month : months)
 		{
-			createDataTable(dataSource.getCategorizedMonth(month).iterator(), month);
+			categorizedMonths.add(dataSource.getCategorizedMonth(month));
+			createDataTable(categorizedMonths.getLast().iterator(), month);
 		}
 	}
 
@@ -66,7 +69,7 @@ public class CategorizedMonthList extends DataDisplayTab
 	
 	protected void showData(int x, int y)
 	{
-		targetWindow.updateDataDisplayMode(new MonthDetail(targetWindow, x, y, true, this));
+		targetWindow.updateDataDisplayMode(new CategoryDetail(targetWindow, categorizedMonths.get(x - 1).get(y), this));
 	}
 	
 	protected void btnDataReference(ActionEvent e)

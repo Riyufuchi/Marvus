@@ -17,12 +17,12 @@ import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
-public class CategorizedYearSummary extends DataDisplayTab
+public class YearSummaryTab extends DataDisplayTab
 {
 	private LinkedList<FinancialCategory> list;
 	private BigDecimal outcome;
 	
-	public CategorizedYearSummary(MarvusDataFrame targetWindow)
+	public YearSummaryTab(MarvusDataFrame targetWindow)
 	{
 		super(targetWindow);
 		this.list = dataSource.getCategorizedYearByCategories(MarvusConfig.financialYear);
