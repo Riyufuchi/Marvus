@@ -118,7 +118,7 @@ public class Marvus
 			{
 				w2 = new MarvusDataWindow(800, 600);
 			}
-			w2.setDataDisplayMode(((MarvusDataWindow)app).getDataDisplayMode());
+			w2.setDataDisplayMode(((MarvusDataWindow)app).getCurrentTab());
 			app.dispose();
 			app = w2;
 			((MarvusDataWindow)app).displayData();

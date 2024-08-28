@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.TransactionIO;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
+import riyufuchi.sufuLib.gui.SufuFilePicker;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -34,9 +36,14 @@ public final class MarvusGuiUtils
 	
 	public static TransactionIO createTransactionIO(MarvusDataWindow mdw)
 	{
-		TransactionIO fio = new TransactionIO(mdw, MarvusConfig.workFolder);
+		TransactionIO fio = new TransactionIO(mdw, MarvusConfig.defaultWorkFile.getAbsolutePath());
 		fio.setFileFilters(MarvusConfig.SER,  MarvusConfig.XML, MarvusConfig.MDB, MarvusConfig.CSV);
 		return fio;
+	}
+	
+	public static String pathSelector(JFrame parentFrame) throws NoSuchElementException
+	{
+		return new SufuFilePicker(parentFrame, MarvusConfig.currentWorkFile.getAbsolutePath()).showFilePicker().orElseThrow().getPath();
 	}
 	
 	public static void generateFile(JFrame frame, String path, String ... fileContent)

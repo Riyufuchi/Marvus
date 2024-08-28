@@ -16,7 +16,7 @@ public class MarvusConfig
 	public static String workFolder = "appdata/";
 	public static AppTheme appTheme = AppTheme.CROSS_PLATFORM;
 	public static int dateFormatIndex = 0;
-	public static File defaultWorkFile = new File(workFolder + "data.csv");
+	public static File defaultWorkFile = new File(workFolder + "data.marvusdb");
 	public static File currentWorkFile = defaultWorkFile;
 	public static boolean showQuitDialog = true;
 	public static int financialYear = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString()).getYear(); // TODO: Let user set this value

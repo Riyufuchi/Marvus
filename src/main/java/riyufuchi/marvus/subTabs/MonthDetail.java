@@ -63,7 +63,7 @@ public class MonthDetail extends DataDisplayTab
 		}
 		else
 		{
-			targetWindow.updateDataDisplayMode(targetWindow.getPrev());
+			targetWindow.updateDataDisplayMode(targetWindow.getPreviousTab());
 			return;
 		}
 		displayData();

@@ -53,6 +53,7 @@ public class CategorizedMonthListTab extends DataDisplayTab
 	public void refresh()
 	{
 		clearPanel(masterPanel, 11);
+		categorizedMonths.clear();
 		displayData();
 	}
 	

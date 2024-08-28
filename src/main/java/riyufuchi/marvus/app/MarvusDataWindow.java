@@ -158,9 +158,8 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		}
 		prevMode = currentMode;
 		currentMode = ddm;
-		if (controller.isOperationExucatable())
-			return;
-		displayData();
+		if (!controller.isOperationExucatable())
+			displayData();
 	}
 	
 	/**
@@ -225,11 +224,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	}
 	
 	// Getters
-	
-	public DataDisplayTab getDataDisplayMode()
-	{
-		return currentMode;
-	}
 
 	@Override
 	public JFrame getSelf()
@@ -244,13 +238,13 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	}
 
 	@Override
-	public DataDisplayTab getCurrent()
+	public DataDisplayTab getCurrentTab()
 	{
 		return currentMode;
 	}
 
 	@Override
-	public DataDisplayTab getPrev()
+	public DataDisplayTab getPreviousTab()
 	{
 		return prevMode;
 	}

@@ -15,8 +15,8 @@ public interface MarvusDataFrame extends SufuWindowCommon, MarvusControllable
 	void updateDataDisplayMode(DataDisplayTab dataDisplayMode);
 	void refresh();
 	void displayData();
-	DataDisplayTab getCurrent();
-	DataDisplayTab getPrev();
+	DataDisplayTab getCurrentTab();
+	DataDisplayTab getPreviousTab();
 	
 	/**
 	 * This method return it self, it is here to ensure, that this interface is implemented on JFrame as MarvusLib is Swing based library.
@@ -24,5 +24,4 @@ public interface MarvusDataFrame extends SufuWindowCommon, MarvusControllable
 	 * @return reference to itself 
 	 */
 	JFrame getSelf();
-	
 }

@@ -197,13 +197,13 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	}
 
 	@Override
-	public DataDisplayTab getCurrent()
+	public DataDisplayTab getCurrentTab()
 	{
 		return mso;
 	}
 
 	@Override
-	public DataDisplayTab getPrev()
+	public DataDisplayTab getPreviousTab()
 	{
 		return null;
 	}

@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Month;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.utils.MarvusConfig;
+import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
@@ -22,7 +23,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 17.08.2024
+ * @version 27.08.2024
  */
 public class YearOverviewTab extends DataDisplayTab
 {
@@ -76,10 +77,18 @@ public class YearOverviewTab extends DataDisplayTab
 		}
 	}
 	
-	// TODO: Add proper import dialog
 	private void addTable()
 	{
-		String path = MarvusConfig.currentWorkFile.getAbsolutePath().replace("2024", "2023");
+		String path = "No file was selected.";
+		try
+		{
+			path = MarvusGuiUtils.pathSelector(targetWindow.getSelf());
+		}
+		catch (NoSuchElementException e)
+		{
+			SufuDialogHelper.errorDialog(targetWindow.getSelf(), path + "\nException detail: " + e.getLocalizedMessage(), e.getClass().getSimpleName());
+			return;
+		}
 		MarvusDatabase db = null;
 		try
 		{

@@ -65,7 +65,7 @@ public class CategoryDetail extends DataDisplayTab
 	@Override
 	public void refresh()
 	{
-		targetWindow.updateDataDisplayMode(targetWindow.getPrev());
+		targetWindow.updateDataDisplayMode(targetWindow.getPreviousTab());
 	}
 	
 	private void prepData()

@@ -151,8 +151,8 @@ public class MarvusController implements IMarvusController
 	public void setDatabase(MarvusDatabase database)
 	{
 		this.database = database;
-		controledWindow.getCurrent().setNewData(this.database);
-		controledWindow.getPrev().setNewData(this.database);
+		controledWindow.getCurrentTab().setNewData(this.database);
+		controledWindow.getPreviousTab().setNewData(this.database);
 		// Because if database is loaded from serialization, comparator and errorHandler will be null
 		this.database.setErrorHandler(s -> SufuDialogHelper.warningDialog(controledWindow, s, "Data error"));
 		this.database.setComparator(TransactionComparation.compareFC(CompareMethod.By_name));
