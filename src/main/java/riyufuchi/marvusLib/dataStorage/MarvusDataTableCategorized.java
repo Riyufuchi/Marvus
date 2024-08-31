@@ -276,20 +276,20 @@ public class MarvusDataTableCategorized implements Serializable, MarvusCollectio
 	}
 
 	@Override
-	public Object[] toArray() {
-		// TODO Auto-generated method stub
+	public Object[] toArray()
+	{
 		return null;
 	}
 
 	@Override
-	public <T> T[] toArray(T[] a) {
-		// TODO Auto-generated method stub
+	public <T> T[] toArray(T[] a)
+	{
 		return null;
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> c) {
-		// TODO Auto-generated method stub
+	public boolean retainAll(Collection<?> c)
+	{
 		return false;
 	}
 }

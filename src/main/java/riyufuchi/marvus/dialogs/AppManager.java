@@ -1,136 +1,64 @@
 package riyufuchi.marvus.dialogs;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+import riyufuchi.marvus.controller.AppManagerController;
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvusLib.database.MarvusDatabase;
-import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.gui.SufuDialog;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
 /**
  * @author Riyufuchi
- * @version 1.2 - 12.10.2023
  * @since 07.10.2023
+ * @version 31.08.2024
  */
 public class AppManager extends SufuDialog
 {
 	private JButton addCategoryBtn, editCategoryBtn, removeCategoryBtn, sortCategoriesBtn;
 	private JButton addMacroBtn, editMacroBtn, removeMacroBtn, sortMacroBtn;
+	private JTextField fc;
+	private AppManagerController controller;
+	private JPanel menuPane;
+	private SufuGridPane buttonPane;
 	
 	public AppManager(JFrame parentFrame)
 	{
-		super("Application manager", parentFrame, DialogType.OK);
+		super("Marvus manager", parentFrame, DialogType.OK);
+		this.controller = new AppManagerController(parentFrame);
 	}
 
 	@Override
-	protected void createInputs(JPanel arg0)
+	protected void createInputs(JPanel panel)
 	{
-		addCategoryBtn = SufuFactory.newButton("Add category", evt -> addCategoryBtnEvt());
+		menuPane = SufuFactory.newFlowPane();
+		buttonPane = SufuFactory.newGridPane();
+		
+		panel.add(menuPane, getGBC(0, 0));
+		panel.add(buttonPane, getGBC(0, 1));
+		
+		menuPane.add(SufuFactory.newLabel("Financial year: "));
+		fc = SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.financialYear));
+		//fc.setEnabled(false);
+		menuPane.add(fc);
+		
+		addCategoryBtn = SufuFactory.newButton("Add category", evt -> controller.addCategoryBtnEvt());
 		editCategoryBtn = SufuFactory.newButton("Edit category", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
 		removeCategoryBtn = SufuFactory.newButton("Remove category", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
-		sortCategoriesBtn = SufuFactory.newButton("Sort categories", evt -> sortCategories());
+		sortCategoriesBtn = SufuFactory.newButton("Sort categories", evt -> controller.sortCategories());
 		
-		addMacroBtn = SufuFactory.newButton("Add macro", evt -> addTransactionMacroBtnEvt());
+		addMacroBtn = SufuFactory.newButton("Add macro", evt -> controller.addTransactionMacroBtnEvt());
 		editMacroBtn = SufuFactory.newButton("Edit macro", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
 		removeMacroBtn = SufuFactory.newButton("Remove macro", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
-		sortMacroBtn = SufuFactory.newButton("Sort macro", evt -> sortTransactionMacro());
+		sortMacroBtn = SufuFactory.newButton("Sort macro", evt -> controller.sortTransactionMacro());
 		
-		SufuGuiTools.addComponents(this, 0, 0, addCategoryBtn, editCategoryBtn, removeCategoryBtn, sortCategoriesBtn);
-		SufuGuiTools.addComponents(this, 1, 0, addMacroBtn, editMacroBtn, removeMacroBtn, sortMacroBtn);
-	}
-	
-	private void addCatagory() throws NullPointerException, IOException
-	{
-		String[] categories = new AddCategory(parentFrame).showAndGet();
-		if (categories == null)
-			return;
-		LinkedList<String> list = SufuPersistence.loadTextFile(MarvusConfig.CATEGORY_FILE_PATH);
-		for (String s : categories)
-			list.add(s);
-		MarvusDatabase.utils.setCategory(categories);
-		SufuPersistence.saveToCSVtoString(MarvusConfig.CATEGORY_FILE_PATH, list);
-	}
-	
-	private void addCategoryBtnEvt()
-	{
-		try
-		{
-			addCatagory();
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-		}
-	}
-	
-	private void sortCategories()
-	{
-		Arrays.sort(MarvusDatabase.utils.getCategoryList());
-		try
-		{
-			SufuPersistence.saveToCSV(MarvusConfig.CATEGORY_FILE_PATH, MarvusDatabase.utils.getCategoryList());
-		} 
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-			return;
-		}
-		SufuDialogHelper.informationDialog(parentFrame, "Done!", "Category sort");
-	}
-	
-	
-	private void addTransactionMacro() throws NullPointerException, IOException
-	{
-		TransactionMacro tm = new AddTransactionMacro(parentFrame).showAndGet();
-		if (tm == null)
-			return;
-		LinkedList<String> list = SufuPersistence.loadTextFile(MarvusConfig.TRANSACTION_MACRO_FILE_PATH);
-		list.add(tm.toCSV());
-		MarvusDatabase.utils.setMacro(tm);
-		SufuPersistence.saveToCSVtoString(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, list);
-	}	
-	
-	private void addTransactionMacroBtnEvt()
-	{
-		try
-		{
-			addTransactionMacro();
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-		}
-	}
-	
-	private void sortTransactionMacro()
-	{
-		LinkedList<TransactionMacro> list = new LinkedList<>();
-		for (int i= 0; i < MarvusDatabase.utils.getNames().length; i++)
-			list.add(MarvusDatabase.utils.getMacro(i));
-		Comparator<TransactionMacro> comp = (m1, m2) -> m1.name().compareTo(m2.name());
-		list.sort(comp);
-		try
-		{
-			SufuPersistence.<TransactionMacro>saveToCSV(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, list);
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-			return;
-		}
-		MarvusDatabase.utils.initialize(); //Reloads macros
-		SufuDialogHelper.informationDialog(parentFrame, "Done!", "Transaction macro sort");
+		SufuGuiTools.addComponents(buttonPane, 0, 0, addCategoryBtn, editCategoryBtn, removeCategoryBtn, sortCategoriesBtn);
+		SufuGuiTools.addComponents(buttonPane, 1, 0, addMacroBtn, editMacroBtn, removeMacroBtn, sortMacroBtn);
 	}
 
 	@Override

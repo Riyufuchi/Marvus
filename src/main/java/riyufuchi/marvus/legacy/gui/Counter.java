@@ -18,7 +18,7 @@ import riyufuchi.sufuLib.config.SufuLibFonts;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.general.InputChecker;
+import riyufuchi.sufuLib.utils.general.SufuInputChecker;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
@@ -128,9 +128,9 @@ public class Counter extends SufuWindow
 			{
 				for(int x = 0; x < max; x++)
 					if(textFields[x].getName().equals("-"))
-						cals.add("-" + InputChecker.checkDoubleFormat(textFields[x].getText()));
+						cals.add("-" + SufuInputChecker.checkDoubleFormat(textFields[x].getText()));
 					else
-						cals.add(InputChecker.checkDoubleFormat(textFields[x].getText()));
+						cals.add(SufuInputChecker.checkDoubleFormat(textFields[x].getText()));
 			}
 			catch(NullPointerException | IllegalArgumentException e)
 			{

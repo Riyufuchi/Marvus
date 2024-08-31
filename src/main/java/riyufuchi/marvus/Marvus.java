@@ -12,8 +12,8 @@ import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.legacy.gui.DataTableForm;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusUtils;
-import riyufuchi.sufuLib.config.CustomizeUI;
-import riyufuchi.sufuLib.enums.AppTheme;
+import riyufuchi.sufuLib.config.SufuCustomUI;
+import riyufuchi.sufuLib.enums.SufuAppTheme;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -35,7 +35,7 @@ public class Marvus
 		System.setProperty("sun.java2d.opengl", "true");
 		loadSettings();
 		timer = new SufuTimer(500);
-		CustomizeUI.setUI(MarvusConfig.appTheme);
+		SufuCustomUI.setTheme(MarvusConfig.appTheme);
 		for(String arg : args)
 		{
 			switch (arg)
@@ -87,7 +87,7 @@ public class Marvus
 				MarvusConfig.width = Integer.valueOf(data.getFirst().substring(0, data.getFirst().indexOf("x")));
 				MarvusConfig.height = Integer.valueOf(data.getFirst().substring(data.getFirst().indexOf("x") + 1));
 			}
-			MarvusConfig.appTheme = AppTheme.valueOf(data.get(1)); // Throws exception when inputed incorrect data
+			MarvusConfig.appTheme = SufuAppTheme.valueOf(data.get(1)); // Throws exception when inputed incorrect data
 			SufuDateUtils.setDateFormat(new SimpleDateFormat(MarvusTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex = Integer.valueOf(data.get(2))]));
 			MarvusConfig.currentWorkFile = new File(data.get(3));
 			MarvusConfig.defaultWorkFile = MarvusConfig.currentWorkFile;

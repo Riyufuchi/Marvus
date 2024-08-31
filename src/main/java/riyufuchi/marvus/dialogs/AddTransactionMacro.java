@@ -33,7 +33,7 @@ public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 	{
 		name = SufuFactory.newTextField("");
 		value = SufuFactory.newTextField("0");
-		category = SufuFactory.<String>newCombobox(MarvusDatabase.utils.getCategoryList());
+		category = SufuFactory.<String>newCombobox(MarvusDatabase.utils.getCategoryEnum());
 		SufuGuiTools.addLabels(this, "Name:", "Category:", "Value:");
 		SufuGuiTools.addComponents(this, 1, 0, name, category, value);
 	}

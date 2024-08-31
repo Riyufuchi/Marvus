@@ -50,7 +50,7 @@ public class AddDialog extends SufuDialog
 	{
 		utils = MarvusDatabase.utils;
 		nameBox = SufuFactory.<String>newCombobox(utils.getNames());
-		categoryBox = SufuFactory.<String>newCombobox(utils.getCategoryList());
+		categoryBox = SufuFactory.<String>newCombobox(utils.getCategoryEnum());
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
 		date = SufuFactory.newButton(SufuDateUtils.nowDateString(), evt -> {

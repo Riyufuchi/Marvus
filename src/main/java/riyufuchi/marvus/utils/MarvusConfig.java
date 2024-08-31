@@ -1,11 +1,11 @@
 package riyufuchi.marvus.utils;
 
 import java.io.File;
+import java.time.LocalDate;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import riyufuchi.sufuLib.enums.AppTheme;
-import riyufuchi.sufuLib.utils.time.SufuDateUtils;
+import riyufuchi.sufuLib.enums.SufuAppTheme;
 
 public class MarvusConfig
 {
@@ -13,20 +13,21 @@ public class MarvusConfig
 	public static boolean fullscreen = false;
 	public static int width = 800;
 	public static int height = 600;
-	public static String workFolder = "appdata/";
-	public static AppTheme appTheme = AppTheme.CROSS_PLATFORM;
+	public static String workFolder = "marvusData/";
+	public static SufuAppTheme appTheme = SufuAppTheme.CROSS_PLATFORM;
 	public static int dateFormatIndex = 0;
 	public static File defaultWorkFile = new File(workFolder + "data.marvusdb");
 	public static File currentWorkFile = defaultWorkFile;
 	public static boolean showQuitDialog = true;
-	public static int financialYear = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString()).getYear(); // TODO: Let user set this value
+	public static int financialYear = LocalDate.now().getYear(); // TODO: Edit App manager dialog so this value can be configured by user
 	public static boolean autoLoadData = false;
 	public static boolean autoMaximize = false;
 	// Unchangeable configuration
+	public static final String ENUM_FOLDER = "enums/";
 	public static final String MDB_EXT = ".marvusdb";
-	public static final String SETTINGS_FILE_PATH = workFolder + "config.txt";
-	public static final String CATEGORY_FILE_PATH = workFolder + "category.txt";
-	public static final String TRANSACTION_MACRO_FILE_PATH = workFolder + "transactionsMacro.txt";
+	public static final String SETTINGS_FILE_PATH = workFolder + "config.conf";
+	public static final String CATEGORY_FILE_PATH = workFolder + ENUM_FOLDER + "category.csv";
+	public static final String TRANSACTION_MACRO_FILE_PATH = workFolder + ENUM_FOLDER + "transactionsMacro.csv";
 	public static final FileNameExtensionFilter SER = new FileNameExtensionFilter(".ser", "ser");
 	public static final FileNameExtensionFilter CSV = new FileNameExtensionFilter(".csv", "csv");
 	public static final FileNameExtensionFilter XML = new FileNameExtensionFilter(".xml", "xml");

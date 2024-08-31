@@ -1,5 +1,6 @@
 # Folders
 appdata/
+marvusData/
 target/
 bin/
 bin
@@ -8,6 +9,7 @@ oldCode/
 jars/
 
 # Files
+*.conf
 *.csv
 .settings
 *.jardesc

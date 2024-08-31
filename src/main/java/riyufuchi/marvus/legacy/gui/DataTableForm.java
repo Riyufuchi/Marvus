@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.app.MarvusTexts;
-import riyufuchi.marvus.app.MarvusController;
+import riyufuchi.marvus.controller.MarvusController;
 import riyufuchi.marvus.dialogs.PreferencesDialog;
 import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.tabs.MoneySummaryOverview;

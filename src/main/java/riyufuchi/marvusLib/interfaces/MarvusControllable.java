@@ -1,6 +1,6 @@
 package riyufuchi.marvusLib.interfaces;
 
-import riyufuchi.marvus.app.MarvusController;
+import riyufuchi.marvus.controller.MarvusController;
 
 public interface MarvusControllable
 {

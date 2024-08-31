@@ -1,7 +1,8 @@
-package riyufuchi.marvus.app;
+package riyufuchi.marvus.controller;
 
 import java.io.IOException;
 
+import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.AddDialog;
 import riyufuchi.marvus.dialogs.TransactionIO;
 import riyufuchi.marvus.utils.MarvusConfig;

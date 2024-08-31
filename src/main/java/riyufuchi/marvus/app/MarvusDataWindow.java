@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.Marvus;
+import riyufuchi.marvus.controller.MarvusController;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusDeleg;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
