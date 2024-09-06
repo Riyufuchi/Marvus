@@ -1,15 +1,13 @@
 package riyufuchi.marvus.utils;
 
-import java.io.IOException;
-import java.time.LocalDate;
+
+import java.util.function.Consumer;
 
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusTexts;
+import riyufuchi.marvus.controller.MarvusController;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
-import riyufuchi.sufuLib.utils.files.SufuFileHelper;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
@@ -30,27 +28,10 @@ public class MarvusDeleg
 		SufuDialogHelper.informationDialog(marvusWindow, MarvusTexts.ABOUT_MARVUS, "About");
 	}
 	
-	public static void backupData(MarvusDataFrame mdw) throws NullPointerException, IOException
+	public static void consumeFunction(MarvusController controller, Consumer<Iterable<Transaction>> consumer)
 	{
-		if(mdw.getController().getDatabase().isEmpty())
-		{
-			SufuDialogHelper.warningDialog(mdw.getSelf(), "No data to backup", "Backup error");
+		if (controller.isOperationUnexucatable())
 			return;
-		}
-		if(SufuDialogHelper.yesNoDialog(mdw.getSelf(), "Are you sure?", "Data backup") == 1)
-			return;
-		String path = MarvusConfig.workFolder + "backups/" + LocalDate.now() + "/";
-		if(SufuFileHelper.checkDirectory(path))
-		{
-			if(SufuDialogHelper.yesNoDialog(mdw.getSelf(), "Are you really sure?\nThis action will overwrite existing backups.", "Backup creation") == 1)
-				return;
-		}
-		else
-		{
-			SufuDialogHelper.informationDialog(mdw.getSelf(), ("Created directory: " + path), "Backup directory created");
-		}
-		path += "data";
-		SufuPersistence.<Transaction>saveToCSV(path + ".csv", mdw.getController().getDatabase());
-		SufuDialogHelper.informationDialog(mdw.getSelf(), "Backup successfuly created", "Task successful");
+		consumer.accept(controller.getDatabase());
 	}
 }

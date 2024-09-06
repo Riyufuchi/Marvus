@@ -11,7 +11,7 @@ import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
@@ -26,7 +26,7 @@ public class CategoryDetail extends DataDisplayTab
 	private LinkedList<FinancialCategory> sortedCategory;
 	private int y;
 	
-	public CategoryDetail(MarvusDataFrame targetWindow, FinancialCategory category, DataDisplayTab parentTab)
+	public CategoryDetail(MarvusTabbedFrame targetWindow, FinancialCategory category, DataDisplayTab parentTab)
 	{
 		super(targetWindow);
 		this.category = category;

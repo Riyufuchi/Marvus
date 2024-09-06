@@ -4,7 +4,7 @@ import java.time.Month;
 
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
@@ -13,7 +13,7 @@ public class SimpleMonthListTab extends DataDisplayTab
 	private int[] columnHeight;
 	private final int NUM_OF_COLUMNS;
 	
-	public SimpleMonthListTab(MarvusDataFrame targetWindow)
+	public SimpleMonthListTab(MarvusTabbedFrame targetWindow)
 	{
 		super(targetWindow);
 		this.NUM_OF_COLUMNS = 13; // For optimization purpose

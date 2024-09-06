@@ -2,11 +2,9 @@ package riyufuchi.marvus.app;
 
 import java.awt.event.KeyEvent;
 import java.net.URL;
-import java.util.function.Consumer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import riyufuchi.marvus.Marvus;
 import riyufuchi.marvus.controller.MarvusController;
@@ -23,12 +21,11 @@ import riyufuchi.marvus.tabs.DataSummaryTab;
 import riyufuchi.marvus.tabs.SimpleMonthListTab;
 import riyufuchi.marvus.tabs.TimedDetailTab;
 import riyufuchi.marvus.tabs.YearOverviewTab;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
-import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvusLib.database.MarvusDatabase;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
-import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.marvusLib.interfaces.Fullscreenable;
+import riyufuchi.marvusLib.interfaces.MarvusFrame;
+import riyufuchi.sufuLib.gui.SufuWindowTabbedGeneric;
 import riyufuchi.sufuLib.lib.Lib;
 import riyufuchi.sufuLib.lib.SufuAppTools;
 import riyufuchi.sufuLib.lib.SufuLib;
@@ -39,35 +36,27 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 19.08.2024
+ * @version 06.09.2024
  */
-public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
+public class MarvusDataWindow extends SufuWindowTabbedGeneric<MarvusController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
 	private MarvusController controller;
-	private DataDisplayTab currentMode, prevMode, dummyMode;
 	
 	/**
 	 * Creates window in fullscreen mode
 	 */
 	public MarvusDataWindow()
 	{
-		super("Marvus - " + MarvusTexts.VERSION, false, true);
-		postWindowInit(getPane());
+		this(0, 0);
 	}
 	
 	public MarvusDataWindow(int width, int height)
 	{
 		super("Marvus - " + MarvusTexts.VERSION, width, height, false, true, true);
-		postWindowInit(getPane());
-	}
-
-	
-	@Override
-	protected void postWindowInit(JPanel content)
-	{
+		setupJMenu();
 		this.controller = new MarvusController(this);
-		this.currentMode = new CategorizedMonthListTab(this);
-		this.prevMode = currentMode;
+		newTab(controller);
+		setTabChangeListener(e -> updateTabController(e));
 		MarvusDatabase.utils.setParentframe(this);
 		if (MarvusConfig.autoLoadData)
 			controller.quickOpenFile();
@@ -76,17 +65,12 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 			this.setIconImage(new ImageIcon(iconURL).getImage());
 		else
 			SufuDialogHelper.errorDialog(this, "Icon image not found!", "Icon IO error");
-		
-		/*KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
-		{
-			@Override
-			public boolean dispatchKeyEvent(KeyEvent e)
-			{
-				if (e.getKeyCode() == KeyEvent.VK_F11)
-						MarvusMain.fullScreen();
-				return false;
-			}
-		})*/;
+	}
+	
+	private void updateTabController(final int index)
+	{
+		controller = getCurrentTabController();
+		MarvusConfig.currentFinancialYear = controller.getFinancialYear();
 	}
 	
 	private void setupJMenu()
@@ -104,25 +88,25 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 				case "Exit" -> jmc.setItemAction(i, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
 				case "Export"-> jmc.setItemAction(i,event -> controller.exportData());
 				case "Import" -> jmc.setItemAction(i, event -> controller.importData());
-				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> refresh());
+				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> controller.refresh());
 				case "Backup" -> jmc.setItemAction(i, KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK, event -> controller.createBackup());
 				// Data tools
 				case "Sort" -> jmc.setItemAction(i, e -> controller.sortData());
 				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this , controller.getDatabase()); });
 				// Tools
-				case "Month outcome" -> jmc.setItemAction(i,event -> setConsumerFunction(TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
+				case "Month outcome" -> jmc.setItemAction(i,event -> MarvusDeleg.consumeFunction(controller, TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
 				case "Application manager" -> jmc.setItemAction(i, event -> new AppManager(this).showDialog());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
 				// Display modes
-				case "Simple month list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> updateDataDisplayMode(new SimpleMonthListTab(this)));
-				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> updateDataDisplayMode(new CategorizedMonthListTab(this)));
-				case "Uncategorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> updateDataDisplayMode(new UncategorizedMonthListTab(this)));
-				case "Year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> updateDataDisplayMode(new YearSummaryTab(this))); 
-				case "Year overview" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> updateDataDisplayMode(new YearOverviewTab(this, MarvusConfig.financialYear)));
-				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> updateDataDisplayMode(new DataSummaryTab(this)));
-				case "Timed detail" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> updateDataDisplayMode(new TimedDetailTab(this)));
-				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> switchDataDisplayMode());
+				case "Simple month list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> controller.updateDataDisplayMode(new SimpleMonthListTab(controller)));
+				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> controller.updateDataDisplayMode(new CategorizedMonthListTab(controller)));
+				case "Uncategorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> controller.updateDataDisplayMode(new UncategorizedMonthListTab(controller)));
+				case "Year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> controller.updateDataDisplayMode(new YearSummaryTab(controller))); 
+				case "Year overview" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> controller.updateDataDisplayMode(new YearOverviewTab(controller, MarvusConfig.currentFinancialYear)));
+				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> controller.updateDataDisplayMode(new DataSummaryTab(controller)));
+				case "Week detail" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> controller.updateDataDisplayMode(new TimedDetailTab(controller)));
+				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> controller.switchDataDisplayMode());
 				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());
 				case "Fullscreen" -> jmc.setItemAction(i, KeyEvent.VK_F11, event -> Marvus.fullScreen());
@@ -136,56 +120,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 		super.setJMenuBar(jmc.getJMenuBar());
 	}
 	
-	private void switchDataDisplayMode()
-	{
-		dummyMode = currentMode;
-		if (currentMode.parentTab() == null)
-			currentMode = prevMode;
-		else
-			currentMode = currentMode.parentTab();
-		prevMode = dummyMode;
-		displayData();
-	}
-	
-	@Override
-	public void updateDataDisplayMode(DataDisplayTab ddm)
-	{
-		if (ddm == null)
-			return;
-		if (currentMode.getClass().getName().equals(ddm.getClass().getName()))
-		{
-			refresh();
-			return;
-		}
-		prevMode = currentMode;
-		currentMode = ddm;
-		if (!controller.isOperationExucatable())
-			displayData();
-	}
-	
-	/**
-	 * Refresh displayed data
-	 */
-	@Override
-	public void refresh()
-	{
-		if (controller.isOperationExucatable())
-			return;
-		currentMode.refresh();
-		refreshWindow();
-	}
-	
-	/**
-	 * Displays data, use only when changing displayMode or displaying entirely new data
-	 */
-	public void displayData()
-	{
-		getPane().removeAll(); // Removes all previous content
-		currentMode.prepareUI(); // Prepares static content such as menus
-		currentMode.displayData(); // Displays/ prepares data to by displayed
-		refreshWindow(); 
-	}
-	
 	// OnEvent
 	
 	@Override
@@ -195,34 +129,6 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	}
 	
 	// Setters
-	
-	private void setConsumerFunction(Consumer<Iterable<Transaction>> consumer)
-	{
-		if (controller.isOperationExucatable())
-			return;
-		consumer.accept(controller.getDatabase());
-	}
-	
-	@Override
-	protected void setComponents(JPanel content)
-	{
-		setupJMenu();
-	}
-	
-	/**
-	 * This setter sets data disply mode when changing fullscreen and windowed mode
-	 * 
-	 * @param ddm
-	 */
-	public void setDataDisplayMode(DataDisplayTab ddm)
-	{
-		if (ddm == null)
-			return;
-		controller.setDatabase(ddm.getDataSource());
-		currentMode.setNewData(controller.getDatabase()); // current mode might have still old data table
-		ddm.setTargetWindow(this); // ddm have reference to old window
-		updateDataDisplayMode(ddm); 
-	}
 	
 	// Getters
 
@@ -239,14 +145,9 @@ public class MarvusDataWindow extends SufuWindow implements MarvusDataFrame
 	}
 
 	@Override
-	public DataDisplayTab getCurrentTab()
+	public void toggleFullscreen(MarvusDataWindow oldFrame)
 	{
-		return currentMode;
-	}
-
-	@Override
-	public DataDisplayTab getPreviousTab()
-	{
-		return prevMode;
+		controller.setDataDisplayMode(oldFrame.getController().getCurrentTab());
+		controller.displayData();
 	}
 }

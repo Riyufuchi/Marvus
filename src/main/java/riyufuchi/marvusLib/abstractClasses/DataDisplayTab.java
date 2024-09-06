@@ -9,7 +9,7 @@ import riyufuchi.marvus.dialogs.EditDialog;
 import riyufuchi.marvus.dialogs.RemoveDialog;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 
 /**
  * @author Riyufuchi
@@ -18,22 +18,22 @@ import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
  */
 public abstract class DataDisplayTab
 {
-	protected MarvusDataFrame targetWindow;
+	protected MarvusTabbedFrame targetWindow;
 	protected MarvusDatabase dataSource;
 	protected JPanel masterPanel;
 	private DataDisplayTab ddt;
 	
-	public DataDisplayTab(MarvusDataFrame targetWindow)
+	public DataDisplayTab(MarvusTabbedFrame targetWindow)
 	{
 		this(targetWindow, targetWindow.getController().getDatabase(), null);
 	}
 	
-	public DataDisplayTab(MarvusDataFrame targetWindow, MarvusDatabase mdb)
+	public DataDisplayTab(MarvusTabbedFrame targetWindow, MarvusDatabase mdb)
 	{
 		this(targetWindow, mdb, null);
 	}
 	
-	public DataDisplayTab(MarvusDataFrame targetWindow, MarvusDatabase mdb, DataDisplayTab parentTab)
+	public DataDisplayTab(MarvusTabbedFrame targetWindow, MarvusDatabase mdb, DataDisplayTab parentTab)
 	{
 		this.targetWindow = targetWindow;
 		this.dataSource = mdb;
@@ -98,7 +98,7 @@ public abstract class DataDisplayTab
 		this.dataSource = dataSource;
 	}
 	
-	public void setTargetWindow(MarvusDataFrame targetWindow)
+	public void setTargetWindow(MarvusTabbedFrame targetWindow)
 	{
 		this.targetWindow = targetWindow;
 	}

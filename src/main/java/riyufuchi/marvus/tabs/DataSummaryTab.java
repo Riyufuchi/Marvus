@@ -2,7 +2,7 @@ package riyufuchi.marvus.tabs;
 
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.records.DataSummary;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
@@ -13,11 +13,11 @@ public class DataSummaryTab extends DataDisplayTab
 	private int xIndex, yIndex;
 	private DataSummary ds;
 	
-	public DataSummaryTab(MarvusDataFrame targetWindow)
+	public DataSummaryTab(MarvusTabbedFrame targetWindow)
 	{
 		super(targetWindow);
 		resetValues();
-		this.ds = dataSource.getDataSummary(MarvusConfig.financialYear);
+		this.ds = dataSource.getDataSummary(MarvusConfig.currentFinancialYear);
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public class DataSummaryTab extends DataDisplayTab
 		yIndex = 1;
 		for (String s : captions)
 			masterPanel.add(SufuFactory.newTextFieldHeader(s), targetWindow.getGBC(0, yIndex++));
-		masterPanel.add(SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.financialYear)), targetWindow.getGBC(0, 0));
+		masterPanel.add(SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.currentFinancialYear)), targetWindow.getGBC(0, 0));
 		masterPanel.add(SufuFactory.newTextFieldHeader("Total"), targetWindow.getGBC(1, 0));
 		masterPanel.add(SufuFactory.newTextFieldHeader("Average per year"), targetWindow.getGBC(2, 0));
 		resetValues();
@@ -53,7 +53,7 @@ public class DataSummaryTab extends DataDisplayTab
 	{
 		clearPanel(masterPanel, 6);
 		resetValues();
-		ds = dataSource.getDataSummary(MarvusConfig.financialYear);
+		ds = dataSource.getDataSummary(MarvusConfig.currentFinancialYear);
 		displayData();
 	}
 	

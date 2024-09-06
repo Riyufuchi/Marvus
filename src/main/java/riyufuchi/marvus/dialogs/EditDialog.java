@@ -53,7 +53,7 @@ public class EditDialog extends AddDialog
 		transaction.setDate(date.getText());
 		transaction.setNote(note.getText());
 		transaction.setCurrency(currency.getText());
-		((MarvusDataWindow)parentFrame).refresh();
+		((MarvusDataWindow)parentFrame).getController().refresh();
 	}
 	
 	public Transaction getTransaction()

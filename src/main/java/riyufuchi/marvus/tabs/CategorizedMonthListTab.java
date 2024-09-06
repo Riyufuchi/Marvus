@@ -11,7 +11,7 @@ import riyufuchi.marvus.subTabs.CategoryDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
@@ -23,7 +23,7 @@ public class CategorizedMonthListTab extends DataDisplayTab
 	protected LinkedList<LinkedList<FinancialCategory>> categorizedMonths;
 	private String point;
 	
-	public CategorizedMonthListTab(MarvusDataFrame targetWindow)
+	public CategorizedMonthListTab(MarvusTabbedFrame targetWindow)
 	{
 		super(targetWindow);
 		this.months = Month.values();

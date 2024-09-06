@@ -1,12 +1,12 @@
 package riyufuchi.marvusLib.legacy;
 
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 public class SimpleList extends DataDisplayTab
 {
-	public SimpleList(MarvusDataFrame targetWindow)
+	public SimpleList(MarvusTabbedFrame targetWindow)
 	{
 		super(targetWindow);
 	}

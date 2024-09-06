@@ -1,13 +1,13 @@
 package riyufuchi.marvus.dialogs;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.AppManagerController;
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.sufuLib.gui.SufuDialog;
+import riyufuchi.sufuLib.gui.SufuDialogGeneric;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGridPane;
@@ -16,9 +16,9 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 07.10.2023
- * @version 31.08.2024
+ * @version 06.09.2024
  */
-public class AppManager extends SufuDialog
+public class AppManager extends SufuDialogGeneric<MarvusDataWindow>
 {
 	private JButton addCategoryBtn, editCategoryBtn, removeCategoryBtn, sortCategoriesBtn;
 	private JButton addMacroBtn, editMacroBtn, removeMacroBtn, sortMacroBtn;
@@ -27,7 +27,7 @@ public class AppManager extends SufuDialog
 	private JPanel menuPane;
 	private SufuGridPane buttonPane;
 	
-	public AppManager(JFrame parentFrame)
+	public AppManager(MarvusDataWindow parentFrame)
 	{
 		super("Marvus manager", parentFrame, DialogType.OK);
 		this.controller = new AppManagerController(parentFrame);
@@ -43,7 +43,7 @@ public class AppManager extends SufuDialog
 		panel.add(buttonPane, getGBC(0, 1));
 		
 		menuPane.add(SufuFactory.newLabel("Financial year: "));
-		fc = SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.financialYear));
+		fc = SufuFactory.newTextField(String.valueOf(MarvusConfig.currentFinancialYear));
 		//fc.setEnabled(false);
 		menuPane.add(fc);
 		
@@ -64,6 +64,13 @@ public class AppManager extends SufuDialog
 	@Override
 	protected void onOK()
 	{
-		
+		try
+		{
+			parentFrame.getController().setFinancialYear(Integer.valueOf(fc.getText()));
+		}
+		catch (NumberFormatException e)
+		{
+			SufuDialogHelper.exceptionDialog(parentFrame, e);
+		}
 	}
 }

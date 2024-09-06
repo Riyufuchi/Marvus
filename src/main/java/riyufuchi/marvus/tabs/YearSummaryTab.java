@@ -13,7 +13,7 @@ import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
@@ -22,10 +22,10 @@ public class YearSummaryTab extends DataDisplayTab
 	private LinkedList<FinancialCategory> list;
 	private BigDecimal outcome;
 	
-	public YearSummaryTab(MarvusDataFrame targetWindow)
+	public YearSummaryTab(MarvusTabbedFrame targetWindow)
 	{
 		super(targetWindow);
-		this.list = dataSource.getCategorizedYearByCategories(MarvusConfig.financialYear);
+		this.list = dataSource.getCategorizedYearByCategories(MarvusConfig.currentFinancialYear);
 		this.outcome = new BigDecimal(0);
 		Collections.sort(list, TransactionComparation.compareFC(CompareMethod.By_catagory));
 	}
@@ -57,7 +57,7 @@ public class YearSummaryTab extends DataDisplayTab
 	public void refresh()
 	{
 		clearPanel(masterPanel, 2);
-		list = dataSource.getCategorizedYearByCategories(MarvusConfig.financialYear);
+		list = dataSource.getCategorizedYearByCategories(MarvusConfig.currentFinancialYear);
 		Collections.sort(list, TransactionComparation.compareFC(CompareMethod.By_catagory));
 		displayData();
 	}

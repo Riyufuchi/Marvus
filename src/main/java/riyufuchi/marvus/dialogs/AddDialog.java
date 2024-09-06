@@ -96,6 +96,6 @@ public class AddDialog extends SufuDialog
 	protected void onOK()
 	{
 		((MarvusDataWindow)parentFrame).getController().getDatabase().add(new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
-		((MarvusDataWindow)parentFrame).refresh();
+		((MarvusDataWindow)parentFrame).getController().refresh();
 	}
 }

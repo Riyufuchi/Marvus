@@ -18,7 +18,7 @@ import riyufuchi.marvus.legacy.tabs.MoneySummaryOverview;
 import riyufuchi.marvus.legacy.utils.MarvusLegacyHelper;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
@@ -31,7 +31,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
  * @version 26.07.2024
  */
 @SuppressWarnings("deprecation")
-public final class DataTableForm extends SufuWindow implements MarvusDataFrame
+public final class DataTableForm extends SufuWindow implements MarvusTabbedFrame
 {
 	private MarvusDataBox<MoneySum> dataBox;
 	private DataDisplayTab mso;
@@ -206,5 +206,10 @@ public final class DataTableForm extends SufuWindow implements MarvusDataFrame
 	public DataDisplayTab getPreviousTab()
 	{
 		return null;
+	}
+
+	@Override
+	public void setDataDisplayMode(DataDisplayTab ddm)
+	{
 	}
 }

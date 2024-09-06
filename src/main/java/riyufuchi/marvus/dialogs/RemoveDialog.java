@@ -28,7 +28,7 @@ public class RemoveDialog extends EditDialog
 		{
 			MarvusDataWindow budgetDataTable = (MarvusDataWindow)parentFrame;
 			budgetDataTable.getController().getDatabase().remove(getTransaction());
-			budgetDataTable.refresh();
+			budgetDataTable.getController().refresh();
 		}
 	}
 }

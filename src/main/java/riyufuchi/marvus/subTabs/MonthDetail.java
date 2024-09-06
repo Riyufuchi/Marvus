@@ -3,7 +3,7 @@ package riyufuchi.marvus.subTabs;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
@@ -16,7 +16,7 @@ public class MonthDetail extends DataDisplayTab
 	private FinancialCategory fc;
 	private int day, numberOfDays, x, y;
 	
-	public MonthDetail(MarvusDataFrame targetWindow, FinancialCategory fc, boolean dynamicNumberOfDays, DataDisplayTab parentTab)
+	public MonthDetail(MarvusTabbedFrame targetWindow, FinancialCategory fc, boolean dynamicNumberOfDays, DataDisplayTab parentTab)
 	{
 		super(targetWindow);
 		if (fc == null || fc.size() == 0)
@@ -33,7 +33,7 @@ public class MonthDetail extends DataDisplayTab
 		setParentTab(parentTab);
 	}
 	
-	public MonthDetail(MarvusDataFrame targetWindow, int x, int y, boolean dynamicNumberOfDays, DataDisplayTab parentTab)
+	public MonthDetail(MarvusTabbedFrame targetWindow, int x, int y, boolean dynamicNumberOfDays, DataDisplayTab parentTab)
 	{
 		this(targetWindow, targetWindow.getController().getDatabase().getCategorizedMonth(x).get(y), dynamicNumberOfDays, parentTab);
 		this.x = x;

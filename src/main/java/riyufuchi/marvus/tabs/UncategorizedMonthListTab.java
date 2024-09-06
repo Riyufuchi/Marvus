@@ -3,14 +3,14 @@ package riyufuchi.marvus.tabs;
 import java.time.Month;
 
 import riyufuchi.marvus.subTabs.MonthDetail;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 
 /**
  * Uncategorized month list originally called CategorizedMonthOverview
  */
 public class UncategorizedMonthListTab extends CategorizedMonthListTab
 {
-	public UncategorizedMonthListTab(MarvusDataFrame targetWindow)
+	public UncategorizedMonthListTab(MarvusTabbedFrame targetWindow)
 	{
 		super(targetWindow);
 	}

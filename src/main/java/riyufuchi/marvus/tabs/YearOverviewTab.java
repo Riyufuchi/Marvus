@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.database.MarvusDatabase;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -34,7 +34,7 @@ public class YearOverviewTab extends DataDisplayTab
 	private LinkedList<YearOverview> yearOverviews;
 	private int yOffset;
 	
-	public YearOverviewTab(MarvusDataFrame targetWindow, int year)
+	public YearOverviewTab(MarvusTabbedFrame targetWindow, int year)
 	{
 		super(targetWindow);
 		this.yOffset = 0;

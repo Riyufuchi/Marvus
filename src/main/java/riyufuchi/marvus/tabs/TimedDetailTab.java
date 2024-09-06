@@ -17,7 +17,7 @@ import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
@@ -35,7 +35,7 @@ public class TimedDetailTab extends DataDisplayTab
 	private JPanel dataPane, pane, flowPane;
 	private Point p;
 
-	public TimedDetailTab(MarvusDataFrame targetWindow)
+	public TimedDetailTab(MarvusTabbedFrame targetWindow)
 	{
 		super(targetWindow);
 		this.toDate = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString());

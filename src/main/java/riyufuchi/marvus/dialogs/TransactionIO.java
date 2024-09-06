@@ -49,7 +49,7 @@ public class TransactionIO extends SufuFileChooserGeneric<MarvusDataWindow>
 			return;
 		}
 		fi.setDataTo(parentFrame.getController());
-		parentFrame.displayData();
+		parentFrame.getController().displayData();
 	}
 	
 	private String addExtension(String path)

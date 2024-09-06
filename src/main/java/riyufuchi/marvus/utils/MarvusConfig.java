@@ -1,7 +1,6 @@
 package riyufuchi.marvus.utils;
 
 import java.io.File;
-import java.time.LocalDate;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -19,7 +18,7 @@ public class MarvusConfig
 	public static File defaultWorkFile = new File(workFolder + "data.marvusdb");
 	public static File currentWorkFile = defaultWorkFile;
 	public static boolean showQuitDialog = true;
-	public static int financialYear = LocalDate.now().getYear(); // TODO: Edit App manager dialog so this value can be configured by user
+	public static int currentFinancialYear = 0;
 	public static boolean autoLoadData = false;
 	public static boolean autoMaximize = false;
 	// Unchangeable configuration

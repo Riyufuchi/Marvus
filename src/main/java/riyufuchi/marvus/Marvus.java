@@ -14,7 +14,6 @@ import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.sufuLib.config.SufuCustomUI;
 import riyufuchi.sufuLib.enums.SufuAppTheme;
-import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
@@ -23,11 +22,11 @@ import riyufuchi.sufuLib.utils.time.SufuTimer;
 /**
  * @author Riyufuchi
  * @since 20.04.2022
- * @version 18.06.2024
+ * @version 06.09.2024
  */
 public class Marvus
 {
-	private static SufuWindow app;
+	private static JFrame app;
 	private static SufuTimer timer;
 	
 	public static void main(String[] args)
@@ -111,17 +110,12 @@ public class Marvus
 		{
 			MarvusDataWindow w2;
 			if(app.isResizable())
-			{
 				w2 = new MarvusDataWindow();
-			}
 			else
-			{
-				w2 = new MarvusDataWindow(800, 600);
-			}
-			w2.setDataDisplayMode(((MarvusDataWindow)app).getCurrentTab());
+				w2 = new MarvusDataWindow(MarvusConfig.width, MarvusConfig.height);
+			w2.toggleFullscreen((MarvusDataWindow)app);
 			app.dispose();
 			app = w2;
-			((MarvusDataWindow)app).displayData();
 		}
 	}
 }

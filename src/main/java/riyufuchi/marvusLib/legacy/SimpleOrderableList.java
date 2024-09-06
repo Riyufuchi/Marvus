@@ -2,12 +2,12 @@ package riyufuchi.marvusLib.legacy;
 
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.interfaces.MarvusDataFrame;
+import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 public class SimpleOrderableList extends DataDisplayTab
 {
-	public SimpleOrderableList(MarvusDataFrame targetWindow)
+	public SimpleOrderableList(MarvusTabbedFrame targetWindow)
 	{
 		super(targetWindow);
 	}
