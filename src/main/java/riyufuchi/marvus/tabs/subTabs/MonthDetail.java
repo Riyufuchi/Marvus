@@ -1,4 +1,4 @@
-package riyufuchi.marvus.subTabs;
+package riyufuchi.marvus.tabs.subTabs;
 
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;

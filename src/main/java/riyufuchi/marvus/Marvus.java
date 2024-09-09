@@ -11,9 +11,9 @@ import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.legacy.gui.DataTableForm;
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.sufuLib.config.SufuCustomUI;
 import riyufuchi.sufuLib.enums.SufuAppTheme;
+import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
@@ -61,7 +61,7 @@ public class Marvus
 	
 	private static void createConfigFile()
 	{
-		MarvusUtils.generateFile(app, MarvusConfig.SETTINGS_FILE_PATH,
+		SufuFileHelper.generateFile(app, MarvusConfig.SETTINGS_FILE_PATH,
 				(MarvusConfig.width + "x" + MarvusConfig.height),
 				MarvusConfig.appTheme.toString(),
 				Integer.toString(MarvusConfig.dateFormatIndex),

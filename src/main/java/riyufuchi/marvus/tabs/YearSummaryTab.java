@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 import javax.swing.JButton;
 
-import riyufuchi.marvus.subTabs.CategoryDetail;
+import riyufuchi.marvus.tabs.subTabs.CategoryDetail;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;

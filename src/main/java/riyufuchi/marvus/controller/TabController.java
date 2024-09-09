@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.NoSuchElementException;
 
 import javax.swing.JFrame;
 
@@ -17,6 +18,7 @@ import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
+import riyufuchi.marvusLib.database.MarvusConnection;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.IMarvusController;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
@@ -30,9 +32,9 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 06.09.2024
+ * @version 09.09.2024
  */
-public class MarvusController implements IMarvusController, MarvusTabbedFrame
+public class TabController implements IMarvusController, MarvusTabbedFrame
 {
 	private MarvusDatabase database;
 	private final MarvusDataWindow controledWindow;
@@ -40,7 +42,7 @@ public class MarvusController implements IMarvusController, MarvusTabbedFrame
 	private SufuGridPane panel;
 	private int financialYear;
 	
-	public MarvusController(MarvusDataWindow controledWindow)
+	public TabController(MarvusDataWindow controledWindow)
 	{
 		this.database = new MarvusDatabase(e -> SufuDialogHelper.errorDialog(controledWindow, e, "Marvus database error"));
 		this.controledWindow = controledWindow;
@@ -48,6 +50,14 @@ public class MarvusController implements IMarvusController, MarvusTabbedFrame
 		this.currentMode = new CategorizedMonthListTab(this);
 		this.prevMode = currentMode;
 		setFinancialYear(LocalDate.now().getYear());
+	}
+	
+	@SuppressWarnings("unused")
+	public void executeQuarry()
+	{
+		//MarvusUtils.fixCategory(controledWindow , database);
+		MarvusConnection con = new MarvusConnection(database);
+		SufuDialogHelper.notImplementedYetDialog(controledWindow);
 	}
 	
 	public void addNewTransaction()
@@ -132,11 +142,20 @@ public class MarvusController implements IMarvusController, MarvusTabbedFrame
 	
 	public void importData()
 	{
-		File newFile = MarvusGuiUtils.createTransactionIO(controledWindow).showLoadChooser();
+		File newFile = null;
+		try
+		{
+			newFile = MarvusGuiUtils.fileSelector(controledWindow);
+		}
+		catch (NoSuchElementException e)
+		{
+			SufuDialogHelper.exceptionDialog(controledWindow, e);
+			return;
+		}
 		if (!controledWindow.containsTabNamed(newFile.getName()))
 		{
 			MarvusConfig.currentWorkFile = newFile;
-			MarvusController newCon = new MarvusController(controledWindow);
+			TabController newCon = new TabController(controledWindow);
 			controledWindow.newTab(newCon);
 			newCon.quickOpenFile();
 		}
@@ -291,7 +310,7 @@ public class MarvusController implements IMarvusController, MarvusTabbedFrame
 	}
 
 	@Override
-	public MarvusController getController()
+	public TabController getController()
 	{
 		return this;
 	}

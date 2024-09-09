@@ -2,7 +2,7 @@ package riyufuchi.marvus.tabs;
 
 import java.time.Month;
 
-import riyufuchi.marvus.subTabs.MonthDetail;
+import riyufuchi.marvus.tabs.subTabs.MonthDetail;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 
 /**

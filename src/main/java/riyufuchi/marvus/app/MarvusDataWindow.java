@@ -7,9 +7,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.Marvus;
-import riyufuchi.marvus.controller.MarvusController;
+import riyufuchi.marvus.controller.TabController;
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvus.utils.MarvusDeleg;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvus.dialogs.AppManager;
@@ -36,11 +35,11 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 06.09.2024
+ * @version 09.09.2024
  */
-public class MarvusDataWindow extends SufuWindowTabbedGeneric<MarvusController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
+public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
-	private MarvusController controller;
+	private TabController controller;
 	
 	/**
 	 * Creates window in fullscreen mode
@@ -54,7 +53,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<MarvusController> 
 	{
 		super("Marvus - " + MarvusTexts.VERSION, width, height, false, true, true);
 		setupJMenu();
-		this.controller = new MarvusController(this);
+		this.controller = new TabController(this);
 		newTab(controller);
 		setTabChangeListener(e -> updateTabController(e));
 		MarvusDatabase.utils.setParentframe(this);
@@ -92,9 +91,9 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<MarvusController> 
 				case "Backup" -> jmc.setItemAction(i, KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK, event -> controller.createBackup());
 				// Data tools
 				case "Sort" -> jmc.setItemAction(i, e -> controller.sortData());
-				case "Fix category" -> jmc.setItemAction(i, e -> { MarvusUtils.fixCategory(this , controller.getDatabase()); });
+				case "Execute quarry" -> jmc.setItemAction(i, e -> {controller.executeQuarry(); });
 				// Tools
-				case "Month outcome" -> jmc.setItemAction(i,event -> MarvusDeleg.consumeFunction(controller, TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
+				case "Month outcome" -> jmc.setItemAction(i,event -> MarvusUtils.consumeFunction(controller, TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
 				case "Application manager" -> jmc.setItemAction(i, event -> new AppManager(this).showDialog());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
@@ -111,7 +110,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<MarvusController> 
 				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());
 				case "Fullscreen" -> jmc.setItemAction(i, KeyEvent.VK_F11, event -> Marvus.fullScreen());
 				// Help
-				case "About" -> jmc.setItemAction(i, event -> MarvusDeleg.aboutMarvus(this));
+				case "About" -> jmc.setItemAction(i, event -> MarvusUtils.aboutMarvus(this));
 				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
 				case "License" -> jmc.setItemAction(i, event -> SufuAppTools.licenseGUI(this, "/LICENSE.TXT"));
 				default -> jmc.setItemAction(i, event -> SufuLib.functionalityNotYetImplementedDialog(this));
@@ -139,7 +138,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<MarvusController> 
 	}
 
 	@Override
-	public MarvusController getController()
+	public TabController getController()
 	{
 		return controller;
 	}

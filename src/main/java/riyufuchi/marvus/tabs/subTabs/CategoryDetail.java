@@ -1,4 +1,4 @@
-package riyufuchi.marvus.subTabs;
+package riyufuchi.marvus.tabs.subTabs;
 
 import java.math.BigDecimal;
 import java.util.Collections;

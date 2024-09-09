@@ -3,7 +3,7 @@ package riyufuchi.marvusLib.records;
 import java.util.LinkedList;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
-import riyufuchi.marvus.controller.MarvusController;
+import riyufuchi.marvus.controller.TabController;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
@@ -27,7 +27,7 @@ public record FileInput(String fromFileType, LinkedList<?> data)
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void setDataTo(MarvusController mc)
+	public void setDataTo(TabController mc)
 	{
 		switch (fromFileType)
 		{

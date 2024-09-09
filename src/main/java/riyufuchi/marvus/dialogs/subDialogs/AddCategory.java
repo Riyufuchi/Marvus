@@ -1,4 +1,4 @@
-package riyufuchi.marvus.dialogs;
+package riyufuchi.marvus.dialogs.subDialogs;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;

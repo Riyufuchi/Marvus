@@ -7,8 +7,8 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.utils.MarvusConfig;
-import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvusLib.records.TransactionMacro;
+import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.general.SufuGeneralUtils;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -68,7 +68,7 @@ public class MaruvsDatabaseUtils implements Serializable
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			if (e instanceof IOException)
-				MarvusUtils.generateFile(parentFrame, MarvusConfig.TRANSACTION_MACRO_FILE_PATH, categoryEnum);
+				SufuFileHelper.generateFile(parentFrame, MarvusConfig.TRANSACTION_MACRO_FILE_PATH, categoryEnum);
 		}
 		return null;
 	}
@@ -99,7 +99,7 @@ public class MaruvsDatabaseUtils implements Serializable
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			if (e instanceof IOException)
-				MarvusUtils.generateFile(parentFrame, MarvusConfig.CATEGORY_FILE_PATH, categoryEnum);
+				SufuFileHelper.generateFile(parentFrame, MarvusConfig.CATEGORY_FILE_PATH, categoryEnum);
 		}
 		return null;
 	}
@@ -179,6 +179,17 @@ public class MaruvsDatabaseUtils implements Serializable
 	public String[] getCategoryEnum()
 	{
 		return categoryEnum;
+	}
+	
+	public int getCategoryID(String name)
+	{
+		int i = 0;
+		for (String s :names)
+			if (name.equals(s))
+				return i;
+			else
+				i++;
+		return -1;
 	}
 
 	public int getMacroIndex(String[] arr, String name)
