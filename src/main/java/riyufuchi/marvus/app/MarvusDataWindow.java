@@ -58,7 +58,8 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 		setTabChangeListener(e -> updateTabController(e));
 		MarvusDatabase.utils.setParentframe(this);
 		if (MarvusConfig.autoLoadData)
-			controller.quickOpenFile();
+			if (!controller.quickOpenFile())
+				removeLastTab();
 		URL iconURL = MarvusDataWindow.class.getClassLoader().getResource("riyufuchi/marvus/icon.png");
 		if (iconURL != null)
 			this.setIconImage(new ImageIcon(iconURL).getImage());

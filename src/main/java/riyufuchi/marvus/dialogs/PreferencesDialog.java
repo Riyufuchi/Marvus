@@ -26,7 +26,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 14.07.2022
- * @version 16.08.2024
+ * @version 09.09.2024
  */
 public class PreferencesDialog extends SufuDialog
 {
@@ -111,7 +111,7 @@ public class PreferencesDialog extends SufuDialog
 	
 	private void currentWorkFileBtnEvent()
 	{
-		MarvusConfig.currentWorkFile =  MarvusGuiUtils.createTransactionIO(((MarvusDataWindow)parentFrame)).showLoadChooser();
+		MarvusConfig.currentWorkFile =  MarvusGuiUtils.createTransactionIO(((MarvusDataWindow)parentFrame)).showLoadChooserLoadAndGetFile();
 		if (MarvusConfig.currentWorkFile != null)
 		{
 			workFile.setText(MarvusConfig.currentWorkFile.getName());

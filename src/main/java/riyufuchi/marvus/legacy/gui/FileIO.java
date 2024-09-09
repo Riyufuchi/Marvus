@@ -12,11 +12,11 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
- * Created On: 27.03.2023<br>
- * Last Edit: 14.09.2023
- * 
  * @author Riyufuchi
+ * @since 27.03.2023
+ * @version 09.09.2024
  */
+@SuppressWarnings("deprecation")
 public class FileIO extends SufuFileChooser
 {
 	private DataTableForm dtf;
@@ -66,12 +66,12 @@ public class FileIO extends SufuFileChooser
 	}
 	
 	@Override
-	protected void onLoad(String path)
+	protected boolean onLoad(String path)
 	{
 		if(!path.contains("."))
 		{
 			SufuDialogHelper.errorDialog(dtf, "File is missing an extension", "Extension not recognized");
-			return;
+			return false;
 		}
 		String extension = path.substring(path.lastIndexOf('.'));
 		switch(extension)
@@ -113,5 +113,6 @@ public class FileIO extends SufuFileChooser
 			}
 		}
 		dtf.refresh();
+		return true;
 	}
 }

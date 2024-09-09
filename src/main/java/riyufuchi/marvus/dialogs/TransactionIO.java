@@ -1,17 +1,19 @@
 package riyufuchi.marvus.dialogs;
 
+import java.io.File;
 import java.io.IOException;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
+import riyufuchi.marvus.controller.TabController;
+import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.io.MarvusIO;
-import riyufuchi.marvusLib.records.FileInput;
 import riyufuchi.sufuLib.gui.SufuFileChooserGeneric;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
  * @since 27.03.2023
- * @version 18.06.2024
+ * @version 09.09.2024
  */
 public class TransactionIO extends SufuFileChooserGeneric<MarvusDataWindow>
 {
@@ -36,26 +38,21 @@ public class TransactionIO extends SufuFileChooserGeneric<MarvusDataWindow>
 	}
 
 	@Override
-	protected void onLoad(String path)
+	protected boolean onLoad(String path)
 	{
-		FileInput fi;
-		try
+		File newFile = new File(addExtension(path));
+		if (!parentFrame.containsTabNamed(newFile.getName()))
 		{
-			fi = MarvusIO.inputFile(addExtension(path));
+			MarvusConfig.currentWorkFile = newFile;
+			TabController newCon = new TabController(parentFrame);
+			parentFrame.newTab(newCon);
+			if (!newCon.quickOpenFile())
+			{
+				parentFrame.removeLastTab();
+				return false;
+			}
+			return true;
 		}
-		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-			return;
-		}
-		fi.setDataTo(parentFrame.getController());
-		parentFrame.getController().displayData();
-	}
-	
-	private String addExtension(String path)
-	{
-		if (!path.contains("."))
-			return path += getFileFilter().getDescription();
-		return path;
+		return false;
 	}
 }

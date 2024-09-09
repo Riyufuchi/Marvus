@@ -1,10 +1,8 @@
 package riyufuchi.marvus.controller;
 
 import java.awt.GridBagConstraints;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.NoSuchElementException;
 
 import javax.swing.JFrame;
 
@@ -140,33 +138,16 @@ public class TabController implements IMarvusController, MarvusTabbedFrame
 		fio.showSaveChooser();
 	}
 	
-	public void importData()
+	public boolean importData()
 	{
-		File newFile = null;
-		try
-		{
-			newFile = MarvusGuiUtils.fileSelector(controledWindow);
-		}
-		catch (NoSuchElementException e)
-		{
-			SufuDialogHelper.exceptionDialog(controledWindow, e);
-			return;
-		}
-		if (!controledWindow.containsTabNamed(newFile.getName()))
-		{
-			MarvusConfig.currentWorkFile = newFile;
-			TabController newCon = new TabController(controledWindow);
-			controledWindow.newTab(newCon);
-			newCon.quickOpenFile();
-		}
+		return MarvusGuiUtils.createTransactionIO(controledWindow).showLoadChooser();
 	}
 
-	public void quickOpenFile()
+	public boolean quickOpenFile()
 	{
 		if (MarvusConfig.currentWorkFile == null)
 		{
-			importData();
-			return;
+			return importData();
 		}
 		FileInput fi = null;
 		try
@@ -177,7 +158,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e)
 		{
 			SufuDialogHelper.exceptionDialog(controledWindow, e);
-			return;
+			return false;
 		}
 		fi.setDataTo(this);
 		controledWindow.renameTab(MarvusConfig.currentWorkFile.getName());
@@ -187,6 +168,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame
 			financialYear = MarvusConfig.currentFinancialYear;
 		}
 		displayData();
+		return true;
 	}
 	
 	public void switchDataDisplayMode()
