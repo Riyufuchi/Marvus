@@ -9,9 +9,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.tabs.subTabs.MonthDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
@@ -19,20 +21,24 @@ import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
+import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
+ * This tab display transactions in given time span and categorize them by name
+ * 
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 20.08.2024
+ * @version 05.10.2024
  */
 public class TimedDetailTab extends DataDisplayTab
 {
 	private LocalDateTime fromDate, toDate;
 	private JButton dateFrom, dateTo;
+	private JComboBox<String> sortByBox;
 	private LinkedList<LinkedList<FinancialCategory>> categorizedMonths;
-	private JPanel dataPane, pane, flowPane;
+	private JPanel dataPane, menuPane, datePane;
 	private Point p;
 
 	public TimedDetailTab(MarvusTabbedFrame targetWindow)
@@ -46,8 +52,8 @@ public class TimedDetailTab extends DataDisplayTab
 	@Override
 	public void prepareUI()
 	{
-		pane = targetWindow.getPane();
-		flowPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		menuPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		datePane = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		dataPane = new JPanel(new GridLayout(0, 2));
 		
 		dateFrom = SufuFactory.newButton("", evt -> {
@@ -64,12 +70,19 @@ public class TimedDetailTab extends DataDisplayTab
 		MarvusGuiUtils.editDateText(dateFrom, fromDate);
 		MarvusGuiUtils.editDateText(dateTo, toDate);
 		
-		flowPane.add(dateFrom);
-		flowPane.add(new JLabel("to"));
-		flowPane.add(dateTo);
+		datePane.add(dateFrom);
+		datePane.add(new JLabel("to"));
+		datePane.add(dateTo);
 		
-		pane.add(flowPane, targetWindow.getGBC(0, 0));
-		pane.add(dataPane, targetWindow.getGBC(0, 1));
+		sortByBox = SufuFactory.<String>newCombobox(MarvusTexts.GROUP_BY_TIME_DETAIL);
+		sortByBox.addActionListener(evt -> refresh());
+		SufuComponentTools.centerComboboxList(sortByBox);
+		menuPane.add(new JLabel("Group by"));
+		menuPane.add(sortByBox);
+		
+		masterPanel.add(menuPane, targetWindow.getGBC(0, 0));
+		masterPanel.add(datePane, targetWindow.getGBC(0, 1));
+		masterPanel.add(dataPane, targetWindow.getGBC(0, 2));
 		prepData();
 	}
 
@@ -124,30 +137,52 @@ public class TimedDetailTab extends DataDisplayTab
 	
 	private void prepData()
 	{
-		categorizedMonths.clear();
-		for (int x = fromDate.getMonthValue(); x <= toDate.getMonthValue(); x++)
-		{
-			categorizedMonths.add(dataSource.getCategorizedMonthByNames(x));
-		}
-		Iterator<Transaction> it;
-		Iterator<FinancialCategory> it_fc;
+		LinkedList<FinancialCategory> llfc = null;
+		Iterator<Transaction> it_Transactions;
+		Iterator<FinancialCategory> it_finCat;
 		Transaction t = null;
-		FinancialCategory cat = null;
-		for (LinkedList<FinancialCategory> data : categorizedMonths)
+		FinancialCategory finCat = null;
+		categorizedMonths.clear();
+		for (int x = fromDate.getMonthValue(); x <= toDate.getMonthValue(); x++) // This loop takes categorized months and unite categories regardless the dates
 		{
-			it_fc = data.iterator();
-			while (it_fc.hasNext())
+			if (sortByBox.getSelectedIndex() == 0)
+				llfc = dataSource.getCategorizedMonthByNames(x);
+			else
+				llfc = dataSource.getCategorizedMonth(x);
+			it_finCat = llfc.iterator();
+			for (LinkedList<FinancialCategory> data : categorizedMonths)
 			{
-				cat = it_fc.next();
-				it = cat.iterator();
-				while (it.hasNext())
+				for (FinancialCategory fc : data)
 				{
-					t = it.next();
-					if (!((t.getDate().isAfter(fromDate) || t.getDate().equals(fromDate)) && (t.getDate().isBefore(toDate) || t.getDate().equals(toDate))))
-						it.remove();
+					while (it_finCat.hasNext())
+					{
+						finCat = it_finCat.next();
+						if (fc.getCategory().equals(finCat.getCategory()))
+						{
+							fc.addAll(finCat);
+							it_finCat.remove();
+						}
+					}
 				}
-				if (cat.getSum().intValue() == 0)
-					it_fc.remove();
+			}
+			if (llfc.size() != 0)
+				categorizedMonths.add(llfc);
+		}
+		for (LinkedList<FinancialCategory> data : categorizedMonths) // This loop removes transactions outside given date range
+		{
+			it_finCat = data.iterator();
+			while (it_finCat.hasNext())
+			{
+				finCat = it_finCat.next();
+				it_Transactions = finCat.iterator();
+				while (it_Transactions.hasNext())
+				{
+					t = it_Transactions.next();
+					if (!((t.getDate().isAfter(fromDate) || t.getDate().equals(fromDate)) && (t.getDate().isBefore(toDate) || t.getDate().equals(toDate))))
+						it_Transactions.remove();
+				}
+				if (finCat.getSum().intValue() == 0)
+					it_finCat.remove();
 			}
 		}
 	}

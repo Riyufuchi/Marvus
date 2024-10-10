@@ -128,8 +128,6 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 		MarvusGuiUtils.exitApp(this);
 	}
 	
-	// Setters
-	
 	// Getters
 
 	@Override

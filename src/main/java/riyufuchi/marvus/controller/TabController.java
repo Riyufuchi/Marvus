@@ -22,6 +22,7 @@ import riyufuchi.marvusLib.interfaces.IMarvusController;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.FileInput;
+import riyufuchi.sufuLib.interfaces.SufuTab;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -32,7 +33,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
  * @since 25.12.2023
  * @version 09.09.2024
  */
-public class TabController implements IMarvusController, MarvusTabbedFrame
+public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
 	private MarvusDatabase database;
 	private final MarvusDataWindow controledWindow;
@@ -214,6 +215,16 @@ public class TabController implements IMarvusController, MarvusTabbedFrame
 		currentMode.prepareUI(); // Prepares static content such as menus
 		currentMode.displayData(); // Displays/ prepares data to by displayed
 		controledWindow.refreshWindow();
+	}
+	
+	// On methods
+	
+	@Override
+	public boolean onClose()
+	{
+		//SufuDialogHelper.informationDialog(controledWindow, "Closing this tab", "Tab action info");
+		SufuDialogHelper.yesNoDialog(controledWindow, ("Close tab " + controledWindow.getCurrentTabName() + "?"), "Tab action");
+		return true;
 	}
 	
 	// Is methods
