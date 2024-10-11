@@ -31,7 +31,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 09.09.2024
+ * @version 11.10.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -222,9 +222,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	@Override
 	public boolean onClose()
 	{
-		//SufuDialogHelper.informationDialog(controledWindow, "Closing this tab", "Tab action info");
-		SufuDialogHelper.yesNoDialog(controledWindow, ("Close tab " + controledWindow.getCurrentTabName() + "?"), "Tab action");
-		return true;
+		return SufuDialogHelper.yesNoDialog(controledWindow, ("Close tab " + controledWindow.getCurrentTabName() + "?"), "Tab action") == 0;
 	}
 	
 	// Is methods

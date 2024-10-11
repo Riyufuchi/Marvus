@@ -23,7 +23,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 27.08.2024
+ * @version 11.10.2024
  */
 public class YearOverviewTab extends DataDisplayTab
 {
@@ -130,6 +130,6 @@ public class YearOverviewTab extends DataDisplayTab
 			contentPane.add(SufuFactory.newTextFieldHeader((income[xPos].add(spendings[xPos]).toString())), contentPane.getGBC(x, outcomeY)); // outcome is already negative
 			xPos++;
 		}
-		SufuTableTools.addColumnHeader(contentPane, NUM_OF_GENENERATED_COLUMNS, ++baseY, yearOverview.totalIncome(), yearOverview.totalOutcome(), yearOverview.totalResult());
+		SufuTableTools.addColumnHeader(contentPane, NUM_OF_GENENERATED_COLUMNS, ++baseY, yearOverview.totalIncome(), yearOverview.totalSpendings(), yearOverview.totalResult());
 	}
 }

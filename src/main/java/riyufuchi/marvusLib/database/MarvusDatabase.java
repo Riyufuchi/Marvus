@@ -15,7 +15,6 @@ import riyufuchi.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvusLib.interfaces.IDatabase;
-import riyufuchi.marvusLib.records.DataSummary;
 import riyufuchi.marvusLib.records.YearOverview;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
@@ -24,7 +23,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @since 1.95 - 12.02.2024
- * @version 17.08.2024
+ * @version 11.10.2024
  */
 public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transaction>
 {
@@ -142,13 +141,14 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 		return new YearOverview(year, income, spendings, zero, totalOutcome, zero.add(totalOutcome));
 	}
 	
-	public DataSummary getDataSummary(int year)
+	@Deprecated
+	public riyufuchi.marvusLib.records.DataSummary getDataSummary(int year)
 	{
 		YearOverview yo = getYearOverview(year);
 		BigDecimal twelve = new BigDecimal(12);
 		
 		double avgIncome = yo.totalIncome().divide(twelve, 2, RoundingMode.HALF_UP).doubleValue();
-		double avgSpendings = yo.totalOutcome().divide(twelve, 2, RoundingMode.HALF_UP).doubleValue();
+		double avgSpendings = yo.totalSpendings().divide(twelve, 2, RoundingMode.HALF_UP).doubleValue();
 		double avgTotal = yo.totalResult().divide(twelve, 2, RoundingMode.HALF_UP).doubleValue();
 		
 		double[] avgTransactionsPerMonth = new double[12];
@@ -173,8 +173,8 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 		else
 			numOfDays = 366;
 		
-		return new DataSummary(size(), yo.totalIncome().doubleValue(), yo.totalOutcome().doubleValue(), yo.totalResult().doubleValue(),
-				avgIncome, avgSpendings, avgTotal, avgTransactionsPerMonth, size() / (double)numOfDays);
+		return new riyufuchi.marvusLib.records.DataSummary(size(), yo.totalIncome().doubleValue(), yo.totalSpendings().doubleValue(), yo.totalResult().doubleValue(),
+				avgIncome, avgSpendings, avgTotal, avgTransactionsPerMonth, size() / (double)12, size() / (double)numOfDays);
 	}
 	
 	public LinkedList<FinancialCategory> getCategorizedMonth(Month month)
