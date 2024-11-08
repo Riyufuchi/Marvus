@@ -14,7 +14,7 @@ import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 17.10.2024
+ * @version 08.11.2024
  */
 public abstract class DataDisplayTab
 {
@@ -45,7 +45,15 @@ public abstract class DataDisplayTab
 	public abstract void displayData();
 	public abstract void refresh();
 	
-	public DataDisplayTab parentTab()
+	public DataDisplayTab getSuperTab()
+	{
+		DataDisplayTab tab = ddt;
+		while (tab.getParentTab() != null)
+			tab = tab.getParentTab();
+		return tab;
+	}
+	
+	public DataDisplayTab getParentTab()
 	{
 		return ddt;
 	}

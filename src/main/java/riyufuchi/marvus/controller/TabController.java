@@ -33,7 +33,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 17.10.2024
+ * @version 08.11.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -184,10 +184,10 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	public void switchDataDisplayMode()
 	{
 		dummyMode = currentMode;
-		if (currentMode.parentTab() == null)
+		if (currentMode.getParentTab() == null)
 			currentMode = prevMode;
 		else
-			currentMode = currentMode.parentTab();
+			currentMode = currentMode.getParentTab();
 		prevMode = dummyMode;
 		displayData();
 	}

@@ -1,10 +1,7 @@
 package riyufuchi.marvus.tabs.subTabs;
 
-import java.util.LinkedList;
-
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.dialogs.transactions.TransactionViewer;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
@@ -15,7 +12,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * @author Riyufuchi
- * @version 19.08.2024
+ * @version 08.11.2024
  */
 public class MonthDetail extends DataDisplayTab
 {
@@ -57,7 +54,8 @@ public class MonthDetail extends DataDisplayTab
 		masterPanel.add(pane, targetWindow.getGBC(0, 1));
 		for (int i = 0; i < numberOfDays; i++)
 			pane.add(SufuFactory.newTextFieldHeader((Integer.toString(i + 1))), targetWindow.getGBC(i, 0));
-		menu.add(SufuFactory.newButton("View as table", evt -> new TransactionViewer(targetWindow.getSelf(), fc).showDialog()));
+		menu.add(SufuFactory.newButton("View as table", evt -> targetWindow.updateDataDisplayMode(new TableDetail(targetWindow, fc, this)))); 
+		//new TransactionViewer(targetWindow.getSelf(), fc).showDialog()));
 	}
 	
 	@Override
@@ -76,7 +74,7 @@ public class MonthDetail extends DataDisplayTab
 		}
 		else
 		{
-			targetWindow.updateDataDisplayMode(targetWindow.getPreviousTab());
+			targetWindow.updateDataDisplayMode(getSuperTab());
 			return;
 		}
 		displayData();
