@@ -3,12 +3,14 @@ package riyufuchi.marvus.controller;
 import java.awt.GridBagConstraints;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
-import riyufuchi.marvus.dialogs.AddDialog;
-import riyufuchi.marvus.dialogs.TransactionIO;
+import riyufuchi.marvus.dialogs.io.TransactionIO;
+import riyufuchi.marvus.dialogs.transactions.AddDialog;
+import riyufuchi.marvus.dialogs.transactions.TransactionViewer;
 import riyufuchi.marvus.tabs.CategorizedMonthListTab;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
@@ -31,7 +33,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 11.10.2024
+ * @version 17.10.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -57,6 +59,13 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		//MarvusUtils.fixCategory(controledWindow , database);
 		MarvusConnection con = new MarvusConnection(database);
 		SufuDialogHelper.notImplementedYetDialog(controledWindow);
+	}
+	
+	public void viewTransaction()
+	{
+		LinkedList<Transaction> list = new LinkedList<>();
+		list.add(new Transaction());
+		new TransactionViewer(controledWindow, list).showDialog();;
 	}
 	
 	public void addNewTransaction()
@@ -254,7 +263,6 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		if (ddm == null)
 			return;
 		setDatabase(ddm.getDataSource());
-		currentMode.setNewData(database); // current mode might have still old data table
 		ddm.setTargetWindow(this); // ddm have reference to old window
 		updateDataDisplayMode(ddm);
 	}

@@ -5,8 +5,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import riyufuchi.marvus.dialogs.EditDialog;
-import riyufuchi.marvus.dialogs.RemoveDialog;
+import riyufuchi.marvus.dialogs.transactions.EditDialog;
+import riyufuchi.marvus.dialogs.transactions.RemoveDialog;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
@@ -14,7 +14,7 @@ import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 19.08.2024
+ * @version 17.10.2024
  */
 public abstract class DataDisplayTab
 {
@@ -101,6 +101,7 @@ public abstract class DataDisplayTab
 	public void setTargetWindow(MarvusTabbedFrame targetWindow)
 	{
 		this.targetWindow = targetWindow;
+		this.masterPanel = targetWindow.getPane();
 	}
 	
 	protected void setParentTab(DataDisplayTab parentTab)

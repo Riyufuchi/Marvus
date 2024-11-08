@@ -1,10 +1,16 @@
 package riyufuchi.marvus.tabs.subTabs;
 
+import java.util.LinkedList;
+
+import javax.swing.JPanel;
+
+import riyufuchi.marvus.dialogs.transactions.TransactionViewer;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
@@ -14,6 +20,8 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 public class MonthDetail extends DataDisplayTab
 {
 	private FinancialCategory fc;
+	private SufuGridPane pane;
+	private JPanel menu;
 	private int day, numberOfDays, x, y;
 	
 	public MonthDetail(MarvusTabbedFrame targetWindow, FinancialCategory fc, boolean dynamicNumberOfDays, DataDisplayTab parentTab)
@@ -43,8 +51,13 @@ public class MonthDetail extends DataDisplayTab
 	@Override
 	public void prepareUI()
 	{
+		this.menu = SufuFactory.newFlowPane();
+		this.pane = new SufuGridPane();
+		masterPanel.add(menu, targetWindow.getGBC(0, 0));
+		masterPanel.add(pane, targetWindow.getGBC(0, 1));
 		for (int i = 0; i < numberOfDays; i++)
-			masterPanel.add(SufuFactory.newTextFieldHeader((Integer.toString(i + 1))), targetWindow.getGBC(i, 0));
+			pane.add(SufuFactory.newTextFieldHeader((Integer.toString(i + 1))), targetWindow.getGBC(i, 0));
+		menu.add(SufuFactory.newButton("View as table", evt -> new TransactionViewer(targetWindow.getSelf(), fc).showDialog()));
 	}
 	
 	@Override
@@ -76,7 +89,7 @@ public class MonthDetail extends DataDisplayTab
 			yColumn[i] = 1;
 		fc.stream().forEach(data -> {
 			day = data.getDate().getDayOfMonth() - 1;
-			masterPanel.add(SufuFactory.newTextFieldCell(data.toString(),
+			pane.add(SufuFactory.newTextFieldCell(data.toString(),
 					evt -> showExtednedInfo(data, evt)),
 					targetWindow.getGBC(day, yColumn[day]));
 			yColumn[day]++;

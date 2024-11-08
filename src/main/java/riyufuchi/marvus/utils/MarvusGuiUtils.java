@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
-import riyufuchi.marvus.dialogs.TransactionIO;
+import riyufuchi.marvus.dialogs.io.TransactionIO;
 import riyufuchi.sufuLib.gui.SufuFilePicker;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 

@@ -1,4 +1,4 @@
-package riyufuchi.marvus.dialogs;
+package riyufuchi.marvus.dialogs.io;
 
 import java.io.File;
 import java.io.IOException;

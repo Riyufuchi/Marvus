@@ -6,8 +6,8 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.dialogs.subDialogs.AddCategory;
-import riyufuchi.marvus.dialogs.subDialogs.AddTransactionMacro;
+import riyufuchi.marvus.dialogs.tools.AddCategory;
+import riyufuchi.marvus.dialogs.tools.AddTransactionMacro;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.records.TransactionMacro;

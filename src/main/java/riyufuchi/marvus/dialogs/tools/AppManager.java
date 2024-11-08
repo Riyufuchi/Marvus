@@ -1,4 +1,4 @@
-package riyufuchi.marvus.dialogs;
+package riyufuchi.marvus.dialogs.tools;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;

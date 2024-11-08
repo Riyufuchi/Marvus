@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 /**
  * @author riyufuchi
  * @since 19.08.2024
- * @version 19.08.2024
+ * @version 21.10.2024
  */
 public class CategoryDetail extends DataDisplayTab
 {
@@ -41,7 +41,7 @@ public class CategoryDetail extends DataDisplayTab
 	{
 		prepData();
 		masterPanel.add(SufuFactory.newTextFieldHeader(category.getCategory()), targetWindow.getGBC(0, 0));
-		masterPanel.add(SufuFactory.newTextFieldHeader("Sum"), targetWindow.getGBC(1, 0));
+		masterPanel.add(SufuFactory.newTextFieldHeader("Category total"), targetWindow.getGBC(1, 0));
 		y = 1;
 		total = new BigDecimal(0);
 	}

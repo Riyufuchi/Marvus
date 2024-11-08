@@ -11,8 +11,8 @@ import riyufuchi.marvus.controller.TabController;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
-import riyufuchi.marvus.dialogs.AppManager;
-import riyufuchi.marvus.dialogs.PreferencesDialog;
+import riyufuchi.marvus.dialogs.tools.AppManager;
+import riyufuchi.marvus.dialogs.tools.PreferencesDialog;
 import riyufuchi.marvus.tabs.CategorizedMonthListTab;
 import riyufuchi.marvus.tabs.UncategorizedMonthListTab;
 import riyufuchi.marvus.tabs.YearSummaryTab;
@@ -98,6 +98,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 				case "Application manager" -> jmc.setItemAction(i, event -> new AppManager(this).showDialog());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
+				case "View" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.viewTransaction());
 				// Display modes
 				case "Simple month list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> controller.updateDataDisplayMode(new SimpleMonthListTab(controller)));
 				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> controller.updateDataDisplayMode(new CategorizedMonthListTab(controller)));

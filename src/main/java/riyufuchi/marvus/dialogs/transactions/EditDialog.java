@@ -1,4 +1,4 @@
-package riyufuchi.marvus.dialogs;
+package riyufuchi.marvus.dialogs.transactions;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

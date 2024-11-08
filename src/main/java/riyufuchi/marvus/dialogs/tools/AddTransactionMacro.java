@@ -1,4 +1,4 @@
-package riyufuchi.marvus.dialogs.subDialogs;
+package riyufuchi.marvus.dialogs.tools;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;

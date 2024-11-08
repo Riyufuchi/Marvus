@@ -40,7 +40,6 @@ public class MoneyCalculationsGeneric<E extends Money> extends LinkedList<E>
 		return sum;
 	}
 	
-	//TODO: Should money be rounded normally or always up?
 	/**
 	 * Calculate average from list of BigDecimals and scale to 2 decimals and rounds half up
 	 * 
