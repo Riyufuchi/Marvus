@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.TabController;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.sufuLib.gui.SufuFileChooserGeneric;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -13,7 +12,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 27.03.2023
- * @version 09.09.2024
+ * @version 12.11.2024
  */
 public class TransactionIO extends SufuFileChooserGeneric<MarvusDataWindow>
 {
@@ -43,8 +42,7 @@ public class TransactionIO extends SufuFileChooserGeneric<MarvusDataWindow>
 		File newFile = new File(addExtension(path));
 		if (!parentFrame.containsTabNamed(newFile.getName()))
 		{
-			MarvusConfig.currentWorkFile = newFile;
-			TabController newCon = new TabController(parentFrame);
+			TabController newCon = new TabController(parentFrame, newFile);
 			parentFrame.newTab(newCon);
 			if (!newCon.quickOpenFile())
 			{

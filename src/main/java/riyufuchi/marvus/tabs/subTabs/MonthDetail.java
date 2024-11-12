@@ -14,6 +14,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * @author Riyufuchi
  * @version 08.11.2024
  */
+@Deprecated
 public class MonthDetail extends DataDisplayTab
 {
 	private FinancialCategory fc;

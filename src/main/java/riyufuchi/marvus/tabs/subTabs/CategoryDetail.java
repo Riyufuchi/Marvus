@@ -2,6 +2,7 @@ package riyufuchi.marvus.tabs.subTabs;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
@@ -17,7 +18,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 /**
  * @author riyufuchi
  * @since 19.08.2024
- * @version 08.11.2024
+ * @version 09.11.2024
  */
 public class CategoryDetail extends DataDisplayTab
 {
@@ -40,7 +41,15 @@ public class CategoryDetail extends DataDisplayTab
 	public void prepareUI()
 	{
 		prepData();
-		masterPanel.add(SufuFactory.newTextFieldHeader(category.getCategory()), targetWindow.getGBC(0, 0));
+		//masterPanel.add(SufuFactory.newTextFieldHeader(category.getCategory()), targetWindow.getGBC(0, 0));
+		masterPanel.add(SufuFactory.newButton(category.getCategory(), evt -> {
+			TableDetail td = new TableDetail(targetWindow, sortedCategory.getFirst(), this);
+			Iterator<FinancialCategory> it = sortedCategory.iterator();
+			it.next();
+			while (it.hasNext())
+				td.addData(it.next());
+			targetWindow.updateDataDisplayMode(td);
+		}), targetWindow.getGBC(0, 0));
 		masterPanel.add(SufuFactory.newTextFieldHeader("Category total"), targetWindow.getGBC(1, 0));
 		y = 1;
 		total = new BigDecimal(0);
@@ -52,8 +61,9 @@ public class CategoryDetail extends DataDisplayTab
 		for (FinancialCategory fc : sortedCategory)
 		{
 			masterPanel.add(SufuFactory.newButton(fc.getCategory(), String.valueOf(y),
-					evt -> targetWindow.updateDataDisplayMode(new MonthDetail(targetWindow,
-							sortedCategory.get(Integer.valueOf(((JButton)evt.getSource()).getName()) - 1), false, this))), targetWindow.getGBC(0, y));
+				evt ->
+					targetWindow.updateDataDisplayMode(new TableDetail(targetWindow, sortedCategory.get(Integer.valueOf(((JButton)evt.getSource()).getName()) - 1), this))),
+				targetWindow.getGBC(0, y));
 			masterPanel.add(SufuFactory.newTextFieldHeader(fc.getSum().toString()), targetWindow.getGBC(1, y));
 			y++;
 			total = total.add(fc.getSum());

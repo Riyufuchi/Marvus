@@ -1,6 +1,7 @@
 package riyufuchi.marvus.controller;
 
 import java.awt.GridBagConstraints;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -33,7 +34,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 08.11.2024
+ * @version 12.11.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -42,6 +43,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	private DataDisplayTab currentMode, prevMode, dummyMode;
 	private SufuGridPane panel;
 	private int financialYear;
+	private File currentWorkFile;
 	
 	public TabController(MarvusDataWindow controledWindow)
 	{
@@ -50,13 +52,24 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		this.panel = new SufuGridPane();
 		this.currentMode = new CategorizedMonthListTab(this);
 		this.prevMode = currentMode;
+		this.currentWorkFile = MarvusConfig.defaultWorkFile;
+		setFinancialYear(LocalDate.now().getYear());
+	}
+	
+	public TabController(MarvusDataWindow controledWindow, File file)
+	{
+		this.database = new MarvusDatabase(e -> SufuDialogHelper.errorDialog(controledWindow, e, "Marvus database error"));
+		this.controledWindow = controledWindow;
+		this.panel = new SufuGridPane();
+		this.currentMode = new CategorizedMonthListTab(this);
+		this.prevMode = currentMode;
+		this.currentWorkFile = file;
 		setFinancialYear(LocalDate.now().getYear());
 	}
 	
 	@SuppressWarnings("unused")
 	public void executeQuarry()
 	{
-		//MarvusUtils.fixCategory(controledWindow , database);
 		MarvusConnection con = new MarvusConnection(database);
 		SufuDialogHelper.notImplementedYetDialog(controledWindow);
 	}
@@ -116,22 +129,22 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	{
 		if (isOperationUnexucatable()) // Prevents accidental data deletion
 			return;
-		if (MarvusConfig.currentWorkFile != null)
-			MarvusIO.quickSave(controledWindow.getSelf(), MarvusConfig.currentWorkFile.getAbsolutePath(), database);
+		if (currentWorkFile != null)
+			MarvusIO.quickSave(controledWindow.getSelf(), currentWorkFile.getAbsolutePath(), database);
 		else
 			SufuDialogHelper.warningDialog(controledWindow.getSelf(), "No save destination found!", "No save destination");
 	}
 	
 	public void saveFile()
 	{
-		if (MarvusConfig.currentWorkFile == null)
+		if (currentWorkFile == null)
 		{
 			SufuDialogHelper.warningDialog(controledWindow.getSelf(), "No save destination found!", "No save destination");
 			return;
 		}
 		try
 		{
-			MarvusIO.saveData(controledWindow.getSelf(), MarvusConfig.currentWorkFile.getAbsolutePath(), database, false);
+			MarvusIO.saveData(controledWindow.getSelf(), currentWorkFile.getAbsolutePath(), database, false);
 		}
 		catch (NullPointerException | IOException e)
 		{
@@ -155,15 +168,15 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 
 	public boolean quickOpenFile()
 	{
-		if (MarvusConfig.currentWorkFile == null)
+		if (currentWorkFile == null)
 		{
 			return importData();
 		}
 		FileInput fi = null;
 		try
 		{
-			SufuFileHelper.checkFile(MarvusConfig.currentWorkFile.getAbsolutePath());
-			fi = MarvusIO.inputFile(MarvusConfig.currentWorkFile.getAbsolutePath());
+			SufuFileHelper.checkFile(currentWorkFile.getAbsolutePath());
+			fi = MarvusIO.inputFile(currentWorkFile.getAbsolutePath());
 		}
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e)
 		{
@@ -171,7 +184,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			return false;
 		}
 		fi.setDataTo(this);
-		controledWindow.renameTab(MarvusConfig.currentWorkFile.getName());
+		controledWindow.renameTab(currentWorkFile.getName());
 		if(!database.isEmpty())
 		{
 			MarvusConfig.currentFinancialYear = database.getByID(1).get().getDate().getYear();
@@ -285,6 +298,11 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	}
 	
 	// GETTERS
+	
+	public File getWorkFile()
+	{
+		return currentWorkFile;
+	}
 	
 	public int getFinancialYear()
 	{

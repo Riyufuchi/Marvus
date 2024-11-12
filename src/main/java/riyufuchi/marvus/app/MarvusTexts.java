@@ -2,12 +2,12 @@ package riyufuchi.marvus.app;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.3.5";
+	public static final String VERSION = "2.3.6";
 	public static final String APP_NAME =  "Marvus - " + MarvusTexts.VERSION;
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
 			"Open", "Save", "Save As...", "Import", "Export", "Exit", "",
-			"Add", "Edit", "Delete", "View", "Backup", "Sort", "",
+			"Add", /*"Edit", "Delete", "View",*/ "Backup", "Sort", "",
 			"Simple month list", "Categorized month list", "Uncategorized month list",
 			"Year summary", "Year overview", "Data summary", "Week detail", "Previous mode", "",
 			"Execute quarry", "Month budget planning", "Month outcome", "Application manager", "",

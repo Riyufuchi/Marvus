@@ -22,7 +22,7 @@ import riyufuchi.sufuLib.utils.time.SufuTimer;
 /**
  * @author Riyufuchi
  * @since 20.04.2022
- * @version 06.09.2024
+ * @version 12.11.2024
  */
 public class Marvus
 {
@@ -65,7 +65,7 @@ public class Marvus
 				(MarvusConfig.width + "x" + MarvusConfig.height),
 				MarvusConfig.appTheme.toString(),
 				Integer.toString(MarvusConfig.dateFormatIndex),
-				MarvusConfig.currentWorkFile.toString(),
+				MarvusConfig.defaultWorkFile.toString(),
 				Boolean.toString(MarvusConfig.showQuitDialog),
 				Boolean.toString(MarvusConfig.autoLoadData),
 				Boolean.toString(MarvusConfig.autoMaximize));
@@ -88,8 +88,7 @@ public class Marvus
 			}
 			MarvusConfig.appTheme = SufuAppTheme.valueOf(data.get(1)); // Throws exception when inputed incorrect data
 			SufuDateUtils.setDateFormat(new SimpleDateFormat(MarvusTexts.DATE_FORMAT_OPTIONS[MarvusConfig.dateFormatIndex = Integer.valueOf(data.get(2))]));
-			MarvusConfig.currentWorkFile = new File(data.get(3));
-			MarvusConfig.defaultWorkFile = MarvusConfig.currentWorkFile;
+			MarvusConfig.defaultWorkFile = new File(data.get(3));
 			MarvusConfig.showQuitDialog = Boolean.valueOf(data.get(4));
 			MarvusConfig.autoLoadData = Boolean.valueOf(data.get(5));
 			MarvusConfig.autoMaximize = Boolean.valueOf(data.get(6));

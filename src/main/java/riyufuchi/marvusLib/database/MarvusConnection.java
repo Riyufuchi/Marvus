@@ -11,7 +11,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;;
 /**
  * @author riyufuchi
  * @since 09.09.2024
- * @version 11.10.2024
+ * @version 12.11.2024
  */
 public class MarvusConnection implements MarvusQuerriable
 {
@@ -34,6 +34,15 @@ public class MarvusConnection implements MarvusQuerriable
 		database.stream().forEach(e -> {
 			if (e.getName().equals(oldValue))
 				e.setName(newValue);
+		});
+	}
+	
+	public void updateNameWhenNameValue(String newName, String name, String value)
+	{
+		BigDecimal valueNum = new BigDecimal(value);
+		database.stream().forEach(e -> {
+			if (e.getName().equals(name) && e.getValue().compareTo(valueNum) <= 0)
+				e.setName(newName);
 		});
 	}
 

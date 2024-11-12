@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusTexts;
-import riyufuchi.marvus.tabs.subTabs.MonthDetail;
+import riyufuchi.marvus.tabs.subTabs.TableDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
@@ -30,7 +30,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 05.10.2024
+ * @version 09.11.2024
  */
 public class TimedDetailTab extends DataDisplayTab
 {
@@ -115,7 +115,7 @@ public class TimedDetailTab extends DataDisplayTab
 				holder = cat.getSum();
 				dataPane.add(SufuFactory.newButton(cat.getCategory(), MarvusGuiUtils.encodeCords(x, y), evt -> {
 					p = MarvusGuiUtils.extractPointFromButtonName(evt);
-					targetWindow.updateDataDisplayMode(new MonthDetail(targetWindow, categorizedMonths.get(p.x).get(p.y), false, this));
+					targetWindow.updateDataDisplayMode(new TableDetail(targetWindow, categorizedMonths.get(p.x).get(p.y), this));
 				}));
 				dataPane.add(SufuFactory.newTextFieldHeader(holder.toString()));
 				if (holder.compareTo(zero) > 0)

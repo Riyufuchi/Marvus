@@ -38,12 +38,12 @@ public final class MarvusGuiUtils
 	
 	public static String pathSelector(JFrame parentFrame) throws NoSuchElementException
 	{
-		return new SufuFilePicker(parentFrame, MarvusConfig.currentWorkFile.getAbsolutePath()).showFilePicker().orElseThrow().getPath();
+		return new SufuFilePicker(parentFrame, MarvusConfig.defaultWorkFile.getAbsolutePath()).showFilePicker().orElseThrow().getPath();
 	}
 	
 	public static File fileSelector(JFrame parentFrame) throws NoSuchElementException
 	{
-		return new SufuFilePicker(parentFrame, MarvusConfig.currentWorkFile.getAbsolutePath()).showFilePicker().orElseThrow();
+		return new SufuFilePicker(parentFrame, MarvusConfig.defaultWorkFile.getAbsolutePath()).showFilePicker().orElseThrow();
 	}
 	
 	public static String encodeCords(int month, int y)

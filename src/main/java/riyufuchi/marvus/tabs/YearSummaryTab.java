@@ -17,7 +17,6 @@ import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
-// TODO: Add over spending guard
 public class YearSummaryTab extends DataDisplayTab
 {
 	private LinkedList<FinancialCategory> list;

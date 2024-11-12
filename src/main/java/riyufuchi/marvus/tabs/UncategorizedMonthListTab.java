@@ -2,7 +2,7 @@ package riyufuchi.marvus.tabs;
 
 import java.time.Month;
 
-import riyufuchi.marvus.tabs.subTabs.MonthDetail;
+import riyufuchi.marvus.tabs.subTabs.TableDetail;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 
 /**
@@ -28,6 +28,6 @@ public class UncategorizedMonthListTab extends CategorizedMonthListTab
 	@Override
 	protected void showData(int x, int y)
 	{
-		targetWindow.updateDataDisplayMode(new MonthDetail(targetWindow, categorizedMonths.get(x - 1).get(y), false, this));
+		targetWindow.updateDataDisplayMode(new TableDetail(targetWindow, categorizedMonths.get(x - 1).get(y), this));
 	}
 }

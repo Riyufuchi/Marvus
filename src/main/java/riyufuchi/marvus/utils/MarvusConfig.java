@@ -16,7 +16,6 @@ public class MarvusConfig
 	public static SufuAppTheme appTheme = SufuAppTheme.CROSS_PLATFORM;
 	public static int dateFormatIndex = 0;
 	public static File defaultWorkFile = new File(workFolder + "data.marvusdb");
-	public static File currentWorkFile = defaultWorkFile;
 	public static boolean showQuitDialog = true;
 	public static int currentFinancialYear = 0;
 	public static boolean autoLoadData = false;

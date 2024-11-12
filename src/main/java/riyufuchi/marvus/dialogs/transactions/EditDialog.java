@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
  * 
  * @author Riyufuchi
  * @since 11.05.2023
- * @version 18.06.2024
+ * @version 12.11.2024
  */
 public class EditDialog extends AddDialog
 {
@@ -42,6 +42,28 @@ public class EditDialog extends AddDialog
 	protected void createInputs(JPanel pane)
 	{
 		super.createInputs(pane);
+		nameBox.removeActionListener(nameBox.getActionListeners()[0]);
+		nameBox.addActionListener(evt -> {
+			if (nameBox.getItemAt(nameBox.getSelectedIndex()).equals("Custom"))
+			{
+				name.setEnabled(true);
+				name.setText("");
+			}
+			else
+			{
+				name.setEnabled(false);
+				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
+			}
+			int i = 0;
+			for (i = 0; i < categoryBox.getItemCount(); i++)
+			{
+				if (categoryBox.getItemAt(i).equals(utils.getCategories()[nameBox.getSelectedIndex()]))
+				{
+					categoryBox.setSelectedIndex(i);
+					break;
+				}
+			}
+		});
 	}
 
 	@Override
