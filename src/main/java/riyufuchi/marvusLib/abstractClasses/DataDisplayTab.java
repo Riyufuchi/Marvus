@@ -2,6 +2,7 @@ package riyufuchi.marvusLib.abstractClasses;
 
 import java.awt.event.MouseEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -10,17 +11,20 @@ import riyufuchi.marvus.dialogs.transactions.RemoveDialog;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
+import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 08.11.2024
+ * @version 14.11.2024
  */
 public abstract class DataDisplayTab
 {
 	protected MarvusTabbedFrame targetWindow;
 	protected MarvusDatabase dataSource;
-	protected JPanel masterPanel;
+	protected SufuGridPane masterPanel;
+	private JPanel menuPanel;
 	private DataDisplayTab ddt;
 	
 	public DataDisplayTab(MarvusTabbedFrame targetWindow)
@@ -37,13 +41,32 @@ public abstract class DataDisplayTab
 	{
 		this.targetWindow = targetWindow;
 		this.dataSource = mdb;
-		this.masterPanel = targetWindow.getPane();
+		if (targetWindow.getPane() instanceof SufuGridPane)
+		{
+			this.masterPanel = (SufuGridPane) targetWindow.getPane();
+		}
+		else
+		{
+			masterPanel = new SufuGridPane();
+			targetWindow.getPane().add(masterPanel, targetWindow.getGBC(0, 0));
+		}
 		this.ddt = parentTab;
 	}
 	
 	public abstract void prepareUI();
 	public abstract void displayData();
 	public abstract void refresh();
+	
+	public void addMenuAndMenuItems(JComponent ... comp)
+	{
+		menuPanel = SufuFactory.newFlowPane();
+		SufuGridPane sgp = SufuFactory.newGridPane();
+		masterPanel.add(menuPanel, masterPanel.getGBC(0, 0));
+		masterPanel.add(sgp, masterPanel.getGBC(0, 1));
+		masterPanel = sgp;
+		for (JComponent c : comp)
+			menuPanel.add(c);
+	}
 	
 	public DataDisplayTab getSuperTab()
 	{
@@ -109,7 +132,7 @@ public abstract class DataDisplayTab
 	public void setTargetWindow(MarvusTabbedFrame targetWindow)
 	{
 		this.targetWindow = targetWindow;
-		this.masterPanel = targetWindow.getPane();
+		this.masterPanel = (SufuGridPane) targetWindow.getPane();
 	}
 	
 	protected void setParentTab(DataDisplayTab parentTab)

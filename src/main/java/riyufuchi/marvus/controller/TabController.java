@@ -12,7 +12,7 @@ import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
 import riyufuchi.marvus.dialogs.transactions.AddDialog;
 import riyufuchi.marvus.dialogs.transactions.TransactionViewer;
-import riyufuchi.marvus.tabs.CategorizedMonthListTab;
+import riyufuchi.marvus.tabs.DatabaseViewTab;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
@@ -34,7 +34,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 12.11.2024
+ * @version 14.11.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -44,16 +44,11 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	private SufuGridPane panel;
 	private int financialYear;
 	private File currentWorkFile;
+	private boolean quickOpened;
 	
 	public TabController(MarvusDataWindow controledWindow)
 	{
-		this.database = new MarvusDatabase(e -> SufuDialogHelper.errorDialog(controledWindow, e, "Marvus database error"));
-		this.controledWindow = controledWindow;
-		this.panel = new SufuGridPane();
-		this.currentMode = new CategorizedMonthListTab(this);
-		this.prevMode = currentMode;
-		this.currentWorkFile = MarvusConfig.defaultWorkFile;
-		setFinancialYear(LocalDate.now().getYear());
+		this(controledWindow, MarvusConfig.defaultWorkFile);
 	}
 	
 	public TabController(MarvusDataWindow controledWindow, File file)
@@ -61,10 +56,13 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		this.database = new MarvusDatabase(e -> SufuDialogHelper.errorDialog(controledWindow, e, "Marvus database error"));
 		this.controledWindow = controledWindow;
 		this.panel = new SufuGridPane();
-		this.currentMode = new CategorizedMonthListTab(this);
+		this.currentMode = new DatabaseViewTab(this);
 		this.prevMode = currentMode;
 		this.currentWorkFile = file;
+		this.quickOpened = false;
 		setFinancialYear(LocalDate.now().getYear());
+		panel.setDoubleBuffered(true);
+
 	}
 	
 	@SuppressWarnings("unused")
@@ -168,7 +166,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 
 	public boolean quickOpenFile()
 	{
-		if (currentWorkFile == null)
+		if (currentWorkFile == null || quickOpened)
 		{
 			return importData();
 		}
@@ -191,6 +189,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			financialYear = MarvusConfig.currentFinancialYear;
 		}
 		displayData();
+		quickOpened = true;
 		return true;
 	}
 	

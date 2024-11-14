@@ -8,6 +8,7 @@ import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
+@Deprecated
 public class SimpleMonthListTab extends DataDisplayTab
 {
 	private int[] columnHeight;
@@ -33,9 +34,8 @@ public class SimpleMonthListTab extends DataDisplayTab
 			columnHeight[i] = 0;
 		for (Transaction t : dataSource)
 		{
-			masterPanel.add(SufuFactory.newTextFieldCell(t.toString(),
-					evt -> showExtednedInfo(t, evt)),
-					targetWindow.getGBC(t.getDate().getMonthValue(), ++columnHeight[t.getDate().getMonthValue()]));
+			masterPanel.add(SufuFactory.newTextFieldCell(t.toString(), evt -> showExtednedInfo(t, evt)),
+					masterPanel.getGBC(t.getDate().getMonthValue(), ++columnHeight[t.getDate().getMonthValue()]));
 		}
 	}
 
