@@ -21,12 +21,13 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 14.11.2024
+ * @version 15.11.2024
  */
 public class DatabaseViewTab extends DataDisplayTab
 {
 	private JComboBox<Month> showForMonth;
-	private JComboBox<String> valueFilterOptions, nameOptions, noteOptions;
+	private JComboBox<String> valueFilterOptions, nameOptions, noteOptions, categoryOption;
+	private JCheckBox b1, b2, b3, b4;
 	private LinkedList<Transaction> currDataSet;
 	private int y;
 	
@@ -35,66 +36,59 @@ public class DatabaseViewTab extends DataDisplayTab
 		super(targetWindow);
 		this.currDataSet = new LinkedList<>();
 		this.y = 1;
+		this.valueFilterOptions = SufuFactory.newCombobox(MarvusTexts.VALUE_OPTIONS, evt -> refresh());
+		this.showForMonth = SufuFactory.newCombobox(Month.values()); // This combobox must have selected value before action event is assigned otherwise displayed data are duped
+		this.nameOptions = SufuFactory.newCombobox(MarvusDatabase.utils.getNames(), evt -> refresh());
+		this.noteOptions = SufuFactory.newCombobox(MarvusTexts.NOTE_OPTIONS, evt -> refresh());
+		this.categoryOption = SufuFactory.newCombobox(MarvusDatabase.utils.getCategoryEnum(), evt -> refresh());
+		this.b1 = SufuFactory.newCheckBox("", evt -> checkBoxEvent(showForMonth));
+		this.b2 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(nameOptions));
+		this.b3 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(noteOptions));
+		this.b4 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(categoryOption));
+		disable(nameOptions, noteOptions, categoryOption);
+		SufuComponentTools.centerComboboxList(valueFilterOptions, showForMonth);
+		SufuComponentTools.setSelectedItem(showForMonth, LocalDateTime.now().getMonth());
+		showForMonth.addActionListener(evt -> refresh());
 	}
 	
 	private void filterData()
-	{
-		LinkedList<Transaction> newList = new LinkedList<>();
-		
+	{	
 		if (showForMonth.isEnabled())
 		{
 			currDataSet = dataSource.getMonth(SufuComponentTools.extractComboboxValue(showForMonth).getValue() - 1);
 		}
 		else
 		{
-			currDataSet = dataSource.toList();
+			currDataSet = new LinkedList<>(dataSource.toList());
 		}
-		
+		// Filtering
 		if (nameOptions.isEnabled())
 		{
-			newList.clear();
 			String name = SufuComponentTools.<String>extractComboboxValue(nameOptions);
-			for (Transaction t : currDataSet)
-				if (t.getName().equals(name))
-					newList.add(t);
-			currDataSet = newList;
+			currDataSet.removeIf(t -> !t.getName().equals(name));
 		}
 		
+		if (categoryOption.isEnabled())
+		{
+			String category = SufuComponentTools.<String>extractComboboxValue(categoryOption);
+			currDataSet.removeIf(t -> !t.getCategory().equals(category));
+		}
+
 		if (noteOptions.isEnabled())
 		{
-			newList.clear();
 			if (noteOptions.getSelectedIndex() == 0)
-			{
-				for (Transaction t : currDataSet)
-					if (!t.getNote().isBlank())
-						newList.add(t);	
-			}
+				currDataSet.removeIf(t -> t.getNote().isBlank());
 			else
-			{
-				for (Transaction t : currDataSet)
-					if (t.getNote().isBlank())
-						newList.add(t);
-			}
-			currDataSet = newList;
+				currDataSet.removeIf(t -> !t.getNote().isBlank());
 		}
-		
-		if (valueFilterOptions.isEnabled() && valueFilterOptions.getSelectedIndex() != 0)
+
+		if (valueFilterOptions.isEnabled() && valueFilterOptions.getSelectedIndex() > 0)
 		{
-			newList.clear();
-			BigDecimal zero = new BigDecimal(0);
+			BigDecimal zero = BigDecimal.ZERO;
 			if (valueFilterOptions.getSelectedIndex() == 1)
-			{
-				for (Transaction t : currDataSet)
-					if (t.getValue().compareTo(zero) > 0)
-						newList.add(t);
-			}
+				currDataSet.removeIf(t -> t.getValue().compareTo(zero) <= 0);
 			else if (valueFilterOptions.getSelectedIndex() == 2)
-			{
-				for (Transaction t : currDataSet)
-					if (t.getValue().compareTo(zero) < 0)
-						newList.add(t);
-			}
-			currDataSet = newList;
+				currDataSet.removeIf(t -> t.getValue().compareTo(zero) >= 0);
 		}
 	}
 	
@@ -104,24 +98,19 @@ public class DatabaseViewTab extends DataDisplayTab
 		refresh();
 	}
 	
+	private void disable(JComponent ... evt)
+	{
+		for (JComponent c : evt)
+			c.setEnabled(false);
+	}
+	
 	// Overrides
 
 	@Override
 	public void prepareUI()
 	{
-		valueFilterOptions = SufuFactory.newCombobox(MarvusTexts.VALUE_OPTIONS, evt -> refresh());
-		showForMonth = SufuFactory.newCombobox(Month.values(), evt -> refresh());
-		nameOptions = SufuFactory.newCombobox(MarvusDatabase.utils.getNames(), evt -> refresh());
-		noteOptions = SufuFactory.newCombobox(MarvusTexts.NOTE_OPTIONS, evt -> refresh());
-		JCheckBox b1 = SufuFactory.newCheckBox("", evt -> checkBoxEvent(showForMonth));
-		JCheckBox b2 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(nameOptions));
-		JCheckBox b3 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(noteOptions));
-		nameOptions.setEnabled(false);
-		noteOptions.setEnabled(false);
-		SufuComponentTools.centerComboboxList(valueFilterOptions, showForMonth);
-		addMenuAndMenuItems(b2, nameOptions, valueFilterOptions, b1, showForMonth, b3, noteOptions);
+		addMenuAndMenuItems(b2, nameOptions, b4, categoryOption, valueFilterOptions, b1, showForMonth, b3, noteOptions);
 		SufuTableTools.addRowHeader(masterPanel, 0, 0, MarvusTexts.TRANSACTION_VIEWER_HEADER);
-		SufuComponentTools.setSelectedItem(showForMonth, LocalDateTime.now().getMonth());
 	}
 
 	@Override
@@ -141,6 +130,7 @@ public class DatabaseViewTab extends DataDisplayTab
 	public void refresh()
 	{
 		clearPanel(masterPanel, MarvusTexts.TRANSACTION_VIEWER_HEADER.length - 1);
+		y = 1;
 		displayData();
 	}
 }

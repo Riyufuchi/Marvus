@@ -62,7 +62,7 @@ public class DataSummaryTab extends DataDisplayTab
 	@Override
 	public void refresh()
 	{
-		clearPanel(masterPanel, 6);
+		clearPanel(masterPanel, 7);
 		resetValues();
 		ds = con.createDataSummary(MarvusConfig.currentFinancialYear);
 		displayData();

@@ -4,14 +4,12 @@ import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
 import riyufuchi.marvus.dialogs.transactions.AddDialog;
-import riyufuchi.marvus.dialogs.transactions.TransactionViewer;
 import riyufuchi.marvus.tabs.DatabaseViewTab;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
@@ -34,7 +32,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 14.11.2024
+ * @version 15.11.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -72,13 +70,6 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		SufuDialogHelper.notImplementedYetDialog(controledWindow);
 	}
 	
-	public void viewTransaction()
-	{
-		LinkedList<Transaction> list = new LinkedList<>();
-		list.add(new Transaction());
-		new TransactionViewer(controledWindow, list).showDialog();;
-	}
-	
 	public void addNewTransaction()
 	{
 		new AddDialog(controledWindow).showDialog();
@@ -101,7 +92,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		}
 		if(SufuDialogHelper.yesNoDialog(controledWindow, "Are you sure?", "Data backup") == 1)
 			return;
-		String path = MarvusConfig.workFolder + "backups/" + LocalDate.now() + "/";
+		String path = currentWorkFile.getParentFile().getAbsolutePath() + "/backups/" + LocalDate.now() + "/";
 		try
 		{
 			if(SufuFileHelper.checkDirectory(path))
@@ -113,7 +104,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			{
 				SufuDialogHelper.informationDialog(controledWindow, ("Created directory: " + path), "Backup directory created");
 			}
-			SufuPersistence.<Transaction>saveToCSV(path + "data.csv", database);
+			SufuPersistence.<Transaction>saveToCSV(path + currentWorkFile.getName(), database);
 		}
 		catch (NullPointerException | IOException e)
 		{

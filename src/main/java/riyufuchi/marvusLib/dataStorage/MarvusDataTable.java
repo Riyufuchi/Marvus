@@ -16,7 +16,7 @@ import riyufuchi.marvusLib.interfaces.MarvusCollection;
  * 
  * @author Riyufuchi
  * @version 2.4 - 05.12.2023
- * @since 1.7 - 12.02.2024
+ * @since 1.8 - 15.11.2024
  */
 public class MarvusDataTable implements Serializable, MarvusCollection<Transaction>
 {
@@ -190,14 +190,14 @@ public class MarvusDataTable implements Serializable, MarvusCollection<Transacti
 	// Getters
 	
 	/**
-	 * 
 	 * @param index month number - 1
-	 * @return
+	 * @return copy of data for given month
 	 */
 	public LinkedList<Transaction> getMonth(int index)
 	{
-		return months.get(index);
+		return new LinkedList<>(months.get(index));
 	}
+
 
 	@Override
 	public Object[] toArray()
