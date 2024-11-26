@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
@@ -15,13 +16,14 @@ import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
+import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 15.11.2024
+ * @version 26.11.2024
  */
 public class DatabaseViewTab extends DataDisplayTab
 {
@@ -90,6 +92,9 @@ public class DatabaseViewTab extends DataDisplayTab
 			else if (valueFilterOptions.getSelectedIndex() == 2)
 				currDataSet.removeIf(t -> t.getValue().compareTo(zero) >= 0);
 		}
+		
+		if (currDataSet.isEmpty())
+			SufuDialogHelper.informationDialog(targetWindow.getSelf(), "No data to display with current settings.", "Filtering result");
 	}
 	
 	private void checkBoxEvent(JComponent comp)
@@ -117,13 +122,16 @@ public class DatabaseViewTab extends DataDisplayTab
 	public void displayData()
 	{
 		filterData();
-		for (Transaction t : currDataSet)
-		{
-			SufuTableTools.<Object>addRowHeader(masterPanel, 1, y, t.getName(), t.getCategory(), t.getValue(), t.getCurrency(), t.getStringDate(), t.getNote());
-			masterPanel.add(SufuFactory.newTextFieldCell(String.valueOf(t.getID()), evt2 -> showExtednedInfo(t, evt2)), masterPanel.getGBC(0, y));
-			y++;
-		}
 		masterPanel.revalidate();
+		SwingUtilities.invokeLater(() -> {
+			for (Transaction t : currDataSet)
+			{
+				SufuTableTools.<Object>addRowHeader(masterPanel, 1, y, t.getName(), t.getCategory(), t.getValue(), t.getCurrency(), t.getStringDate(), t.getNote());
+				masterPanel.add(SufuFactory.newTextFieldCell(String.valueOf(t.getID()), evt2 -> showExtednedInfo(t, evt2)), masterPanel.getGBC(0, y));
+				y++;
+			}
+			masterPanel.revalidate();
+		});
 	}
 
 	@Override

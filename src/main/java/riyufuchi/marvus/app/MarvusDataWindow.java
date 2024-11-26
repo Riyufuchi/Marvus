@@ -13,13 +13,6 @@ import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvus.dialogs.tools.AppManager;
 import riyufuchi.marvus.dialogs.tools.PreferencesDialog;
-import riyufuchi.marvus.tabs.CategorizedMonthListTab;
-import riyufuchi.marvus.tabs.UncategorizedMonthListTab;
-import riyufuchi.marvus.tabs.YearSummaryTab;
-import riyufuchi.marvus.tabs.DataSummaryTab;
-import riyufuchi.marvus.tabs.DatabaseViewTab;
-import riyufuchi.marvus.tabs.TimedDetailTab;
-import riyufuchi.marvus.tabs.YearOverviewTab;
 import riyufuchi.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.Fullscreenable;
@@ -35,7 +28,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 15.11.2024
+ * @version 26.11.2024
  */
 public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
@@ -84,7 +77,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 				// File
 				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickOpenFile());
 				case "Save" -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickSaveFile());
-				case "Save As..." -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK, event -> controller.saveFile());
+				case "Save As..." -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK, event -> controller.saveDataToFile());
 				case "Exit" -> jmc.setItemAction(i, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
 				case "Export"-> jmc.setItemAction(i,event -> controller.exportData());
 				case "Import" -> jmc.setItemAction(i, event -> controller.importData());
@@ -99,13 +92,13 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
 				// Display modes
-				case "Table list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> controller.updateDataDisplayMode(new DatabaseViewTab(controller)));
-				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> controller.updateDataDisplayMode(new CategorizedMonthListTab(controller)));
-				case "Uncategorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> controller.updateDataDisplayMode(new UncategorizedMonthListTab(controller)));
-				case "Year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> controller.updateDataDisplayMode(new YearSummaryTab(controller))); 
-				case "Year overview" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> controller.updateDataDisplayMode(new YearOverviewTab(controller, MarvusConfig.currentFinancialYear)));
-				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> controller.updateDataDisplayMode(new DataSummaryTab(controller)));
-				case "Week detail" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> controller.updateDataDisplayMode(new TimedDetailTab(controller)));
+				case "Table list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> controller.updateDataDisplayMode(0));
+				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> controller.updateDataDisplayMode(1));
+				case "Uncategorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> controller.updateDataDisplayMode(2));
+				case "Year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> controller.updateDataDisplayMode(3)); 
+				case "Year overview" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> controller.updateDataDisplayMode(4));
+				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> controller.updateDataDisplayMode(5));
+				case "Week detail" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> controller.updateDataDisplayMode(6));
 				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> controller.switchDataDisplayMode());
 				// Window
 				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());
@@ -125,6 +118,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 	@Override
 	protected void onClose()
 	{
+		controller.saveChanges();
 		MarvusGuiUtils.exitApp(this);
 	}
 	

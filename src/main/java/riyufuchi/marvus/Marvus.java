@@ -98,7 +98,7 @@ public class Marvus
 			SufuDialogHelper.exceptionDialog(app, e);
 			if ((e instanceof IOException) || (e instanceof IndexOutOfBoundsException))
 				createConfigFile();
-			else if (SufuDialogHelper.yesNoDialog(app, "Generate config file?", "New config file") == 0)
+			else if (SufuDialogHelper.booleanDialog(app, "Generate config file?", "New config file"))
 				createConfigFile();
 		}
 	}

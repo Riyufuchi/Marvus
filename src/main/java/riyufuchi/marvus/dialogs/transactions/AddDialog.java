@@ -15,6 +15,8 @@ import riyufuchi.marvusLib.data.Money;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MaruvsDatabaseUtils;
 import riyufuchi.marvusLib.database.MarvusDatabase;
+import riyufuchi.marvusLib.enums.UserAction;
+import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
@@ -95,7 +97,9 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void onOK()
 	{
-		((MarvusDataWindow)parentFrame).getController().getDatabase().add(new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText()));
+		Transaction t = new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText());
+		((MarvusDataWindow)parentFrame).getController().getDatabase().add(t);
 		((MarvusDataWindow)parentFrame).getController().refresh();
+		((MarvusDataWindow)parentFrame).getController().setLastAction(new LastChange(UserAction.ADD, t));
 	}
 }

@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.marvusLib.enums.UserAction;
+import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
@@ -24,9 +26,10 @@ public class RemoveDialog extends EditDialog
 	@Override
 	protected void onOK()
 	{
-		if(SufuDialogHelper.yesNoDialog(parentFrame, "Delete transaction number: " + getTransaction().getID() + "\n" + getTransaction().toString(), "Are you sure?") == 0)
+		if(SufuDialogHelper.booleanDialog(parentFrame, "Delete transaction number: " + getTransaction().getID() + "\n" + getTransaction().toString(), "Are you sure?"))
 		{
 			MarvusDataWindow budgetDataTable = (MarvusDataWindow)parentFrame;
+			budgetDataTable.getController().setLastAction(new LastChange(UserAction.DELETE, getTransaction()));
 			budgetDataTable.getController().getDatabase().remove(getTransaction());
 			budgetDataTable.getController().refresh();
 		}

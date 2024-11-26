@@ -22,10 +22,10 @@ public final class MarvusGuiUtils
 	{
 		if (mainFrame == null)
 			return;
-		int result = 0;
+		boolean result = true;
 		if (MarvusConfig.showQuitDialog)
-			result = SufuDialogHelper.yesNoDialog(mainFrame, "Do you really want to exit the application?", "Exit confirmation");
-		if (result == 0)
+			result = SufuDialogHelper.booleanDialog(mainFrame, "Do you really want to exit the application?", "Exit confirmation");
+		if (result)
 			mainFrame.dispose();
 	}
 	

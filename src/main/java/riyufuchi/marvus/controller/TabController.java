@@ -10,7 +10,13 @@ import javax.swing.JFrame;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
 import riyufuchi.marvus.dialogs.transactions.AddDialog;
+import riyufuchi.marvus.tabs.CategorizedMonthListTab;
+import riyufuchi.marvus.tabs.DataSummaryTab;
 import riyufuchi.marvus.tabs.DatabaseViewTab;
+import riyufuchi.marvus.tabs.TimedDetailTab;
+import riyufuchi.marvus.tabs.UncategorizedMonthListTab;
+import riyufuchi.marvus.tabs.YearOverviewTab;
+import riyufuchi.marvus.tabs.YearSummaryTab;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
@@ -19,10 +25,12 @@ import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvusLib.database.MarvusConnection;
 import riyufuchi.marvusLib.database.MarvusDatabase;
+import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.interfaces.IMarvusController;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.FileInput;
+import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.interfaces.SufuTab;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
@@ -32,17 +40,19 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 15.11.2024
+ * @version 26.11.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
 	private MarvusDatabase database;
 	private final MarvusDataWindow controledWindow;
 	private DataDisplayTab currentMode, prevMode, dummyMode;
+	private DataDisplayTab[] subTabs;
 	private SufuGridPane panel;
 	private int financialYear;
 	private File currentWorkFile;
 	private boolean quickOpened;
+	private LastChange lastAction;
 	
 	public TabController(MarvusDataWindow controledWindow)
 	{
@@ -54,10 +64,12 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		this.database = new MarvusDatabase(e -> SufuDialogHelper.errorDialog(controledWindow, e, "Marvus database error"));
 		this.controledWindow = controledWindow;
 		this.panel = new SufuGridPane();
-		this.currentMode = new DatabaseViewTab(this);
+		this.subTabs = new DataDisplayTab[7]; // Num of tabs in riyufuchi.marvus.tabs package
+		this.currentMode = subTabs[0] = new DatabaseViewTab(this);
 		this.prevMode = currentMode;
 		this.currentWorkFile = file;
 		this.quickOpened = false;
+		this.lastAction = new LastChange(UserAction.NONE, null);
 		setFinancialYear(LocalDate.now().getYear());
 		panel.setDoubleBuffered(true);
 
@@ -68,6 +80,14 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	{
 		MarvusConnection con = new MarvusConnection(database);
 		SufuDialogHelper.notImplementedYetDialog(controledWindow);
+	}
+	
+	public void saveChanges()
+	{
+		if (lastAction.userAction() != UserAction.NONE && lastAction.transactionInQuestion() != null)
+			if (SufuDialogHelper.booleanDialog(controledWindow, "Last action: " + lastAction.userAction().toString() + "\n" + lastAction.transactionInQuestion().toString(),
+					"Save unsaved actions?"))
+				saveDataToFile();
 	}
 	
 	public void addNewTransaction()
@@ -90,14 +110,14 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			SufuDialogHelper.warningDialog(controledWindow, "No data to backup", "Backup error");
 			return;
 		}
-		if(SufuDialogHelper.yesNoDialog(controledWindow, "Are you sure?", "Data backup") == 1)
+		if(!SufuDialogHelper.booleanDialog(controledWindow, "Are you sure?", "Data backup"))
 			return;
 		String path = currentWorkFile.getParentFile().getAbsolutePath() + "/backups/" + LocalDate.now() + "/";
 		try
 		{
 			if(SufuFileHelper.checkDirectory(path))
 			{
-				if(SufuDialogHelper.yesNoDialog(controledWindow, "Are you really sure?\nThis action will overwrite existing backups.", "Backup creation") == 1)
+				if(!SufuDialogHelper.booleanDialog(controledWindow, "Are you really sure?\nThis action will overwrite existing backups.", "Backup creation"))
 					return;
 			}
 			else
@@ -122,10 +142,13 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			MarvusIO.quickSave(controledWindow.getSelf(), currentWorkFile.getAbsolutePath(), database);
 		else
 			SufuDialogHelper.warningDialog(controledWindow.getSelf(), "No save destination found!", "No save destination");
+		setLastAction(new LastChange(UserAction.NONE, null));
 	}
 	
-	public void saveFile()
+	public void saveDataToFile()
 	{
+		if (isOperationUnexucatable()) // Prevents accidental data deletion
+			return;
 		if (currentWorkFile == null)
 		{
 			SufuDialogHelper.warningDialog(controledWindow.getSelf(), "No save destination found!", "No save destination");
@@ -139,6 +162,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		{
 			SufuDialogHelper.exceptionDialog(controledWindow.getSelf(), e);
 		}
+		setLastAction(new LastChange(UserAction.NONE, null));
 	}
 	
 	public void exportData()
@@ -182,6 +206,29 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		displayData();
 		quickOpened = true;
 		return true;
+	}
+	
+	public void updateDataDisplayMode(int id)
+	{
+		if (subTabs[id] == null)
+			updateDataDisplayMode(subTabs[id] = updateSubTab(id));
+		else
+			updateDataDisplayMode(subTabs[id]);
+	}
+	
+	private DataDisplayTab updateSubTab(int id)
+	{
+		switch(id)
+		{
+			case 0 -> { return new DatabaseViewTab(this); }
+			case 1 -> { return new CategorizedMonthListTab(this); }
+			case 2 -> { return new UncategorizedMonthListTab(this); }
+			case 3 -> { return new YearSummaryTab(this); }
+			case 4 -> { return new YearOverviewTab(this, financialYear); }
+			case 5 -> { return new DataSummaryTab(this); }
+			case 6 -> { return new TimedDetailTab(this); }
+			default -> { return new DataSummaryTab(this); }
+		}
 	}
 	
 	public void switchDataDisplayMode()
@@ -234,7 +281,8 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	@Override
 	public boolean onClose()
 	{
-		return SufuDialogHelper.yesNoDialog(controledWindow, ("Close tab " + controledWindow.getCurrentTabName() + "?"), "Tab action") == 0;
+		saveChanges();
+		return SufuDialogHelper.booleanDialog(controledWindow, ("Close tab " + controledWindow.getCurrentTabName() + "?"), "Tab action");
 	}
 	
 	// Is methods
@@ -285,6 +333,11 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	{
 		this.financialYear = financialYear;
 		MarvusConfig.currentFinancialYear = financialYear;
+	}
+	
+	public void setLastAction(LastChange ls)
+	{
+		this.lastAction = ls;
 	}
 	
 	// GETTERS

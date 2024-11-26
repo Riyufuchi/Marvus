@@ -41,7 +41,7 @@ public class MarvusIO
 	public static boolean saveData(JFrame parentFrame, String path, Collection<Transaction> data, boolean quicksave) throws FileNotFoundException, NullPointerException, IOException
 	{
 		String extension = getExtension(path);
-		if (!quicksave) //quick save true -> overwrite protection is skipped
+		if (!quicksave) // Quick save true -> overwrite protection is skipped
 			if (!SufuFileHelper.overwriteProtection(parentFrame, path))
 				return false;
 		switch(extension)

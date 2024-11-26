@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.marvusLib.enums.UserAction;
+import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
@@ -76,6 +78,7 @@ public class EditDialog extends AddDialog
 		transaction.setNote(note.getText());
 		transaction.setCurrency(currency.getText());
 		((MarvusDataWindow)parentFrame).getController().refresh();
+		((MarvusDataWindow)parentFrame).getController().setLastAction(new LastChange(UserAction.EDIT, transaction));
 	}
 	
 	public Transaction getTransaction()

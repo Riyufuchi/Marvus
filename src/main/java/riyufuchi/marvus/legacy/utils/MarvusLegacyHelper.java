@@ -12,16 +12,14 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * This class provides functions for some small features<br><br>
- *
- * Created On: 20.04.2022<br>
- * Last Edit: 24.08.2023
- *
+ * 
  * @author Riyufuchi
- * @version 2.0
- * @since 1.0 
+ * @since 1.0 - 20.04.2022
+ * @version 2.1 - 18.11.2024
  */
 public class MarvusLegacyHelper 
 {
+	@SuppressWarnings("deprecation")
 	public static void backup(DataTableForm dtf) throws NullPointerException, IOException
 	{
 		if(dtf.getDataBox().getList().isEmpty())
