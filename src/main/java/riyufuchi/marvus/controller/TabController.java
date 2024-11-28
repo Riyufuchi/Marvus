@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
 import riyufuchi.marvus.dialogs.transactions.AddDialog;
 import riyufuchi.marvus.tabs.CategorizedMonthListTab;
 import riyufuchi.marvus.tabs.DataSummaryTab;
-import riyufuchi.marvus.tabs.DatabaseViewTab;
+import riyufuchi.marvus.tabs.TableTab;
 import riyufuchi.marvus.tabs.TimedDetailTab;
 import riyufuchi.marvus.tabs.UncategorizedMonthListTab;
 import riyufuchi.marvus.tabs.YearOverviewTab;
@@ -35,12 +36,11 @@ import riyufuchi.sufuLib.interfaces.SufuTab;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 26.11.2024
+ * @version 27.11.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -48,7 +48,6 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	private final MarvusDataWindow controledWindow;
 	private DataDisplayTab currentMode, prevMode, dummyMode;
 	private DataDisplayTab[] subTabs;
-	private SufuGridPane panel;
 	private int financialYear;
 	private File currentWorkFile;
 	private boolean quickOpened;
@@ -63,15 +62,14 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	{
 		this.database = new MarvusDatabase(e -> SufuDialogHelper.errorDialog(controledWindow, e, "Marvus database error"));
 		this.controledWindow = controledWindow;
-		this.panel = new SufuGridPane();
 		this.subTabs = new DataDisplayTab[7]; // Num of tabs in riyufuchi.marvus.tabs package
-		this.currentMode = subTabs[0] = new DatabaseViewTab(this);
+		this.currentMode = subTabs[0] = new TableTab(this);
 		this.prevMode = currentMode;
 		this.currentWorkFile = file;
 		this.quickOpened = false;
 		this.lastAction = new LastChange(UserAction.NONE, null);
 		setFinancialYear(LocalDate.now().getYear());
-		panel.setDoubleBuffered(true);
+		//panel.setDoubleBuffered(true);
 
 	}
 	
@@ -220,7 +218,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	{
 		switch(id)
 		{
-			case 0 -> { return new DatabaseViewTab(this); }
+			case 0 -> { return new TableTab(this); }
 			case 1 -> { return new CategorizedMonthListTab(this); }
 			case 2 -> { return new UncategorizedMonthListTab(this); }
 			case 3 -> { return new YearSummaryTab(this); }
@@ -270,7 +268,9 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	@Override
 	public void displayData()
 	{
-		panel.removeAll(); // Removes all previous content
+		//panel = currentMode.getTabsPanel();
+		controledWindow.setPane(currentMode.getTabsPanel());
+		//panel.removeAll(); // Removes all previous content
 		currentMode.prepareUI(); // Prepares static content such as menus
 		currentMode.displayData(); // Displays/ prepares data to by displayed
 		controledWindow.refreshWindow();
@@ -340,6 +340,8 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		this.lastAction = ls;
 	}
 	
+
+	
 	// GETTERS
 	
 	public File getWorkFile()
@@ -360,13 +362,13 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	@Override
 	public GridBagConstraints getGBC(int x, int y)
 	{
-		return panel.getGBC(x, y);
+		return currentMode.getTabsPanel().getGBC(x, y);
 	}
 
 	@Override
-	public SufuGridPane getPane()
+	public JPanel getPane()
 	{
-		return panel;
+		return currentMode.getTabsPanel();
 	}
 
 	@Override
@@ -391,5 +393,11 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	public JFrame getSelf()
 	{
 		return controledWindow;
+	}
+
+	@Override
+	public void setPane(JPanel pane)
+	{
+		//this.currentMode.set = pane;
 	}
 }

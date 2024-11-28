@@ -17,13 +17,13 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 15.11.2024
+ * @version 27.11.2024
  */
 public abstract class DataDisplayTab
 {
 	protected MarvusTabbedFrame targetWindow;
 	protected MarvusDatabase dataSource;
-	protected SufuGridPane masterPanel;
+	protected SufuGridPane masterPanel, contentPanel;
 	private JPanel menuPanel;
 	private DataDisplayTab ddt;
 	
@@ -41,24 +41,40 @@ public abstract class DataDisplayTab
 	{
 		this.targetWindow = targetWindow;
 		this.dataSource = mdb;
-		setPanel(targetWindow.getPane());
 		this.ddt = parentTab;
+		this.masterPanel = new SufuGridPane();
+		targetWindow.setPane(masterPanel);
 	}
 	
 	public abstract void prepareUI();
 	public abstract void displayData();
 	public abstract void refresh();
 	
-	public void addMenuAndMenuItems(JComponent ... comp)
+	/**
+	 * This method creates menuPanel and adds it to master pane to y = 0 and also adds components to it
+	 * 
+	 * @param comps
+	 */
+	public void addMenuAndMenuItems(JComponent ... comps)
 	{
-		setPanel(targetWindow.getPane());
 		menuPanel = SufuFactory.newFlowPane();
-		SufuGridPane sgp = SufuFactory.newGridPane();
 		masterPanel.add(menuPanel, masterPanel.getGBC(0, 0));
-		masterPanel.add(sgp, masterPanel.getGBC(0, 1));
-		masterPanel = sgp;
-		for (JComponent c : comp)
+		for (JComponent c : comps)
 			menuPanel.add(c);
+	}
+	
+	/**
+	 * This method creates contentPanel and adds it to the masterPanel to y = 1
+	 */
+	public void addContentPanel()
+	{
+		contentPanel = new SufuGridPane();
+		masterPanel.add(contentPanel, masterPanel.getGBC(0, 1));
+	}
+	
+	public void addContentItem(JComponent comp, int x, int y)
+	{
+		contentPanel.add(comp, contentPanel.getGBC(x, y));
 	}
 	
 	public DataDisplayTab getSuperTab()
@@ -125,20 +141,7 @@ public abstract class DataDisplayTab
 	public void setTargetWindow(MarvusTabbedFrame targetWindow)
 	{
 		this.targetWindow = targetWindow;
-		setPanel(targetWindow.getPane());
-	}
-	
-	public void setPanel(JPanel panel)
-	{
-		if (panel instanceof SufuGridPane)
-		{
-			this.masterPanel = (SufuGridPane) targetWindow.getPane();
-		}
-		else
-		{
-			masterPanel = new SufuGridPane();
-			panel.add(masterPanel, targetWindow.getGBC(0, 0));
-		}
+		targetWindow.setPane(masterPanel);
 	}
 	
 	protected void setParentTab(DataDisplayTab parentTab)
@@ -147,6 +150,11 @@ public abstract class DataDisplayTab
 	}
 	
 	// Getters
+	
+	public SufuGridPane getTabsPanel()
+	{
+		return masterPanel;
+	}
 	
 	public MarvusDatabase getDataSource()
 	{

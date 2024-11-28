@@ -2,7 +2,7 @@ package riyufuchi.marvus.app;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.4.0";
+	public static final String VERSION = "2.4.1";
 	public static final String APP_NAME =  "Marvus - " + MarvusTexts.VERSION;
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
@@ -10,10 +10,10 @@ public class MarvusTexts
 			"Add", "Backup", "Sort", "",
 			"Table list", "Categorized month list", "Uncategorized month list",
 			"Year summary", "Year overview", "Data summary", "Week detail", "Previous mode", "",
-			"Execute quarry", "Month budget planning", "Month outcome", "Application manager", "",
+			"Execute quarry", "Month outcome", "Application manager", "",
 			"Preferences", "Fullscreen", "Refresh", "",
 			"About", "About SufuLib", "License"};
-	public static final String[] GROUP_BY_TIME_DETAIL = new String[]{"Name", "Category"}; 
+	public static final String[] GROUP_BY_TIME_DETAIL = {"Name", "Category"}; 
 	// OTHER
 	public static final String ABOUT_MARVUS = "<html>This is finance manager.<br>"
 			+ "Version: " + MarvusTexts.VERSION + "<br>Created by Riyufuchi © 2021 - 2024."

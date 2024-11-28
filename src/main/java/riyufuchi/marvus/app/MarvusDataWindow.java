@@ -28,7 +28,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 26.11.2024
+ * @version 27.11.2024
  */
 public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
@@ -112,13 +112,14 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
 	}
-	
+		
 	// OnEvent
 	
 	@Override
 	protected void onClose()
 	{
-		controller.saveChanges();
+		if (controller != null)
+			controller.saveChanges();
 		MarvusGuiUtils.exitApp(this);
 	}
 	
