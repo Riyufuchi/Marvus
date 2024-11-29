@@ -73,11 +73,14 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 
 	}
 	
-	@SuppressWarnings("unused")
 	public void executeQuarry()
 	{
 		MarvusConnection con = new MarvusConnection(database);
-		SufuDialogHelper.notImplementedYetDialog(controledWindow);
+		if (con.updateItemWhere("Name", "McD", "Name", "McDonald's"))
+		{
+			SufuDialogHelper.informationDialog(controledWindow, "Success!", "SQL result");
+			refresh();
+		}
 	}
 	
 	public void saveChanges()

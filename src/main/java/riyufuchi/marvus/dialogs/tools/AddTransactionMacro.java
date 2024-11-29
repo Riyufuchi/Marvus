@@ -14,13 +14,13 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
 /**
  * @author Riyufuchi
- * @version 1.0 - 12.10.2023
  * @since 1.97 - 12.10.2023
+ * @version 29.11.2024
  */
 public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 {
-	private JTextField name, value;
-	private JComboBox<String> category;
+	protected JTextField name, value;
+	protected JComboBox<String> category, existingMacros;
 	
 	public AddTransactionMacro(JFrame parentFrame)
 	{
@@ -31,11 +31,13 @@ public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 	@Override
 	protected void createInputs(JPanel arg0)
 	{
+		existingMacros = SufuFactory.newCombobox(MarvusDatabase.utils.getNames());
+		existingMacros.setEnabled(false);
 		name = SufuFactory.newTextField("");
 		value = SufuFactory.newTextField("0");
 		category = SufuFactory.<String>newCombobox(MarvusDatabase.utils.getCategoryEnum());
-		SufuGuiTools.addLabels(this, "Name:", "Category:", "Value:");
-		SufuGuiTools.addComponents(this, 1, 0, name, category, value);
+		SufuGuiTools.addLabels(this, "Name:", null, "Category:", "Value:");
+		SufuGuiTools.addComponents(this, 1, 0, existingMacros, name, category, value);
 	}
 
 	@Override

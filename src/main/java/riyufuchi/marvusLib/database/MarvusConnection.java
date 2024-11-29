@@ -11,7 +11,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;;
 /**
  * @author riyufuchi
  * @since 09.09.2024
- * @version 12.11.2024
+ * @version 29.11.2024
  */
 public class MarvusConnection implements MarvusQuerriable
 {
@@ -23,18 +23,16 @@ public class MarvusConnection implements MarvusQuerriable
 	}
 
 	@Override
-	public boolean updateAtribbute(String attr, String oldValue, String newValue)
+	public boolean updateAtribbute(String atr, String oldValue, String newValue)
 	{
-		updateName(oldValue, newValue);
+		switch (atr)
+		{
+			case "Name" -> database.stream().forEach(e -> {
+				if (e.getName().equals(oldValue))
+					e.setName(newValue);
+			});
+		}
 		return true;
-	}
-	
-	private void updateName(String oldValue, String newValue)
-	{
-		database.stream().forEach(e -> {
-			if (e.getName().equals(oldValue))
-				e.setName(newValue);
-		});
 	}
 	
 	public void updateNameWhenNameValue(String newName, String name, String value)
@@ -53,7 +51,8 @@ public class MarvusConnection implements MarvusQuerriable
 			return false;
 		switch (whereAttr)
 		{
-			case "value" -> updateNameWhenValue(new BigDecimal(whereValue), newValue);
+			case "Value" -> updateNameWhenValue(new BigDecimal(whereValue), newValue);
+			case "Name" -> database.stream().filter(t -> t.getName().equals(whereValue)).forEach(t -> t.setName(newValue));
 			default -> { return false; }
 		}
 		return true;

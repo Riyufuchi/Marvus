@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.dialogs.tools.AddCategory;
 import riyufuchi.marvus.dialogs.tools.AddTransactionMacro;
+import riyufuchi.marvus.dialogs.tools.DeleteTransactionMacro;
+import riyufuchi.marvus.dialogs.tools.EditTransactionMacro;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.records.TransactionMacro;
@@ -58,12 +60,8 @@ public class AppManagerController
 	
 	// Macros
 	
-	public void addTransactionMacroBtnEvt()
+	private boolean saveMacroToFile()
 	{
-		TransactionMacro tm = new AddTransactionMacro(parentFrame).showAndGet();
-		if (tm == null)
-			return;
-		MarvusDatabase.utils.setMacro(tm);
 		try
 		{
 			SufuPersistence.saveToCSVtoString(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, MarvusDatabase.utils.getTransactionMacroCSV());
@@ -71,6 +69,40 @@ public class AppManagerController
 		catch (NullPointerException | IOException e)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
+			return false;
+		}
+		return true;
+	}
+	
+	public void addTransactionMacroBtnEvt()
+	{
+		TransactionMacro tm = new AddTransactionMacro(parentFrame).showAndGet();
+		if (tm == null)
+			return;
+		MarvusDatabase.utils.addMacro(tm);
+		if (saveMacroToFile())
+			SufuDialogHelper.informationDialog(parentFrame, "Macro successfuly added!", "Transaction macro operation");
+	}
+	
+	public void editTransactionMacroBtnEvt()
+	{
+		TransactionMacro tm = new EditTransactionMacro(parentFrame).showAndGet();
+		if (tm != null)
+			if (saveMacroToFile())
+				SufuDialogHelper.informationDialog(parentFrame, "Macro successfuly edited!", "Transaction macro operation");
+	}
+	
+	public void deleteTransactionMacroBtnEvt()
+	{
+		TransactionMacro tm = new DeleteTransactionMacro(parentFrame).showAndGet();
+		if (tm != null)
+		{
+			if (SufuDialogHelper.booleanDialog(parentFrame, "Delete: " + tm.toCSV(), "Are you sure?"))
+			{
+				MarvusDatabase.utils.removeMacro(tm);
+				if (saveMacroToFile())
+					SufuDialogHelper.informationDialog(parentFrame, "Macro successfuly removed!", "Transaction macro operation");
+			}
 		}
 	}
 	

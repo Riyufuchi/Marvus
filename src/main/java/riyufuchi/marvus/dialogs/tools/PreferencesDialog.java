@@ -41,6 +41,7 @@ public class PreferencesDialog extends SufuDialog
 	public PreferencesDialog(JFrame parentFrame)
 	{
 		super("Preferences", parentFrame, DialogType.YesCancel, true, true);
+		pack();
 	}
 
 	private void selectConfig()
