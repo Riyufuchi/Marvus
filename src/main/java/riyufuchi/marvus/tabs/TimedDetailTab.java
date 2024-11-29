@@ -30,7 +30,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 09.11.2024
+ * @version 29.11.2024
  */
 public class TimedDetailTab extends DataDisplayTab
 {
@@ -47,55 +47,47 @@ public class TimedDetailTab extends DataDisplayTab
 		this.toDate = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString());
 		this.fromDate = LocalDateTime.now().minusDays(7).toLocalDate().atStartOfDay(); // So we get data for past 7 days by default
 		this.categorizedMonths = new LinkedList<>();
-	}
-	
-	@Override
-	public void prepareUI()
-	{
-		menuPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		datePane = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		dataPane = new JPanel(new GridLayout(0, 2));
-		
-		dateFrom = SufuFactory.newButton("", evt -> {
+		// Creating UI
+		this.menuPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		this.datePane = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		this.dataPane = new JPanel(new GridLayout(0, 2));
+		this.sortByBox = SufuFactory.<String>newCombobox(MarvusTexts.GROUP_BY_TIME_DETAIL);
+		this.sortByBox.addActionListener(evt -> refresh());
+		SufuComponentTools.centerComboboxList(sortByBox);
+		this.dateFrom = SufuFactory.newButton("", evt -> {
 			fromDate = new SufuDatePicker(targetWindow.getSelf(), fromDate).showAndGet();
 			MarvusGuiUtils.editDateText(dateFrom, fromDate);
 			refresh();
 		}); 
-		dateTo = SufuFactory.newButton("", evt -> {
+		this.dateTo = SufuFactory.newButton("", evt -> {
 			toDate = new SufuDatePicker(targetWindow.getSelf(), toDate).showAndGet();
 			MarvusGuiUtils.editDateText(dateTo, toDate);
 			refresh();
 		}); 
-		
 		MarvusGuiUtils.editDateText(dateFrom, fromDate);
 		MarvusGuiUtils.editDateText(dateTo, toDate);
-		
-		datePane.add(dateFrom);
-		datePane.add(new JLabel("to"));
-		datePane.add(dateTo);
-		
-		sortByBox = SufuFactory.<String>newCombobox(MarvusTexts.GROUP_BY_TIME_DETAIL);
-		sortByBox.addActionListener(evt -> refresh());
-		SufuComponentTools.centerComboboxList(sortByBox);
-		menuPane.add(new JLabel("Group by"));
-		menuPane.add(sortByBox);
-		
-		masterPanel.add(menuPane, targetWindow.getGBC(0, 0));
-		masterPanel.add(datePane, targetWindow.getGBC(0, 1));
-		masterPanel.add(dataPane, targetWindow.getGBC(0, 2));
+		this.datePane.add(dateFrom);
+		this.datePane.add(new JLabel("to"));
+		this.datePane.add(dateTo);
+		this.menuPane.add(new JLabel("Group by"));
+		this.menuPane.add(sortByBox);
+		masterPanel.add(menuPane, masterPanel.getGBC(0, 0));
+		masterPanel.add(datePane, masterPanel.getGBC(0, 1));
+		masterPanel.add(dataPane, masterPanel.getGBC(0, 2));
 		prepData();
 	}
 
 	@Override
 	public void displayData()
 	{
-		printData();
+		refresh();
 	}
 
 	@Override
 	public void refresh()
 	{
 		dataPane.removeAll();
+		dataPane.revalidate();
 		prepData();
 		printData();
 	}

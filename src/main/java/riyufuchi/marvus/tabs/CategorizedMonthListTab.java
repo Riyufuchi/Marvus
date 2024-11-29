@@ -31,12 +31,7 @@ public class CategorizedMonthListTab extends DataDisplayTab
 		this.fc = null;
 		this.point = "";
 		this.categorizedMonths = new LinkedList<>();
-	}
-	
-	@Override
-	public void prepareUI()
-	{
-		SufuTableTools.addRowHeader(targetWindow, 1, 0, months);
+		SufuTableTools.addRowHeader(masterPanel, 1, 0, months);
 	}
 
 	@Override
@@ -62,7 +57,7 @@ public class CategorizedMonthListTab extends DataDisplayTab
 		while (it.hasNext())
 		{
 			fc = it.next();
-			masterPanel.add(SufuFactory.newButton(fc.toString(), MarvusGuiUtils.encodeCords(month.getValue(), y - 1), evt -> btnDataReference(evt)), targetWindow.getGBC(month.getValue(), y));
+			masterPanel.add(SufuFactory.newButton(fc.toString(), MarvusGuiUtils.encodeCords(month.getValue(), y - 1), evt -> btnDataReference(evt)), masterPanel.getGBC(month.getValue(), y));
 			y++;
 		}
 		y = 1;

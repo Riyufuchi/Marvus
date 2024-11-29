@@ -22,18 +22,14 @@ public class DataSummaryTab extends DataDisplayTab
 		resetValues();
 		this.con = new MarvusConnection(dataSource);
 		this.ds = con.createDataSummary(MarvusConfig.currentFinancialYear);
-	}
-	
-	@Override
-	public void prepareUI()
-	{
-		yIndex = 1;
+		// UI
+		this.yIndex = 1;
 		for (String s : captions)
-			masterPanel.add(SufuFactory.newTextFieldHeader(s), targetWindow.getGBC(0, yIndex++));
-		masterPanel.add(SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.currentFinancialYear)), targetWindow.getGBC(0, 0));
-		masterPanel.add(SufuFactory.newTextFieldHeader("Year total"), targetWindow.getGBC(1, 0));
-		masterPanel.add(SufuFactory.newTextFieldHeader("Year average"), targetWindow.getGBC(2, 0));
-		masterPanel.add(SufuFactory.newTextFieldHeader("Daily average"), targetWindow.getGBC(3, 0));
+			masterPanel.add(SufuFactory.newTextFieldHeader(s), masterPanel.getGBC(0, yIndex++));
+		masterPanel.add(SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.currentFinancialYear)), masterPanel.getGBC(0, 0));
+		masterPanel.add(SufuFactory.newTextFieldHeader("Year total"), masterPanel.getGBC(1, 0));
+		masterPanel.add(SufuFactory.newTextFieldHeader("Year average"), masterPanel.getGBC(2, 0));
+		masterPanel.add(SufuFactory.newTextFieldHeader("Daily average"), masterPanel.getGBC(3, 0));
 		resetValues();
 	}
 
@@ -83,6 +79,6 @@ public class DataSummaryTab extends DataDisplayTab
 	private void addInfoItem(String info)
 	{
 		yIndex++;
-		masterPanel.add(SufuFactory.newTextFieldHeader(info), targetWindow.getGBC(xIndex, yIndex));
+		masterPanel.add(SufuFactory.newTextFieldHeader(info), masterPanel.getGBC(xIndex, yIndex));
 	}
 }

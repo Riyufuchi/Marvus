@@ -2,15 +2,16 @@ package riyufuchi.marvus.app;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.4.2";
+	public static final String VERSION = "2.4.3";
 	public static final String APP_NAME =  "Marvus - " + MarvusTexts.VERSION;
-	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Window", "Help"};
+	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Legacy", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
-			"Open", "Save", "Save As...", "Import", "Export", "Exit", "",
+			"New", "Open", "Save", "Save As...", "Import", "Export", "Exit", "",
 			"Add", "Backup", "Sort", "",
 			"Table list", "Categorized month list", "Uncategorized month list",
 			"Year summary", "Year overview", "Data summary", "Week detail", "Previous mode", "",
-			"Execute quarry", "Month outcome", "Application manager", "",
+			"Execute quarry", "Application manager", "",
+			"Month outcome", "",
 			"Preferences", "Fullscreen", "Refresh", "",
 			"About", "About SufuLib", "License"};
 	public static final String[] GROUP_BY_TIME_DETAIL = {"Name", "Category"}; 

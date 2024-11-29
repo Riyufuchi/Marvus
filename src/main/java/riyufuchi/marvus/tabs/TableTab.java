@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 28.11.2024
+ * @version 29.11.2024
  */
 public class TableTab extends DataDisplayTab
 {
@@ -129,11 +129,6 @@ public class TableTab extends DataDisplayTab
 	}
 	
 	// Overrides
-
-	@Override
-	public void prepareUI()
-	{
-	}
 
 	@Override
 	public void displayData()

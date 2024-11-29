@@ -69,8 +69,6 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		this.quickOpened = false;
 		this.lastAction = new LastChange(UserAction.NONE, null);
 		setFinancialYear(LocalDate.now().getYear());
-		//panel.setDoubleBuffered(true);
-
 	}
 	
 	public void executeQuarry()
@@ -133,6 +131,11 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			return;
 		}
 		SufuDialogHelper.informationDialog(controledWindow, "Backup successfuly created", "Task successful");
+	}
+	
+	public void createNewTabAndFile()
+	{
+		//TODO: Create new tab with file
 	}
 	
 	public void quickSaveFile()
@@ -268,14 +271,13 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		controledWindow.refreshWindow();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void displayData()
 	{
-		//panel = currentMode.getTabsPanel();
 		controledWindow.setPane(currentMode.getTabsPanel());
-		//panel.removeAll(); // Removes all previous content
-		currentMode.prepareUI(); // Prepares static content such as menus
-		currentMode.displayData(); // Displays/ prepares data to by displayed
+		currentMode.prepareUI();
+		currentMode.displayData(); // Displays data
 		controledWindow.refreshWindow();
 	}
 	

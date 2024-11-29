@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 27.11.2024
+ * @version 29.11.2024
  */
 public abstract class DataDisplayTab
 {
@@ -43,12 +43,18 @@ public abstract class DataDisplayTab
 		this.dataSource = mdb;
 		this.ddt = parentTab;
 		this.masterPanel = new SufuGridPane();
-		targetWindow.setPane(masterPanel);
+		this.masterPanel.setDoubleBuffered(true);
 	}
 	
-	public abstract void prepareUI();
 	public abstract void displayData();
 	public abstract void refresh();
+	
+	/**
+	 * Prepares static content such as menus. Deprecated after DataDisplayTab's update where tabs were given own panels
+	 */
+	@Deprecated
+	public void prepareUI()
+	{}
 	
 	/**
 	 * This method creates menuPanel and adds it to master pane to y = 0 and also adds components to it
@@ -96,6 +102,7 @@ public abstract class DataDisplayTab
 	public void hardRefresh()
 	{
 		masterPanel.removeAll();
+		prepareUI();
 		displayData();
 	}
 	

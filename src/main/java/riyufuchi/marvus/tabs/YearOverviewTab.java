@@ -20,7 +20,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 27.11.2024
+ * @version 29.11.2024
  */
 public class YearOverviewTab extends DataDisplayTab
 {
@@ -35,6 +35,10 @@ public class YearOverviewTab extends DataDisplayTab
 		this.yOffset = 0;
 		this.yearOverviews = new LinkedList<>();
 		yearOverviews.add(dataSource.getYearOverview(year));
+		// UI
+		addMenuAndMenuItems(SufuFactory.newButton("Add table", evt -> addTable()));
+		addContentPanel();
+		buildTableHeader();
 	}
 	
 	private void addTable()
@@ -94,14 +98,6 @@ public class YearOverviewTab extends DataDisplayTab
 	}
 	
 	// OVERRIDES
-	
-	@Override
-	public void prepareUI()
-	{
-		addMenuAndMenuItems(SufuFactory.newButton("Add table", evt -> addTable()));
-		addContentPanel();
-		buildTableHeader();
-	}
 	
 	@Override
 	public void displayData()

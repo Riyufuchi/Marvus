@@ -28,12 +28,8 @@ public class YearSummaryTab extends DataDisplayTab
 		this.list = dataSource.getCategorizedYearByCategories(MarvusConfig.currentFinancialYear);
 		this.outcome = new BigDecimal(0);
 		Collections.sort(list, TransactionComparation.compareFC(CompareMethod.By_catagory));
-	}
-	
-	@Override
-	public void prepareUI()
-	{
-		SufuTableTools.addRowHeader(targetWindow, 0, 0, "Category", "Sum");
+		// UI
+		SufuTableTools.addRowHeader(masterPanel, 0, 0, "Category", "Sum");
 	}
 
 	@Override
@@ -45,12 +41,12 @@ public class YearSummaryTab extends DataDisplayTab
 		for(FinancialCategory category : list)
 		{
 			bd = category.getSum();
-			masterPanel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), targetWindow.getGBC(0, y));
-			masterPanel.add(SufuFactory.newTextFieldHeader(bd.toString()), targetWindow.getGBC(1, y++));
+			masterPanel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), masterPanel.getGBC(0, y));
+			masterPanel.add(SufuFactory.newTextFieldHeader(bd.toString()), masterPanel.getGBC(1, y++));
 			outcome = outcome.add(bd);
 		}
-		masterPanel.add(SufuFactory.newTextFieldHeader("Outcome"), targetWindow.getGBC(0, y));
-		masterPanel.add(SufuFactory.newTextFieldHeader(outcome.toString()), targetWindow.getGBC(1, y));
+		masterPanel.add(SufuFactory.newTextFieldHeader("Outcome"), masterPanel.getGBC(0, y));
+		masterPanel.add(SufuFactory.newTextFieldHeader(outcome.toString()), masterPanel.getGBC(1, y));
 	}
 
 	@Override
