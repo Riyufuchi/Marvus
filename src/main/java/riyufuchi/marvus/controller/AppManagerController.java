@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import riyufuchi.marvus.dialogs.tools.AddCategory;
 import riyufuchi.marvus.dialogs.tools.AddTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.DeleteTransactionMacro;
+import riyufuchi.marvus.dialogs.tools.EditCategory;
 import riyufuchi.marvus.dialogs.tools.EditTransactionMacro;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.database.MarvusDatabase;
@@ -27,35 +28,42 @@ public class AppManagerController
 	
 	// Category
 	
+	public boolean saveCategoriesToFile()
+	{
+		try
+		{
+			SufuPersistence.saveToCSV(MarvusConfig.CATEGORY_FILE_PATH, MarvusDatabase.utils.getCategoryEnum());
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(parentFrame, e);
+			return false;
+		}
+		return true;
+	}
+	
 	public void addCategoryBtnEvt()
 	{
 		String[] categories = new AddCategory(parentFrame).showAndGet();
 		if (categories == null)
 			return;
-		MarvusDatabase.utils.setCategory(categories);
-		try
-		{
-			SufuPersistence.saveToCSV(MarvusConfig.CATEGORY_FILE_PATH, MarvusDatabase.utils.getCategoryEnum());
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-		}
+		MarvusDatabase.utils.addCategory(categories);
+		if (saveCategoriesToFile())
+			SufuDialogHelper.informationDialog(parentFrame, "Category successfuly added!", "Category operatin");
+		
+	}
+	
+	public void editCategoryBtnEvt()
+	{
+		String[] categories = new EditCategory(parentFrame).showAndGet();
+		MarvusDatabase.utils.setCategory(null, null);
 	}
 	
 	public void sortCategories()
 	{
 		Arrays.sort(MarvusDatabase.utils.getCategoryEnum());
-		try
-		{
-			SufuPersistence.saveToCSV(MarvusConfig.CATEGORY_FILE_PATH, MarvusDatabase.utils.getCategoryEnum());
-		} 
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-			return;
-		}
-		SufuDialogHelper.informationDialog(parentFrame, "Category list sorted!", "Sorting result");
+		if (saveCategoriesToFile())
+			SufuDialogHelper.informationDialog(parentFrame, "Category list sorted!", "Sorting result");
 	}
 	
 	// Macros

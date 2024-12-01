@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @version 1.3 - 12.10.2023
- * @since 31.08.2024
+ * @since 01.12.2024
  */
 public class MaruvsDatabaseUtils implements Serializable
 {
@@ -157,11 +157,26 @@ public class MaruvsDatabaseUtils implements Serializable
 		return true;
 	}
 	
-	public void setCategory(String[] newCategories)
+	public void addCategory(String[] newCategories)
 	{
 		if (newCategories == null)
 			return;
 		categoryEnum = SufuGeneralUtils.addToArray(categoryEnum, newCategories);
+	}
+	
+	public void setCategory(String oldCategory, String newCategory)
+	{
+		if (newCategory == null || oldCategory == null)
+			return;
+		for (int i = 0; i < categoryEnum.length; i++)
+		{
+			if (categoryEnum[i].equals(oldCategory))
+			{
+				categoryEnum[i] = newCategory;
+				return;
+			}
+			
+		}
 	}
 	
 	// GETTERS

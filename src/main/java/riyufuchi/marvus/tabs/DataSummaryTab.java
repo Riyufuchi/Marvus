@@ -53,6 +53,7 @@ public class DataSummaryTab extends DataDisplayTab
 		addInfoItem(String.format(format, ds.avdDailyIncome()));
 		addInfoItem(String.format(format, ds.avgDailySpendings()));
 		addInfoItem(String.format(format, ds.avgDailyOutcome()));
+		resetValues();
 	}
 
 	@Override

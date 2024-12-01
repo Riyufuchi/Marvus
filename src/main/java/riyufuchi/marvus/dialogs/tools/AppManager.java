@@ -16,7 +16,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 07.10.2023
- * @version 29.11.2024
+ * @version 30.11.2024
  */
 public class AppManager extends SufuDialogGeneric<MarvusDataWindow>
 {
@@ -54,7 +54,7 @@ public class AppManager extends SufuDialogGeneric<MarvusDataWindow>
 		sortEntityBtn = SufuFactory.newButton("Sort entity", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
 		
 		addCategoryBtn = SufuFactory.newButton("Add category", evt -> controller.addCategoryBtnEvt());
-		editCategoryBtn = SufuFactory.newButton("Edit category", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
+		editCategoryBtn = SufuFactory.newButton("Edit category", evt -> controller.editCategoryBtnEvt());
 		removeCategoryBtn = SufuFactory.newButton("Remove category", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
 		sortCategoriesBtn = SufuFactory.newButton("Sort categories", evt -> controller.sortCategories());
 		

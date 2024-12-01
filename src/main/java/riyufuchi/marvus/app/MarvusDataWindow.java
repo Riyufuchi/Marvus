@@ -44,7 +44,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 	
 	public MarvusDataWindow(int width, int height)
 	{
-		super("Marvus - " + MarvusTexts.VERSION, width, height, false, true, true);
+		super("Marvus - " + MarvusTexts.VERSION, width, height, 800, 600, false, true, true);
 		setupJMenu();
 		this.controller = new TabController(this);
 		newTab(controller);

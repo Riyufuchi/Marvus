@@ -2,7 +2,7 @@ package riyufuchi.marvus.app;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.4.3";
+	public static final String VERSION = "2.4.4";
 	public static final String APP_NAME =  "Marvus - " + MarvusTexts.VERSION;
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Legacy", "Window", "Help"};
 	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
@@ -24,7 +24,7 @@ public class MarvusTexts
 	public static final String[] LOCAL_DATE_TIME_FORMAT_OPTIONS = {"dd.mm.yyyy", "MM.dd.yyyy"};
 	public static final String[] COLOR_OPTIONS = {"Theme colored", "Dark mode"};
 	public static final String[] THEMES = {"Default", "System matching", "Nimbus", "Dark Nimbus"};
-	public static final String[] WINDOW_SIZE = {"Fullscreen", "800x600", "1280x720", "1920x1080"};
+	public static final String[] WINDOW_SIZE = {"Fullscreen", "800x600", "1280x720", "1366x768", "1920x1080", "2560x1440"};
 	// TABS TEXTS
 	public static final String[] TRANSACTION_VIEWER_HEADER = {"ID", "Name", "Category", "Value", "Currency", "Date", "Note"};
 	public static final String[] VALUE_OPTIONS = {"All", "Income only", "Spendings only"};

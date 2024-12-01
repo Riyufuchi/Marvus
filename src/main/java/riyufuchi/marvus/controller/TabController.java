@@ -243,7 +243,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		else
 			currentMode = currentMode.getParentTab();
 		prevMode = dummyMode;
-		displayData();
+		refresh();
 	}
 	
 	@Override
@@ -267,6 +267,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	{
 		if (isOperationUnexucatable())
 			return;
+		controledWindow.setPane(currentMode.getTabsPanel());
 		currentMode.refresh();
 		controledWindow.refreshWindow();
 	}

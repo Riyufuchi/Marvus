@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.LinkedList;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -14,7 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableRowSorter;
 
+import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.app.MarvusTexts;
+import riyufuchi.marvus.dialogs.tools.AppManager;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionTableModel;
@@ -27,13 +30,14 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 29.11.2024
+ * @version 30.11.2024
  */
 public class TableTab extends DataDisplayTab
 {
 	private JComboBox<Month> showForMonth;
 	private JComboBox<String> valueFilterOptions, nameOptions, noteOptions, categoryOption;
 	private JCheckBox b1, b2, b3, b4;
+	private JButton entityManager;
 	private LinkedList<Transaction> currDataSet;
 	private TransactionTableModel model;
 	private JTable table;
@@ -74,7 +78,11 @@ public class TableTab extends DataDisplayTab
 				}
 			}
 		});
-		addMenuAndMenuItems(b2, nameOptions, b4, categoryOption, valueFilterOptions, b1, showForMonth, b3, noteOptions);
+		this.entityManager = SufuFactory.newButton("Entity manager", evt -> { 
+			new AppManager((MarvusDataWindow)targetWindow.getSelf()).showDialog();
+			//TODO: Refresh comboboxes names and categories
+		});
+		addMenuAndMenuItems(entityManager, b2, nameOptions, b4, categoryOption, valueFilterOptions, b1, showForMonth, b3, noteOptions);
 		masterPanel.simulateBorderLayout();
 		masterPanel.add(new JScrollPane(table), masterPanel.getGBC(0, 1));
 	}

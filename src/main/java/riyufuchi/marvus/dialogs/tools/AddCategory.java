@@ -1,36 +1,39 @@
 package riyufuchi.marvus.dialogs.tools;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
+import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.sufuLib.gui.SufuDataDialog;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
 /**
  * @author Riyufuchi
- * @version 1.0 - 12.10.2023
  * @since 1.97 - 12.10.2023
+ * @version 30.11.2024
  */
 public class AddCategory extends SufuDataDialog<String[]>
 {
-	private JTextArea categoryInput;
+	protected JComboBox<String> categoriesCB;
+	protected JTextField categoryInput;
 	
 	public AddCategory(JFrame parentFrame)
 	{
-		super("New Category", parentFrame, DialogType.OK, true, false);
-		this.setBounds(getX(), getY(), 300, 200);
+		super("New Category", parentFrame, DialogType.OK);
+		pack();
 	}
 
 	@Override
-	protected void createInputs(JPanel arg0)
+	protected void createInputs(JPanel panel)
 	{
-		categoryInput = SufuFactory.newTextArea("category1;category2");
-		arg0.add(new JLabel("New Category:"), getGBC(0, 0));
-		//SufuGuiTools.addLabels(this, "New Category:");
-		SufuGuiTools.addComponents(this, 1, 0, categoryInput);
+		categoriesCB = SufuFactory.newCombobox(MarvusDatabase.utils.getCategoryEnum());
+		categoriesCB.setEnabled(false);
+		categoryInput = SufuFactory.newTextField("");
+		SufuGuiTools.addLabels(this, "Category:");
+		SufuGuiTools.addComponents(this, 1, 0, categoriesCB, categoryInput);
 	}
 
 	@Override
@@ -42,6 +45,6 @@ public class AddCategory extends SufuDataDialog<String[]>
 			data = categoryInput.getText().split(";");
 		else
 			data = new String[] { categoryInput.getText() };
-		this.dispose();
+		closeDialog();
 	}
 }
