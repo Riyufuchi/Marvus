@@ -27,7 +27,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import riyufuchi.marvus.utils.MarvusConfig;
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 

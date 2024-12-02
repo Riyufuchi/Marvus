@@ -3,9 +3,9 @@ package riyufuchi.marvus.legacy.utils;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.gui.DataTableForm;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;

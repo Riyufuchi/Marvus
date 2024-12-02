@@ -1,6 +1,6 @@
 package riyufuchi.marvus.tabs;
 
-import riyufuchi.marvus.utils.MarvusConfig;
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.database.MarvusConnection;
 import riyufuchi.marvusLib.interfaces.MarvusQuerriable;

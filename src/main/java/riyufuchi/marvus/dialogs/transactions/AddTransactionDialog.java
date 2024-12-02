@@ -32,7 +32,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * @since 16.05.2023
  * @version 02.12.2024
  */
-public class AddDialog extends SufuDialog
+public class AddTransactionDialog extends SufuDialog
 {
 	protected JTextField name, money, currency;
 	protected JButton date;
@@ -41,7 +41,7 @@ public class AddDialog extends SufuDialog
 	protected MaruvsDatabaseUtils utils;
 	protected LocalDateTime localDate;
 	
-	public AddDialog(JFrame parentFrame)
+	public AddTransactionDialog(JFrame parentFrame)
 	{
 		super("New transaction", parentFrame, DialogType.OK, true, true);
 		if (localDate == null)

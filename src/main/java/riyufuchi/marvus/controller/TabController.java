@@ -8,9 +8,10 @@ import java.time.LocalDate;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
-import riyufuchi.marvus.dialogs.transactions.AddDialog;
+import riyufuchi.marvus.dialogs.transactions.AddTransactionDialog;
 import riyufuchi.marvus.tabs.CategorizedMonthListTab;
 import riyufuchi.marvus.tabs.DataSummaryTab;
 import riyufuchi.marvus.tabs.TableTab;
@@ -18,7 +19,6 @@ import riyufuchi.marvus.tabs.TimedDetailTab;
 import riyufuchi.marvus.tabs.UncategorizedMonthListTab;
 import riyufuchi.marvus.tabs.YearOverviewTab;
 import riyufuchi.marvus.tabs.YearSummaryTab;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
@@ -91,7 +91,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	
 	public void addNewTransaction()
 	{
-		new AddDialog(controledWindow).showDialog();
+		new AddTransactionDialog(controledWindow).showDialog();
 		refresh();
 	}
 	

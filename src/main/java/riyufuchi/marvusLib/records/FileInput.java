@@ -2,9 +2,9 @@ package riyufuchi.marvusLib.records;
 
 import java.util.LinkedList;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.TabController;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 

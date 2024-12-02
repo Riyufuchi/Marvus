@@ -8,9 +8,9 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusTexts;
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.legacy.gui.DataTableForm;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.sufuLib.config.SufuCustomUI;
 import riyufuchi.sufuLib.enums.SufuAppTheme;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;

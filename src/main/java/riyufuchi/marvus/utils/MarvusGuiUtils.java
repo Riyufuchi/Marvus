@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
 import riyufuchi.sufuLib.gui.SufuFilePicker;

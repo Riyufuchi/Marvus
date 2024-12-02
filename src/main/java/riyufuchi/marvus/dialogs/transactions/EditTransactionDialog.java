@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
@@ -16,11 +17,11 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
  * @since 11.05.2023
  * @version 02.12.2024
  */
-public class EditDialog extends AddDialog
+public class EditTransactionDialog extends AddTransactionDialog
 {
 	private Transaction transaction;
 	
-	public EditDialog(JFrame parentFrame, Transaction transaction)
+	public EditTransactionDialog(JFrame parentFrame, Transaction transaction)
 	{
 		super(parentFrame);
 		this.transaction = transaction;
@@ -56,7 +57,8 @@ public class EditDialog extends AddDialog
 				name.setEnabled(false);
 				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
 			}
-			SufuComponentTools.setSelectedItemGeneric(categoryBox, utils.getTransactionMacros().get(nameBox.getSelectedIndex()).category());
+			if (MarvusDatabase.utils.getMacroIndex(name.getText()) != -1)
+				SufuComponentTools.setSelectedItemGeneric(categoryBox, utils.getTransactionMacros().get(nameBox.getSelectedIndex()).category());
 		});
 	}
 

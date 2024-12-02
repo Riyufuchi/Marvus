@@ -10,8 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusTexts;
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.sufuLib.config.SufuCustomUI;
 import riyufuchi.sufuLib.config.SufuLibConfig;

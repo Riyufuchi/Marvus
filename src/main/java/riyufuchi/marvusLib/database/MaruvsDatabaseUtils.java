@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.utils.MarvusConfig;
+import riyufuchi.marvus.app.MarvusConfig;
+import riyufuchi.marvus.app.MarvusDefaultTableValues;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
@@ -22,9 +22,8 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
  */
 public class MaruvsDatabaseUtils implements Serializable
 {
-	private String[] names;
 	private String[] categoryEnum, namesEnum;
-	private LinkedList<String> transactionMacroCSV, categoryCSV, namesCSV;
+	private LinkedList<String> categoryCSV, namesCSV;
 	private ArrayList<TransactionMacro> transactionMacros;
 	private JFrame parentFrame;
 	
@@ -36,29 +35,25 @@ public class MaruvsDatabaseUtils implements Serializable
 	public MaruvsDatabaseUtils(JFrame parentFrame)
 	{
 		this.parentFrame = parentFrame;
-		this.transactionMacroCSV = this.categoryCSV = null;
+		this.categoryCSV = null;
 		initialize();
 	}
 	
 	public void initialize()
 	{
 		initTransactionMacro(loadTransactionMacro());
-		loadCategoryList();
-		loadEntityNames();
+		categoryEnum = loadCategoryList();
+		namesEnum = loadEntityNames();
 	}
 	
 	public void initTransactionMacro(String[] inputData)
 	{
-		int i = 0;
 		String[] split = null;
-		this.names = new String[inputData.length];
 		this.transactionMacros = new ArrayList<>(inputData.length);
 		for (String line : inputData)
 		{
 			split = line.split(";", 3);
-			names[i] = split[0];
 			transactionMacros.add(new TransactionMacro(split[0], split[1], split[2]));
-			i++;
 		}
 	}
 	
@@ -74,19 +69,18 @@ public class MaruvsDatabaseUtils implements Serializable
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			if (e instanceof IOException)
-				SufuFileHelper.generateFile(parentFrame, MarvusConfig.NAME_FILE_PATH, names);
+				SufuFileHelper.generateFile(parentFrame, MarvusConfig.NAME_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM);
 		}
 		return null;
 	}
 	
-	private void loadEntityNames()
+	private String[] loadEntityNames()
 	{
-		namesEnum = new String[]{ "Custom" };
 		namesCSV = loadEntityNamesFile();
 		if (namesCSV == null)
 			if ((namesCSV = loadEntityNamesFile()) == null)
-				return;
-		namesEnum = namesCSV.toArray(new String[categoryCSV.size()]);
+				return MarvusDefaultTableValues.ENTITY_NAME_ENUM;
+		return namesCSV.toArray(new String[categoryCSV.size()]);
 	}
 	
 	private LinkedList<String> loadTransactionMacroFile()
@@ -99,24 +93,21 @@ public class MaruvsDatabaseUtils implements Serializable
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			if (e instanceof IOException)
-				SufuFileHelper.generateFile(parentFrame, MarvusConfig.TRANSACTION_MACRO_FILE_PATH, categoryEnum);
+				SufuFileHelper.generateFile(parentFrame, MarvusConfig.TRANSACTION_MACRO_FILE_PATH, MarvusDefaultTableValues.MACROS);
 		}
 		return null;
 	}
 	
-	/**
-	 * categoryEnum is used as memory placeholder instead of temporary array
-	 * 
+	/**-
 	 * @return raw transaction macro in csv form
 	 */
 	private String[] loadTransactionMacro()
 	{
-		categoryEnum = new String[]{ "Custom;Other;0" };
-		transactionMacroCSV = loadTransactionMacroFile();
+		LinkedList<String> transactionMacroCSV = loadTransactionMacroFile();
 		if (transactionMacroCSV == null)
 			if ((transactionMacroCSV = loadTransactionMacroFile()) == null)
-				return categoryEnum;
-		return transactionMacroCSV.toArray(categoryEnum);
+				return MarvusDefaultTableValues.MACROS;
+		return transactionMacroCSV.toArray(new String[transactionMacroCSV.size()]);
 	}
 	
 	private LinkedList<String> loadCategoryEnumFile()
@@ -134,14 +125,13 @@ public class MaruvsDatabaseUtils implements Serializable
 		return null;
 	}
 	
-	private void loadCategoryList()
+	private String[] loadCategoryList()
 	{
-		categoryEnum = new String[]{ "Other" };
 		categoryCSV = loadCategoryEnumFile();
 		if (categoryCSV == null)
 			if ((categoryCSV = loadCategoryEnumFile()) == null)
-				return;
-		categoryEnum = categoryCSV.toArray(new String[categoryCSV.size()]);
+				return MarvusDefaultTableValues.CATEGORY_ENUM;
+		return categoryCSV.toArray(new String[categoryCSV.size()]);
 	}
 	
 	// COLLECTION METHODS
@@ -162,9 +152,8 @@ public class MaruvsDatabaseUtils implements Serializable
 	
 	public void addMacro(TransactionMacro transactionMacro)
 	{
-		if (transactionMacro == null)
+		if (transactionMacro == null || getMacroIndex(transactionMacro.name()) != -1)
 			return;
-		transactionMacroCSV.add(transactionMacro.toCSV());
 		transactionMacros.add(transactionMacro);
 	}
 	
@@ -172,11 +161,9 @@ public class MaruvsDatabaseUtils implements Serializable
 	{
 		if (transactionMacro == null)
 			return;
-		if (transactionMacroCSV.remove(transactionMacro.toCSV()))
-			if (transactionMacroCSV.isEmpty())
-				initTransactionMacro(new String[]{ "Custom;Other;0" });
-			else
-				initTransactionMacro(transactionMacroCSV.toArray(new String[transactionMacroCSV.size() - 1]));
+		if (transactionMacros.remove(transactionMacro))
+			if (transactionMacros.isEmpty())
+				initTransactionMacro(MarvusDefaultTableValues.MACROS);
 	}
 	
 	// SETTERS
@@ -189,7 +176,6 @@ public class MaruvsDatabaseUtils implements Serializable
 	public boolean setMacro(String oldName, TransactionMacro transactionMacro)
 	{
 		final int INDEX = getMacroIndex(oldName);
-		transactionMacroCSV.set(INDEX, transactionMacro.toCSV());
 		transactionMacros.set(INDEX, transactionMacro);
 		return true;
 	}
@@ -210,11 +196,6 @@ public class MaruvsDatabaseUtils implements Serializable
 	}
 	
 	// GETTERS
-	
-	public List<String> getTransactionMacroCSV()
-	{
-		return transactionMacroCSV;
-	}
 	
 	public ArrayList<TransactionMacro> getTransactionMacros()
 	{

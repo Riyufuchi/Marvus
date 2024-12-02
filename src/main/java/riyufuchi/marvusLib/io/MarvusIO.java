@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.utils.MarvusConfig;
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionXML;
 import riyufuchi.marvusLib.database.MarvusDatabase;

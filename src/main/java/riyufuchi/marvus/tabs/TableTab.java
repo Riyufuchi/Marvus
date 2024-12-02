@@ -30,7 +30,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 01.12.2024
+ * @version 02.12.2024
  */
 public class TableTab extends DataDisplayTab
 {
@@ -80,8 +80,12 @@ public class TableTab extends DataDisplayTab
 		});
 		this.entityManager = SufuFactory.newButton("Entity manager", evt -> { 
 			new EntityManagerDialog((MarvusDataWindow)targetWindow.getSelf()).showDialog();
-			nameOptions = SufuFactory.newCombobox(MarvusDatabase.utils.getEntityNamesEnum(), evt2 -> refresh());
-			categoryOption = SufuFactory.newCombobox(MarvusDatabase.utils.getCategoryEnum(), evt2 -> refresh());
+			nameOptions.removeAllItems();
+			for (String item : MarvusDatabase.utils.getEntityNamesEnum())
+				nameOptions.addItem(item);
+			categoryOption.removeAllItems();
+			for (String item : MarvusDatabase.utils.getCategoryEnum())
+				categoryOption.addItem(item);
 		});
 		addMenuAndMenuItems(entityManager, b2, nameOptions, b4, categoryOption, valueFilterOptions, b1, showForMonth, b3, noteOptions);
 		masterPanel.simulateBorderLayout();

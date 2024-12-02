@@ -6,13 +6,13 @@ import java.util.Arrays;
 
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.dialogs.tools.categories.AddCategory;
 import riyufuchi.marvus.dialogs.tools.categories.EditCategory;
 import riyufuchi.marvus.dialogs.tools.macro.AddTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.macro.DeleteTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.macro.EditTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.names.AddEntityName;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
@@ -104,7 +104,7 @@ public class EntityManagerController
 	{
 		try
 		{
-			SufuPersistence.saveToCSVtoString(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, MarvusDatabase.utils.getTransactionMacroCSV());
+			SufuPersistence.saveToCSV(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, MarvusDatabase.utils.getTransactionMacros());
 		}
 		catch (NullPointerException | IOException e)
 		{

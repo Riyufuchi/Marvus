@@ -6,8 +6,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import riyufuchi.marvus.dialogs.transactions.EditDialog;
-import riyufuchi.marvus.dialogs.transactions.RemoveDialog;
+import riyufuchi.marvus.dialogs.transactions.EditTransactionDialog;
+import riyufuchi.marvus.dialogs.transactions.RemoveTransactionDialog;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
@@ -110,11 +110,11 @@ public abstract class DataDisplayTab
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))
 		{
-			new EditDialog(targetWindow.getSelf(), t).showDialog();
+			new EditTransactionDialog(targetWindow.getSelf(), t).showDialog();
 		}
 		else if (SwingUtilities.isRightMouseButton(mEvt))
 		{
-			new RemoveDialog(targetWindow.getSelf(), t).showDialog();
+			new RemoveTransactionDialog(targetWindow.getSelf(), t).showDialog();
 		}
 	}
 	

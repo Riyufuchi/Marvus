@@ -4,9 +4,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.EntityManagerController;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.sufuLib.gui.SufuDialogGeneric;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;

@@ -1,4 +1,4 @@
-package riyufuchi.marvus.utils;
+package riyufuchi.marvus.app;
 
 import java.io.File;
 
@@ -26,7 +26,7 @@ public class MarvusConfig
 	public static final String SETTINGS_FILE_PATH = workFolder + "config.conf";
 	public static final String NAME_FILE_PATH = workFolder + ENUM_FOLDER + "entityNames.csv";
 	public static final String CATEGORY_FILE_PATH = workFolder + ENUM_FOLDER + "category.csv";
-	public static final String TRANSACTION_MACRO_FILE_PATH = workFolder + ENUM_FOLDER + "transactionsMacro.csv";
+	public static final String TRANSACTION_MACRO_FILE_PATH = workFolder + ENUM_FOLDER + "transactionMacros.csv";
 	public static final FileNameExtensionFilter SER = new FileNameExtensionFilter(".ser", "ser");
 	public static final FileNameExtensionFilter CSV = new FileNameExtensionFilter(".csv", "csv");
 	public static final FileNameExtensionFilter XML = new FileNameExtensionFilter(".xml", "xml");

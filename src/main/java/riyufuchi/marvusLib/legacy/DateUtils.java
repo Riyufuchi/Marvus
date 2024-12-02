@@ -9,8 +9,8 @@ import java.util.Date;
 
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusTexts;
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**

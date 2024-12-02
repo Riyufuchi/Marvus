@@ -15,9 +15,9 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
  * @since 16.05.2023
  * @version 18.08.2024
  */
-public class RemoveDialog extends EditDialog
+public class RemoveTransactionDialog extends EditTransactionDialog
 {
-	public RemoveDialog(JFrame parentFrame, Transaction transaction)
+	public RemoveTransactionDialog(JFrame parentFrame, Transaction transaction)
 	{
 		super(parentFrame, transaction);
 		setTitle("Remove transaction " + transaction.getID());

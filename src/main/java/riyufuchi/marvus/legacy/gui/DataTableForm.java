@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.controller.TabController;
 import riyufuchi.marvus.dialogs.tools.other.PreferencesDialog;
