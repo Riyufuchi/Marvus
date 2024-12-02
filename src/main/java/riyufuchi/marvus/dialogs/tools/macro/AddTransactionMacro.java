@@ -1,4 +1,4 @@
-package riyufuchi.marvus.dialogs.tools;
+package riyufuchi.marvus.dialogs.tools.macro;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,7 +15,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 1.97 - 12.10.2023
- * @version 29.11.2024
+ * @version 02.12.2024
  */
 public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 {
@@ -31,9 +31,9 @@ public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 	@Override
 	protected void createInputs(JPanel arg0)
 	{
-		existingMacros = SufuFactory.newCombobox(MarvusDatabase.utils.getNames());
-		existingMacros.setEnabled(false);
+		existingMacros = SufuFactory.newCombobox(MarvusDatabase.utils.getEntityNamesEnum());
 		name = SufuFactory.newTextField("");
+		name.setEnabled(false);
 		value = SufuFactory.newTextField("0");
 		category = SufuFactory.<String>newCombobox(MarvusDatabase.utils.getCategoryEnum());
 		SufuGuiTools.addLabels(this, "Name:", null, "Category:", "Value:");
@@ -43,9 +43,9 @@ public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 	@Override
 	protected void onOK()
 	{
-		if (name.getText().isBlank() || value.getText().isBlank())
+		if (value.getText().isBlank())
 			return;
-		data = new TransactionMacro(name.getText(), SufuComponentTools.extractComboboxValue(category), value.getText());
+		data = new TransactionMacro(SufuComponentTools.extractComboboxValue(existingMacros), SufuComponentTools.extractComboboxValue(category), value.getText());
 		closeDialog();
 	}
 }

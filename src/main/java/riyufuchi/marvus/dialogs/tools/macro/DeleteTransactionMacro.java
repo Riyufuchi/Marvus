@@ -1,4 +1,4 @@
-package riyufuchi.marvus.dialogs.tools;
+package riyufuchi.marvus.dialogs.tools.macro;
 
 import javax.swing.JFrame;
 
@@ -21,9 +21,9 @@ public class DeleteTransactionMacro extends EditTransactionMacro
 	@Override
 	protected void onOK()
 	{
-		if (name.getText().isBlank() || value.getText().isBlank())
+		if (value.getText().isBlank())
 			return;
-		data = new TransactionMacro(name.getText(), SufuComponentTools.extractComboboxValue(category), value.getText());
+		data = new TransactionMacro(SufuComponentTools.extractComboboxValue(existingMacros), SufuComponentTools.extractComboboxValue(category), value.getText());
 		closeDialog();
 	}
 }

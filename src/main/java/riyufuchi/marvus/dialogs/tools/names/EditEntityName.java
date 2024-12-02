@@ -1,4 +1,4 @@
-package riyufuchi.marvus.dialogs.tools;
+package riyufuchi.marvus.dialogs.tools.names;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -7,15 +7,15 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
  * @author Riyufuchi
- * @since 30.11.2024
- * @version 30.11.2024
+ * @since 02.12.2024
+ * @version 02.12.2024
  */
-public class EditCategory extends AddCategory
+public class EditEntityName extends AddEntityName
 {
-	public EditCategory(JFrame parentFrame)
+	public EditEntityName(JFrame parentFrame)
 	{
 		super(parentFrame);
-		setTitle("Edit category");
+		setTitle("Edit Entity Name");
 		pack();
 	}
 
@@ -29,5 +29,14 @@ public class EditCategory extends AddCategory
 			categoryInput.setText(SufuComponentTools.extractComboboxValue(categoriesCB));
 		});
 		categoriesCB.setSelectedIndex(0);
+	}
+	
+	@Override
+	protected void onOK()
+	{
+		if (categoryInput.getText().isBlank())
+			return;
+		data = categoryInput.getText() + " " + SufuComponentTools.extractComboboxValue(categoriesCB);
+		closeDialog();
 	}
 }

@@ -17,6 +17,7 @@ import riyufuchi.marvusLib.database.MaruvsDatabaseUtils;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.records.LastChange;
+import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
@@ -29,7 +30,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 18.08.2024
+ * @version 02.12.2024
  */
 public class AddDialog extends SufuDialog
 {
@@ -50,8 +51,9 @@ public class AddDialog extends SufuDialog
 	@Override
 	protected void createInputs(JPanel pane)
 	{
+		getGBC(0, 0).weightx = 1.0;
 		utils = MarvusDatabase.utils;
-		nameBox = SufuFactory.<String>newCombobox(utils.getNames());
+		nameBox = SufuFactory.<String>newCombobox(utils.getEntityNamesEnum());
 		categoryBox = SufuFactory.<String>newCombobox(utils.getCategoryEnum());
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
@@ -72,18 +74,12 @@ public class AddDialog extends SufuDialog
 				name.setEnabled(false);
 				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
 			}
-			int i = 0;
-			for (i = 0; i < categoryBox.getItemCount(); i++)
-			{
-				if (categoryBox.getItemAt(i).equals(utils.getCategories()[nameBox.getSelectedIndex()]))
-				{
-					categoryBox.setSelectedIndex(i);
-					break;
-				}
-			}
-			if (i == categoryBox.getItemCount())
-				categoryBox.setSelectedIndex(0);
-			money.setText(utils.getValues()[nameBox.getSelectedIndex()]);
+			final int INDEX = utils.getMacroIndex(name.getText());
+			if (INDEX == -1)
+				return;
+			TransactionMacro tm = utils.getTransactionMacros().get(INDEX);
+			SufuComponentTools.setSelectedItemGeneric(categoryBox, tm.category());
+			money.setText(tm.value());
 			if (money.getText().equals("0"))
 				money.setText("");
 		});

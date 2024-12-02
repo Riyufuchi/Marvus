@@ -14,7 +14,7 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
  * 
  * @author Riyufuchi
  * @since 11.05.2023
- * @version 12.11.2024
+ * @version 02.12.2024
  */
 public class EditDialog extends AddDialog
 {
@@ -56,15 +56,7 @@ public class EditDialog extends AddDialog
 				name.setEnabled(false);
 				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
 			}
-			int i = 0;
-			for (i = 0; i < categoryBox.getItemCount(); i++)
-			{
-				if (categoryBox.getItemAt(i).equals(utils.getCategories()[nameBox.getSelectedIndex()]))
-				{
-					categoryBox.setSelectedIndex(i);
-					break;
-				}
-			}
+			SufuComponentTools.setSelectedItemGeneric(categoryBox, utils.getTransactionMacros().get(nameBox.getSelectedIndex()).category());
 		});
 	}
 

@@ -1,4 +1,4 @@
-package riyufuchi.marvus.dialogs.tools;
+package riyufuchi.marvus.dialogs.tools.macro;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,7 +25,6 @@ public class EditTransactionMacro extends AddTransactionMacro
 	protected void createInputs(JPanel arg0)
 	{
 		super.createInputs(arg0);
-		existingMacros.setEnabled(true);
 		existingMacros.addActionListener(evt -> {
 			TransactionMacro tm = MarvusDatabase.utils.getMacro(existingMacros.getSelectedIndex());
 			name.setText(tm.name());

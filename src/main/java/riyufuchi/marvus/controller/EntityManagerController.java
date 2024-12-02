@@ -1,29 +1,57 @@
 package riyufuchi.marvus.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-import riyufuchi.marvus.dialogs.tools.AddCategory;
-import riyufuchi.marvus.dialogs.tools.AddTransactionMacro;
-import riyufuchi.marvus.dialogs.tools.DeleteTransactionMacro;
-import riyufuchi.marvus.dialogs.tools.EditCategory;
-import riyufuchi.marvus.dialogs.tools.EditTransactionMacro;
+import riyufuchi.marvus.dialogs.tools.categories.AddCategory;
+import riyufuchi.marvus.dialogs.tools.categories.EditCategory;
+import riyufuchi.marvus.dialogs.tools.macro.AddTransactionMacro;
+import riyufuchi.marvus.dialogs.tools.macro.DeleteTransactionMacro;
+import riyufuchi.marvus.dialogs.tools.macro.EditTransactionMacro;
+import riyufuchi.marvus.dialogs.tools.names.AddEntityName;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
-public class AppManagerController
+public class EntityManagerController
 {
 	private JFrame parentFrame;
 
-	public AppManagerController(JFrame appManager)
+	public EntityManagerController(JFrame appManager)
 	{
 		this.parentFrame = appManager;
+	}
+	
+	// Names
+	
+	public boolean saveEntityNamesToFile()
+	{
+		try
+		{
+			SufuPersistence.saveToCSV(MarvusConfig.NAME_FILE_PATH, MarvusDatabase.utils.getEntityNamesEnum());
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(parentFrame, e);
+			return false;
+		}
+		return true;
+	}
+	
+	public void addEntityBtnEvt()
+	{
+		String name = new AddEntityName(parentFrame).showAndGet();
+		if (name == null)
+			return;
+		MarvusDatabase.utils.addEntityName(name);
+		if (saveEntityNamesToFile())
+			SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly added!", "Entity name operation");
+		
 	}
 	
 	// Category
@@ -49,14 +77,18 @@ public class AppManagerController
 			return;
 		MarvusDatabase.utils.addCategory(categories);
 		if (saveCategoriesToFile())
-			SufuDialogHelper.informationDialog(parentFrame, "Category successfuly added!", "Category operatin");
+			SufuDialogHelper.informationDialog(parentFrame, "Category successfuly added!", "Category operation");
 		
 	}
 	
 	public void editCategoryBtnEvt()
 	{
 		String[] categories = new EditCategory(parentFrame).showAndGet();
-		MarvusDatabase.utils.setCategory(null, null);
+		if (categories == null)
+			return;
+		MarvusDatabase.utils.setCategory(categories[0], categories[1]);
+		if (saveCategoriesToFile())
+			SufuDialogHelper.informationDialog(parentFrame, "Category successfuly edited!", "Category operation");
 	}
 	
 	public void sortCategories()
@@ -116,9 +148,7 @@ public class AppManagerController
 	
 	public void sortTransactionMacro()
 	{
-		LinkedList<TransactionMacro> list = new LinkedList<>();
-		for (int i= 0; i < MarvusDatabase.utils.getNames().length; i++)
-			list.add(MarvusDatabase.utils.getMacro(i));
+		ArrayList<TransactionMacro> list = MarvusDatabase.utils.getTransactionMacros();
 		list.sort((m1, m2) -> m1.name().compareTo(m2.name()));
 		try
 		{

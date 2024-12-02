@@ -8,11 +8,11 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.Marvus;
 import riyufuchi.marvus.controller.TabController;
+import riyufuchi.marvus.dialogs.tools.other.EntityManagerDialog;
+import riyufuchi.marvus.dialogs.tools.other.PreferencesDialog;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
-import riyufuchi.marvus.dialogs.tools.AppManager;
-import riyufuchi.marvus.dialogs.tools.PreferencesDialog;
 import riyufuchi.marvusLib.dataUtils.TransactionCalculations;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.Fullscreenable;
@@ -28,7 +28,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 27.11.2024
+ * @version 01.12.2024
  */
 public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
@@ -88,7 +88,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 				case "Execute quarry" -> jmc.setItemAction(i, e -> {controller.executeQuarry(); });
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(i,event -> MarvusUtils.consumeFunction(controller, TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
-				case "Application manager" -> jmc.setItemAction(i, event -> new AppManager(this).showDialog());
+				case "Entity manager" -> jmc.setItemAction(i, event -> new EntityManagerDialog(this).showDialog());
 				// Data handling
 				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
 				// Display modes

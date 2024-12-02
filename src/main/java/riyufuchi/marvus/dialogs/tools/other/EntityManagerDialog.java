@@ -1,11 +1,11 @@
-package riyufuchi.marvus.dialogs.tools;
+package riyufuchi.marvus.dialogs.tools.other;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
-import riyufuchi.marvus.controller.AppManagerController;
+import riyufuchi.marvus.controller.EntityManagerController;
 import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.sufuLib.gui.SufuDialogGeneric;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -16,22 +16,22 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 07.10.2023
- * @version 30.11.2024
+ * @version 01.12.2024
  */
-public class AppManager extends SufuDialogGeneric<MarvusDataWindow>
+public class EntityManagerDialog extends SufuDialogGeneric<MarvusDataWindow>
 {
 	private JButton addCategoryBtn, editCategoryBtn, removeCategoryBtn, sortCategoriesBtn;
 	private JButton addMacroBtn, editMacroBtn, removeMacroBtn, sortMacroBtn;
 	private JButton addEntityBtn, editEntityBtn, removeEntityBtn, sortEntityBtn;
 	private JTextField fc;
-	private AppManagerController controller;
+	private EntityManagerController controller;
 	private JPanel menuPane;
 	private SufuGridPane buttonPane;
 	
-	public AppManager(MarvusDataWindow parentFrame)
+	public EntityManagerDialog(MarvusDataWindow parentFrame)
 	{
-		super("Marvus manager", parentFrame, DialogType.OK);
-		this.controller = new AppManagerController(parentFrame);
+		super("Entity manager", parentFrame, DialogType.OK);
+		this.controller = new EntityManagerController(parentFrame);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class AppManager extends SufuDialogGeneric<MarvusDataWindow>
 		//fc.setEnabled(false);
 		menuPane.add(fc);
 		
-		addEntityBtn = SufuFactory.newButton("Add entity", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
+		addEntityBtn = SufuFactory.newButton("Add entity", evt -> controller.addEntityBtnEvt());
 		editEntityBtn = SufuFactory.newButton("Edit entity", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
 		removeEntityBtn = SufuFactory.newButton("Remove entity", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
 		sortEntityBtn = SufuFactory.newButton("Sort entity", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));

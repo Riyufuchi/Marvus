@@ -23,7 +23,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 27.11.2024
+ * @version 02.12.2024
  */
 @Deprecated
 public class MarvusTableTab extends DataDisplayTab
@@ -41,7 +41,7 @@ public class MarvusTableTab extends DataDisplayTab
 		this.y = 1;
 		this.valueFilterOptions = SufuFactory.newCombobox(MarvusTexts.VALUE_OPTIONS, evt -> refresh());
 		this.showForMonth = SufuFactory.newCombobox(Month.values()); // This combobox must have selected value before action event is assigned otherwise displayed data are duped
-		this.nameOptions = SufuFactory.newCombobox(MarvusDatabase.utils.getNames(), evt -> refresh());
+		this.nameOptions = SufuFactory.newCombobox(MarvusDatabase.utils.getEntityNamesEnum(), evt -> refresh());
 		this.noteOptions = SufuFactory.newCombobox(MarvusTexts.NOTE_OPTIONS, evt -> refresh());
 		this.categoryOption = SufuFactory.newCombobox(MarvusDatabase.utils.getCategoryEnum(), evt -> refresh());
 		this.b1 = SufuFactory.newCheckBox("", evt -> checkBoxEvent(showForMonth));

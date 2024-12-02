@@ -24,6 +24,7 @@ public class MarvusConfig
 	public static final String ENUM_FOLDER = "enums/";
 	public static final String MDB_EXT = ".marvusdb";
 	public static final String SETTINGS_FILE_PATH = workFolder + "config.conf";
+	public static final String NAME_FILE_PATH = workFolder + ENUM_FOLDER + "entityNames.csv";
 	public static final String CATEGORY_FILE_PATH = workFolder + ENUM_FOLDER + "category.csv";
 	public static final String TRANSACTION_MACRO_FILE_PATH = workFolder + ENUM_FOLDER + "transactionsMacro.csv";
 	public static final FileNameExtensionFilter SER = new FileNameExtensionFilter(".ser", "ser");

@@ -12,7 +12,7 @@ import riyufuchi.marvus.utils.MarvusConfig;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.controller.TabController;
-import riyufuchi.marvus.dialogs.tools.PreferencesDialog;
+import riyufuchi.marvus.dialogs.tools.other.PreferencesDialog;
 import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.tabs.MoneySummaryOverview;
 import riyufuchi.marvus.legacy.utils.MarvusLegacyHelper;

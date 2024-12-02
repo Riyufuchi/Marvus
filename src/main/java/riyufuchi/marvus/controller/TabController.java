@@ -74,7 +74,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	public void executeQuarry()
 	{
 		MarvusConnection con = new MarvusConnection(database);
-		if (con.updateItemWhere("Name", "McD", "Name", "McDonald's"))
+		if (con.updateItemWhere("Name", "Rodičům", "Name", "Rodiče"))
 		{
 			SufuDialogHelper.informationDialog(controledWindow, "Success!", "SQL result");
 			refresh();
