@@ -1,7 +1,6 @@
 package riyufuchi.marvus.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
@@ -13,6 +12,8 @@ import riyufuchi.marvus.dialogs.tools.macro.AddTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.macro.DeleteTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.macro.EditTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.names.AddEntityName;
+import riyufuchi.marvus.dialogs.tools.names.EditEntityName;
+import riyufuchi.marvus.dialogs.tools.names.RemoveEntityName;
 import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
@@ -51,6 +52,37 @@ public class EntityManagerController
 		MarvusDatabase.utils.addEntityName(name);
 		if (saveEntityNamesToFile())
 			SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly added!", "Entity name operation");
+		
+	}
+	
+	public void editEntityBtnEvt()
+	{
+		String name = new EditEntityName(parentFrame).showAndGet();
+		if (name == null)
+			return;
+		String[] arr = name.split(" ");
+		MarvusDatabase.utils.setEntityName(Integer.valueOf(arr[1]), arr[0]);
+		if (saveEntityNamesToFile())
+			SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly edited!", "Entity name operation");
+		
+	}
+	
+	public void removeEntityBtnEvt()
+	{
+		String index = new RemoveEntityName(parentFrame).showAndGet();
+		if (index == null)
+			return;
+		MarvusDatabase.utils.removeEntityName(Integer.valueOf(index));
+		if (saveEntityNamesToFile())
+			SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly removed!", "Entity name operation");
+		
+	}
+	
+	public void sortEntityBtnEvt()
+	{
+		MarvusDatabase.utils.sortEntityNames();
+		if (saveEntityNamesToFile())
+			SufuDialogHelper.informationDialog(parentFrame, "Entity names successfuly sorted!", "Entity names operation");
 		
 	}
 	
@@ -95,7 +127,7 @@ public class EntityManagerController
 	{
 		Arrays.sort(MarvusDatabase.utils.getCategoryEnum());
 		if (saveCategoriesToFile())
-			SufuDialogHelper.informationDialog(parentFrame, "Category list sorted!", "Sorting result");
+			SufuDialogHelper.informationDialog(parentFrame, "Category list sorted!", "Category operation");
 	}
 	
 	// Macros
@@ -132,7 +164,7 @@ public class EntityManagerController
 				SufuDialogHelper.informationDialog(parentFrame, "Macro successfuly edited!", "Transaction macro operation");
 	}
 	
-	public void deleteTransactionMacroBtnEvt()
+	public void removeTransactionMacroBtnEvt()
 	{
 		TransactionMacro tm = new DeleteTransactionMacro(parentFrame).showAndGet();
 		if (tm != null)
@@ -148,18 +180,8 @@ public class EntityManagerController
 	
 	public void sortTransactionMacro()
 	{
-		ArrayList<TransactionMacro> list = MarvusDatabase.utils.getTransactionMacros();
-		list.sort((m1, m2) -> m1.name().compareTo(m2.name()));
-		try
-		{
-			SufuPersistence.<TransactionMacro>saveToCSV(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, list);
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-			return;
-		}
-		MarvusDatabase.utils.initialize(); // Reloads macros
-		SufuDialogHelper.informationDialog(parentFrame, "Macro list sorted!", "Sorting result");
+		MarvusDatabase.utils.sortMacros();
+		if (saveMacroToFile())
+			SufuDialogHelper.informationDialog(parentFrame, "Macro list successfuly sorted!", "Transaction macro operation");
 	}
 }

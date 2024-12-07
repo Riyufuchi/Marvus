@@ -8,7 +8,7 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 /**
  * @author Riyufuchi
  * @since 02.12.2024
- * @version 02.12.2024
+ * @version 03.12.2024
  */
 public class EditEntityName extends AddEntityName
 {
@@ -36,7 +36,7 @@ public class EditEntityName extends AddEntityName
 	{
 		if (categoryInput.getText().isBlank())
 			return;
-		data = categoryInput.getText() + " " + SufuComponentTools.extractComboboxValue(categoriesCB);
+		data = categoryInput.getText() + " " + categoriesCB.getSelectedIndex();
 		closeDialog();
 	}
 }

@@ -93,6 +93,8 @@ public class AddTransactionDialog extends SufuDialog
 	@Override
 	protected void onOK()
 	{
+		if (nameBox.getItemAt(nameBox.getSelectedIndex()).equals("Custom"))
+			MarvusDatabase.utils.addEntityName(name.getText());
 		Transaction t = new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText());
 		((MarvusDataWindow)parentFrame).getController().getDatabase().add(t);
 		((MarvusDataWindow)parentFrame).getController().refresh();

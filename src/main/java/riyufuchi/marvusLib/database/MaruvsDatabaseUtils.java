@@ -3,6 +3,7 @@ package riyufuchi.marvusLib.database;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
@@ -18,12 +19,12 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @version 1.3 - 12.10.2023
- * @since 02.12.2024
+ * @since 03.12.2024
  */
 public class MaruvsDatabaseUtils implements Serializable
 {
-	private String[] categoryEnum, namesEnum;
-	private LinkedList<String> categoryCSV, namesCSV;
+	private String[] categoryEnum;
+	private ArrayList<String> namesEnum;
 	private ArrayList<TransactionMacro> transactionMacros;
 	private JFrame parentFrame;
 	
@@ -35,18 +36,17 @@ public class MaruvsDatabaseUtils implements Serializable
 	public MaruvsDatabaseUtils(JFrame parentFrame)
 	{
 		this.parentFrame = parentFrame;
-		this.categoryCSV = null;
 		initialize();
 	}
 	
-	public void initialize()
+	private void initialize()
 	{
 		initTransactionMacro(loadTransactionMacro());
-		categoryEnum = loadCategoryList();
-		namesEnum = loadEntityNames();
+		this.categoryEnum = loadCategoryList();
+		this.namesEnum = new ArrayList<>(Arrays.asList(loadEntityNames()));
 	}
 	
-	public void initTransactionMacro(String[] inputData)
+	private void initTransactionMacro(String[] inputData)
 	{
 		String[] split = null;
 		this.transactionMacros = new ArrayList<>(inputData.length);
@@ -59,77 +59,47 @@ public class MaruvsDatabaseUtils implements Serializable
 	
 	// LOAD FUNCTIONS
 	
-	private LinkedList<String> loadEntityNamesFile()
+	private LinkedList<String> loadTableFromFile(String path, String[] defaultData)
 	{
 		try
 		{
-			return SufuPersistence.loadTextFile(MarvusConfig.NAME_FILE_PATH);
+			return SufuPersistence.loadTextFile(path);
 		}
 		catch (NullPointerException | IOException e)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e);
 			if (e instanceof IOException)
-				SufuFileHelper.generateFile(parentFrame, MarvusConfig.NAME_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM);
+				SufuFileHelper.generateFile(parentFrame, path, defaultData);
 		}
 		return null;
 	}
 	
 	private String[] loadEntityNames()
 	{
-		namesCSV = loadEntityNamesFile();
+		LinkedList<String> namesCSV = loadTableFromFile(MarvusConfig.NAME_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM);
 		if (namesCSV == null)
-			if ((namesCSV = loadEntityNamesFile()) == null)
+			if ((namesCSV = loadTableFromFile(MarvusConfig.NAME_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM)) == null)
 				return MarvusDefaultTableValues.ENTITY_NAME_ENUM;
-		return namesCSV.toArray(new String[categoryCSV.size()]);
+		return namesCSV.toArray(new String[namesCSV.size()]);
 	}
 	
-	private LinkedList<String> loadTransactionMacroFile()
-	{
-		try
-		{
-			return SufuPersistence.loadTextFile(MarvusConfig.TRANSACTION_MACRO_FILE_PATH);
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-			if (e instanceof IOException)
-				SufuFileHelper.generateFile(parentFrame, MarvusConfig.TRANSACTION_MACRO_FILE_PATH, MarvusDefaultTableValues.MACROS);
-		}
-		return null;
-	}
-	
-	/**-
+	/**
 	 * @return raw transaction macro in csv form
 	 */
 	private String[] loadTransactionMacro()
 	{
-		LinkedList<String> transactionMacroCSV = loadTransactionMacroFile();
+		LinkedList<String> transactionMacroCSV = loadTableFromFile(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, MarvusDefaultTableValues.MACROS);
 		if (transactionMacroCSV == null)
-			if ((transactionMacroCSV = loadTransactionMacroFile()) == null)
+			if ((transactionMacroCSV = loadTableFromFile(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, MarvusDefaultTableValues.MACROS)) == null)
 				return MarvusDefaultTableValues.MACROS;
 		return transactionMacroCSV.toArray(new String[transactionMacroCSV.size()]);
 	}
 	
-	private LinkedList<String> loadCategoryEnumFile()
-	{
-		try
-		{
-			return SufuPersistence.loadTextFile(MarvusConfig.CATEGORY_FILE_PATH);
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(parentFrame, e);
-			if (e instanceof IOException)
-				SufuFileHelper.generateFile(parentFrame, MarvusConfig.CATEGORY_FILE_PATH, categoryEnum);
-		}
-		return null;
-	}
-	
 	private String[] loadCategoryList()
 	{
-		categoryCSV = loadCategoryEnumFile();
+		LinkedList<String> categoryCSV = loadTableFromFile(MarvusConfig.CATEGORY_FILE_PATH, MarvusDefaultTableValues.CATEGORY_ENUM);
 		if (categoryCSV == null)
-			if ((categoryCSV = loadCategoryEnumFile()) == null)
+			if ((categoryCSV = loadTableFromFile(MarvusConfig.CATEGORY_FILE_PATH, MarvusDefaultTableValues.CATEGORY_ENUM)) == null)
 				return MarvusDefaultTableValues.CATEGORY_ENUM;
 		return categoryCSV.toArray(new String[categoryCSV.size()]);
 	}
@@ -138,9 +108,20 @@ public class MaruvsDatabaseUtils implements Serializable
 	
 	public void addEntityName(String name)
 	{
-		if (name == null)
+		if (name == null || namesEnum.contains(name))
 			return;
-		namesEnum = SufuGeneralUtils.addToArray(namesEnum, name);
+		namesEnum.add(name);
+	}
+	
+	public void removeEntityName(int index)
+	{
+		if (index >= 0 && index < namesEnum.size())
+			namesEnum.remove(index);
+	}
+	
+	public void sortEntityNames()
+	{
+		namesEnum.sort((m1, m2) -> m1.compareTo(m2));
 	}
 	
 	public void addCategory(String[] newCategories)
@@ -166,11 +147,23 @@ public class MaruvsDatabaseUtils implements Serializable
 				initTransactionMacro(MarvusDefaultTableValues.MACROS);
 	}
 	
+	public void sortMacros()
+	{
+		transactionMacros.sort((m1, m2) -> m1.name().compareTo(m2.name()));
+	}
+	
 	// SETTERS
 	
 	public void setParentframe(JFrame parentFrame)
 	{
 		this.parentFrame = parentFrame;
+	}
+	
+	public void setEntityName(int index, String name)
+	{
+		if (name == null || index < 0 || index > namesEnum.size())
+			return;
+		namesEnum.set(index, name);
 	}
 	
 	public boolean setMacro(String oldName, TransactionMacro transactionMacro)
@@ -207,12 +200,12 @@ public class MaruvsDatabaseUtils implements Serializable
 		if (index >= 0 && index < transactionMacros.size())
 			return transactionMacros.get(index);
 		else
-			return getMacro(0);
+			return transactionMacros.get(0);
 	}
 	
 	public String[] getEntityNamesEnum()
 	{
-		return namesEnum;
+		return namesEnum.toArray(new String[0]);
 	}
 	
 	/**
@@ -224,16 +217,17 @@ public class MaruvsDatabaseUtils implements Serializable
 	}
 
 	/**
+	 * This function use macro name as key and returns its index from array list or -1 if macro with given name is not defined
 	 * 
 	 * @param name
-	 * @return index of given macro or -1 if macro for given name is not defined
+	 * @return index or -1
 	 */
 	public int getMacroIndex(String name)
 	{
 		int i = 0;
-		for (TransactionMacro s : transactionMacros)
+		for (TransactionMacro macro : transactionMacros)
 		{
-			if (s.name().equals(name))
+			if (macro.name().equals(name))
 				return i;
 			i++;
 		}
