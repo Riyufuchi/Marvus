@@ -2,22 +2,24 @@ package riyufuchi.marvus.app;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.4.7";
-	public static final String APP_NAME =  "Marvus - " + MarvusTexts.VERSION;
+	public static final String VERSION = "2.4.8";
+	public static final String APP_NAME =  "Marvus - " + VERSION;
+	// MENU BAR
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Legacy", "Window", "Help"};
-	public static final String[] BUDGET_TABLE_MENU_ITEMS = {
-			"New", "Open", "Save", "Save As...", "Import", "Export", "Exit", "",
-			"Add", "Backup", "Sort", "",
-			"Table list", "Categorized month list", "Uncategorized month list",
-			"Year summary", "Year overview", "Data summary", "Week detail", "Previous mode", "",
-			"Execute quarry", "Entity manager", "",
-			"Month outcome", "",
-			"Preferences", "Fullscreen", "Refresh", "",
-			"About", "About SufuLib", "License"};
+	public static final String[] FILE = {"New", "Open", "Save", "Save As...", "Import", "Export", "Exit"};
+	public static final String[] TRANSACTION = {"Add", "Backup", "Sort"};
+	public static final String[] OVERVIEW_MODES = {"Table list", "Categorized month list", "Uncategorized month list",
+			"Year summary", "Year overview", "Data summary", "Week detail", "Previous mode"};
+	public static final String[] TOOLS = {"Execute quarry", "Entity manager"};
+	public static final String[] LEGACY = {"Month outcome"};
+	public static final String[] WINDOW = {"Preferences", "Fullscreen", "Refresh"};
+	public static final String[] HELP = {"About", "About SufuLib", "License"};
+	public static final String[][] BUDGET_TABLE_MENU_ITEMS = {FILE, TRANSACTION, OVERVIEW_MODES, TOOLS, LEGACY, WINDOW, HELP};
+	// COMBO BOXES OPTION 
 	public static final String[] GROUP_BY_TIME_DETAIL = {"Name", "Category"}; 
 	// OTHER
 	public static final String ABOUT_MARVUS = "<html>This is finance manager.<br>"
-			+ "Version: " + MarvusTexts.VERSION + "<br>Created by Riyufuchi © 2021 - 2024."
+			+ "Version: " + VERSION + "<br>Created by Riyufuchi © 2021 - 2024."
 			+ "<br>My code is under respective license.</html>";
 	// DIALOG TEXTS
 	public static final String[] DATE_FORMAT_OPTIONS = {"dd.MM.yyyy", "MM.dd.yyyy"};

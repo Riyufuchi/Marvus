@@ -31,7 +31,7 @@ public class EditTransactionDialog extends AddTransactionDialog
 
 	private void prefillComponents()
 	{
-		nameBox.setSelectedItem(transaction.getName());
+		SufuComponentTools.setSelectedItemGeneric(nameBox, transaction.getName());
 		name.setText(transaction.getName());
 		SufuComponentTools.setSelectedItem(categoryBox, transaction.getCategory());
 		money.setText(transaction.getValue().toString());

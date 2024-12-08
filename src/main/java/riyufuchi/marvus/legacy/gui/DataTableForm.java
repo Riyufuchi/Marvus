@@ -28,25 +28,27 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 /**
  * @author Riyufuchi
  * @since 11.04.2022
- * @version 26.07.2024
+ * @version 07.12.2024
  */
 @SuppressWarnings("deprecation")
 public final class DataTableForm extends SufuWindow implements MarvusTabbedFrame
 {
+	public static final String VERSION = "1.22";
+	public static final String VERSION_LEGACY = "0.8";
+	private static final String TITLE = String.format("Marvus - %s - %s (Legacy)", VERSION, VERSION_LEGACY);
 	private MarvusDataBox<MoneySum> dataBox;
 	private DataDisplayTab mso;
-	private static final String VERSION = "1.22";
 	
 	public DataTableForm()
 	{
-		super("Marvus - Data table - " + VERSION, true, true);
+		super(TITLE, true, true);
 		this.dataBox = new MarvusDataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
 		this.mso = new MoneySummaryOverview(this, dataBox);
 	}
 	
 	public DataTableForm(int width, int height)
 	{
-		super("Marvus - Data table - " + VERSION, width, height, false, true, true);
+		super(TITLE, width, height, false, true, true);
 		this.dataBox = new MarvusDataBox<>(e -> SufuDialogHelper.exceptionDialog(this, e), byDate());
 		this.mso = new MoneySummaryOverview(this, dataBox);
 	}
@@ -167,9 +169,9 @@ public final class DataTableForm extends SufuWindow implements MarvusTabbedFrame
 	
 	private void about()
 	{
-		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: " + VERSION + "\nLegacy update version: 0.6\n"
+		new ErrorWindow("About", 600, 300, "Money manager created by Riyufuchi.\nFinal version: " + VERSION + "\nLegacy update version: " + VERSION_LEGACY + "\n"
 			+ "This is leagacy functionality.\nIt will not be updated anymore probably.\nThis app was ment to replace old version that used object DB (JPA), "
-			+ "but funtionility become 	MarvusController getController();outdated, so rework was needed.");
+			+ "but funtionility become outdated, so rework was needed.");
 	}
 	
 	// GETTERS

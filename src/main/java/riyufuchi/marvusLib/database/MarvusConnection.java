@@ -2,7 +2,11 @@ package riyufuchi.marvusLib.database;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
+import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusQuerriable;
 import riyufuchi.marvusLib.records.MarvusDataSummary;
 import riyufuchi.marvusLib.records.YearOverview;
@@ -11,7 +15,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;;
 /**
  * @author riyufuchi
  * @since 09.09.2024
- * @version 29.11.2024
+ * @version 08.12.2024
  */
 public class MarvusConnection implements MarvusQuerriable
 {
@@ -27,43 +31,53 @@ public class MarvusConnection implements MarvusQuerriable
 	{
 		switch (atr)
 		{
-			case "Name" -> database.stream().forEach(e -> {
-				if (e.getName().equals(oldValue))
-					e.setName(newValue);
-			});
+			case "Name" -> database.stream().filter(t -> t.getName().equals(oldValue)).forEach(t -> t.setName(newValue));
+			case "Category" -> database.stream().filter(t -> t.getCategory().equals(oldValue)).forEach(t -> t.setCategory(newValue));
+			default -> { updateAll(createStreamFor(atr, oldValue), createPredicateFor("", ""), createConsumerFor(atr, newValue)); }
 		}
 		return true;
 	}
 	
-	public void updateNameWhenNameValue(String newName, String name, String value)
-	{
-		BigDecimal valueNum = new BigDecimal(value);
-		database.stream().forEach(e -> {
-			if (e.getName().equals(name) && e.getValue().compareTo(valueNum) <= 0)
-				e.setName(newName);
-		});
-	}
-
 	@Override
-	public boolean updateItemWhere(String whereAttr, String whereValue, String targetAttr, String newValue)
+	public boolean updateAtribbute(String whereAttr, String whereValue, String targetAttr, String oldValue, String newValue)
 	{
-		if (whereAttr == null || whereValue == null || newValue == null)
+		if (whereAttr == null || whereValue == null || targetAttr == null || newValue == null || oldValue == null)
 			return false;
-		switch (whereAttr)
-		{
-			case "Value" -> updateNameWhenValue(new BigDecimal(whereValue), newValue);
-			case "Name" -> database.stream().filter(t -> t.getName().equals(whereValue)).forEach(t -> t.setName(newValue));
-			default -> { return false; }
-		}
+		updateAll(createStreamFor(whereAttr, whereValue), createPredicateFor(targetAttr, oldValue), createConsumerFor(targetAttr, newValue));
 		return true;
 	}
 	
-	private void updateNameWhenValue(BigDecimal value, String name)
+	private Stream<Transaction> createStreamFor(String targetAttr, String whereValue)
 	{
-		database.stream().forEach(e -> {
-			if (e.getValue().compareTo(value) == 0)
-				e.setName(name);
-		});
+		return database.stream().filter(createPredicateFor(targetAttr, whereValue));
+	}
+	
+	private Predicate<Transaction> createPredicateFor(String targetAttr, String whereValue)
+	{
+		if (whereValue.isBlank())
+			return t -> true;
+		switch (targetAttr)
+		{
+			case "Name" -> { return t -> t.getName().equals(whereValue); }
+			case "Category" -> { return t -> t.getCategory().equals(whereValue); }
+			default -> { return t -> false; }
+		}
+	}
+	
+	private Consumer<Transaction> createConsumerFor(String targetAttr, String newValue)
+	{
+		switch (targetAttr)
+		{
+			case "" -> { return t -> {}; }
+			case "Name" -> { return t -> t.setName(newValue); }
+			case "Category" -> { return t -> t.setCategory(newValue); }
+			default -> { return t -> {}; }
+		}
+	}
+	
+	private void updateAll(Stream<Transaction> stream, Predicate<Transaction> predicate, Consumer<Transaction> consumer)
+	{
+		stream.filter(predicate).forEach(consumer);
 	}
 	
 	@Override

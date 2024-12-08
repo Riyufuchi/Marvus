@@ -5,6 +5,7 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 
 import riyufuchi.marvus.Marvus;
 import riyufuchi.marvus.controller.TabController;
@@ -27,7 +28,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 01.12.2024
+ * @version 08.12.2024
  */
 public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
@@ -67,46 +68,46 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 	
 	private void setupJMenu()
 	{
-		SufuMenuCreator jmc = new SufuMenuCreator(MarvusTexts.BUDGET_TABLE_MENU, MarvusTexts.BUDGET_TABLE_MENU_ITEMS, 6);
-		final int max = jmc.getNumberOfMenuItems();
-		for (int i = 0; i < max; i++)
+		SufuMenuCreator jmc = new SufuMenuCreator(MarvusTexts.BUDGET_TABLE_MENU, -1, MarvusTexts.BUDGET_TABLE_MENU_ITEMS);
+		JMenuItem[] items = jmc.getMenuItems();
+		for (JMenuItem item : items)
 		{
-			switch (jmc.getItemName(i))
+			switch (item.getText())
 			{
 				// File
-				case "Open" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickOpenFile());
-				case "Save" -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickSaveFile());
-				case "Save As..." -> jmc.setItemAction(i, KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK, event -> controller.saveDataToFile());
-				case "Exit" -> jmc.setItemAction(i, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
-				case "Export"-> jmc.setItemAction(i,event -> controller.exportData());
-				case "Import" -> jmc.setItemAction(i, event -> controller.importData());
-				case "Refresh" -> jmc.setItemAction(i, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> controller.refresh());
-				case "Backup" -> jmc.setItemAction(i, KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK, event -> controller.createBackup());
+				case "Open" -> jmc.setItemAction(item, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickOpenFile());
+				case "Save" -> jmc.setItemAction(item, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickSaveFile());
+				case "Save As..." -> jmc.setItemAction(item, KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK, event -> controller.saveDataToFile());
+				case "Exit" -> jmc.setItemAction(item, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
+				case "Export"-> jmc.setItemAction(item, event -> controller.exportData());
+				case "Import" -> jmc.setItemAction(item, event -> controller.importData());
+				case "Refresh" -> jmc.setItemAction(item, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> controller.refresh());
+				case "Backup" -> jmc.setItemAction(item, KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK, event -> controller.createBackup());
 				// Data tools
-				case "Sort" -> jmc.setItemAction(i, e -> controller.sortData());
-				case "Execute quarry" -> jmc.setItemAction(i, e -> {controller.executeQuarry(); });
+				case "Sort" -> jmc.setItemAction(item, e -> controller.sortData());
+				case "Execute quarry" -> jmc.setItemAction(item, e -> { controller.executeQuarry(); });
 				// Tools
-				case "Month outcome" -> jmc.setItemAction(i,event -> MarvusUtils.consumeFunction(controller, TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
-				case "Entity manager" -> jmc.setItemAction(i, event -> new EntityManagerDialog(this).showDialog());
+				case "Month outcome" -> jmc.setItemAction(item,event -> MarvusUtils.consumeFunction(controller, TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
+				case "Entity manager" -> jmc.setItemAction(item, event -> new EntityManagerDialog(this).showDialog());
 				// Data handling
-				case "Add" -> jmc.setItemAction(i,  KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
+				case "Add" -> jmc.setItemAction(item, KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
 				// Display modes
-				case "Table list" -> jmc.setItemAction(i, KeyEvent.VK_F1,event -> controller.updateDataDisplayMode(0));
-				case "Categorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F2, event -> controller.updateDataDisplayMode(1));
-				case "Uncategorized month list" -> jmc.setItemAction(i, KeyEvent.VK_F3, event -> controller.updateDataDisplayMode(2));
-				case "Year summary" -> jmc.setItemAction(i, KeyEvent.VK_F4, event -> controller.updateDataDisplayMode(3)); 
-				case "Year overview" -> jmc.setItemAction(i, KeyEvent.VK_F5, event -> controller.updateDataDisplayMode(4));
-				case "Data summary" -> jmc.setItemAction(i, KeyEvent.VK_F6, event -> controller.updateDataDisplayMode(5));
-				case "Week detail" -> jmc.setItemAction(i, KeyEvent.VK_F7, event -> controller.updateDataDisplayMode(6));
-				case "Previous mode" -> jmc.setItemAction(i, KeyEvent.VK_ESCAPE, event -> controller.switchDataDisplayMode());
+				case "Table list" -> jmc.setItemAction(item, KeyEvent.VK_F1,event -> controller.updateDataDisplayMode(0));
+				case "Categorized month list" -> jmc.setItemAction(item, KeyEvent.VK_F2, event -> controller.updateDataDisplayMode(1));
+				case "Uncategorized month list" -> jmc.setItemAction(item, KeyEvent.VK_F3, event -> controller.updateDataDisplayMode(2));
+				case "Year summary" -> jmc.setItemAction(item, KeyEvent.VK_F4, event -> controller.updateDataDisplayMode(3)); 
+				case "Year overview" -> jmc.setItemAction(item, KeyEvent.VK_F5, event -> controller.updateDataDisplayMode(4));
+				case "Data summary" -> jmc.setItemAction(item, KeyEvent.VK_F6, event -> controller.updateDataDisplayMode(5));
+				case "Week detail" -> jmc.setItemAction(item, KeyEvent.VK_F7, event -> controller.updateDataDisplayMode(6));
+				case "Previous mode" -> jmc.setItemAction(item, KeyEvent.VK_ESCAPE, event -> controller.switchDataDisplayMode());
 				// Window
-				case "Preferences" -> jmc.setItemAction(i,event -> new PreferencesDialog(this).showDialog());
-				case "Fullscreen" -> jmc.setItemAction(i, KeyEvent.VK_F11, event -> Marvus.fullScreen());
+				case "Preferences" -> jmc.setItemAction(item,event -> new PreferencesDialog(this).showDialog());
+				case "Fullscreen" -> jmc.setItemAction(item, KeyEvent.VK_F11, event -> Marvus.fullScreen());
 				// Help
-				case "About" -> jmc.setItemAction(i, event -> MarvusUtils.aboutMarvus(this));
-				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
-				case "License" -> jmc.setItemAction(i, event -> SufuAppTools.licenseGUI(this, "/LICENSE.TXT"));
-				default -> jmc.setItemAction(i, event -> SufuLib.functionalityNotYetImplementedDialog(this));
+				case "About" -> jmc.setItemAction(item, event -> MarvusUtils.aboutMarvus(this));
+				case "About SufuLib" -> jmc.setItemAction(item, event -> Lib.aboutGUI(this));
+				case "License" -> jmc.setItemAction(item, event -> SufuAppTools.licenseGUI(this, "/LICENSE.TXT"));
+				default -> jmc.setItemAction(item, event -> SufuLib.functionalityNotYetImplementedDialog(this));
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
