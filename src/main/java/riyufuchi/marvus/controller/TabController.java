@@ -10,8 +10,11 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
+import riyufuchi.marvus.database.MarvusConnection;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
 import riyufuchi.marvus.dialogs.transactions.AddTransactionDialog;
+import riyufuchi.marvus.interfaces.IMarvusController;
 import riyufuchi.marvus.tabs.CategorizedMonthListTab;
 import riyufuchi.marvus.tabs.DataSummaryTab;
 import riyufuchi.marvus.tabs.TableTab;
@@ -24,10 +27,7 @@ import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
-import riyufuchi.marvusLib.database.MarvusConnection;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.enums.UserAction;
-import riyufuchi.marvusLib.interfaces.IMarvusController;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.FileInput;
@@ -40,7 +40,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 27.11.2024
+ * @version 12.12.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -60,7 +60,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	
 	public TabController(MarvusDataWindow controledWindow, File file)
 	{
-		this.database = new MarvusDatabase(e -> SufuDialogHelper.errorDialog(controledWindow, e, "Marvus database error"));
+		this.database = new MarvusDatabase(e -> SufuDialogHelper.errorDialog(controledWindow, e, "Marvus database error"), controledWindow);
 		this.controledWindow = controledWindow;
 		this.subTabs = new DataDisplayTab[7]; // Num of tabs in riyufuchi.marvus.tabs package
 		this.currentMode = subTabs[0] = new TableTab(this);
@@ -91,7 +91,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	
 	public void addNewTransaction()
 	{
-		new AddTransactionDialog(controledWindow).showDialog();
+		new AddTransactionDialog(controledWindow, database).showDialog();
 		refresh();
 	}
 	

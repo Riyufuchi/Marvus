@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.database;
+package riyufuchi.marvus.database;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,7 +19,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;;
  */
 public class MarvusConnection implements MarvusQuerriable
 {
-	private MarvusDatabase	database;
+	private MarvusDatabase database;
 
 	public MarvusConnection(MarvusDatabase databse)
 	{

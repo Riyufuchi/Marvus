@@ -1,6 +1,6 @@
-package riyufuchi.marvusLib.interfaces;
+package riyufuchi.marvus.interfaces;
 
-import riyufuchi.marvusLib.database.MarvusDatabase;
+import riyufuchi.marvus.database.MarvusDatabase;
 
 /**
  * 

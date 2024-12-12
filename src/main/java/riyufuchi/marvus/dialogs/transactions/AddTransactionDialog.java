@@ -11,13 +11,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.data.Money;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.database.MaruvsDatabaseUtils;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.records.LastChange;
-import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
 import riyufuchi.sufuLib.gui.SufuDialog;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
@@ -38,23 +36,24 @@ public class AddTransactionDialog extends SufuDialog
 	protected JButton date;
 	protected JComboBox<String> nameBox, categoryBox;
 	protected JTextArea note;
-	protected MaruvsDatabaseUtils utils;
 	protected LocalDateTime localDate;
+	protected MarvusDatabase database;
 	
-	public AddTransactionDialog(JFrame parentFrame)
+	public AddTransactionDialog(JFrame parentFrame, MarvusDatabase database)
 	{
 		super("New transaction", parentFrame, DialogType.OK, true, true);
 		if (localDate == null)
 			localDate = LocalDateTime.now();
+		this.database = database;
+		createUI(getPane());
+		pack();
 	}
 	
-	@Override
-	protected void createInputs(JPanel pane)
+	protected void createUI(JPanel pane)
 	{
 		getGBC(0, 0).weightx = 1.0;
-		utils = MarvusDatabase.utils;
-		nameBox = SufuFactory.<String>newCombobox(utils.getEntityNamesEnum());
-		categoryBox = SufuFactory.<String>newCombobox(utils.getCategoryEnum());
+		nameBox = SufuFactory.<String>newCombobox(MarvusDatabase.utils.getEntityNamesEnum());
+		categoryBox = SufuFactory.<String>newCombobox(MarvusDatabase.utils.getCategoryEnum());
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
 		date = SufuFactory.newButton(SufuDateUtils.nowDateString(), evt -> {
@@ -74,14 +73,13 @@ public class AddTransactionDialog extends SufuDialog
 				name.setEnabled(false);
 				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
 			}
-			final int INDEX = utils.getMacroIndex(name.getText());
-			if (INDEX == -1)
-				return;
-			TransactionMacro tm = utils.getTransactionMacros().get(INDEX);
-			SufuComponentTools.setSelectedItemGeneric(categoryBox, tm.category());
-			money.setText(tm.value());
-			if (money.getText().equals("0"))
-				money.setText("");
+			database.macroTable.getByID(name.getText()).ifPresent(row -> {
+				SufuComponentTools.setSelectedItemGeneric(categoryBox, row.category());
+				if (row.value().equals("0"))
+					money.setText("");
+				else
+					money.setText(row.value());	
+			});
 		});
 		SufuComponentTools.setSelectedItem(nameBox, "Custom");
 		// Set labels
@@ -90,6 +88,8 @@ public class AddTransactionDialog extends SufuDialog
 		SufuGuiTools.addLabels(this, 0, 3, new String[]{ "Amount:", "Currency: ", "Date:", "Note:" });
 		SufuGuiTools.addComponents(this, 1, 0, nameBox, name, categoryBox, money, currency, date, note);
 	}
+	
+	
 	@Override
 	protected void onOK()
 	{
@@ -99,5 +99,10 @@ public class AddTransactionDialog extends SufuDialog
 		((MarvusDataWindow)parentFrame).getController().getDatabase().add(t);
 		((MarvusDataWindow)parentFrame).getController().refresh();
 		((MarvusDataWindow)parentFrame).getController().setLastAction(new LastChange(UserAction.ADD, t));
+	}
+
+	@Override
+	protected void createInputs(JPanel pane)
+	{
 	}
 }

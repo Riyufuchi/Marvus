@@ -3,21 +3,32 @@ package riyufuchi.marvus.dialogs.tools.macro;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import riyufuchi.marvusLib.database.MarvusDatabase;
+import java.util.LinkedList;
+
 import riyufuchi.marvusLib.records.TransactionMacro;
+import riyufuchi.marvus.database.MarvusDatabase;
+import riyufuchi.marvusLib.database.MarvusTableUtils;
+import riyufuchi.marvusLib.records.MarvusRow;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
  * @author Riyufuchi
  * @since 29.11.2024
- * @version 29.11.2024
+ * @version 12.12.2024
  */
 public class EditTransactionMacro extends AddTransactionMacro
 {
-	public EditTransactionMacro(JFrame parentFrame)
+	protected LinkedList<MarvusRow<String, TransactionMacro>> rows;
+	protected MarvusRow<String, TransactionMacro> selectedRow;
+	
+	public EditTransactionMacro(JFrame parentFrame, MarvusDatabase database)
 	{
-		super(parentFrame);
+		super(parentFrame, database);
 		this.setTitle("Edit Transaction Macro");
+		this.rows = MarvusTableUtils.selectMacroOrdered(database.macroTable);
+		for (MarvusRow<String, TransactionMacro> row : rows)
+			existingMacros.addItem(row.entity().name());
+		this.existingMacros.setSelectedIndex(0);
 		pack();
 	}
 
@@ -25,22 +36,24 @@ public class EditTransactionMacro extends AddTransactionMacro
 	protected void createInputs(JPanel arg0)
 	{
 		super.createInputs(arg0);
+		existingMacros.removeAllItems();
 		existingMacros.addActionListener(evt -> {
-			TransactionMacro tm = MarvusDatabase.utils.getMacro(existingMacros.getSelectedIndex());
-			name.setText(tm.name());
-			SufuComponentTools.setSelectedItemGeneric(category, tm.category());
-			value.setText(tm.value());
+			database.macroTable.getByID(SufuComponentTools.extractComboboxValue(existingMacros)).ifPresent(row -> {
+				selectedRow = new MarvusRow<>(row.name(), row);
+				name.setText(row.name());
+				SufuComponentTools.setSelectedItemGeneric(category, row.category());
+				value.setText(row.value());
+			});
 		});
-		existingMacros.setSelectedIndex(0);
 	}
 
 	@Override
 	protected void onOK()
 	{
-		if (name.getText().isBlank() || value.getText().isBlank())
+		if (name.getText().isBlank() || value.getText().isBlank() || selectedRow == null)
 			return;
 		data = new TransactionMacro(name.getText(), SufuComponentTools.extractComboboxValue(category), value.getText());
-		if (MarvusDatabase.utils.setMacro(SufuComponentTools.extractComboboxValue(existingMacros), data))
-			closeDialog();
+		database.macroTable.set(data.name(), data);
+		closeDialog();
 	}
 }

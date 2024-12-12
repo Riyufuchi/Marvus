@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.database;
+package riyufuchi.marvus.database;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -6,15 +6,21 @@ import java.time.Month;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+
+import javax.swing.JFrame;
 
 import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataStorage.MarvusDataTable;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
+import riyufuchi.marvusLib.database.MarvusTableDB;
 import riyufuchi.marvusLib.interfaces.IDatabase;
+import riyufuchi.marvusLib.records.Row;
+import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.marvusLib.records.YearOverview;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
@@ -23,13 +29,15 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @since 1.95 - 12.02.2024
- * @version 11.10.2024
+ * @version 12.12.2024
  */
 public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transaction>
 {
-	public static MaruvsDatabaseUtils utils = new MaruvsDatabaseUtils();
+	private MarvusDatabaseIO mdbio;
 	private transient Consumer<String> errorHandler;
 	private transient Comparator<FinancialCategory> sorter;
+	public MarvusTableDB<String, TransactionMacro> macroTable;
+	public static MaruvsDatabaseUtils utils = new MaruvsDatabaseUtils();
 	
 	public MarvusDatabase()
 	{
@@ -38,12 +46,19 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 	
 	public MarvusDatabase(Consumer<String> errorHandler)
 	{
+		this(errorHandler, null);
+	}
+	
+	public MarvusDatabase(Consumer<String> errorHandler, JFrame frame)
+	{
 		super();
 		this.sorter = TransactionComparation.compareFC(CompareMethod.By_name);
 		if (errorHandler == null)
 			this.errorHandler = e -> System.out.println(e);
 		else
 			this.errorHandler = errorHandler;
+		this.mdbio = new MarvusDatabaseIO(frame);
+		this.macroTable = mdbio.loadTransactionMacroTable();
 	}
 	
 	public void sort()
@@ -259,5 +274,35 @@ public class MarvusDatabase extends MarvusDataTable implements IDatabase<Transac
 			}
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public boolean remove(int ID)
+	{
+		Transaction t = new Transaction();
+		t.setID(ID);
+		return remove(t);
+	}
+
+	@Override
+	public boolean set(int ID, Transaction e)
+	{
+		return set(e);
+	}
+
+	@Override
+	public List<Transaction> getData()
+	{
+		return toList();
+	}
+
+	@Override
+	public LinkedList<Row<Transaction>> getRows()
+	{
+		LinkedList<Transaction> list = toList();
+		LinkedList<Row<Transaction>> listRows = new LinkedList<>();
+		for (Transaction t : list)
+			listRows.add(new Row<Transaction>(t.getID(), t));
+		return listRows;
 	}
 }

@@ -6,10 +6,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.transactions.EditTransactionDialog;
 import riyufuchi.marvus.dialogs.transactions.RemoveTransactionDialog;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGridPane;
@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 29.11.2024
+ * @version 11.12.2024
  */
 public abstract class DataDisplayTab
 {
@@ -110,11 +110,11 @@ public abstract class DataDisplayTab
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))
 		{
-			new EditTransactionDialog(targetWindow.getSelf(), t).showDialog();
+			new EditTransactionDialog(targetWindow.getSelf(), t, dataSource).showDialog();
 		}
 		else if (SwingUtilities.isRightMouseButton(mEvt))
 		{
-			new RemoveTransactionDialog(targetWindow.getSelf(), t).showDialog();
+			new RemoveTransactionDialog(targetWindow.getSelf(), t, dataSource).showDialog();
 		}
 	}
 	

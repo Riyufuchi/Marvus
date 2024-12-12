@@ -8,9 +8,9 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusConfig;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionXML;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.records.FileInput;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;

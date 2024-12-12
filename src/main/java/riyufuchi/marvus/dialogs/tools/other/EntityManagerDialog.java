@@ -16,7 +16,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 07.10.2023
- * @version 03.12.2024
+ * @version 12.12.2024
  */
 public class EntityManagerDialog extends SufuDialogGeneric<MarvusDataWindow>
 {
@@ -31,7 +31,7 @@ public class EntityManagerDialog extends SufuDialogGeneric<MarvusDataWindow>
 	public EntityManagerDialog(MarvusDataWindow parentFrame)
 	{
 		super("Entity manager", parentFrame, DialogType.OK);
-		this.controller = new EntityManagerController(parentFrame);
+		this.controller = new EntityManagerController(parentFrame, parentFrame.getController().getDatabase());
 	}
 
 	@Override
@@ -60,7 +60,8 @@ public class EntityManagerDialog extends SufuDialogGeneric<MarvusDataWindow>
 		addMacroBtn = SufuFactory.newButton("Add macro", evt -> controller.addTransactionMacroBtnEvt());
 		editMacroBtn = SufuFactory.newButton("Edit macro", evt -> controller.editTransactionMacroBtnEvt());
 		removeMacroBtn = SufuFactory.newButton("Remove macro", evt -> controller.removeTransactionMacroBtnEvt());
-		sortMacroBtn = SufuFactory.newButton("Sort macro", evt -> controller.sortTransactionMacro());
+		sortMacroBtn = SufuFactory.newButton("Sort macro", null);
+		sortMacroBtn.setEnabled(false);
 		
 		SufuGuiTools.addComponents(buttonPane, 0, 0, addEntityBtn, editEntityBtn, removeEntityBtn, sortEntityBtn);
 		SufuGuiTools.addComponents(buttonPane, 1, 0, addCategoryBtn, editCategoryBtn, removeCategoryBtn, sortCategoriesBtn);

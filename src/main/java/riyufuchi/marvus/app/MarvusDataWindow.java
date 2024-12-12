@@ -9,12 +9,12 @@ import javax.swing.JMenuItem;
 
 import riyufuchi.marvus.Marvus;
 import riyufuchi.marvus.controller.TabController;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.tools.other.EntityManagerDialog;
 import riyufuchi.marvus.dialogs.tools.other.PreferencesDialog;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvusLib.dataUtils.TransactionCalculations;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.Fullscreenable;
 import riyufuchi.marvusLib.interfaces.MarvusFrame;
 import riyufuchi.sufuLib.gui.SufuWindowTabbedGeneric;

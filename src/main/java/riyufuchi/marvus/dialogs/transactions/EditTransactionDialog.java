@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
@@ -15,15 +15,15 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
  * 
  * @author Riyufuchi
  * @since 11.05.2023
- * @version 02.12.2024
+ * @version 12.12.2024
  */
 public class EditTransactionDialog extends AddTransactionDialog
 {
 	private Transaction transaction;
 	
-	public EditTransactionDialog(JFrame parentFrame, Transaction transaction)
+	public EditTransactionDialog(JFrame parentFrame, Transaction transaction, MarvusDatabase database)
 	{
-		super(parentFrame);
+		super(parentFrame, database);
 		this.transaction = transaction;
 		prefillComponents();
 		setTitle("Edit transaction " + transaction.getID());
@@ -33,7 +33,7 @@ public class EditTransactionDialog extends AddTransactionDialog
 	{
 		SufuComponentTools.setSelectedItemGeneric(nameBox, transaction.getName());
 		name.setText(transaction.getName());
-		SufuComponentTools.setSelectedItem(categoryBox, transaction.getCategory());
+		SufuComponentTools.setSelectedItemGeneric(categoryBox, transaction.getCategory());
 		money.setText(transaction.getValue().toString());
 		date.setText(transaction.getStringDate());
 		note.setText(transaction.getNote());
@@ -42,9 +42,9 @@ public class EditTransactionDialog extends AddTransactionDialog
 	}
 	
 	@Override
-	protected void createInputs(JPanel pane)
+	protected void createUI(JPanel pane)
 	{
-		super.createInputs(pane);
+		super.createUI(pane);
 		nameBox.removeActionListener(nameBox.getActionListeners()[0]);
 		nameBox.addActionListener(evt -> {
 			if (nameBox.getItemAt(nameBox.getSelectedIndex()).equals("Custom"))
@@ -57,9 +57,12 @@ public class EditTransactionDialog extends AddTransactionDialog
 				name.setEnabled(false);
 				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
 			}
-			if (MarvusDatabase.utils.getMacroIndex(name.getText()) != -1)
-				SufuComponentTools.setSelectedItemGeneric(categoryBox, utils.getTransactionMacros().get(nameBox.getSelectedIndex()).category());
 		});
+	}
+
+	@Override
+	protected void createInputs(JPanel pane)
+	{
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusConfig;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.tools.categories.AddCategory;
 import riyufuchi.marvus.dialogs.tools.categories.EditCategory;
 import riyufuchi.marvus.dialogs.tools.macro.AddTransactionMacro;
@@ -14,7 +15,6 @@ import riyufuchi.marvus.dialogs.tools.macro.EditTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.names.AddEntityName;
 import riyufuchi.marvus.dialogs.tools.names.EditEntityName;
 import riyufuchi.marvus.dialogs.tools.names.RemoveEntityName;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -22,10 +22,12 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 public class EntityManagerController
 {
 	private JFrame parentFrame;
+	private MarvusDatabase database;
 
-	public EntityManagerController(JFrame appManager)
+	public EntityManagerController(JFrame appManager, MarvusDatabase database)
 	{
 		this.parentFrame = appManager;
+		this.database = database;
 	}
 	
 	// Names
@@ -136,7 +138,7 @@ public class EntityManagerController
 	{
 		try
 		{
-			SufuPersistence.saveToCSV(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, MarvusDatabase.utils.getTransactionMacros());
+			SufuPersistence.serializeStructure(MarvusConfig.TRANSACTION_MACRO_TABLE_PATH, database.macroTable);
 		}
 		catch (NullPointerException | IOException e)
 		{
@@ -148,17 +150,17 @@ public class EntityManagerController
 	
 	public void addTransactionMacroBtnEvt()
 	{
-		TransactionMacro tm = new AddTransactionMacro(parentFrame).showAndGet();
+		TransactionMacro tm = new AddTransactionMacro(parentFrame, database).showAndGet();
 		if (tm == null)
 			return;
-		MarvusDatabase.utils.addMacro(tm);
+		database.macroTable.add(tm.name(), tm);
 		if (saveMacroToFile())
 			SufuDialogHelper.informationDialog(parentFrame, "Macro successfuly added!", "Transaction macro operation");
 	}
 	
 	public void editTransactionMacroBtnEvt()
 	{
-		TransactionMacro tm = new EditTransactionMacro(parentFrame).showAndGet();
+		TransactionMacro tm = new EditTransactionMacro(parentFrame, database).showAndGet();
 		if (tm != null)
 			if (saveMacroToFile())
 				SufuDialogHelper.informationDialog(parentFrame, "Macro successfuly edited!", "Transaction macro operation");
@@ -166,22 +168,15 @@ public class EntityManagerController
 	
 	public void removeTransactionMacroBtnEvt()
 	{
-		TransactionMacro tm = new DeleteTransactionMacro(parentFrame).showAndGet();
+		TransactionMacro tm = new DeleteTransactionMacro(parentFrame, database).showAndGet();
 		if (tm != null)
 		{
-			if (SufuDialogHelper.booleanDialog(parentFrame, "Delete: " + tm.toCSV(), "Are you sure?"))
+			if (SufuDialogHelper.booleanDialog(parentFrame, "Delete: " + tm.name(), "Are you sure?"))
 			{
-				MarvusDatabase.utils.removeMacro(tm);
+				database.macroTable.remove(tm.name());
 				if (saveMacroToFile())
 					SufuDialogHelper.informationDialog(parentFrame, "Macro successfuly removed!", "Transaction macro operation");
 			}
 		}
-	}
-	
-	public void sortTransactionMacro()
-	{
-		MarvusDatabase.utils.sortMacros();
-		if (saveMacroToFile())
-			SufuDialogHelper.informationDialog(parentFrame, "Macro list successfuly sorted!", "Transaction macro operation");
 	}
 }

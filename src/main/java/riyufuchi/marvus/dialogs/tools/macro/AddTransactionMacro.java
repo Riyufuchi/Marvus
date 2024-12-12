@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import riyufuchi.marvusLib.database.MarvusDatabase;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.gui.SufuDataDialog;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
@@ -21,10 +21,12 @@ public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 {
 	protected JTextField name, value;
 	protected JComboBox<String> category, existingMacros;
+	protected MarvusDatabase database;
 	
-	public AddTransactionMacro(JFrame parentFrame)
+	public AddTransactionMacro(JFrame parentFrame, MarvusDatabase database)
 	{
 		super("New Transaction Macro", parentFrame, DialogType.OK);
+		this.database = database;
 		pack();
 	}
 

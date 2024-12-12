@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.interfaces;
+package riyufuchi.marvus.interfaces;
 
 import riyufuchi.marvus.controller.TabController;
 

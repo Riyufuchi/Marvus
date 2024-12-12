@@ -11,9 +11,9 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
 import riyufuchi.marvus.app.MarvusTexts;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;

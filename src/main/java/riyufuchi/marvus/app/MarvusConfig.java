@@ -27,6 +27,7 @@ public class MarvusConfig
 	public static final String NAME_FILE_PATH = workFolder + ENUM_FOLDER + "entityNames.csv";
 	public static final String CATEGORY_FILE_PATH = workFolder + ENUM_FOLDER + "categories.csv";
 	public static final String TRANSACTION_MACRO_FILE_PATH = workFolder + ENUM_FOLDER + "transactionMacros.csv";
+	public static final String TRANSACTION_MACRO_TABLE_PATH = workFolder + ENUM_FOLDER + "transactionMacros.marvusTable";
 	public static final FileNameExtensionFilter SER = new FileNameExtensionFilter(".ser", "ser");
 	public static final FileNameExtensionFilter CSV = new FileNameExtensionFilter(".csv", "csv");
 	public static final FileNameExtensionFilter XML = new FileNameExtensionFilter(".xml", "xml");

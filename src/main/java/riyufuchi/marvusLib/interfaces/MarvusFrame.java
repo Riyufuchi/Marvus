@@ -2,6 +2,7 @@ package riyufuchi.marvusLib.interfaces;
 
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.interfaces.MarvusControllable;
 import riyufuchi.sufuLib.interfaces.SufuWindowCommon;
 
 /**

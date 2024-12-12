@@ -6,10 +6,9 @@ import java.time.Month;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
@@ -20,7 +19,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 29.11.2024
+ * @version 12.12.2024
  */
 public class YearOverviewTab extends DataDisplayTab
 {
@@ -28,13 +27,15 @@ public class YearOverviewTab extends DataDisplayTab
 	private final int NUM_OF_GENENERATED_COLUMNS = 13;
 	private LinkedList<YearOverview> yearOverviews;
 	private int yOffset;
+	private int year;
 	
 	public YearOverviewTab(MarvusTabbedFrame targetWindow, int year)
 	{
 		super(targetWindow);
 		this.yOffset = 0;
+		this.year = year;
 		this.yearOverviews = new LinkedList<>();
-		yearOverviews.add(dataSource.getYearOverview(year));
+		this.yearOverviews.add(null);
 		// UI
 		addMenuAndMenuItems(SufuFactory.newButton("Add table", evt -> addTable()));
 		addContentPanel();
@@ -102,15 +103,14 @@ public class YearOverviewTab extends DataDisplayTab
 	@Override
 	public void displayData()
 	{
-		buildTable(yearOverviews.getFirst(), 0, 0);
+		refresh();
 	}
 	
 	@Override
 	public void refresh()
 	{
-		yearOverviews.addFirst(dataSource.getYearOverview(yearOverviews.getFirst().year()));
-		yearOverviews.remove(1);
-		clearPanel(masterPanel, NUM_OF_GENENERATED_COLUMNS);
+		yearOverviews.set(0, dataSource.getYearOverview(year));
+		clearPanel(contentPanel, NUM_OF_GENENERATED_COLUMNS);
 		yOffset = 0;
 		for (YearOverview yearOverview : yearOverviews)
 		{

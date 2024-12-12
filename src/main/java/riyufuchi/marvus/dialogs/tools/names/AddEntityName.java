@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import riyufuchi.marvusLib.database.MarvusDatabase;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.sufuLib.gui.SufuDataDialog;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGuiTools;

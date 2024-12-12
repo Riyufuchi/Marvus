@@ -5,13 +5,13 @@ import java.util.LinkedList;
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.TabController;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 
 /**
  * @author Riyufuchi
  * @since 11.02.2024
- * @version 12.08.2024
+ * @version 12.12.2024
  */
 public record FileInput(String fromFileType, LinkedList<?> data)
 {
@@ -31,10 +31,7 @@ public record FileInput(String fromFileType, LinkedList<?> data)
 	{
 		switch (fromFileType)
 		{
-			case MarvusConfig.MDB_EXT -> { 
-				mc.setDatabase((MarvusDatabase)data.getFirst());
-				//mc.getDatabase().sort();
-				}
+			case MarvusConfig.MDB_EXT -> mc.setDatabase((MarvusDatabase)data.getFirst());
 			default -> mc.getDatabase().addAll((LinkedList<Transaction>)data);
 		}
 	}

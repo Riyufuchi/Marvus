@@ -1,31 +1,30 @@
 package riyufuchi.marvus.utils;
 
-import java.util.Collection;
 import java.util.function.Consumer;
 
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.controller.TabController;
+import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.database.MarvusDatabase;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
- * This is controller for main window, it contains delegations for events.
- * 
  * @author Riyufuchi
  * @since 18.12.2023
- * @version 02.12.2024
+ * @version 12.12.2024
  */
 public class MarvusUtils
 {
 	private MarvusUtils() {}
 	
-	public static void fixCategory(JFrame frame, Collection<Transaction> data)
+	public static void fixCategory(JFrame frame, MarvusDatabase database)
 	{
 		if (SufuDialogHelper.booleanDialog(frame, "Set category automatically?", "Category fixing"))
-			data.stream().forEach(transaction -> transaction.setCategory(MarvusDatabase.utils.getMacro(MarvusDatabase.utils.getMacroIndex(transaction.getName())).category()));
+			database.stream()
+			.forEach(transaction -> database.macroTable.getByID(transaction.getName())
+					.ifPresent(tm -> transaction.setCategory(tm.category())));
 	}
 	
 	public static void aboutMarvus(JFrame marvusWindow)
