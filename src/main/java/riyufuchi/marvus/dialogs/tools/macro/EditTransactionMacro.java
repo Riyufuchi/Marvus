@@ -31,11 +31,10 @@ public class EditTransactionMacro extends AddTransactionMacro
 		this.existingMacros.setSelectedIndex(0);
 		pack();
 	}
-
-	@Override
-	protected void createInputs(JPanel arg0)
+	
+	protected void createUI(JPanel arg0)
 	{
-		super.createInputs(arg0);
+		super.createUI(arg0);
 		existingMacros.removeAllItems();
 		existingMacros.addActionListener(evt -> {
 			database.macroTable.getByID(SufuComponentTools.extractComboboxValue(existingMacros)).ifPresent(row -> {
@@ -45,6 +44,12 @@ public class EditTransactionMacro extends AddTransactionMacro
 				value.setText(row.value());
 			});
 		});
+	}
+
+	@Override
+	protected void createInputs(JPanel arg0)
+	{
+		
 	}
 
 	@Override

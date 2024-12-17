@@ -9,7 +9,6 @@ import javax.swing.JMenuItem;
 
 import riyufuchi.marvus.Marvus;
 import riyufuchi.marvus.controller.TabController;
-import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.tools.other.EntityManagerDialog;
 import riyufuchi.marvus.dialogs.tools.other.PreferencesDialog;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
@@ -49,7 +48,6 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 		this.controller = new TabController(this);
 		newTab(controller);
 		setTabChangeListener(e -> updateTabController(e));
-		MarvusDatabase.utils.setParentframe(this);
 		if (MarvusConfig.autoLoadData)
 			if (!controller.quickOpenFile())
 				removeLastTab();

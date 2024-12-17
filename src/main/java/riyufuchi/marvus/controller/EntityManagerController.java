@@ -1,7 +1,6 @@
 package riyufuchi.marvus.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.swing.JFrame;
 
@@ -15,6 +14,7 @@ import riyufuchi.marvus.dialogs.tools.macro.EditTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.names.AddEntityName;
 import riyufuchi.marvus.dialogs.tools.names.EditEntityName;
 import riyufuchi.marvus.dialogs.tools.names.RemoveEntityName;
+import riyufuchi.marvusLib.records.Row;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -36,7 +36,7 @@ public class EntityManagerController
 	{
 		try
 		{
-			SufuPersistence.saveToCSV(MarvusConfig.NAME_FILE_PATH, MarvusDatabase.utils.getEntityNamesEnum());
+			SufuPersistence.serializeStructure(MarvusConfig.ENTITY_TABLE_PATH, database.entities);
 		}
 		catch (NullPointerException | IOException e)
 		{
@@ -48,44 +48,34 @@ public class EntityManagerController
 	
 	public void addEntityBtnEvt()
 	{
-		String name = new AddEntityName(parentFrame).showAndGet();
+		String name = new AddEntityName(parentFrame, database).showAndGet();
 		if (name == null)
 			return;
-		MarvusDatabase.utils.addEntityName(name);
-		if (saveEntityNamesToFile())
-			SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly added!", "Entity name operation");
-		
+		if (database.entities.add(name))
+			if (saveEntityNamesToFile())
+				SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly added!", "Entity name operation");
 	}
 	
 	public void editEntityBtnEvt()
 	{
-		String name = new EditEntityName(parentFrame).showAndGet();
+		String name = new EditEntityName(parentFrame, database).showAndGet();
 		if (name == null)
 			return;
-		String[] arr = name.split(" ");
-		MarvusDatabase.utils.setEntityName(Integer.valueOf(arr[1]), arr[0]);
-		if (saveEntityNamesToFile())
-			SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly edited!", "Entity name operation");
-		
+		String[] arr = name.split(";");
+		System.out.print(arr[1]);
+		if (database.entities.set(Integer.valueOf(arr[1]), arr[0]))
+			if (saveEntityNamesToFile())
+				SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly edited!", "Entity name operation");
 	}
 	
 	public void removeEntityBtnEvt()
 	{
-		String index = new RemoveEntityName(parentFrame).showAndGet();
+		String index = new RemoveEntityName(parentFrame, database).showAndGet();
 		if (index == null)
 			return;
-		MarvusDatabase.utils.removeEntityName(Integer.valueOf(index));
-		if (saveEntityNamesToFile())
-			SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly removed!", "Entity name operation");
-		
-	}
-	
-	public void sortEntityBtnEvt()
-	{
-		MarvusDatabase.utils.sortEntityNames();
-		if (saveEntityNamesToFile())
-			SufuDialogHelper.informationDialog(parentFrame, "Entity names successfuly sorted!", "Entity names operation");
-		
+		if (database.entities.remove(Integer.valueOf(index)))
+			if (saveEntityNamesToFile())
+				SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly removed!", "Entity name operation");
 	}
 	
 	// Category
@@ -94,7 +84,7 @@ public class EntityManagerController
 	{
 		try
 		{
-			SufuPersistence.saveToCSV(MarvusConfig.CATEGORY_FILE_PATH, MarvusDatabase.utils.getCategoryEnum());
+			SufuPersistence.serializeStructure(MarvusConfig.CATEGORY_TABLE_PATH, database.categories);
 		}
 		catch (NullPointerException | IOException e)
 		{
@@ -106,10 +96,10 @@ public class EntityManagerController
 	
 	public void addCategoryBtnEvt()
 	{
-		String[] categories = new AddCategory(parentFrame).showAndGet();
+		Row<String> categories = new AddCategory(parentFrame, database).showAndGet();
 		if (categories == null)
 			return;
-		MarvusDatabase.utils.addCategory(categories);
+		database.categories.add(categories.entity());
 		if (saveCategoriesToFile())
 			SufuDialogHelper.informationDialog(parentFrame, "Category successfuly added!", "Category operation");
 		
@@ -117,19 +107,25 @@ public class EntityManagerController
 	
 	public void editCategoryBtnEvt()
 	{
-		String[] categories = new EditCategory(parentFrame).showAndGet();
+		Row<String> categories = new EditCategory(parentFrame, database).showAndGet();
 		if (categories == null)
 			return;
-		MarvusDatabase.utils.setCategory(categories[0], categories[1]);
+		database.categories.set(categories.id(), categories.entity());
 		if (saveCategoriesToFile())
 			SufuDialogHelper.informationDialog(parentFrame, "Category successfuly edited!", "Category operation");
 	}
 	
-	public void sortCategories()
+	public void removeCategoryBtnEvt()
 	{
-		Arrays.sort(MarvusDatabase.utils.getCategoryEnum());
-		if (saveCategoriesToFile())
-			SufuDialogHelper.informationDialog(parentFrame, "Category list sorted!", "Category operation");
+		Row<String> category = new EditCategory(parentFrame, database).showAndGet();
+		if (category == null)
+			return;
+		if (SufuDialogHelper.booleanDialog(parentFrame, "Delete: " + category.entity(), "Are you sure?"))
+		{
+			database.categories.remove(category.id());
+			if (saveCategoriesToFile())
+				SufuDialogHelper.informationDialog(parentFrame, "Category successfuly removed!", "Category operation");
+		}
 	}
 	
 	// Macros

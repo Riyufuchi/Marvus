@@ -3,6 +3,8 @@ package riyufuchi.marvus.dialogs.tools.categories;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.database.MarvusDatabase;
+import riyufuchi.marvusLib.records.Row;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
@@ -12,21 +14,21 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
  */
 public class EditCategory extends AddCategory
 {
-	public EditCategory(JFrame parentFrame)
+	public EditCategory(JFrame parentFrame, MarvusDatabase database)
 	{
-		super(parentFrame);
+		super(parentFrame, database);
 		setTitle("Edit category");
 		pack();
 	}
 
 	@Override
-	protected void createInputs(JPanel panel)
+	protected void createUI(JPanel panel)
 	{
-		super.createInputs(panel);
+		super.createUI(panel);
 		categoriesCB.setEnabled(true);
 		categoriesCB.addActionListener(evt -> 
 		{
-			categoryInput.setText(SufuComponentTools.extractComboboxValue(categoriesCB));
+			categoryInput.setText(SufuComponentTools.extractComboboxValue(categoriesCB).entity());
 		});
 		categoriesCB.setSelectedIndex(0);
 	}
@@ -36,7 +38,7 @@ public class EditCategory extends AddCategory
 	{
 		if (categoryInput.getText().isBlank())
 			return;
-		data = new String[] { SufuComponentTools.extractComboboxValue(categoriesCB), categoryInput.getText() };
+		data = new Row<>(SufuComponentTools.extractComboboxValue(categoriesCB).id(), categoryInput.getText());
 		closeDialog();
 	}
 }

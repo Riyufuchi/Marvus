@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -11,7 +12,6 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
 import riyufuchi.marvus.app.MarvusTexts;
-import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
@@ -23,7 +23,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 02.12.2024
+ * @version 12.12.2024
  */
 @Deprecated
 public class MarvusTableTab extends DataDisplayTab
@@ -41,9 +41,9 @@ public class MarvusTableTab extends DataDisplayTab
 		this.y = 1;
 		this.valueFilterOptions = SufuFactory.newCombobox(MarvusTexts.VALUE_OPTIONS, evt -> refresh());
 		this.showForMonth = SufuFactory.newCombobox(Month.values()); // This combobox must have selected value before action event is assigned otherwise displayed data are duped
-		this.nameOptions = SufuFactory.newCombobox(MarvusDatabase.utils.getEntityNamesEnum(), evt -> refresh());
+		this.nameOptions = SufuFactory.<List<String>, String>newCombobox(dataSource.entities.getData(), evt -> refresh());
 		this.noteOptions = SufuFactory.newCombobox(MarvusTexts.NOTE_OPTIONS, evt -> refresh());
-		this.categoryOption = SufuFactory.newCombobox(MarvusDatabase.utils.getCategoryEnum(), evt -> refresh());
+		this.categoryOption = SufuFactory.newCombobox(dataSource.categories.getData(), evt -> refresh());
 		this.b1 = SufuFactory.newCheckBox("", evt -> checkBoxEvent(showForMonth));
 		this.b2 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(nameOptions));
 		this.b3 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(noteOptions));

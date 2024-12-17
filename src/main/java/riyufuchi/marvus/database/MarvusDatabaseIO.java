@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDefaultTableValues;
+import riyufuchi.marvusLib.database.MarvusDatabaseTable;
 import riyufuchi.marvusLib.database.MarvusTableDB;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
@@ -22,6 +23,52 @@ public class MarvusDatabaseIO
 	{
 		this.parentFrame = parentFrame;
 	}
+	
+	public MarvusDatabaseTable<String> loadCategoryTable()
+	{
+		try
+		{
+			return SufuPersistence.<MarvusDatabaseTable<String>>deserialize(MarvusConfig.CATEGORY_TABLE_PATH).getFirst();
+		}
+		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e1)
+		{
+			SufuDialogHelper.exceptionDialog(parentFrame, e1);
+			return new MarvusDatabaseTable<String>(restoreTable(MarvusConfig.CATEGORY_FILE_PATH, MarvusDefaultTableValues.CATEGORY_ENUM));
+		}
+	}
+	
+	// Entities
+	
+	public MarvusDatabaseTable<String> loadEntityTable()
+	{
+		try
+		{
+			return SufuPersistence.<MarvusDatabaseTable<String>>deserialize(MarvusConfig.ENTITY_TABLE_PATH).getFirst();
+		}
+		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e1)
+		{
+			SufuDialogHelper.exceptionDialog(parentFrame, e1);
+			return new MarvusDatabaseTable<String>(restoreTable(MarvusConfig.NAME_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM));
+		}
+	}
+	
+	private LinkedList<String> restoreTable(String path, String[] defaultValues)
+	{
+		LinkedList<String> namesCSV = loadTableFromFile(path, defaultValues);
+		if (namesCSV == null)
+		{
+			if ((namesCSV = loadTableFromFile(path, defaultValues)) == null)
+			{
+				namesCSV = new LinkedList<>();
+				for (String s : defaultValues)
+					namesCSV.add(s);
+				return namesCSV;
+			}
+		}
+		return namesCSV;
+	}
+	
+	// Macros
 	
 	public MarvusTableDB<String, TransactionMacro> loadTransactionMacroTable()
 	{

@@ -28,7 +28,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 02.12.2024
+ * @version 12.12.2024
  */
 public class AddTransactionDialog extends SufuDialog
 {
@@ -52,8 +52,8 @@ public class AddTransactionDialog extends SufuDialog
 	protected void createUI(JPanel pane)
 	{
 		getGBC(0, 0).weightx = 1.0;
-		nameBox = SufuFactory.<String>newCombobox(MarvusDatabase.utils.getEntityNamesEnum());
-		categoryBox = SufuFactory.<String>newCombobox(MarvusDatabase.utils.getCategoryEnum());
+		nameBox = SufuFactory.newCombobox(database.entities.getData());
+		categoryBox = SufuFactory.newCombobox(database.categories.getData());
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
 		date = SufuFactory.newButton(SufuDateUtils.nowDateString(), evt -> {
@@ -94,7 +94,7 @@ public class AddTransactionDialog extends SufuDialog
 	protected void onOK()
 	{
 		if (nameBox.getItemAt(nameBox.getSelectedIndex()).equals("Custom"))
-			MarvusDatabase.utils.addEntityName(name.getText());
+			database.entities.add(name.getText());
 		Transaction t = new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText());
 		((MarvusDataWindow)parentFrame).getController().getDatabase().add(t);
 		((MarvusDataWindow)parentFrame).getController().refresh();

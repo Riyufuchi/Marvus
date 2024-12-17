@@ -17,11 +17,11 @@ import javax.swing.table.TableRowSorter;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.app.MarvusTexts;
-import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.tools.other.EntityManagerDialog;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionTableModel;
+import riyufuchi.marvusLib.database.MarvusTableUtils;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -30,7 +30,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 02.12.2024
+ * @version 12.12.2024
  */
 public class TableTab extends DataDisplayTab
 {
@@ -49,9 +49,9 @@ public class TableTab extends DataDisplayTab
 		super(targetWindow);
 		this.valueFilterOptions = SufuFactory.newCombobox(MarvusTexts.VALUE_OPTIONS, evt -> refresh());
 		this.showForMonth = SufuFactory.newCombobox(Month.values()); // This combobox must have selected value before action event is assigned otherwise displayed data are duped
-		this.nameOptions = SufuFactory.newCombobox(MarvusDatabase.utils.getEntityNamesEnum(), evt -> refresh());
+		this.nameOptions = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(dataSource.entities.getData()), evt -> refresh());
 		this.noteOptions = SufuFactory.newCombobox(MarvusTexts.NOTE_OPTIONS, evt -> refresh());
-		this.categoryOption = SufuFactory.newCombobox(MarvusDatabase.utils.getCategoryEnum(), evt -> refresh());
+		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(dataSource.categories.getData()), evt -> refresh());
 		this.b1 = SufuFactory.newCheckBox("", evt -> checkBoxEvent(showForMonth));
 		this.b2 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(nameOptions));
 		this.b3 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(noteOptions));
@@ -81,10 +81,10 @@ public class TableTab extends DataDisplayTab
 		this.entityManager = SufuFactory.newButton("Entity manager", evt -> { 
 			new EntityManagerDialog((MarvusDataWindow)targetWindow.getSelf()).showDialog();
 			nameOptions.removeAllItems();
-			for (String item : MarvusDatabase.utils.getEntityNamesEnum())
+			for (String item : MarvusTableUtils.selectOrdered(dataSource.entities.getData()))
 				nameOptions.addItem(item);
 			categoryOption.removeAllItems();
-			for (String item : MarvusDatabase.utils.getCategoryEnum())
+			for (String item : MarvusTableUtils.selectOrdered(dataSource.categories.getData()))
 				categoryOption.addItem(item);
 		});
 		addMenuAndMenuItems(entityManager, b2, nameOptions, b4, categoryOption, valueFilterOptions, b1, showForMonth, b3, noteOptions);

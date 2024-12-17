@@ -3,31 +3,39 @@ package riyufuchi.marvus.dialogs.tools.names;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import riyufuchi.marvus.database.MarvusDatabase;
+import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
+
 /**
  * @author Riyufuchi
  * @since 03.12.2024
- * @version 03.12.2024
+ * @version 12.12.2024
  */
 public class RemoveEntityName extends EditEntityName
 {
-	public RemoveEntityName(JFrame parentFrame)
+	public RemoveEntityName(JFrame parentFrame, MarvusDatabase db)
 	{
-		super(parentFrame);
+		super(parentFrame, db);
 		setTitle("Remove Entity Name");
 		pack();
 	}
 
 	@Override
+	protected void createUI(JPanel panel)
+	{
+		super.createUI(panel);
+		categoryInput.setEnabled(false);
+	}
+	
+	@Override
 	protected void createInputs(JPanel panel)
 	{
-		super.createInputs(panel);
-		categoryInput.setEnabled(false);
 	}
 	
 	@Override
 	protected void onOK()
 	{
-		data = String.valueOf(categoriesCB.getSelectedIndex());
+		data = String.valueOf(SufuComponentTools.extractComboboxValue(categoriesCB).id());
 		closeDialog();
 	}
 }

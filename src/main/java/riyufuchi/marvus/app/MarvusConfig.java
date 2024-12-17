@@ -24,10 +24,13 @@ public class MarvusConfig
 	public static final String ENUM_FOLDER = "enums/";
 	public static final String MDB_EXT = ".marvusdb";
 	public static final String SETTINGS_FILE_PATH = workFolder + "config.conf";
-	public static final String NAME_FILE_PATH = workFolder + ENUM_FOLDER + "entityNames.csv";
+	public static final String NAME_FILE_PATH = workFolder + ENUM_FOLDER + "entities.csv";
 	public static final String CATEGORY_FILE_PATH = workFolder + ENUM_FOLDER + "categories.csv";
 	public static final String TRANSACTION_MACRO_FILE_PATH = workFolder + ENUM_FOLDER + "transactionMacros.csv";
+	// Tables
+	public static final String ENTITY_TABLE_PATH = workFolder + ENUM_FOLDER + "entities.marvusTable";
 	public static final String TRANSACTION_MACRO_TABLE_PATH = workFolder + ENUM_FOLDER + "transactionMacros.marvusTable";
+	public static final String CATEGORY_TABLE_PATH = workFolder + ENUM_FOLDER + "categories.marvusTable";
 	public static final FileNameExtensionFilter SER = new FileNameExtensionFilter(".ser", "ser");
 	public static final FileNameExtensionFilter CSV = new FileNameExtensionFilter(".csv", "csv");
 	public static final FileNameExtensionFilter XML = new FileNameExtensionFilter(".xml", "xml");

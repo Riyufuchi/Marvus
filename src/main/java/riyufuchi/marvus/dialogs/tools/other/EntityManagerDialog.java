@@ -8,6 +8,7 @@ import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.EntityManagerController;
 import riyufuchi.sufuLib.gui.SufuDialogGeneric;
+import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGridPane;
@@ -50,18 +51,19 @@ public class EntityManagerDialog extends SufuDialogGeneric<MarvusDataWindow>
 		addEntityBtn = SufuFactory.newButton("Add entity", evt -> controller.addEntityBtnEvt());
 		editEntityBtn = SufuFactory.newButton("Edit entity", evt -> controller.editEntityBtnEvt());
 		removeEntityBtn = SufuFactory.newButton("Remove entity", evt -> controller.removeEntityBtnEvt());
-		sortEntityBtn = SufuFactory.newButton("Sort entity", evt -> controller.sortEntityBtnEvt());
+		sortEntityBtn = SufuFactory.newButton("Sort entity", null);
 		
 		addCategoryBtn = SufuFactory.newButton("Add category", evt -> controller.addCategoryBtnEvt());
 		editCategoryBtn = SufuFactory.newButton("Edit category", evt -> controller.editCategoryBtnEvt());
-		removeCategoryBtn = SufuFactory.newButton("Remove category", evt -> SufuDialogHelper.notImplementedYetDialog(parentFrame));
-		sortCategoriesBtn = SufuFactory.newButton("Sort categories", evt -> controller.sortCategories());
+		removeCategoryBtn = SufuFactory.newButton("Remove category", evt -> controller.removeCategoryBtnEvt());
+		sortCategoriesBtn = SufuFactory.newButton("Sort categories", null);
 		
 		addMacroBtn = SufuFactory.newButton("Add macro", evt -> controller.addTransactionMacroBtnEvt());
 		editMacroBtn = SufuFactory.newButton("Edit macro", evt -> controller.editTransactionMacroBtnEvt());
 		removeMacroBtn = SufuFactory.newButton("Remove macro", evt -> controller.removeTransactionMacroBtnEvt());
 		sortMacroBtn = SufuFactory.newButton("Sort macro", null);
-		sortMacroBtn.setEnabled(false);
+		
+		SufuComponentTools.disableAll(sortEntityBtn, sortMacroBtn, sortCategoriesBtn, removeCategoryBtn, removeEntityBtn);
 		
 		SufuGuiTools.addComponents(buttonPane, 0, 0, addEntityBtn, editEntityBtn, removeEntityBtn, sortEntityBtn);
 		SufuGuiTools.addComponents(buttonPane, 1, 0, addCategoryBtn, editCategoryBtn, removeCategoryBtn, sortCategoriesBtn);
