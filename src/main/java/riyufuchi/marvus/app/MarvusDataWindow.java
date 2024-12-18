@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 08.12.2024
+ * @version 17.12.2024
  */
 public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
@@ -46,11 +46,17 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 		super("Marvus - " + MarvusTexts.VERSION, width, height, 800, 600, false, true, true);
 		setupJMenu();
 		this.controller = new TabController(this);
-		newTab(controller);
+		newTab(controller.getWorkFile().getName(), controller);
 		setTabChangeListener(e -> updateTabController(e));
 		if (MarvusConfig.autoLoadData)
+		{
+			controller.setWorkFile(MarvusConfig.defaultWorkFile);
 			if (!controller.quickOpenFile())
+			{
 				removeLastTab();
+				newTab(MarvusConfig.DEFAULT_WORK_FILE.getName(), new TabController(this));
+			}
+		}
 		URL iconURL = MarvusDataWindow.class.getClassLoader().getResource("riyufuchi/marvus/icon.png");
 		if (iconURL != null)
 			this.setIconImage(new ImageIcon(iconURL).getImage());
@@ -73,6 +79,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 			switch (item.getText())
 			{
 				// File
+				case "New" -> jmc.setItemAction(item, KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK, event -> newTab(MarvusConfig.DEFAULT_WORK_FILE.getName(), new TabController(this)));
 				case "Open" -> jmc.setItemAction(item, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickOpenFile());
 				case "Save" -> jmc.setItemAction(item, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK, event -> controller.quickSaveFile());
 				case "Save As..." -> jmc.setItemAction(item, KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK, event -> controller.saveDataToFile());
@@ -110,7 +117,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 		}
 		super.setJMenuBar(jmc.getJMenuBar());
 	}
-		
+	
 	// OnEvent
 	
 	@Override

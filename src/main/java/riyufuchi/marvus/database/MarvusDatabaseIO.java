@@ -48,7 +48,7 @@ public class MarvusDatabaseIO
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e1)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e1);
-			return new MarvusDatabaseTable<String>(restoreTable(MarvusConfig.NAME_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM));
+			return new MarvusDatabaseTable<String>(restoreTable(MarvusConfig.ENTITY_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM));
 		}
 	}
 	

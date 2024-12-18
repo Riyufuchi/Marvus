@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusConfig;
+import riyufuchi.marvus.database.MarvusConnection;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.tools.categories.AddCategory;
 import riyufuchi.marvus.dialogs.tools.categories.EditCategory;
@@ -62,7 +63,7 @@ public class EntityManagerController
 		if (name == null)
 			return;
 		String[] arr = name.split(";");
-		System.out.print(arr[1]);
+		new MarvusConnection(database).updateAtribbute("Name", database.entities.getByID(Integer.valueOf(arr[1])).get(), arr[0]);
 		if (database.entities.set(Integer.valueOf(arr[1]), arr[0]))
 			if (saveEntityNamesToFile())
 				SufuDialogHelper.informationDialog(parentFrame, "Entity name successfuly edited!", "Entity name operation");

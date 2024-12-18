@@ -20,10 +20,11 @@ import riyufuchi.marvusLib.records.MarvusRow;
  * @param <E> 
  * @author riyufuchi
  * @since 12.12.2024
- * @version 12.12.2024
+ * @version 18.12.2024
  */
 public class MarvusTableDB<K extends Serializable, E extends Serializable> implements ITableDB<K, E>, Serializable
 {
+	private static final long serialVersionUID = 2L;
 	protected Dictionary<K, E> data;
 	
 	public MarvusTableDB()

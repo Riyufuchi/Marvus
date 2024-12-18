@@ -17,10 +17,11 @@ import riyufuchi.marvusLib.records.Row;
  * @param <E>
  * @author riyufuchi
  * @since 10.12.2024
- * @version 10.12.2024
+ * @version 18.12.2024
  */
 public class MarvusDatabaseTable<E extends Serializable> implements IDatabase<E>, Serializable
 {
+	private static final long serialVersionUID = 1L;
 	private Dictionary<Integer, E> data;
 	private int id;
 	
@@ -88,5 +89,10 @@ public class MarvusDatabaseTable<E extends Serializable> implements IDatabase<E>
 	public List<E> getData()
 	{
 		return Collections.list(data.elements());
+	}
+	
+	public int getCount()
+	{
+		return data.size();
 	}
 }

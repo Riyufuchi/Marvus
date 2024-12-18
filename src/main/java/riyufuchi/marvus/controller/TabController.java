@@ -40,7 +40,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 12.12.2024
+ * @version 17.12.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -55,7 +55,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	
 	public TabController(MarvusDataWindow controledWindow)
 	{
-		this(controledWindow, MarvusConfig.defaultWorkFile);
+		this(controledWindow, MarvusConfig.DEFAULT_WORK_FILE);
 	}
 	
 	public TabController(MarvusDataWindow controledWindow, File file)
@@ -104,6 +104,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	
 	public void createBackup()
 	{
+		database.createBackup();
 		if(database.isEmpty())
 		{
 			SufuDialogHelper.warningDialog(controledWindow, "No data to backup", "Backup error");
@@ -308,6 +309,11 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	}
 	
 	// SETTERS
+	
+	public void setWorkFile(File file)
+	{
+		this.currentWorkFile = file;
+	}
 
 	public void setCurrentTab(DataDisplayTab tab)
 	{

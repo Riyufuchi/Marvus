@@ -25,11 +25,11 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @since 1.95 - 12.02.2024
- * @version 12.12.2024
+ * @version 18.12.2024
  */
 public class MarvusMainTable extends MarvusDataTable implements IDatabase<Transaction>
 {
-	private transient Consumer<String> errorHandler;
+	protected transient Consumer<String> errorHandler;
 	private transient Comparator<FinancialCategory> sorter;
 	
 	public MarvusMainTable()
@@ -109,15 +109,17 @@ public class MarvusMainTable extends MarvusDataTable implements IDatabase<Transa
 		return list;
 	}
 	
+	//TODO: Optimize this more
 	public YearOverview getYearOverview(int year)
 	{
-		BigDecimal[] income = new BigDecimal[12];
+		BigDecimal[] incomes = new BigDecimal[12];
 		BigDecimal[] spendings = new BigDecimal[12];
-		BigDecimal zero = new BigDecimal(0);
+		BigDecimal[] outcomes = new BigDecimal[12];
+		final BigDecimal ZERO = BigDecimal.ZERO;
 		int index = 0;
 		for (int i = 0; i < 12; i++)
 		{
-			income[i] = new BigDecimal(0);
+			incomes[i] = new BigDecimal(0);
 			spendings[i] = new BigDecimal(0);
 		}
 		for (Transaction t : this)
@@ -125,21 +127,23 @@ public class MarvusMainTable extends MarvusDataTable implements IDatabase<Transa
 			if (t.getDate().getYear() == year)
 			{
 				index = t.getDate().getMonthValue() - 1;
-				switch (t.getValue().compareTo(zero))
+				switch (t.getValue().compareTo(ZERO))
 				{
-					case 1 -> income[index] = income[index].add(t.getValue());
+					case 1 -> incomes[index] = incomes[index].add(t.getValue());
 					case -1 -> spendings[index] = spendings[index].add(t.getValue());
 					case 0 -> errorHandler.accept("Zero value detected for:\n" + t.getID() + " -> " + t.toString());
 				}
 			}
 		}
-		BigDecimal totalOutcome = new BigDecimal(0);
+		BigDecimal totalIncome = new BigDecimal(0);
+		BigDecimal totalSpendings = new BigDecimal(0);
 		for (int i = 0; i < 12; i++)
-		{
-			zero = zero.add(income[i]);
-			totalOutcome = totalOutcome.add(spendings[i]);
+		{	
+			totalIncome = totalIncome.add(incomes[i]);
+			totalSpendings = totalSpendings.add(spendings[i]);
+			outcomes[i] = incomes[i].add(spendings[i]);
 		}
-		return new YearOverview(year, income, spendings, zero, totalOutcome, zero.add(totalOutcome));
+		return new YearOverview(year, incomes, spendings, outcomes, totalIncome, totalSpendings, totalIncome.add(totalSpendings));
 	}
 	
 	@Deprecated

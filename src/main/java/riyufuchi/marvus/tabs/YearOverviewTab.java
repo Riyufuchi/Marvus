@@ -2,6 +2,7 @@ package riyufuchi.marvus.tabs;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.Month;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -12,6 +13,7 @@ import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
+import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
@@ -19,12 +21,13 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 12.12.2024
+ * @version 18.12.2024
  */
 public class YearOverviewTab extends DataDisplayTab
 {
 	private final int OFFSET = 5;
 	private final int NUM_OF_GENENERATED_COLUMNS = 13;
+	private final DecimalFormat DF = new DecimalFormat("0.00");
 	private LinkedList<YearOverview> yearOverviews;
 	private int yOffset;
 	private int year;
@@ -37,9 +40,62 @@ public class YearOverviewTab extends DataDisplayTab
 		this.yearOverviews = new LinkedList<>();
 		this.yearOverviews.add(null);
 		// UI
-		addMenuAndMenuItems(SufuFactory.newButton("Add table", evt -> addTable()));
+		addMenuAndMenuItems(SufuFactory.newButton("Add table", evt -> addTable()),
+				SufuFactory.newButton("Export to CSV", evt -> exportToCsv()));
 		addContentPanel();
 		buildTableHeader();
+	}
+	
+	private void exportToCsv()
+	{
+		YearOverview yo = yearOverviews.getFirst();
+		LinkedList<String> rows = new LinkedList<>();
+		rows.add(buildTableHeaderCsv(String.valueOf(yo.year())));
+		rows.add(formarRow("Income", yo.income()));
+		rows.add(formarRow("Spendings", yo.spendigs()));
+		rows.add(formarRow("Outcome", yo.outcomes()));
+		String path = "No file was selected.";
+		try
+		{
+			path = MarvusGuiUtils.pathSelector(targetWindow.getSelf());
+		}
+		catch (NoSuchElementException e)
+		{
+			SufuDialogHelper.errorDialog(targetWindow.getSelf(), path + "\nException detail: " + e.getLocalizedMessage(), e.getClass().getSimpleName());
+			return;
+		}
+		try
+		{
+			SufuPersistence.saveToCSVtoString(path, rows);
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(targetWindow.getSelf(), e);
+		}
+	}
+	
+	public String buildTableHeaderCsv(String year)
+	{
+		LinkedList<String> header = new LinkedList<>();
+		for (Month month : Month.values())
+		{
+			header.add(month.name()); // Add each month from the Month enum
+		}
+		StringBuilder result = new StringBuilder(year);
+		for (String s : header)
+			result.append(";").append(s);
+		
+		return result.toString();
+	}
+	
+	public String formarRow(String name, BigDecimal[] bgs)
+	{
+		StringBuilder result = new StringBuilder(name);
+		for (BigDecimal value : bgs)
+		{
+			result.append(";").append(value.abs().toPlainString());
+		}
+		return result.toString();
 	}
 	
 	private void addTable()
@@ -90,12 +146,12 @@ public class YearOverviewTab extends DataDisplayTab
 		int outcomeY = spendigsY + 1;
 		for (int x = baseX; x < NUM_OF_GENENERATED_COLUMNS; x++)
 		{
-			contentPanel.add(SufuFactory.newTextFieldHeader(income[xPos].toString()), contentPanel.getGBC(x, incomeY));
-			contentPanel.add(SufuFactory.newTextFieldHeader(spendings[xPos].toString()), contentPanel.getGBC(x, spendigsY));
-			contentPanel.add(SufuFactory.newTextFieldHeader((income[xPos].add(spendings[xPos]).toString())), contentPanel.getGBC(x, outcomeY)); // outcome is already negative
+			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(income[xPos])), contentPanel.getGBC(x, incomeY));
+			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(spendings[xPos])), contentPanel.getGBC(x, spendigsY));
+			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(income[xPos].add(spendings[xPos]))), contentPanel.getGBC(x, outcomeY)); // outcome is already negative
 			xPos++;
 		}
-		SufuTableTools.addColumnHeader(contentPanel, NUM_OF_GENENERATED_COLUMNS, ++baseY, yearOverview.totalIncome(), yearOverview.totalSpendings(), yearOverview.totalResult());
+		SufuTableTools.addColumnHeader(contentPanel, NUM_OF_GENENERATED_COLUMNS, ++baseY, DF.format(yearOverview.totalIncome()), DF.format(yearOverview.totalSpendings()), DF.format(yearOverview.totalResult()));
 	}
 	
 	// OVERRIDES
