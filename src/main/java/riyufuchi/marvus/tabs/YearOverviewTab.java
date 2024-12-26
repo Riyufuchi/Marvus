@@ -21,7 +21,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 18.12.2024
+ * @version 26.12.2024
  */
 public class YearOverviewTab extends DataDisplayTab
 {
@@ -46,13 +46,20 @@ public class YearOverviewTab extends DataDisplayTab
 		buildTableHeader();
 	}
 	
+	private BigDecimal[] absArr(BigDecimal[] arr)
+	{
+		for (int i = 0; i < arr.length; i++)
+			arr[i] = arr[i].abs();
+		return arr;
+	}
+	
 	private void exportToCsv()
 	{
 		YearOverview yo = yearOverviews.getFirst();
 		LinkedList<String> rows = new LinkedList<>();
 		rows.add(buildTableHeaderCsv(String.valueOf(yo.year())));
 		rows.add(formarRow("Income", yo.income()));
-		rows.add(formarRow("Spendings", yo.spendigs()));
+		rows.add(formarRow("Spendings", absArr(yo.spendigs())));
 		rows.add(formarRow("Outcome", yo.outcomes()));
 		String path = "No file was selected.";
 		try
@@ -93,7 +100,7 @@ public class YearOverviewTab extends DataDisplayTab
 		StringBuilder result = new StringBuilder(name);
 		for (BigDecimal value : bgs)
 		{
-			result.append(";").append(value.abs().toPlainString());
+			result.append(";").append(value.toPlainString());
 		}
 		return result.toString();
 	}
@@ -139,19 +146,22 @@ public class YearOverviewTab extends DataDisplayTab
 		}
 		BigDecimal[] income = yearOverview.income();
 		BigDecimal[] spendings = yearOverview.spendigs();
-		SufuTableTools.addColumnHeader(contentPanel, baseX++, baseY, String.valueOf(yearOverview.year()), "Income", "Spendings", "Outcome");
+		BigDecimal[] totals = yearOverview.totals();
+		SufuTableTools.addColumnHeader(contentPanel, baseX++, baseY, String.valueOf(yearOverview.year()), "Income", "Spendings", "Outcome", "Total");
 		int xPos = 0;
 		int incomeY = baseY + 1;
 		int spendigsY = incomeY + 1;
 		int outcomeY = spendigsY + 1;
+		int totalY = outcomeY + 1;
 		for (int x = baseX; x < NUM_OF_GENENERATED_COLUMNS; x++)
 		{
 			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(income[xPos])), contentPanel.getGBC(x, incomeY));
-			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(spendings[xPos])), contentPanel.getGBC(x, spendigsY));
-			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(income[xPos].add(spendings[xPos]))), contentPanel.getGBC(x, outcomeY)); // outcome is already negative
+			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(spendings[xPos].abs())), contentPanel.getGBC(x, spendigsY));
+			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(income[xPos].add(spendings[xPos]))), contentPanel.getGBC(x, outcomeY));
+			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(totals[xPos])), contentPanel.getGBC(x, totalY));
 			xPos++;
 		}
-		SufuTableTools.addColumnHeader(contentPanel, NUM_OF_GENENERATED_COLUMNS, ++baseY, DF.format(yearOverview.totalIncome()), DF.format(yearOverview.totalSpendings()), DF.format(yearOverview.totalResult()));
+		SufuTableTools.addColumnHeader(contentPanel, NUM_OF_GENENERATED_COLUMNS, ++baseY, DF.format(yearOverview.totalIncome()), DF.format(yearOverview.totalSpendings().abs()), DF.format(yearOverview.totalResult()));
 	}
 	
 	// OVERRIDES

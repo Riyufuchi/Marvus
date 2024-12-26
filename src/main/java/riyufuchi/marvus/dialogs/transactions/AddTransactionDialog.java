@@ -14,6 +14,7 @@ import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.data.Money;
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.marvusLib.database.MarvusTableUtils;
 import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
@@ -24,11 +25,11 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
- * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.<br><br>
+ * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 12.12.2024
+ * @version 24.12.2024
  */
 public class AddTransactionDialog extends SufuDialog
 {
@@ -52,8 +53,8 @@ public class AddTransactionDialog extends SufuDialog
 	protected void createUI(JPanel pane)
 	{
 		getGBC(0, 0).weightx = 1.0;
-		nameBox = SufuFactory.newCombobox(database.entities.getData());
-		categoryBox = SufuFactory.newCombobox(database.categories.getData());
+		nameBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.entities.getData()));
+		categoryBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.categories.getData()));
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
 		date = SufuFactory.newButton(SufuDateUtils.nowDateString(), evt -> {

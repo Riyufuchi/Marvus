@@ -115,6 +115,7 @@ public class MarvusMainTable extends MarvusDataTable implements IDatabase<Transa
 		BigDecimal[] incomes = new BigDecimal[12];
 		BigDecimal[] spendings = new BigDecimal[12];
 		BigDecimal[] outcomes = new BigDecimal[12];
+		BigDecimal[] totalOutcomes = new BigDecimal[12];
 		final BigDecimal ZERO = BigDecimal.ZERO;
 		int index = 0;
 		for (int i = 0; i < 12; i++)
@@ -137,13 +138,20 @@ public class MarvusMainTable extends MarvusDataTable implements IDatabase<Transa
 		}
 		BigDecimal totalIncome = new BigDecimal(0);
 		BigDecimal totalSpendings = new BigDecimal(0);
-		for (int i = 0; i < 12; i++)
+		int x = 1;
+		totalOutcomes[0] = incomes[0].add(spendings[0]);
+		outcomes[0] = totalOutcomes[0].add(BigDecimal.ZERO);
+		totalIncome = totalIncome.add(incomes[0]);
+		totalSpendings = totalSpendings.add(spendings[0]);
+		for (int i = 1; i < 12; i++)
 		{	
 			totalIncome = totalIncome.add(incomes[i]);
 			totalSpendings = totalSpendings.add(spendings[i]);
 			outcomes[i] = incomes[i].add(spendings[i]);
+			totalOutcomes[x] = totalOutcomes[x - 1].add(outcomes[i]);
+			x++;
 		}
-		return new YearOverview(year, incomes, spendings, outcomes, totalIncome, totalSpendings, totalIncome.add(totalSpendings));
+		return new YearOverview(year, incomes, spendings, outcomes, totalIncome, totalSpendings, totalIncome.add(totalSpendings), totalOutcomes);
 	}
 	
 	@Deprecated

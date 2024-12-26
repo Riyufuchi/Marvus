@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,13 +26,12 @@ import riyufuchi.marvusLib.dataUtils.TransactionTableModel;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 18.12.2024
+ * @version 24.12.2024
  */
 public class TableTab extends DataDisplayTab
 {
@@ -84,25 +84,24 @@ public class TableTab extends DataDisplayTab
 		});
 		this.entityManager = SufuFactory.newButton("Entity manager", evt -> { 
 			new EntityManagerDialog((MarvusDataWindow)targetWindow.getSelf()).showDialog();
-			boolean enabled = nameOptions.isEnabled();
-			int selectedIndex = nameOptions.getSelectedIndex();
-			nameOptions.setEnabled(false);
-			nameOptions.removeAllItems();
-			for (String item : MarvusTableUtils.selectOrdered(dataSource.entities.getData()))
-				nameOptions.addItem(item);
-			nameOptions.setEnabled(enabled);
-			nameOptions.setSelectedIndex(selectedIndex);
-			enabled = categoryOption.isEnabled();
-			categoryOption.setEnabled(false);
-			categoryOption.removeAllItems();
-			for (String item : MarvusTableUtils.selectOrdered(dataSource.categories.getData()))
-				categoryOption.addItem(item);
-			categoryOption.setEnabled(enabled);
-			
+			updateCB(nameOptions, dataSource.entities.getData());
+			updateCB(categoryOption, dataSource.categories.getData());
 		});
 		addMenuAndMenuItems(entityManager, b2, nameOptions, b4, categoryOption, valueFilterOptions, b5, dayOption, b1, showForMonth, b3, noteOptions);
 		masterPanel.simulateBorderLayout();
 		masterPanel.add(new JScrollPane(table), masterPanel.getGBC(0, 1));
+	}
+	
+	private void updateCB(JComboBox<String> cb, List<String> data)
+	{
+		boolean enabled = cb.isEnabled();
+		int selectedIndex = cb.getSelectedIndex();
+		cb.setEnabled(false);
+		cb.removeAllItems();
+		for (String item : MarvusTableUtils.selectOrdered(data))
+			cb.addItem(item);
+		cb.setEnabled(enabled);
+		cb.setSelectedIndex(selectedIndex);
 	}
 	
 	private void filterData()
@@ -154,9 +153,6 @@ public class TableTab extends DataDisplayTab
 			else if (valueFilterOptions.getSelectedIndex() == 2)
 				currDataSet.removeIf(t -> t.getValue().compareTo(BigDecimal.ZERO) >= 0);
 		}
-		
-		if (currDataSet.isEmpty())
-			SufuDialogHelper.informationDialog(targetWindow.getSelf(), "No data to display with current settings.", "Filtering result");
 	}
 	
 	private void checkBoxEvent(JComponent comp)
