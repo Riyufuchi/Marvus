@@ -17,7 +17,7 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
  * 
  * @author Riyufuchi
  * @since 12.12.2024
- * @version 12.12.2024
+ * @version 27.12.2024
  */
 public class MarvusDatabase extends MarvusMainTable
 {
@@ -44,9 +44,9 @@ public class MarvusDatabase extends MarvusMainTable
 	{
 		try
 		{
-			//if (categories.getCount() != 0)
+			if (categories.getCount() != 0)
 				SufuPersistence.saveToCSVtoString(MarvusConfig.CATEGORY_FILE_PATH, categories.getData());
-			//if (entities.getCount() != 0)
+			if (entities.getCount() != 0)
 				SufuPersistence.saveToCSVtoString(MarvusConfig.ENTITY_FILE_PATH, entities.getData());
 			SufuPersistence.saveToCSV(MarvusConfig.TRANSACTION_MACRO_FILE_PATH, macroTable.getData());
 		}

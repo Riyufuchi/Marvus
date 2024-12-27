@@ -4,20 +4,31 @@ import java.util.function.Consumer;
 
 import javax.swing.JFrame;
 
+import riyufuchi.marvus.app.MarvusConfig;
+import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.controller.TabController;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.sufuLib.gui.SufuFilePicker;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
  * @since 18.12.2023
- * @version 12.12.2024
+ * @version 27.12.2024
  */
 public class MarvusUtils
 {
 	private MarvusUtils() {}
+	
+	public static void createNewTab(MarvusDataWindow mdw)
+	{
+		SufuFilePicker sfp =  new SufuFilePicker(mdw, MarvusConfig.defaultWorkFile.getAbsolutePath());
+		sfp.setAcceptAllFileFilterUsed(false);
+		sfp.setFileFilters(MarvusConfig.MDB, MarvusConfig.CSV);
+		sfp.showFileCreator().ifPresent(file -> mdw.newTab(file.getName(), new TabController(mdw, file)));
+	}
 	
 	public static void fixCategory(JFrame frame, MarvusDatabase database)
 	{

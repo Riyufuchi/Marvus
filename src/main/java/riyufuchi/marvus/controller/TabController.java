@@ -40,7 +40,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 17.12.2024
+ * @version 27.12.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -134,11 +134,6 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		SufuDialogHelper.informationDialog(controledWindow, "Backup successfuly created", "Task successful");
 	}
 	
-	public void createNewTabAndFile()
-	{
-		//TODO: Create new tab with file
-	}
-	
 	public void quickSaveFile()
 	{
 		if (isOperationUnexucatable()) // Prevents accidental data deletion
@@ -203,7 +198,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		}
 		fi.setDataTo(this);
 		controledWindow.renameTab(currentWorkFile.getName());
-		if(!database.isEmpty())
+		if (!database.isEmpty())
 		{
 			MarvusConfig.currentFinancialYear = database.getByID(1).get().getDate().getYear();
 			financialYear = MarvusConfig.currentFinancialYear;

@@ -7,12 +7,14 @@ import java.time.Month;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
+import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
+import riyufuchi.sufuLib.gui.SufuFilePicker;
 import riyufuchi.sufuLib.records.SufuPair;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.general.SufuInterval;
@@ -23,7 +25,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 26.12.2024
+ * @version 27.12.2024
  */
 public class YearOverviewTab extends DataDisplayTab
 {
@@ -71,24 +73,21 @@ public class YearOverviewTab extends DataDisplayTab
 		rows.add(formarRow("Spendings", absArr(yo.spendigs())));
 		rows.add(formarRow("Outcome", yo.outcomes()));
 		rows.add(formarRow("Total", yo.totals()));
-		String path = "No file was selected.";
-		try
-		{
-			path = MarvusGuiUtils.pathSelector(targetWindow.getSelf());
-		}
-		catch (NoSuchElementException e)
-		{
-			SufuDialogHelper.errorDialog(targetWindow.getSelf(), path + "\nException detail: " + e.getLocalizedMessage(), e.getClass().getSimpleName());
-			return;
-		}
-		try
-		{
-			SufuPersistence.saveToCSVtoString(path, rows);
-		}
-		catch (NullPointerException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(targetWindow.getSelf(), e);
-		}
+		SufuFilePicker sfp =  new SufuFilePicker(targetWindow.getSelf(), MarvusConfig.defaultWorkFile.getAbsolutePath());
+		sfp.setAcceptAllFileFilterUsed(false);
+		sfp.setFileFilters(MarvusConfig.CSV);
+		sfp.showFileCreator().ifPresent(file -> {
+			try
+			{
+				SufuPersistence.saveToCSVtoString(file.getAbsolutePath(), rows);
+			}
+			catch (NullPointerException | IOException e)
+			{
+				SufuDialogHelper.exceptionDialog(targetWindow.getSelf(), e);
+				return;
+			}
+			SufuDialogHelper.informationDialog(targetWindow.getSelf(), "Table sucessfully exported into CSV", "CSV export");
+		});
 	}
 	
 	public String buildTableHeaderCsv(String year)
