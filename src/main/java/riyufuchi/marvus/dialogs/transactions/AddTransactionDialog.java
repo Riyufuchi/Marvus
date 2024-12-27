@@ -19,6 +19,7 @@ import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
 import riyufuchi.sufuLib.gui.SufuDialog;
+import riyufuchi.sufuLib.utils.general.SufuInputChecker;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
@@ -29,7 +30,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 24.12.2024
+ * @version 27.12.2024
  */
 public class AddTransactionDialog extends SufuDialog
 {
@@ -96,7 +97,8 @@ public class AddTransactionDialog extends SufuDialog
 	{
 		if (nameBox.getItemAt(nameBox.getSelectedIndex()).equals("Custom"))
 			database.entities.add(name.getText());
-		Transaction t = new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), money.getText(), date.getText(), note.getText());
+		Transaction t = new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), 
+				SufuInputChecker.checkDoubleFormat(money.getText()), currency.getText(), date.getText(), note.getText());
 		((MarvusDataWindow)parentFrame).getController().getDatabase().add(t);
 		((MarvusDataWindow)parentFrame).getController().refresh();
 		((MarvusDataWindow)parentFrame).getController().setLastAction(new LastChange(UserAction.ADD, t));

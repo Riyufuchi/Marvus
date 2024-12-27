@@ -13,7 +13,9 @@ import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
+import riyufuchi.sufuLib.records.SufuPair;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
+import riyufuchi.sufuLib.utils.general.SufuInterval;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
@@ -31,6 +33,7 @@ public class YearOverviewTab extends DataDisplayTab
 	private LinkedList<YearOverview> yearOverviews;
 	private int yOffset;
 	private int year;
+	private LinkedList<SufuPair<String, SufuInterval<BigDecimal>>> intervals;
 	
 	public YearOverviewTab(MarvusTabbedFrame targetWindow, int year)
 	{
@@ -39,6 +42,12 @@ public class YearOverviewTab extends DataDisplayTab
 		this.year = year;
 		this.yearOverviews = new LinkedList<>();
 		this.yearOverviews.add(null);
+		this.intervals = new LinkedList<>();
+		this.intervals.add(new SufuPair<>("Very Good", new SufuInterval<>(new BigDecimal(10000), null)));
+		this.intervals.add(new SufuPair<>("Good", new SufuInterval<>(new BigDecimal(5000), new BigDecimal(9999))));
+		this.intervals.add(new SufuPair<>("OK", new SufuInterval<>(new BigDecimal(2500), new BigDecimal(4999))));
+		this.intervals.add(new SufuPair<>("Bad", new SufuInterval<>(new BigDecimal(500), new BigDecimal(2499))));
+		this.intervals.add(new SufuPair<>("Very Bad", new SufuInterval<>(null, new BigDecimal(499))));
 		// UI
 		addMenuAndMenuItems(SufuFactory.newButton("Add table", evt -> addTable()),
 				SufuFactory.newButton("Export to CSV", evt -> exportToCsv()));
@@ -61,6 +70,7 @@ public class YearOverviewTab extends DataDisplayTab
 		rows.add(formarRow("Income", yo.income()));
 		rows.add(formarRow("Spendings", absArr(yo.spendigs())));
 		rows.add(formarRow("Outcome", yo.outcomes()));
+		rows.add(formarRow("Total", yo.totals()));
 		String path = "No file was selected.";
 		try
 		{
@@ -149,10 +159,10 @@ public class YearOverviewTab extends DataDisplayTab
 		BigDecimal[] totals = yearOverview.totals();
 		SufuTableTools.addColumnHeader(contentPanel, baseX++, baseY, String.valueOf(yearOverview.year()), "Income", "Spendings", "Outcome", "Total");
 		int xPos = 0;
-		int incomeY = baseY + 1;
-		int spendigsY = incomeY + 1;
-		int outcomeY = spendigsY + 1;
-		int totalY = outcomeY + 1;
+		final int incomeY = baseY + 1;
+		final int spendigsY = incomeY + 1;
+		final int outcomeY = spendigsY + 1;
+		final int totalY = outcomeY + 1;
 		for (int x = baseX; x < NUM_OF_GENENERATED_COLUMNS; x++)
 		{
 			contentPanel.add(SufuFactory.newTextFieldHeader(DF.format(income[xPos])), contentPanel.getGBC(x, incomeY));
@@ -162,6 +172,14 @@ public class YearOverviewTab extends DataDisplayTab
 			xPos++;
 		}
 		SufuTableTools.addColumnHeader(contentPanel, NUM_OF_GENENERATED_COLUMNS, ++baseY, DF.format(yearOverview.totalIncome()), DF.format(yearOverview.totalSpendings().abs()), DF.format(yearOverview.totalResult()));
+		for (SufuPair<String, SufuInterval<BigDecimal>> pair : intervals)
+		{	
+			if (pair.item().isIn(yearOverview.totalResult()))
+			{
+				contentPanel.add(SufuFactory.newTextFieldHeader(pair.index()), contentPanel.getGBC(NUM_OF_GENENERATED_COLUMNS, totalY));
+				break;
+			}
+		}
 	}
 	
 	// OVERRIDES

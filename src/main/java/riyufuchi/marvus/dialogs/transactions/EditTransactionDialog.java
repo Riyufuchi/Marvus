@@ -27,6 +27,7 @@ public class EditTransactionDialog extends AddTransactionDialog
 		this.transaction = transaction;
 		prefillComponents();
 		setTitle("Edit transaction " + transaction.getID());
+		pack();
 	}
 
 	private void prefillComponents()

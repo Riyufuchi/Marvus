@@ -25,7 +25,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @since 1.95 - 12.02.2024
- * @version 18.12.2024
+ * @version 26.12.2024
  */
 public class MarvusMainTable extends MarvusDataTable implements IDatabase<Transaction>
 {
