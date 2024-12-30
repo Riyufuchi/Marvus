@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.dataUtils;
+package riyufuchi.marvus.legacy.utils;
 
 import static org.junit.Assert.*;
 

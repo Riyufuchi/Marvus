@@ -13,7 +13,7 @@ import javax.swing.border.LineBorder;
 
 import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.utils.ComponentParts;
-import riyufuchi.marvusLib.dataUtils.MoneyCalculations;
+import riyufuchi.marvus.legacy.utils.MoneyCalculations;
 import riyufuchi.sufuLib.config.SufuLibFonts;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
@@ -23,10 +23,9 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
- * Created On: 20.04.2022<br>
- * Last Edit: 24.09.2023
- * 
  * @author Riyufuchi
+ * @since 20.04.2022
+ * @version 30.12.2024
  */
 public class Counter extends SufuWindow
 {

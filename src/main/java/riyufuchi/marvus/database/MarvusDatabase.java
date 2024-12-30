@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvusLib.database.MarvusDatabaseTable;
 import riyufuchi.marvusLib.database.MarvusMainTable;
-import riyufuchi.marvusLib.database.MarvusTableDB;
 import riyufuchi.marvusLib.records.TransactionMacro;
+import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
 /**
@@ -22,7 +22,7 @@ import riyufuchi.sufuLib.utils.files.SufuPersistence;
 public class MarvusDatabase extends MarvusMainTable
 {
 	private MarvusDatabaseIO mdbio;
-	public MarvusTableDB<String, TransactionMacro> macroTable;
+	public SufuTableDB<String, TransactionMacro> macroTable;
 	public MarvusDatabaseTable<String> entities;
 	public MarvusDatabaseTable<String> categories;
 	

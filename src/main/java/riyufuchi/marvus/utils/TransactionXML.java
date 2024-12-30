@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.dataUtils;
+package riyufuchi.marvus.utils;
 
 import java.io.File;
 import java.io.FileInputStream;

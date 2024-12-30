@@ -14,7 +14,7 @@ import riyufuchi.marvus.dialogs.tools.other.PreferencesDialog;
 import riyufuchi.marvus.interfaces.MarvusFrame;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
-import riyufuchi.marvusLib.dataUtils.TransactionCalculations;
+import riyufuchi.marvusLib.dataCalculations.TransactionCalculations;
 import riyufuchi.sufuLib.gui.SufuWindowTabbedGeneric;
 import riyufuchi.sufuLib.interfaces.Fullscreenable;
 import riyufuchi.sufuLib.lib.Lib;

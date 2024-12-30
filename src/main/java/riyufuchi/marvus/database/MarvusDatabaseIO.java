@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDefaultTableValues;
 import riyufuchi.marvusLib.database.MarvusDatabaseTable;
-import riyufuchi.marvusLib.database.MarvusTableDB;
 import riyufuchi.marvusLib.records.TransactionMacro;
+import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.utils.files.SufuFileHelper;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -70,16 +70,16 @@ public class MarvusDatabaseIO
 	
 	// Macros
 	
-	public MarvusTableDB<String, TransactionMacro> loadTransactionMacroTable()
+	public SufuTableDB<String, TransactionMacro> loadTransactionMacroTable()
 	{
 		try
 		{
-			return SufuPersistence.<MarvusTableDB<String, TransactionMacro>>deserialize(MarvusConfig.TRANSACTION_MACRO_TABLE_PATH).getFirst();
+			return SufuPersistence.<SufuTableDB<String, TransactionMacro>>deserialize(MarvusConfig.TRANSACTION_MACRO_TABLE_PATH).getFirst();
 		}
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e1)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e1);
-			return new MarvusTableDB<>(restoreTransactionMacro(), e -> { return e.name(); });
+			return new SufuTableDB<>(restoreTransactionMacro(), e -> { return e.name(); });
 		}
 	}
 	

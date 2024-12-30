@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.TabController;
-import riyufuchi.marvusLib.io.MarvusIO;
+import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.sufuLib.gui.SufuFileChooserGeneric;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 

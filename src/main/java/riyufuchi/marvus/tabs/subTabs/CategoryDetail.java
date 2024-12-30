@@ -9,8 +9,8 @@ import javax.swing.JButton;
 
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.DataDisplayTab;
-import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.marvusLib.dataUtils.FinancialCategory;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;

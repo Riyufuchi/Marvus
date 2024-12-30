@@ -15,8 +15,8 @@ import riyufuchi.marvus.dialogs.tools.macro.EditTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.names.AddEntityName;
 import riyufuchi.marvus.dialogs.tools.names.EditEntityName;
 import riyufuchi.marvus.dialogs.tools.names.RemoveEntityName;
-import riyufuchi.marvusLib.records.Row;
 import riyufuchi.marvusLib.records.TransactionMacro;
+import riyufuchi.sufuLib.records.SufuSimpleRow;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
@@ -97,7 +97,7 @@ public class EntityManagerController
 	
 	public void addCategoryBtnEvt()
 	{
-		Row<String> categories = new AddCategory(parentFrame, database).showAndGet();
+		SufuSimpleRow<String> categories = new AddCategory(parentFrame, database).showAndGet();
 		if (categories == null)
 			return;
 		database.categories.add(categories.entity());
@@ -108,7 +108,7 @@ public class EntityManagerController
 	
 	public void editCategoryBtnEvt()
 	{
-		Row<String> categories = new EditCategory(parentFrame, database).showAndGet();
+		SufuSimpleRow<String> categories = new EditCategory(parentFrame, database).showAndGet();
 		if (categories == null)
 			return;
 		database.categories.set(categories.id(), categories.entity());
@@ -118,7 +118,7 @@ public class EntityManagerController
 	
 	public void removeCategoryBtnEvt()
 	{
-		Row<String> category = new EditCategory(parentFrame, database).showAndGet();
+		SufuSimpleRow<String> category = new EditCategory(parentFrame, database).showAndGet();
 		if (category == null)
 			return;
 		if (SufuDialogHelper.booleanDialog(parentFrame, "Delete: " + category.entity(), "Are you sure?"))

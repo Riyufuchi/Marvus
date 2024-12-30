@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
-import riyufuchi.marvusLib.io.MarvusIO;
+import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
 import riyufuchi.sufuLib.gui.SufuFilePicker;
 import riyufuchi.sufuLib.records.SufuPair;

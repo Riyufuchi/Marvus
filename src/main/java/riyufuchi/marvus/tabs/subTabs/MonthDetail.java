@@ -2,8 +2,8 @@ package riyufuchi.marvus.tabs.subTabs;
 
 import javax.swing.JPanel;
 
-import riyufuchi.marvusLib.data.FinancialCategory;
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.marvusLib.dataUtils.FinancialCategory;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.DataDisplayTab;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;

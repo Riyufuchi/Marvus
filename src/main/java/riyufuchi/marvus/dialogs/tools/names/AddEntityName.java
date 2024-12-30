@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.database.MarvusDatabase;
-import riyufuchi.marvusLib.records.Row;
 import riyufuchi.sufuLib.gui.SufuDataDialog;
+import riyufuchi.sufuLib.records.SufuSimpleRow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
@@ -18,7 +18,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
  */
 public class AddEntityName extends SufuDataDialog<String>
 {
-	protected JComboBox<Row<String>> categoriesCB;
+	protected JComboBox<SufuSimpleRow<String>> categoriesCB;
 	protected JTextField categoryInput;
 	protected MarvusDatabase database;
 	

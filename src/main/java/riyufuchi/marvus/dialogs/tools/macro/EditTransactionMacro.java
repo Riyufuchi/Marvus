@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
-import riyufuchi.marvusLib.records.MarvusRow;
+import riyufuchi.sufuLib.records.SufuRowDB;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
@@ -18,15 +18,15 @@ import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
  */
 public class EditTransactionMacro extends AddTransactionMacro
 {
-	protected LinkedList<MarvusRow<String, TransactionMacro>> rows;
-	protected MarvusRow<String, TransactionMacro> selectedRow;
+	protected LinkedList<SufuRowDB<String, TransactionMacro>> rows;
+	protected SufuRowDB<String, TransactionMacro> selectedRow;
 	
 	public EditTransactionMacro(JFrame parentFrame, MarvusDatabase database)
 	{
 		super(parentFrame, database);
 		this.setTitle("Edit Transaction Macro");
 		this.rows = MarvusTableUtils.selectMacroOrdered(database.macroTable);
-		for (MarvusRow<String, TransactionMacro> row : rows)
+		for (SufuRowDB<String, TransactionMacro> row : rows)
 			existingMacros.addItem(row.entity().name());
 		this.existingMacros.setSelectedIndex(0);
 		pack();
@@ -38,7 +38,7 @@ public class EditTransactionMacro extends AddTransactionMacro
 		existingMacros.removeAllItems();
 		existingMacros.addActionListener(evt -> {
 			database.macroTable.getByID(SufuComponentTools.extractComboboxValue(existingMacros)).ifPresent(row -> {
-				selectedRow = new MarvusRow<>(row.name(), row);
+				selectedRow = new SufuRowDB<>(row.name(), row);
 				name.setText(row.name());
 				SufuComponentTools.setSelectedItemGeneric(category, row.category());
 				value.setText(row.value());

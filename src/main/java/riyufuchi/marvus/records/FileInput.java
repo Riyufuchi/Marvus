@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.records;
+package riyufuchi.marvus.records;
 
 import java.util.LinkedList;
 

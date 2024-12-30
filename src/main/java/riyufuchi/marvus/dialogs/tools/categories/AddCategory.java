@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.database.MarvusDatabase;
-import riyufuchi.marvusLib.records.Row;
 import riyufuchi.sufuLib.gui.SufuDataDialog;
+import riyufuchi.sufuLib.records.SufuSimpleRow;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
@@ -16,9 +16,9 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
  * @since 1.97 - 12.10.2023
  * @version 24.12.2024
  */
-public class AddCategory extends SufuDataDialog<Row<String>>
+public class AddCategory extends SufuDataDialog<SufuSimpleRow<String>>
 {
-	protected JComboBox<Row<String>> categoriesCB;
+	protected JComboBox<SufuSimpleRow<String>> categoriesCB;
 	protected JTextField categoryInput;
 	protected MarvusDatabase database;
 	
@@ -49,7 +49,7 @@ public class AddCategory extends SufuDataDialog<Row<String>>
 	{
 		if (categoryInput.getText().isBlank())
 			return;
-		data = new Row<String>(-1, categoryInput.getText());
+		data = new SufuSimpleRow<String>(-1, categoryInput.getText());
 		closeDialog();
 	}
 }

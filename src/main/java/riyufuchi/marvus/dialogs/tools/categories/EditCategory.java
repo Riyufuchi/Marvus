@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.database.MarvusDatabase;
-import riyufuchi.marvusLib.records.Row;
+import riyufuchi.sufuLib.records.SufuSimpleRow;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
@@ -38,7 +38,7 @@ public class EditCategory extends AddCategory
 	{
 		if (categoryInput.getText().isBlank())
 			return;
-		data = new Row<>(SufuComponentTools.extractComboboxValue(categoriesCB).id(), categoryInput.getText());
+		data = new SufuSimpleRow<>(SufuComponentTools.extractComboboxValue(categoriesCB).id(), categoryInput.getText());
 		closeDialog();
 	}
 }
