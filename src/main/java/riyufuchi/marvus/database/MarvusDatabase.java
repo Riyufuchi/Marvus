@@ -12,12 +12,13 @@ import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
 
+
 /**
  * This class doesn't represent actual connection to database, just "simulates" it
  * 
  * @author Riyufuchi
  * @since 12.12.2024
- * @version 27.12.2024
+ * @version 30.12.2024
  */
 public class MarvusDatabase extends MarvusMainTable
 {

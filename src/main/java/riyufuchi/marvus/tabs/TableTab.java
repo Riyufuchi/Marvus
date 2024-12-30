@@ -30,7 +30,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 24.12.2024
+ * @version 30.12.2024
  */
 public class TableTab extends DataDisplayTab
 {
@@ -134,7 +134,11 @@ public class TableTab extends DataDisplayTab
 		if (categoryOption.isEnabled())
 		{
 			string = SufuComponentTools.<String>extractComboboxValue(categoryOption);
-			currDataSet.removeIf(t -> !t.getCategory().equals(string));
+			if (string.equals("Custom"))
+				for (String name : dataSource.categories.getData())
+					currDataSet.removeIf(t -> t.getCategory().equals(name));
+			else
+				currDataSet.removeIf(t -> !t.getCategory().equals(string));
 		}
 
 		if (noteOptions.isEnabled())
