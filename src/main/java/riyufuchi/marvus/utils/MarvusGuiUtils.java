@@ -37,11 +37,13 @@ public final class MarvusGuiUtils
 		return fio;
 	}
 	
+	@Deprecated
 	public static String pathSelector(JFrame parentFrame) throws NoSuchElementException
 	{
 		return new SufuFilePicker(parentFrame, MarvusConfig.defaultWorkFile.getAbsolutePath()).showFilePicker().orElseThrow().getPath();
 	}
 	
+	@Deprecated
 	public static File fileSelector(JFrame parentFrame) throws NoSuchElementException
 	{
 		return new SufuFilePicker(parentFrame, MarvusConfig.defaultWorkFile.getAbsolutePath()).showFilePicker().orElseThrow();

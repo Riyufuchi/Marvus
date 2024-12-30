@@ -7,11 +7,10 @@ import java.util.LinkedList;
 
 import javax.swing.JButton;
 
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.subTabs.CategoryDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.FinancialCategory;
-import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 

@@ -1,4 +1,4 @@
-package riyufuchi.marvusLib.abstractClasses;
+package riyufuchi.marvus.tabs;
 
 import java.awt.event.MouseEvent;
 
@@ -9,8 +9,8 @@ import javax.swing.SwingUtilities;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.transactions.EditTransactionDialog;
 import riyufuchi.marvus.dialogs.transactions.RemoveTransactionDialog;
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 

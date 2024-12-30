@@ -5,13 +5,10 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.Month;
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.database.MarvusDatabase;
-import riyufuchi.marvus.utils.MarvusGuiUtils;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
-import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
 import riyufuchi.sufuLib.gui.SufuFilePicker;
@@ -25,13 +22,13 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 27.12.2024
+ * @version 30.12.2024
  */
 public class YearOverviewTab extends DataDisplayTab
 {
-	private final int OFFSET = 5;
-	private final int NUM_OF_GENENERATED_COLUMNS = 13;
-	private final DecimalFormat DF = new DecimalFormat("0.00");
+	private final int OFFSET;
+	private final int NUM_OF_GENENERATED_COLUMNS;
+	private final DecimalFormat DF;
 	private LinkedList<YearOverview> yearOverviews;
 	private int yOffset;
 	private int year;
@@ -40,6 +37,10 @@ public class YearOverviewTab extends DataDisplayTab
 	public YearOverviewTab(MarvusTabbedFrame targetWindow, int year)
 	{
 		super(targetWindow);
+		this.OFFSET = 5;
+		this.NUM_OF_GENENERATED_COLUMNS = 13;
+		this.DF = new DecimalFormat("0.00");
+		// Variables
 		this.yOffset = 0;
 		this.year = year;
 		this.yearOverviews = new LinkedList<>();
@@ -92,15 +93,9 @@ public class YearOverviewTab extends DataDisplayTab
 	
 	public String buildTableHeaderCsv(String year)
 	{
-		LinkedList<String> header = new LinkedList<>();
-		for (Month month : Month.values())
-		{
-			header.add(month.name()); // Add each month from the Month enum
-		}
 		StringBuilder result = new StringBuilder(year);
-		for (String s : header)
-			result.append(";").append(s);
-		
+		for (Month month : Month.values())
+			result.append(";").append(month.name()); // Add each month from the Month enum
 		return result.toString();
 	}
 	
@@ -108,36 +103,27 @@ public class YearOverviewTab extends DataDisplayTab
 	{
 		StringBuilder result = new StringBuilder(name);
 		for (BigDecimal value : bgs)
-		{
 			result.append(";").append(value.toPlainString());
-		}
 		return result.toString();
 	}
 	
 	private void addTable()
 	{
-		String path = "No file was selected.";
-		try
-		{
-			path = MarvusGuiUtils.pathSelector(targetWindow.getSelf());
-		}
-		catch (NoSuchElementException e)
-		{
-			SufuDialogHelper.errorDialog(targetWindow.getSelf(), path + "\nException detail: " + e.getLocalizedMessage(), e.getClass().getSimpleName());
-			return;
-		}
-		MarvusDatabase db = null;
-		try
-		{
-			db = MarvusIO.inputFile(path).convertDataToDB();
-		}
-		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e)
-		{
-			SufuDialogHelper.exceptionDialog(targetWindow.getSelf(), e);
-			return;
-		}
-		yearOverviews.add(db.getYearOverview(db.assumeYear()));
-		targetWindow.refresh();
+		SufuFilePicker sfp =  new SufuFilePicker(targetWindow.getSelf(), MarvusConfig.defaultWorkFile.getAbsolutePath());
+		sfp.showFilePicker().ifPresent(file -> {
+			MarvusDatabase db = null;
+			try
+			{
+				db = MarvusIO.inputFile(file.getAbsolutePath()).convertDataToDB();
+			}
+			catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e)
+			{
+				SufuDialogHelper.exceptionDialog(targetWindow.getSelf(), e);
+				return;
+			}
+			yearOverviews.add(db.getYearOverview(db.assumeYear()));
+			targetWindow.refresh();
+		});
 	}
 	
 	private void buildTableHeader()

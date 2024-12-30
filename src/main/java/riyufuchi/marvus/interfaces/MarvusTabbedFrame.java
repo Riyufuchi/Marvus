@@ -1,6 +1,6 @@
-package riyufuchi.marvusLib.interfaces;
+package riyufuchi.marvus.interfaces;
 
-import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
+import riyufuchi.marvus.tabs.DataDisplayTab;
 
 /**
  * This interface is for windows/controllers, that will display data using tools provided by <i>MarvusLib</i>

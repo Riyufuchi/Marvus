@@ -15,7 +15,9 @@ import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
 import riyufuchi.marvus.dialogs.transactions.AddTransactionDialog;
 import riyufuchi.marvus.interfaces.IMarvusController;
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.CategorizedMonthListTab;
+import riyufuchi.marvus.tabs.DataDisplayTab;
 import riyufuchi.marvus.tabs.DataSummaryTab;
 import riyufuchi.marvus.tabs.TableTab;
 import riyufuchi.marvus.tabs.TimedDetailTab;
@@ -23,12 +25,10 @@ import riyufuchi.marvus.tabs.UncategorizedMonthListTab;
 import riyufuchi.marvus.tabs.YearOverviewTab;
 import riyufuchi.marvus.tabs.YearSummaryTab;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvusLib.enums.UserAction;
-import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.io.MarvusIO;
 import riyufuchi.marvusLib.records.FileInput;
 import riyufuchi.marvusLib.records.LastChange;
@@ -40,7 +40,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 27.12.2024
+ * @version 28.12.2024
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -198,11 +198,10 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		}
 		fi.setDataTo(this);
 		controledWindow.renameTab(currentWorkFile.getName());
-		if (!database.isEmpty())
-		{
-			MarvusConfig.currentFinancialYear = database.getByID(1).get().getDate().getYear();
+		database.getByID(1).ifPresent(transaction -> {
+			MarvusConfig.currentFinancialYear = transaction.getDate().getYear();
 			financialYear = MarvusConfig.currentFinancialYear;
-		}
+		});
 		displayData();
 		quickOpened = true;
 		return true;

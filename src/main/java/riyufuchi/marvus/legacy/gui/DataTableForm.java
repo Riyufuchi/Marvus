@@ -13,12 +13,12 @@ import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.controller.TabController;
 import riyufuchi.marvus.dialogs.tools.other.PreferencesDialog;
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.tabs.MoneySummaryOverview;
 import riyufuchi.marvus.legacy.utils.MarvusLegacyHelper;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
+import riyufuchi.marvus.tabs.DataDisplayTab;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
-import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;
 import riyufuchi.sufuLib.lib.Lib;
@@ -28,7 +28,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 /**
  * @author Riyufuchi
  * @since 11.04.2022
- * @version 07.12.2024
+ * @version 30.12.2024
  */
 @SuppressWarnings("deprecation")
 public final class DataTableForm extends SufuWindow implements MarvusTabbedFrame

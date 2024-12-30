@@ -3,9 +3,9 @@ package riyufuchi.marvus.tabs.subTabs;
 import java.util.LinkedList;
 
 import riyufuchi.marvus.app.MarvusTexts;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
+import riyufuchi.marvus.tabs.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 

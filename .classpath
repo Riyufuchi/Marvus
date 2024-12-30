@@ -25,6 +25,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/home/riyufuchi/Documents/workspace-java/SufuLib/SufuLib.jar"/>
+	<classpathentry kind="lib" path="/home/riyufuchi/Documents/workspace-java/MarvusLib/MarvusLib.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/SufuLib"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MarvusLib"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

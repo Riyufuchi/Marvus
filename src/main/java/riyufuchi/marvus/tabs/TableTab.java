@@ -20,11 +20,10 @@ import javax.swing.table.TableRowSorter;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.dialogs.tools.other.EntityManagerDialog;
-import riyufuchi.marvusLib.abstractClasses.DataDisplayTab;
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.dataUtils.TransactionTableModel;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
-import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
+import riyufuchi.marvusLib.database.TransactionTableModel;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 

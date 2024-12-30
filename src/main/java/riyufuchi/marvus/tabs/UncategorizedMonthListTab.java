@@ -2,8 +2,8 @@ package riyufuchi.marvus.tabs;
 
 import java.time.Month;
 
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.subTabs.TableDetail;
-import riyufuchi.marvusLib.interfaces.MarvusTabbedFrame;
 
 /**
  * Uncategorized month list originally called CategorizedMonthOverview
