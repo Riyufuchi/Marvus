@@ -21,7 +21,7 @@ import riyufuchi.marvus.tabs.DataDisplayTab;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;
-import riyufuchi.sufuLib.lib.Lib;
+import riyufuchi.sufuLib.lib.SufuLib;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
@@ -34,7 +34,7 @@ import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 public final class DataTableForm extends SufuWindow implements MarvusTabbedFrame
 {
 	public static final String VERSION = "1.22";
-	public static final String VERSION_LEGACY = "0.8";
+	public static final String VERSION_LEGACY = "0.9";
 	private static final String TITLE = String.format("Marvus - %s - %s (Legacy)", VERSION, VERSION_LEGACY);
 	private MarvusDataBox<MoneySum> dataBox;
 	private DataDisplayTab mso;
@@ -102,7 +102,7 @@ public final class DataTableForm extends SufuWindow implements MarvusTabbedFrame
 			switch (jmc.getItemName(i))
 			{
 				case "About" -> jmc.setItemAction(i, event -> about());
-				case "About SufuLib" -> jmc.setItemAction(i, event -> Lib.aboutGUI(this));
+				case "About SufuLib" -> jmc.setItemAction(i, event -> SufuLib.INFO.aboutGUI(this));
 				case "Exit" -> jmc.setItemAction(i, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK, event -> onClose());
 				case "Export"-> jmc.setItemAction(i,event -> exportData());
 				case "Import" -> jmc.setItemAction(i, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK, event -> importData());

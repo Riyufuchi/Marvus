@@ -15,9 +15,9 @@ import riyufuchi.marvus.interfaces.MarvusFrame;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvusLib.dataCalculations.TransactionCalculations;
+import riyufuchi.marvusLib.lib.MarvusLib;
 import riyufuchi.sufuLib.gui.SufuWindowTabbedGeneric;
 import riyufuchi.sufuLib.interfaces.Fullscreenable;
-import riyufuchi.sufuLib.lib.Lib;
 import riyufuchi.sufuLib.lib.SufuAppTools;
 import riyufuchi.sufuLib.lib.SufuLib;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 27.12.2024
+ * @version 30.12.2024
  */
 public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
@@ -110,7 +110,8 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 				case "Fullscreen" -> jmc.setItemAction(item, KeyEvent.VK_F11, event -> Marvus.fullScreen());
 				// Help
 				case "About" -> jmc.setItemAction(item, event -> MarvusUtils.aboutMarvus(this));
-				case "About SufuLib" -> jmc.setItemAction(item, event -> Lib.aboutGUI(this));
+				case "About SufuLib" -> jmc.setItemAction(item, event -> SufuLib.INFO.aboutGUI(this));
+				case "About MarvusLib" -> jmc.setItemAction(item, event -> MarvusLib.INFO.aboutGUI(this));
 				case "License" -> jmc.setItemAction(item, event -> SufuAppTools.licenseGUI(this, "/LICENSE.TXT"));
 				default -> jmc.setItemAction(item, event -> SufuLib.functionalityNotYetImplementedDialog(this));
 			}
