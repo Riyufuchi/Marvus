@@ -2,7 +2,7 @@ package riyufuchi.marvus.app;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.5.8";
+	public static final String VERSION = "2.5.9";
 	public static final String APP_NAME =  "Marvus - " + VERSION;
 	// MENU BAR
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Legacy", "Window", "Help"};
@@ -19,7 +19,7 @@ public class MarvusTexts
 	public static final String[] GROUP_BY_TIME_DETAIL = {"Name", "Category"}; 
 	// OTHER
 	public static final String ABOUT_MARVUS = "<html>This is finance manager.<br>"
-			+ "Version: " + VERSION + "<br>Created by Riyufuchi © 2021 - 2024."
+			+ "Version: " + VERSION + "<br>Created by Riyufuchi © 2021 - 2025."
 			+ "<br>My code is under respective license.</html>";
 	// DIALOG TEXTS
 	public static final String[] DATE_FORMAT_OPTIONS = {"dd.MM.yyyy", "MM.dd.yyyy"};

@@ -113,7 +113,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 				case "About SufuLib" -> jmc.setItemAction(item, event -> SufuLib.INFO.aboutGUI(this));
 				case "About MarvusLib" -> jmc.setItemAction(item, event -> MarvusLib.INFO.aboutGUI(this));
 				case "License" -> jmc.setItemAction(item, event -> SufuAppTools.licenseGUI(this, "/LICENSE.TXT"));
-				default -> jmc.setItemAction(item, event -> SufuLib.functionalityNotYetImplementedDialog(this));
+				default -> jmc.setItemAction(item, event -> SufuDialogHelper.functionalityNotYetImplementedDialog(this));
 			}
 		}
 		super.setJMenuBar(jmc.getJMenuBar());

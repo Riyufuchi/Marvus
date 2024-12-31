@@ -50,24 +50,11 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 	private boolean writeValue, writeDate, writeName, writeNote, writeCategory, writeCurrency;
 	private LinkedList<Transaction> list;
 	
-	/*
-	public TransactionXML(String path, String mainElement, String subElement)
-	{
-		this.xof = XMLOutputFactory.newInstance();
-		this.xsw = null;
-		this.path = path;
-		this.mainElement = mainElement;
-		this.subElement = subElement;
-		init();
-	}*/
-	
 	public TransactionXML(String path)
 	{
 		this.xof = XMLOutputFactory.newInstance();
 		this.xsw = null;
 		this.path = path;
-		//this.mainElement = MarvusConfig.MAIN_ELEMENT;
-		//this.subElement = MarvusConfig.SUB_ELEMENT;
 		init();
 	}
 	
@@ -174,52 +161,6 @@ public class TransactionXML extends org.xml.sax.helpers.DefaultHandler
 			SufuDialogHelper.exceptionDialog(null, e);
 		}
 	}
-	
-	/*
-	public void writeXML(int numOfItems, String[] valueNames, String[][] values)
-	{
-		if(valueNames.length != values.length)
-		{
-			DialogHelper.errorDialog(null, "ValueNames is not equal to values \n" + "ValueNames: " + valueNames.length + "\n Values: " + values.length, "Input error");
-			return;
-		}
-		try
-		{
-			xsw = xof.createXMLStreamWriter(new FileWriter(path));
-			xsw.writeStartDocument();
-			xsw.writeStartElement(mainElement);
-			for (int i = 0; i < numOfItems; i++)
-			{
-				xsw.writeStartElement(subElement);
-				for (int l = 0; l < valueNames.length; l++)
-				{
-					xsw.writeStartElement(valueNames[l]);
-					xsw.writeCharacters(values[i][l]);
-					xsw.writeEndElement();
-				}
-				xsw.writeEndElement();
-			}
-			xsw.writeEndElement();
-			xsw.writeEndDocument();
-			xsw.flush();
-		}
-		catch (IOException | XMLStreamException e)
-		{
-			DialogHelper.exceptionDialog(null, e);
-		} 
-		finally
-		{
-			closeXMLFile();
-		}
-		try
-		{
-			format();
-		}
-		catch (IOException | ParserConfigurationException | TransformerException | SAXException e) 
-		{
-			DialogHelper.exceptionDialog(null, e);
-		}
-	}*/
 	
 	public LinkedList<Transaction> importXML()
 	{
