@@ -18,7 +18,7 @@ import riyufuchi.sufuLib.utils.gui.SufuFactory;
 /**
  * @author riyufuchi
  * @since 19.08.2024
- * @version 09.11.2024
+ * @version 31.12.2024
  */
 public class CategoryDetail extends DataDisplayTab
 {
@@ -29,12 +29,11 @@ public class CategoryDetail extends DataDisplayTab
 	
 	public CategoryDetail(MarvusTabbedFrame targetWindow, FinancialCategory category, DataDisplayTab parentTab)
 	{
-		super(targetWindow);
+		super(targetWindow, parentTab.getDataSource(), parentTab);
 		this.category = category;
 		this.sortedCategory = new LinkedList<>();
 		this.y = 1;
 		this.total = new BigDecimal(0);
-		setParentTab(parentTab);
 	}
 
 	@Override
@@ -75,7 +74,6 @@ public class CategoryDetail extends DataDisplayTab
 	@Override
 	public void refresh()
 	{
-		targetWindow.updateDataDisplayMode(getSuperTab());
 	}
 	
 	private void prepData()

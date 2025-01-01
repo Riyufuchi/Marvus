@@ -17,7 +17,6 @@ public class MarvusConfig
 	public static int dateFormatIndex = 0;
 	public static File defaultWorkFile = new File(workFolder + "database.marvusdb");
 	public static boolean showQuitDialog = true;
-	public static int currentFinancialYear = 0;
 	public static boolean autoLoadData = false;
 	public static boolean autoMaximize = false;
 	// Unchangeable configuration

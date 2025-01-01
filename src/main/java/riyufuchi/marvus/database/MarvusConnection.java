@@ -8,14 +8,14 @@ import java.util.stream.Stream;
 
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusQuerriable;
-import riyufuchi.marvusLib.records.MarvusDataSummary;
+import riyufuchi.marvusLib.records.MarvusDataStatistics;
 import riyufuchi.marvusLib.records.YearOverview;
 import riyufuchi.sufuLib.utils.time.SufuDateUtils;;
 
 /**
  * @author riyufuchi
  * @since 09.09.2024
- * @version 08.12.2024
+ * @version 01.01.2025
  */
 public class MarvusConnection implements MarvusQuerriable
 {
@@ -81,28 +81,27 @@ public class MarvusConnection implements MarvusQuerriable
 	}
 	
 	@Override
-	public MarvusDataSummary createDataSummary(int year)
+	public MarvusDataStatistics createDataStatistics(int year)
 	{
 		final BigDecimal TOTAL_TRANSACTION = new BigDecimal(database.size());
 		final BigDecimal TWELVE = new BigDecimal(12);
-		//final boolean LEAP_YEAR = SufuDateUtils.isLeapYear(year); 
 		BigDecimal numOfDays = new BigDecimal(365);
 		if (SufuDateUtils.isLeapYear(year))
-			numOfDays.add(new BigDecimal(1));
+			numOfDays.add(BigDecimal.ONE);
 		// Average transactions
-		double avgYearTransactions = TOTAL_TRANSACTION.divide(TWELVE, 2, RoundingMode.HALF_UP).doubleValue();
-		double avgMonthTransactions = TOTAL_TRANSACTION.divide(numOfDays, 2, RoundingMode.HALF_UP).doubleValue();
+		BigDecimal avgYearTransactions = TOTAL_TRANSACTION.divide(TWELVE, 2, RoundingMode.HALF_UP);
+		BigDecimal avgMonthTransactions = TOTAL_TRANSACTION.divide(numOfDays, 2, RoundingMode.HALF_UP);
 		// Average income, outcome and total
 		YearOverview yo = database.getYearOverview(year);
-		double avgIncome = yo.totalIncome().divide(TWELVE, 2, RoundingMode.HALF_UP).doubleValue();
-		double avgSpendings = yo.totalSpendings().divide(TWELVE, 2, RoundingMode.HALF_UP).doubleValue();
-		double avgTotal = yo.totalResult().divide(TWELVE, 2, RoundingMode.HALF_UP).doubleValue();
-		double avgDailyIncome = yo.totalIncome().divide(numOfDays, 2, RoundingMode.HALF_UP).doubleValue();
-		double avgDailySpendings = yo.totalSpendings().divide(numOfDays, 2, RoundingMode.HALF_UP).doubleValue();
-		double avgDailyTotal = yo.totalResult().divide(numOfDays, 2, RoundingMode.HALF_UP).doubleValue();
+		BigDecimal avgIncome = yo.totalIncome().divide(TWELVE, 2, RoundingMode.HALF_UP);
+		BigDecimal avgSpendings = yo.totalSpendings().divide(TWELVE, 2, RoundingMode.HALF_UP);
+		BigDecimal avgTotal = yo.totalResult().divide(TWELVE, 2, RoundingMode.HALF_UP);
+		BigDecimal avgDailyIncome = yo.totalIncome().divide(numOfDays, 2, RoundingMode.HALF_UP);
+		BigDecimal avgDailySpendings = yo.totalSpendings().divide(numOfDays, 2, RoundingMode.HALF_UP);
+		BigDecimal avgDailyTotal = yo.totalResult().divide(numOfDays, 2, RoundingMode.HALF_UP);
 		
-		return new MarvusDataSummary(TOTAL_TRANSACTION.intValue(), avgYearTransactions, avgMonthTransactions,
-				yo.totalIncome().doubleValue(), yo.totalSpendings().doubleValue(), yo.totalResult().doubleValue(),
+		return new MarvusDataStatistics(TOTAL_TRANSACTION.intValue(), avgYearTransactions, avgMonthTransactions,
+				yo.totalIncome(), yo.totalSpendings(), yo.totalResult(),
 				avgIncome, avgSpendings, avgTotal,
 				avgDailyIncome, avgDailySpendings, avgDailyTotal);
 	}

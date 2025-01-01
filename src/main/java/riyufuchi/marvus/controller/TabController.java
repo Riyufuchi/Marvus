@@ -40,7 +40,7 @@ import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 28.12.2024
+ * @version 01.01.2025
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -198,10 +198,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		}
 		fi.setDataTo(this);
 		controledWindow.renameTab(currentWorkFile.getName());
-		database.getByID(1).ifPresent(transaction -> {
-			MarvusConfig.currentFinancialYear = transaction.getDate().getYear();
-			financialYear = MarvusConfig.currentFinancialYear;
-		});
+		database.getByID(1).ifPresent(transaction -> financialYear = transaction.getDate().getYear());
 		displayData();
 		quickOpened = true;
 		return true;
@@ -222,11 +219,11 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			case 0 -> { return new TableTab(this); }
 			case 1 -> { return new CategorizedMonthListTab(this); }
 			case 2 -> { return new UncategorizedMonthListTab(this); }
-			case 3 -> { return new YearSummaryTab(this); }
+			case 3 -> { return new YearSummaryTab(this, financialYear); }
 			case 4 -> { return new YearOverviewTab(this, financialYear); }
-			case 5 -> { return new DataSummaryTab(this); }
+			case 5 -> { return new DataSummaryTab(this, financialYear); }
 			case 6 -> { return new TimedDetailTab(this); }
-			default -> { return new DataSummaryTab(this); }
+			default -> { return new DataSummaryTab(this, financialYear); }
 		}
 	}
 	
@@ -338,7 +335,6 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	public void setFinancialYear(int financialYear)
 	{
 		this.financialYear = financialYear;
-		MarvusConfig.currentFinancialYear = financialYear;
 	}
 	
 	public void setLastAction(LastChange ls)

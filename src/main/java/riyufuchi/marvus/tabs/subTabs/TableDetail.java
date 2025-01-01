@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 08.11.2024
- * @version 12.11.2024
+ * @version 31.12.2024
  */
 public class TableDetail extends DataDisplayTab
 {
@@ -21,7 +21,7 @@ public class TableDetail extends DataDisplayTab
 	
 	public TableDetail(MarvusTabbedFrame targetWindow, Iterable<Transaction> iterable, DataDisplayTab parentTab)
 	{
-		super(targetWindow, null, parentTab);
+		super(targetWindow, parentTab.getDataSource(), parentTab);
 		this.transactions = new LinkedList<>();
 		transactions.add(iterable);
 		this.y = 1;

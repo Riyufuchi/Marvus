@@ -1,31 +1,39 @@
 package riyufuchi.marvus.tabs;
 
-import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.database.MarvusConnection;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.interfaces.MarvusQuerriable;
-import riyufuchi.marvusLib.records.MarvusDataSummary;
+import riyufuchi.marvusLib.records.MarvusDataStatistics;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
+/**
+ * @author riyufuchi
+ * @since ?
+ * @version 01.01.2025
+ */
 public class DataSummaryTab extends DataDisplayTab
 {
-	private final String[] captions = {"Transactions", "Income", "Spendings", "Outcome"};
-	private final String format = "%.2f";
+	private final String[] CAPTIONS;
+	private final String FORMAT;
+	private final int YEAR;
 	private int xIndex, yIndex;
 	private MarvusQuerriable con;
-	private MarvusDataSummary ds;
+	private MarvusDataStatistics ds;
 	
-	public DataSummaryTab(MarvusTabbedFrame targetWindow)
+	public DataSummaryTab(MarvusTabbedFrame targetWindow, int year)
 	{
 		super(targetWindow);
-		resetValues();
+		this.CAPTIONS = new String[]{"Transactions", "Income", "Spendings", "Outcome"};
+		this.FORMAT = "%.2f";
+		this.YEAR = year;
 		this.con = new MarvusConnection(dataSource);
-		this.ds = con.createDataSummary(MarvusConfig.currentFinancialYear);
+		this.ds = con.createDataStatistics(YEAR);
 		// UI
+		resetValues();
 		this.yIndex = 1;
-		for (String s : captions)
+		for (String s : CAPTIONS)
 			masterPanel.add(SufuFactory.newTextFieldHeader(s), masterPanel.getGBC(0, yIndex++));
-		masterPanel.add(SufuFactory.newTextFieldHeader(String.valueOf(MarvusConfig.currentFinancialYear)), masterPanel.getGBC(0, 0));
+		masterPanel.add(SufuFactory.newTextFieldHeader(String.valueOf(YEAR)), masterPanel.getGBC(0, 0));
 		masterPanel.add(SufuFactory.newTextFieldHeader("Year total"), masterPanel.getGBC(1, 0));
 		masterPanel.add(SufuFactory.newTextFieldHeader("Year average"), masterPanel.getGBC(2, 0));
 		masterPanel.add(SufuFactory.newTextFieldHeader("Daily average"), masterPanel.getGBC(3, 0));
@@ -42,16 +50,16 @@ public class DataSummaryTab extends DataDisplayTab
 		addInfoItem(String.valueOf(ds.totalOutcome()));
 		// Avg. year values
 		newColumn();
-		addInfoItem(String.format(format, ds.avgTransactionsPerYear()));
-		addInfoItem(String.format(format, ds.avgIncome()));
-		addInfoItem(String.format(format, ds.avgSpendings()));
-		addInfoItem(String.format(format, ds.avgOutcome()));
+		addInfoItem(String.format(FORMAT, ds.avgTransactionsPerYear()));
+		addInfoItem(String.format(FORMAT, ds.avgIncome()));
+		addInfoItem(String.format(FORMAT, ds.avgSpendings()));
+		addInfoItem(String.format(FORMAT, ds.avgOutcome()));
 		// Avg. daily values
 		newColumn();
-		addInfoItem(String.format(format, ds.avgTransactionsPerDay()));
-		addInfoItem(String.format(format, ds.avdDailyIncome()));
-		addInfoItem(String.format(format, ds.avgDailySpendings()));
-		addInfoItem(String.format(format, ds.avgDailyOutcome()));
+		addInfoItem(String.format(FORMAT, ds.avgTransactionsPerDay()));
+		addInfoItem(String.format(FORMAT, ds.avdDailyIncome()));
+		addInfoItem(String.format(FORMAT, ds.avgDailySpendings()));
+		addInfoItem(String.format(FORMAT, ds.avgDailyOutcome()));
 		resetValues();
 	}
 
@@ -60,7 +68,7 @@ public class DataSummaryTab extends DataDisplayTab
 	{
 		clearPanel(masterPanel, 7);
 		resetValues();
-		ds = con.createDataSummary(MarvusConfig.currentFinancialYear);
+		ds = con.createDataStatistics(YEAR);
 		displayData();
 	}
 	

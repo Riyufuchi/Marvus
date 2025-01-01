@@ -4,7 +4,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.EntityManagerController;
 import riyufuchi.sufuLib.gui.SufuDialogGeneric;
@@ -17,7 +16,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 07.10.2023
- * @version 12.12.2024
+ * @version 01.01.2025
  */
 public class EntityManagerDialog extends SufuDialogGeneric<MarvusDataWindow>
 {
@@ -45,7 +44,7 @@ public class EntityManagerDialog extends SufuDialogGeneric<MarvusDataWindow>
 		panel.add(buttonPane, getGBC(0, 1));
 		
 		menuPane.add(SufuFactory.newLabel("Financial year: "));
-		fc = SufuFactory.newTextField(String.valueOf(MarvusConfig.currentFinancialYear));
+		fc = SufuFactory.newTextField(String.valueOf(parentFrame.getController().getFinancialYear()));
 		menuPane.add(fc);
 		
 		addEntityBtn = SufuFactory.newButton("Add entity", evt -> controller.addEntityBtnEvt());

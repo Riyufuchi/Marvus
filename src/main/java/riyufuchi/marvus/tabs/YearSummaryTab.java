@@ -7,7 +7,6 @@ import java.util.LinkedList;
 
 import javax.swing.JButton;
 
-import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.subTabs.CategoryDetail;
 import riyufuchi.marvusLib.dataUtils.FinancialCategory;
@@ -16,16 +15,23 @@ import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
+/**
+ * @author riyufuchi
+ * @since ?
+ * @version 01.01.2025
+ */
 public class YearSummaryTab extends DataDisplayTab
 {
 	private LinkedList<FinancialCategory> list;
 	private BigDecimal outcome;
+	private final int YEAR;
 	
-	public YearSummaryTab(MarvusTabbedFrame targetWindow)
+	public YearSummaryTab(MarvusTabbedFrame targetWindow, int year)
 	{
 		super(targetWindow);
-		this.list = dataSource.getCategorizedYearByCategories(MarvusConfig.currentFinancialYear);
+		this.list = dataSource.getCategorizedYearByCategories(year);
 		this.outcome = new BigDecimal(0);
+		this.YEAR = year;
 		Collections.sort(list, TransactionComparation.compareFC(CompareMethod.By_catagory));
 		// UI
 		SufuTableTools.addRowHeader(masterPanel, 0, 0, "Category", "Sum");
@@ -52,7 +58,7 @@ public class YearSummaryTab extends DataDisplayTab
 	public void refresh()
 	{
 		clearPanel(masterPanel, 2);
-		list = dataSource.getCategorizedYearByCategories(MarvusConfig.currentFinancialYear);
+		list = dataSource.getCategorizedYearByCategories(YEAR);
 		Collections.sort(list, TransactionComparation.compareFC(CompareMethod.By_catagory));
 		displayData();
 	}

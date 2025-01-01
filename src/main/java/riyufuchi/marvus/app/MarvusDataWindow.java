@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 30.12.2024
+ * @version 01.01.2025
  */
 public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
@@ -67,7 +67,6 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 	private void updateTabController(final int index)
 	{
 		controller = getCurrentTabController();
-		MarvusConfig.currentFinancialYear = controller.getFinancialYear();
 	}
 	
 	private void setupJMenu()
