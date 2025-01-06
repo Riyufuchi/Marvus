@@ -11,10 +11,10 @@ import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
+import riyufuchi.sufuLib.general.SufuInterval;
 import riyufuchi.sufuLib.gui.SufuFilePicker;
 import riyufuchi.sufuLib.records.SufuPair;
 import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.general.SufuInterval;
 import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
 import riyufuchi.sufuLib.utils.gui.SufuTableTools;
@@ -22,7 +22,7 @@ import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 30.12.2024
+ * @version 06.01.2025
  */
 public class YearOverviewTab extends DataDisplayTab
 {

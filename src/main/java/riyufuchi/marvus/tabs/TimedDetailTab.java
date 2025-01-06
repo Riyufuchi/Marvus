@@ -20,32 +20,32 @@ import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.FinancialCategory;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
+import riyufuchi.sufuLib.general.SufuInterval;
 import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.time.SufuDateUtils;
 
 /**
  * This tab display transactions in given time span and categorize them by name
  * 
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 29.11.2024
+ * @version 06.01.2025
  */
 public class TimedDetailTab extends DataDisplayTab
 {
-	private LocalDateTime fromDate, toDate;
 	private JButton dateFrom, dateTo;
 	private JComboBox<String> sortByBox;
-	private LinkedList<LinkedList<FinancialCategory>> categorizedMonths;
+	private LinkedList<FinancialCategory> categories;
 	private JPanel dataPane, menuPane, datePane;
 	private Point p;
+	private SufuInterval<LocalDateTime> dateInerval;
 
 	public TimedDetailTab(MarvusTabbedFrame targetWindow)
 	{
 		super(targetWindow);
-		this.toDate = SufuDateUtils.toLocalDateTime(SufuDateUtils.nowDateString());
-		this.fromDate = LocalDateTime.now().minusDays(7).toLocalDate().atStartOfDay(); // So we get data for past 7 days by default
-		this.categorizedMonths = new LinkedList<>();
+		this.dateInerval = new SufuInterval<>(LocalDateTime.now().minusDays(7).toLocalDate().atStartOfDay(),
+				LocalDateTime.now().toLocalDate().atStartOfDay()); // So we get data for past 7 days by default
+		this.categories = new LinkedList<>();
 		// Creating UI
 		this.menuPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		this.datePane = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -54,17 +54,17 @@ public class TimedDetailTab extends DataDisplayTab
 		this.sortByBox.addActionListener(evt -> refresh());
 		SufuComponentTools.centerComboboxList(sortByBox);
 		this.dateFrom = SufuFactory.newButton("", evt -> {
-			fromDate = new SufuDatePicker(targetWindow.getSelf(), fromDate).showAndGet();
-			MarvusGuiUtils.editDateText(dateFrom, fromDate);
+			dateInerval.setMin(new SufuDatePicker(targetWindow.getSelf(), dateInerval.getMin()).showAndGet());
+			MarvusGuiUtils.editDateText(dateFrom, dateInerval.getMin());
 			refresh();
 		}); 
 		this.dateTo = SufuFactory.newButton("", evt -> {
-			toDate = new SufuDatePicker(targetWindow.getSelf(), toDate).showAndGet();
-			MarvusGuiUtils.editDateText(dateTo, toDate);
+			dateInerval.setMax(new SufuDatePicker(targetWindow.getSelf(), dateInerval.getMax()).showAndGet());
+			MarvusGuiUtils.editDateText(dateTo, dateInerval.getMax());
 			refresh();
 		}); 
-		MarvusGuiUtils.editDateText(dateFrom, fromDate);
-		MarvusGuiUtils.editDateText(dateTo, toDate);
+		MarvusGuiUtils.editDateText(dateFrom, dateInerval.getMin());
+		MarvusGuiUtils.editDateText(dateTo, dateInerval.getMax());
 		this.datePane.add(dateFrom);
 		this.datePane.add(new JLabel("to"));
 		this.datePane.add(dateTo);
@@ -99,24 +99,19 @@ public class TimedDetailTab extends DataDisplayTab
 		BigDecimal holder = null;
 		int x = 0;
 		int y = 0;
-		for (LinkedList<FinancialCategory> data : categorizedMonths)
+		for (FinancialCategory cat : categories)
 		{
-			for (FinancialCategory cat : data)
-			{
-				holder = cat.getSum();
-				dataPane.add(SufuFactory.newButton(cat.getCategory(), MarvusGuiUtils.encodeCords(x, y), evt -> {
-					p = MarvusGuiUtils.extractPointFromButtonName(evt);
-					targetWindow.updateDataDisplayMode(new TableDetail(targetWindow, categorizedMonths.get(p.x).get(p.y), this));
-				}));
-				dataPane.add(SufuFactory.newTextFieldHeader(holder.toString()));
-				if (holder.compareTo(zero) > 0)
-					income = income.add(holder);
-				else
-					spendings = spendings.add(holder);
-				y++;
-			}
-			x++;
-			y = 0;
+			holder = cat.getSum();
+			dataPane.add(SufuFactory.newButton(cat.getCategory(), MarvusGuiUtils.encodeCords(x, y), evt -> {
+				p = MarvusGuiUtils.extractPointFromButtonName(evt);
+				targetWindow.updateDataDisplayMode(new TableDetail(targetWindow, categories.get(p.y), this));
+			}));
+			dataPane.add(SufuFactory.newTextFieldHeader(holder.toString()));
+			if (holder.compareTo(zero) > 0)
+				income = income.add(holder);
+			else
+				spendings = spendings.add(holder);
+			y++;
 		}
 		dataPane.add(SufuFactory.newTextFieldHeader("Income:"));
 		dataPane.add(SufuFactory.newTextFieldHeader(income.toString()));
@@ -126,55 +121,45 @@ public class TimedDetailTab extends DataDisplayTab
 		dataPane.add(SufuFactory.newTextFieldHeader(income.add(spendings).toString()));
 	}
 	
+	private LinkedList<FinancialCategory> selectAndGetCategorizedMonth(int month)
+	{
+		if (sortByBox.getSelectedIndex() == 0)
+			return dataSource.getCategorizedMonthByNames(month);
+		return dataSource.getCategorizedMonth(month);
+	}
+	
 	private void prepData()
 	{
-		LinkedList<FinancialCategory> llfc = null;
-		Iterator<Transaction> it_Transactions;
-		Iterator<FinancialCategory> it_finCat;
-		Transaction t = null;
-		FinancialCategory finCat = null;
-		categorizedMonths.clear();
-		for (int x = fromDate.getMonthValue(); x <= toDate.getMonthValue(); x++) // This loop takes categorized months and unite categories regardless the dates
+		final Transaction BREAKER = new Transaction();
+		final int FINAL_MONTH = dateInerval.getMax().getMonthValue();
+		categories = selectAndGetCategorizedMonth(FINAL_MONTH);
+		Iterator<FinancialCategory> it_categories = null;
+		FinancialCategory financialCategoryHolder = null;
+		LinkedList<FinancialCategory> categorizedMonth = null;
+		// This loop takes categorized months and unite categories regardless the dates
+		for (int month = dateInerval.getMin().getMonthValue(); month <= FINAL_MONTH; month++)
 		{
-			if (sortByBox.getSelectedIndex() == 0)
-				llfc = dataSource.getCategorizedMonthByNames(x);
-			else
-				llfc = dataSource.getCategorizedMonth(x);
-			it_finCat = llfc.iterator();
-			for (LinkedList<FinancialCategory> data : categorizedMonths)
+			categorizedMonth = selectAndGetCategorizedMonth(month);
+			for (FinancialCategory financialCategory : categorizedMonth)
 			{
-				for (FinancialCategory fc : data)
+				it_categories = categories.iterator();
+				while (it_categories.hasNext())
 				{
-					while (it_finCat.hasNext())
+					financialCategoryHolder = it_categories.next();
+					if (financialCategoryHolder.getCategory().equals(financialCategory.getCategory()))
 					{
-						finCat = it_finCat.next();
-						if (fc.getCategory().equals(finCat.getCategory()))
-						{
-							fc.addAll(finCat);
-							it_finCat.remove();
-						}
+						financialCategoryHolder.addAll(financialCategory);
+						financialCategory.set(0, BREAKER);
+						break;
 					}
 				}
-			}
-			if (llfc.size() != 0)
-				categorizedMonths.add(llfc);
-		}
-		for (LinkedList<FinancialCategory> data : categorizedMonths) // This loop removes transactions outside given date range
-		{
-			it_finCat = data.iterator();
-			while (it_finCat.hasNext())
-			{
-				finCat = it_finCat.next();
-				it_Transactions = finCat.iterator();
-				while (it_Transactions.hasNext())
-				{
-					t = it_Transactions.next();
-					if (!((t.getDate().isAfter(fromDate) || t.getDate().equals(fromDate)) && (t.getDate().isBefore(toDate) || t.getDate().equals(toDate))))
-						it_Transactions.remove();
-				}
-				if (finCat.getSum().intValue() == 0)
-					it_finCat.remove();
+				if (financialCategory.getFirst().getID() != -1)
+					categories.add(financialCategory);
 			}
 		}
+		// Clear transactions
+		categories.stream().forEach(category -> category.removeIf(transaction -> dateInerval.isNotIn(transaction.getDate())));
+		// Clear empty categories
+		categories.removeIf(category -> category.isEmpty());
 	}
 }
