@@ -7,9 +7,9 @@ import java.util.List;
 
 import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.utils.XML;
+import riyufuchi.sufuLib.files.SufuPersistence;
 import riyufuchi.sufuLib.gui.SufuFileChooser;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 
 /**
  * @author Riyufuchi

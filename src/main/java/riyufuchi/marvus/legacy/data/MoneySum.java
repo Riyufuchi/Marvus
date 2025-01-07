@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import riyufuchi.sufuLib.interfaces.CSVable;
-import riyufuchi.sufuLib.utils.time.SufuDateUtils;
+import riyufuchi.sufuLib.time.SufuDateUtils;
 
 /**
  * MoneySum class represents sum of money<br><br>

@@ -7,11 +7,11 @@ import javax.swing.JTextField;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.EntityManagerController;
 import riyufuchi.sufuLib.gui.SufuDialogGeneric;
-import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuGridPane;
-import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
+import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuGridPane;
+import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
 
 /**
  * @author Riyufuchi

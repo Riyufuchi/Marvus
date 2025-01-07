@@ -7,9 +7,9 @@ import javax.swing.JTextField;
 
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.sufuLib.gui.SufuDataDialog;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
 import riyufuchi.sufuLib.records.SufuSimpleRow;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
 
 /**
  * @author Riyufuchi

@@ -20,9 +20,9 @@ import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.FinancialCategory;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
+import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
 import riyufuchi.sufuLib.general.SufuInterval;
-import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
 
 /**
  * This tab display transactions in given time span and categorize them by name
@@ -124,12 +124,13 @@ public class TimedDetailTab extends DataDisplayTab
 	private LinkedList<FinancialCategory> selectAndGetCategorizedMonth(int month)
 	{
 		if (sortByBox.getSelectedIndex() == 0)
-			return dataSource.getCategorizedMonthByNames(month);
-		return dataSource.getCategorizedMonth(month);
+			return database.getCategorizedMonthByNames(month);
+		return database.getCategorizedMonth(month);
 	}
 	
 	private void prepData()
 	{
+		categories.clear();
 		final Transaction BREAKER = new Transaction();
 		final int FINAL_MONTH = dateInerval.getMax().getMonthValue();
 		categories = selectAndGetCategorizedMonth(FINAL_MONTH);

@@ -21,9 +21,9 @@ import riyufuchi.marvus.tabs.DataDisplayTab;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuMenuCreator;
 import riyufuchi.sufuLib.lib.SufuLib;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
 
 /**
  * @author Riyufuchi

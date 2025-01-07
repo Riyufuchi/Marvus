@@ -11,9 +11,9 @@ import riyufuchi.marvus.app.MarvusDefaultTableValues;
 import riyufuchi.marvusLib.database.MarvusDatabaseTable;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.database.SufuTableDB;
-import riyufuchi.sufuLib.utils.files.SufuFileHelper;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.files.SufuFileHelper;
+import riyufuchi.sufuLib.files.SufuPersistence;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 
 
 public class MarvusDatabaseIO

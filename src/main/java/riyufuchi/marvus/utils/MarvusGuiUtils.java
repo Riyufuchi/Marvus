@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 
 public final class MarvusGuiUtils
 {

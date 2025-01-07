@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.database.MarvusDatabase;
+import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
 import riyufuchi.sufuLib.records.SufuSimpleRow;
-import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
  * @author Riyufuchi

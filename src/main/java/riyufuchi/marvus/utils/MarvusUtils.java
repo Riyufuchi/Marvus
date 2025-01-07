@@ -11,7 +11,7 @@ import riyufuchi.marvus.controller.TabController;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.SufuFilePicker;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 
 /**
  * @author Riyufuchi

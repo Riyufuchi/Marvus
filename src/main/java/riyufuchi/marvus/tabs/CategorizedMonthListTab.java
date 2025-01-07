@@ -11,8 +11,8 @@ import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.subTabs.CategoryDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvusLib.dataUtils.FinancialCategory;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuTableTools;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuTableTools;
 
 public class CategorizedMonthListTab extends DataDisplayTab
 {
@@ -38,7 +38,7 @@ public class CategorizedMonthListTab extends DataDisplayTab
 	{
 		for (Month month : months)
 		{
-			categorizedMonths.add(dataSource.getCategorizedMonth(month));
+			categorizedMonths.add(database.getCategorizedMonth(month));
 			createDataTable(categorizedMonths.getLast().iterator(), month);
 		}
 	}

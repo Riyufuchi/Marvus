@@ -4,36 +4,36 @@ import java.time.LocalDateTime;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.database.MarvusDatabase;
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Money;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
 import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.records.LastChange;
+import riyufuchi.sufuLib.general.SufuInputChecker;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
 import riyufuchi.sufuLib.gui.SufuDialog;
-import riyufuchi.sufuLib.utils.general.SufuInputChecker;
-import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
-import riyufuchi.sufuLib.utils.time.SufuDateUtils;
+import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
+import riyufuchi.sufuLib.time.SufuDateUtils;
 
 /**
  * Dialog for adding new transaction. Also base class for other dialogs regarding transactions.
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 27.12.2024
+ * @version 07.01.2025
  */
 public class AddTransactionDialog extends SufuDialog
 {
+	protected MarvusTabbedFrame interfaceParentWindow;
 	protected JTextField name, money, currency;
 	protected JButton date;
 	protected JComboBox<String> nameBox, categoryBox;
@@ -41,9 +41,10 @@ public class AddTransactionDialog extends SufuDialog
 	protected LocalDateTime localDate;
 	protected MarvusDatabase database;
 	
-	public AddTransactionDialog(JFrame parentFrame, MarvusDatabase database)
+	public AddTransactionDialog(MarvusTabbedFrame parentFrame, MarvusDatabase database)
 	{
-		super("New transaction", parentFrame, DialogType.OK, true, true);
+		super("New transaction", parentFrame.getSelf(), DialogType.OK, true, true);
+		this.interfaceParentWindow = parentFrame;
 		if (localDate == null)
 			localDate = LocalDateTime.now();
 		this.database = database;
@@ -91,7 +92,6 @@ public class AddTransactionDialog extends SufuDialog
 		SufuGuiTools.addComponents(this, 1, 0, nameBox, name, categoryBox, money, currency, date, note);
 	}
 	
-	
 	@Override
 	protected void onOK()
 	{
@@ -99,9 +99,9 @@ public class AddTransactionDialog extends SufuDialog
 			database.entities.add(name.getText());
 		Transaction t = new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), 
 				SufuInputChecker.checkDoubleFormat(money.getText()), currency.getText(), date.getText(), note.getText());
-		((MarvusDataWindow)parentFrame).getController().getDatabase().add(t);
-		((MarvusDataWindow)parentFrame).getController().refresh();
-		((MarvusDataWindow)parentFrame).getController().setLastAction(new LastChange(UserAction.ADD, t));
+		interfaceParentWindow.getController().getDatabase().add(t);
+		interfaceParentWindow.getController().refresh();
+		interfaceParentWindow.getController().setLastAction(new LastChange(UserAction.ADD, t));
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import riyufuchi.marvus.database.MarvusConnection;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.interfaces.MarvusQuerriable;
 import riyufuchi.marvusLib.records.MarvusDataStatistics;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
 
 /**
  * @author riyufuchi
@@ -26,7 +26,7 @@ public class DataSummaryTab extends DataDisplayTab
 		this.CAPTIONS = new String[]{"Transactions", "Income", "Spendings", "Outcome"};
 		this.FORMAT = "%.2f";
 		this.YEAR = year;
-		this.con = new MarvusConnection(dataSource);
+		this.con = new MarvusConnection(database);
 		this.ds = con.createDataStatistics(YEAR);
 		// UI
 		resetValues();

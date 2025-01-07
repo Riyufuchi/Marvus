@@ -6,8 +6,8 @@ import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuTableTools;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuTableTools;
 
 /**
  * @author Riyufuchi

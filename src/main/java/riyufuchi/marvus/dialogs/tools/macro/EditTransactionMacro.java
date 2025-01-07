@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
+import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
 import riyufuchi.sufuLib.records.SufuRowDB;
-import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
 
 /**
  * @author Riyufuchi

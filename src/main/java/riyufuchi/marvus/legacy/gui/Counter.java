@@ -15,12 +15,12 @@ import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.utils.ComponentParts;
 import riyufuchi.marvus.legacy.utils.MoneyCalculations;
 import riyufuchi.sufuLib.config.SufuLibFonts;
+import riyufuchi.sufuLib.files.SufuFileHelper;
+import riyufuchi.sufuLib.files.SufuPersistence;
+import riyufuchi.sufuLib.general.SufuInputChecker;
 import riyufuchi.sufuLib.gui.SufuWindow;
-import riyufuchi.sufuLib.utils.files.SufuFileHelper;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.general.SufuInputChecker;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
 
 /**
  * @author Riyufuchi

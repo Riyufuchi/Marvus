@@ -10,7 +10,7 @@ import riyufuchi.marvusLib.database.MarvusDatabaseTable;
 import riyufuchi.marvusLib.database.MarvusMainTable;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.database.SufuTableDB;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
+import riyufuchi.sufuLib.files.SufuPersistence;
 
 
 /**

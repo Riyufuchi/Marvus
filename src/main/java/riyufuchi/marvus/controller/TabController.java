@@ -32,15 +32,15 @@ import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
 import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.records.LastChange;
+import riyufuchi.sufuLib.files.SufuFileHelper;
+import riyufuchi.sufuLib.files.SufuPersistence;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 import riyufuchi.sufuLib.interfaces.SufuTab;
-import riyufuchi.sufuLib.utils.files.SufuFileHelper;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 01.01.2025
+ * @version 07.01.2025
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -91,7 +91,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	
 	public void addNewTransaction()
 	{
-		new AddTransactionDialog(controledWindow, database).showDialog();
+		new AddTransactionDialog(this, database).showDialog();
 		refresh();
 	}
 	
@@ -397,9 +397,13 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		return controledWindow;
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void setPane(JPanel pane)
 	{
+		// This is breaker code as this override is result of "spaghetti code"s
+		DataDisplayTab d = null;
+		d.getParentTab();
 		//this.currentMode.set = pane;
 	}
 }

@@ -20,7 +20,7 @@ public class UncategorizedMonthListTab extends CategorizedMonthListTab
 	{
 		for (Month month : months)
 		{
-			categorizedMonths.add(dataSource.getCategorizedMonthByNames(month.getValue()));
+			categorizedMonths.add(database.getCategorizedMonthByNames(month.getValue()));
 			createDataTable(categorizedMonths.getLast().iterator(), month);
 		}
 	}

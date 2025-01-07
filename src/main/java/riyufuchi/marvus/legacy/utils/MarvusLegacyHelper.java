@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.gui.DataTableForm;
-import riyufuchi.sufuLib.utils.files.SufuFileHelper;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.files.SufuFileHelper;
+import riyufuchi.sufuLib.files.SufuPersistence;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 
 /**
  * This class provides functions for some small features<br><br>

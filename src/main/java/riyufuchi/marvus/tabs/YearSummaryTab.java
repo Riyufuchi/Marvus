@@ -12,8 +12,8 @@ import riyufuchi.marvus.tabs.subTabs.CategoryDetail;
 import riyufuchi.marvusLib.dataUtils.FinancialCategory;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuTableTools;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuTableTools;
 
 /**
  * @author riyufuchi
@@ -29,7 +29,7 @@ public class YearSummaryTab extends DataDisplayTab
 	public YearSummaryTab(MarvusTabbedFrame targetWindow, int year)
 	{
 		super(targetWindow);
-		this.list = dataSource.getCategorizedYearByCategories(year);
+		this.list = database.getCategorizedYearByCategories(year);
 		this.outcome = new BigDecimal(0);
 		this.YEAR = year;
 		Collections.sort(list, TransactionComparation.compareFC(CompareMethod.By_catagory));
@@ -58,7 +58,7 @@ public class YearSummaryTab extends DataDisplayTab
 	public void refresh()
 	{
 		clearPanel(masterPanel, 2);
-		list = dataSource.getCategorizedYearByCategories(YEAR);
+		list = database.getCategorizedYearByCategories(YEAR);
 		Collections.sort(list, TransactionComparation.compareFC(CompareMethod.By_catagory));
 		displayData();
 	}

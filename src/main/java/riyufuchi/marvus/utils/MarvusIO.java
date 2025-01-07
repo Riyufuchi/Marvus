@@ -11,9 +11,9 @@ import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.records.FileInput;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.sufuLib.utils.files.SufuFileHelper;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.files.SufuFileHelper;
+import riyufuchi.sufuLib.files.SufuPersistence;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 
 /**
  * @author Riyufuchi

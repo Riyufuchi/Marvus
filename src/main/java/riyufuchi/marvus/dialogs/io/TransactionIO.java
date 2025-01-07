@@ -7,7 +7,7 @@ import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.TabController;
 import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.sufuLib.gui.SufuFileChooserGeneric;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 
 /**
  * @author Riyufuchi

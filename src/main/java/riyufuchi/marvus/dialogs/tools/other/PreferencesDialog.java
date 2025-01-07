@@ -16,13 +16,13 @@ import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.sufuLib.config.SufuCustomUI;
 import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.enums.SufuAppTheme;
+import riyufuchi.sufuLib.files.SufuFileHelper;
+import riyufuchi.sufuLib.files.SufuPersistence;
 import riyufuchi.sufuLib.gui.SufuDialog;
-import riyufuchi.sufuLib.utils.files.SufuFileHelper;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
+import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
 
 /**
  * @author Riyufuchi

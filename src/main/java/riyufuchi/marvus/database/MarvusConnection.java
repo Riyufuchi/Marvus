@@ -10,7 +10,7 @@ import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusQuerriable;
 import riyufuchi.marvusLib.records.MarvusDataStatistics;
 import riyufuchi.marvusLib.records.YearOverview;
-import riyufuchi.sufuLib.utils.time.SufuDateUtils;;
+import riyufuchi.sufuLib.time.SufuDateUtils;;
 
 /**
  * @author riyufuchi

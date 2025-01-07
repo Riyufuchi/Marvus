@@ -17,12 +17,12 @@ import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvusLib.dataCalculations.TransactionCalculations;
 import riyufuchi.marvusLib.lib.MarvusLib;
 import riyufuchi.sufuLib.gui.SufuWindowTabbedGeneric;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuMenuCreator;
 import riyufuchi.sufuLib.interfaces.Fullscreenable;
 import riyufuchi.sufuLib.lib.SufuAppTools;
 import riyufuchi.sufuLib.lib.SufuLib;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.gui.SufuMenuCreator;
-import riyufuchi.sufuLib.utils.time.SufuDateUtils;
+import riyufuchi.sufuLib.time.SufuDateUtils;
 
 /**
  * @author Riyufuchi

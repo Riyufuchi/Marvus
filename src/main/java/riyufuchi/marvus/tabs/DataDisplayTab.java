@@ -11,8 +11,8 @@ import riyufuchi.marvus.dialogs.transactions.EditTransactionDialog;
 import riyufuchi.marvus.dialogs.transactions.RemoveTransactionDialog;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuGridPane;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuGridPane;
 
 /**
  * @author Riyufuchi
@@ -22,7 +22,7 @@ import riyufuchi.sufuLib.utils.gui.SufuGridPane;
 public abstract class DataDisplayTab
 {
 	protected MarvusTabbedFrame targetWindow;
-	protected MarvusDatabase dataSource;
+	protected MarvusDatabase database;
 	protected SufuGridPane masterPanel, contentPanel;
 	private JPanel menuPanel;
 	private DataDisplayTab ddt;
@@ -40,7 +40,7 @@ public abstract class DataDisplayTab
 	public DataDisplayTab(MarvusTabbedFrame targetWindow, MarvusDatabase mdb, DataDisplayTab parentTab)
 	{
 		this.targetWindow = targetWindow;
-		this.dataSource = mdb;
+		this.database = mdb;
 		this.ddt = parentTab;
 		this.masterPanel = new SufuGridPane();
 		this.masterPanel.setDoubleBuffered(true);
@@ -110,11 +110,11 @@ public abstract class DataDisplayTab
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))
 		{
-			new EditTransactionDialog(targetWindow.getSelf(), t, dataSource).showDialog();
+			new EditTransactionDialog(targetWindow, t, database).showDialog();
 		}
 		else if (SwingUtilities.isRightMouseButton(mEvt))
 		{
-			new RemoveTransactionDialog(targetWindow.getSelf(), t, dataSource).showDialog();
+			new RemoveTransactionDialog(targetWindow, t, database).showDialog();
 		}
 	}
 	
@@ -142,7 +142,7 @@ public abstract class DataDisplayTab
 	
 	public void setNewData(MarvusDatabase dataSource)
 	{
-		this.dataSource = dataSource;
+		this.database = dataSource;
 	}
 	
 	public void setTargetWindow(MarvusTabbedFrame targetWindow)
@@ -165,6 +165,6 @@ public abstract class DataDisplayTab
 	
 	public MarvusDatabase getDataSource()
 	{
-		return dataSource;
+		return database;
 	}
 }

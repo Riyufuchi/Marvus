@@ -16,9 +16,9 @@ import riyufuchi.marvus.dialogs.tools.names.AddEntityName;
 import riyufuchi.marvus.dialogs.tools.names.EditEntityName;
 import riyufuchi.marvus.dialogs.tools.names.RemoveEntityName;
 import riyufuchi.marvusLib.records.TransactionMacro;
+import riyufuchi.sufuLib.files.SufuPersistence;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 import riyufuchi.sufuLib.records.SufuSimpleRow;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
 
 public class EntityManagerController
 {

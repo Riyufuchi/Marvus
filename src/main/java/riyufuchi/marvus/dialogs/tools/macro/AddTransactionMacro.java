@@ -8,9 +8,9 @@ import javax.swing.JTextField;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.gui.SufuDataDialog;
-import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuGuiTools;
+import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
 
 /**
  * @author Riyufuchi

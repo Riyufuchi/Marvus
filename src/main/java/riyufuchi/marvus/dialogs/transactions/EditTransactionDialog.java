@@ -1,27 +1,27 @@
 package riyufuchi.marvus.dialogs.transactions;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.database.MarvusDatabase;
+import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.enums.UserAction;
 import riyufuchi.marvusLib.records.LastChange;
-import riyufuchi.sufuLib.utils.gui.SufuComponentTools;
+import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
 
 /**
  * Dialog for editing Transaction
  * 
  * @author Riyufuchi
  * @since 11.05.2023
- * @version 12.12.2024
+ * @version 07.01.2025
  */
 public class EditTransactionDialog extends AddTransactionDialog
 {
 	private Transaction transaction;
 	
-	public EditTransactionDialog(JFrame parentFrame, Transaction transaction, MarvusDatabase database)
+	public EditTransactionDialog(MarvusTabbedFrame parentFrame, Transaction transaction, MarvusDatabase database)
 	{
 		super(parentFrame, database);
 		this.transaction = transaction;

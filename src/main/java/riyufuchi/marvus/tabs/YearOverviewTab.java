@@ -11,13 +11,13 @@ import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.marvusLib.records.YearOverview;
+import riyufuchi.sufuLib.files.SufuPersistence;
 import riyufuchi.sufuLib.general.SufuInterval;
 import riyufuchi.sufuLib.gui.SufuFilePicker;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuTableTools;
 import riyufuchi.sufuLib.records.SufuPair;
-import riyufuchi.sufuLib.utils.files.SufuPersistence;
-import riyufuchi.sufuLib.utils.gui.SufuDialogHelper;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
-import riyufuchi.sufuLib.utils.gui.SufuTableTools;
 
 /**
  * @author Riyufuchi
@@ -178,7 +178,7 @@ public class YearOverviewTab extends DataDisplayTab
 	@Override
 	public void refresh()
 	{
-		yearOverviews.set(0, dataSource.getYearOverview(year));
+		yearOverviews.set(0, database.getYearOverview(year));
 		clearPanel(contentPanel, NUM_OF_GENENERATED_COLUMNS);
 		yOffset = 0;
 		for (YearOverview yearOverview : yearOverviews)

@@ -13,7 +13,7 @@ import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.FinancialCategory;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
-import riyufuchi.sufuLib.utils.gui.SufuFactory;
+import riyufuchi.sufuLib.gui.utils.SufuFactory;
 
 /**
  * @author riyufuchi
