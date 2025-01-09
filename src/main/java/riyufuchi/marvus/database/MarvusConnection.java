@@ -7,7 +7,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.marvusLib.dataUtils.FinancialCategory;
 import riyufuchi.marvusLib.interfaces.MarvusQuerriable;
+import riyufuchi.marvusLib.records.MarvusCategoryStatistic;
 import riyufuchi.marvusLib.records.MarvusDataStatistics;
 import riyufuchi.marvusLib.records.YearOverview;
 import riyufuchi.sufuLib.time.SufuDateUtils;;
@@ -15,7 +17,7 @@ import riyufuchi.sufuLib.time.SufuDateUtils;;
 /**
  * @author riyufuchi
  * @since 09.09.2024
- * @version 01.01.2025
+ * @version 07.01.2025
  */
 public class MarvusConnection implements MarvusQuerriable
 {
@@ -104,5 +106,29 @@ public class MarvusConnection implements MarvusQuerriable
 				yo.totalIncome(), yo.totalSpendings(), yo.totalResult(),
 				avgIncome, avgSpendings, avgTotal,
 				avgDailyIncome, avgDailySpendings, avgDailyTotal);
+	}
+
+	@Override
+	public MarvusCategoryStatistic createCategoryStatistic(String category, int year)
+	{
+		FinancialCategory theOne = null;
+		for (FinancialCategory financialCategory : database.getCategorizedYearByCategories(year))
+		{
+			if (financialCategory.getCategory().equals(category))
+			{
+				theOne = financialCategory;
+				break;
+			}
+		}
+		if (theOne == null)
+			return  new MarvusCategoryStatistic(category, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+		final BigDecimal TWELVE = new BigDecimal(12);
+		BigDecimal numOfDays = new BigDecimal(365);
+		if (SufuDateUtils.isLeapYear(year))
+			numOfDays.add(BigDecimal.ONE);
+		BigDecimal theOneSum = theOne.getSum();
+		BigDecimal yearAvg = theOneSum.divide(TWELVE, 2, RoundingMode.HALF_UP);
+		BigDecimal dailyAvg = theOneSum.divide(numOfDays, 2, RoundingMode.HALF_UP);
+		return new MarvusCategoryStatistic(category, theOneSum, yearAvg, dailyAvg);
 	}
 }
