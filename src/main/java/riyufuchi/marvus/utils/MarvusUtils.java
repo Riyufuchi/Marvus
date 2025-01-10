@@ -16,7 +16,7 @@ import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 18.12.2023
- * @version 27.12.2024
+ * @version 10.01.2025
  */
 public class MarvusUtils
 {
@@ -34,7 +34,7 @@ public class MarvusUtils
 	{
 		if (SufuDialogHelper.booleanDialog(frame, "Set category automatically?", "Category fixing"))
 			database.stream()
-			.forEach(transaction -> database.macroTable.getByID(transaction.getName())
+			.forEach(transaction -> database.getMacrosTableController().getByID(transaction.getName())
 					.ifPresent(tm -> transaction.setCategory(tm.category())));
 	}
 	

@@ -29,7 +29,7 @@ import riyufuchi.sufuLib.time.SufuDateUtils;
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 07.01.2025
+ * @version 10.01.2025
  */
 public class AddTransactionDialog extends SufuDialog
 {
@@ -55,8 +55,8 @@ public class AddTransactionDialog extends SufuDialog
 	protected void createUI(JPanel pane)
 	{
 		getGBC(0, 0).weightx = 1.0;
-		nameBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.entities.getData()));
-		categoryBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.categories.getData()));
+		nameBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getEntitiesTableController().getData()));
+		categoryBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTableController().getData()));
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
 		date = SufuFactory.newButton(SufuDateUtils.nowDateString(), evt -> {
@@ -76,7 +76,7 @@ public class AddTransactionDialog extends SufuDialog
 				name.setEnabled(false);
 				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
 			}
-			database.macroTable.getByID(name.getText()).ifPresent(row -> {
+			database.getMacrosTableController().getByID(name.getText()).ifPresent(row -> {
 				SufuComponentTools.setSelectedItemGeneric(categoryBox, row.category());
 				if (row.value().equals("0"))
 					money.setText("");
@@ -96,7 +96,7 @@ public class AddTransactionDialog extends SufuDialog
 	protected void onOK()
 	{
 		if (nameBox.getItemAt(nameBox.getSelectedIndex()).equals("Custom"))
-			database.entities.add(name.getText());
+			database.getEntitiesTableController().add(name.getText());
 		Transaction t = new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), 
 				SufuInputChecker.checkDoubleFormat(money.getText()), currency.getText(), date.getText(), note.getText());
 		interfaceParentWindow.getController().getDatabase().add(t);

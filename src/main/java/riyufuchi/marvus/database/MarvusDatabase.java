@@ -6,11 +6,15 @@ import java.util.function.Consumer;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusConfig;
+import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusDatabaseTable;
 import riyufuchi.marvusLib.database.MarvusMainTable;
+import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.files.SufuPersistence;
+import riyufuchi.sufuLib.interfaces.IDatabase;
+import riyufuchi.sufuLib.interfaces.SufuITableDB;
 
 
 /**
@@ -18,14 +22,14 @@ import riyufuchi.sufuLib.files.SufuPersistence;
  * 
  * @author Riyufuchi
  * @since 12.12.2024
- * @version 30.12.2024
+ * @version 10.01.2025
  */
-public class MarvusDatabase extends MarvusMainTable
+public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseController
 {
 	private MarvusDatabaseIO mdbio;
-	public SufuTableDB<String, TransactionMacro> macroTable;
-	public MarvusDatabaseTable<String> entities;
-	public MarvusDatabaseTable<String> categories;
+	private SufuTableDB<String, TransactionMacro> macroTable;
+	private MarvusDatabaseTable<String> entities;
+	private MarvusDatabaseTable<String> categories;
 	
 	public MarvusDatabase()
 	{
@@ -55,5 +59,41 @@ public class MarvusDatabase extends MarvusMainTable
 		{
 			errorHandler.accept(e.getLocalizedMessage());
 		}
+	}
+
+	@Override
+	public boolean removeCategory(int categoryID, int replacementCategoryID)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean removeEntity(int nameID, int replacementNameID)
+	{
+		return false;
+	}
+
+	@Override
+	public SufuITableDB<String, TransactionMacro> getMacrosTableController()
+	{
+		return macroTable;
+	}
+
+	@Override
+	public IDatabase<Transaction> getTransactionsTableController()
+	{
+		return this;
+	}
+
+	@Override
+	public IDatabase<String> getCategoriesTableController()
+	{
+		return categories;
+	}
+
+	@Override
+	public IDatabase<String> getEntitiesTableController()
+	{
+		return entities;
 	}
 }

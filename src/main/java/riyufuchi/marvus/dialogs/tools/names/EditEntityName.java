@@ -5,11 +5,13 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
+import riyufuchi.sufuLib.records.SufuPair;
+import riyufuchi.sufuLib.records.SufuSimpleRow;
 
 /**
  * @author Riyufuchi
  * @since 02.12.2024
- * @version 12.12.2024
+ * @version 10.01.2025
  */
 public class EditEntityName extends AddEntityName
 {
@@ -26,9 +28,7 @@ public class EditEntityName extends AddEntityName
 		super.createUI(panel);
 		categoriesCB.setEnabled(true);
 		categoriesCB.addActionListener(evt -> 
-		{
-			categoryInput.setText(SufuComponentTools.extractComboboxValue(categoriesCB).toString());
-		});
+			SufuComponentTools.setSelectedItemGeneric(categoryInputCB, SufuComponentTools.extractComboboxValue(categoriesCB)));
 		categoriesCB.setSelectedIndex(0);
 	}
 
@@ -40,9 +40,9 @@ public class EditEntityName extends AddEntityName
 	@Override
 	protected void onOK()
 	{
-		if (categoryInput.getText().isBlank())
+		if (((String)categoryInputCB.getEditor().getItem()).isBlank())
 			return;
-		data = categoryInput.getText() + ";" + (SufuComponentTools.extractComboboxValue(categoriesCB).id());
+		data = new SufuPair<>(SufuComponentTools.extractComboboxValue(categoriesCB), new SufuSimpleRow<>(0, (String)categoryInputCB.getEditor().getItem()));
 		closeDialog();
 	}
 }

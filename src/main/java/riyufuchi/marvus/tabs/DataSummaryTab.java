@@ -15,7 +15,7 @@ import riyufuchi.sufuLib.gui.utils.SufuFactory;
 /**
  * @author riyufuchi
  * @since ?
- * @version 08.01.2025
+ * @version 10.01.2025
  */
 public class DataSummaryTab extends DataDisplayTab
 {
@@ -38,7 +38,7 @@ public class DataSummaryTab extends DataDisplayTab
 		this.con = new MarvusConnection(database);
 		this.ds = con.createDataStatistics(YEAR);
 		// UI
-		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.categories.getData()), evt -> refresh());
+		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTableController().getData()), evt -> refresh());
 		addMenuAndMenuItems(categoryOption);
 		addContentPanel();
 		this.mcs = con.createCategoryStatistic(SufuComponentTools.extractComboboxValue(categoryOption), YEAR);

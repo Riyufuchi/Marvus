@@ -5,11 +5,13 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
+import riyufuchi.sufuLib.records.SufuPair;
+import riyufuchi.sufuLib.records.SufuSimpleRow;
 
 /**
  * @author Riyufuchi
  * @since 03.12.2024
- * @version 12.12.2024
+ * @version 10.01.2025
  */
 public class RemoveEntityName extends EditEntityName
 {
@@ -24,7 +26,10 @@ public class RemoveEntityName extends EditEntityName
 	protected void createUI(JPanel panel)
 	{
 		super.createUI(panel);
-		categoryInput.setEnabled(false);
+		categoryInputCB.removeAllItems();
+		for (SufuSimpleRow<String> row : database.getEntitiesTableController().getRows())
+			categoryInputCB.addItem(row);
+		categoryInputCB.setEditable(false);
 	}
 	
 	@Override
@@ -35,7 +40,9 @@ public class RemoveEntityName extends EditEntityName
 	@Override
 	protected void onOK()
 	{
-		data = String.valueOf(SufuComponentTools.extractComboboxValue(categoriesCB).id());
+		if (SufuComponentTools.extractComboboxValue(categoriesCB).entity().equals(SufuComponentTools.extractComboboxValue(categoryInputCB).entity()))
+			return;
+		data = new SufuPair<>(SufuComponentTools.extractComboboxValue(categoriesCB), SufuComponentTools.extractComboboxValue(categoryInputCB));
 		closeDialog();
 	}
 }

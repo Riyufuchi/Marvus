@@ -30,7 +30,7 @@ import riyufuchi.sufuLib.gui.utils.SufuFactory;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 30.12.2024
+ * @version 10.01.2025
  */
 public class TableTab extends DataDisplayTab
 {
@@ -50,9 +50,9 @@ public class TableTab extends DataDisplayTab
 		super(targetWindow);
 		this.valueFilterOptions = SufuFactory.newCombobox(MarvusTexts.VALUE_OPTIONS, evt -> refresh());
 		this.showForMonth = SufuFactory.newCombobox(Month.values()); // This combobox must have selected value before action event is assigned otherwise displayed data are duped
-		this.nameOptions = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.entities.getData()), evt -> refresh());
+		this.nameOptions = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getEntitiesTableController().getData()), evt -> refresh());
 		this.noteOptions = SufuFactory.newCombobox(MarvusTexts.NOTE_OPTIONS, evt -> refresh());
-		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.categories.getData()), evt -> refresh());
+		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTableController().getData()), evt -> refresh());
 		this.dayOption = SufuFactory.newSpinner(1, 1, 31, 1, evt -> refresh());
 		this.b1 = SufuFactory.newCheckBox("", evt -> checkBoxEvent(showForMonth));
 		this.b2 = SufuFactory.newCheckBox("", true, evt -> checkBoxEvent(nameOptions));
@@ -83,8 +83,8 @@ public class TableTab extends DataDisplayTab
 		});
 		this.entityManager = SufuFactory.newButton("Entity manager", evt -> { 
 			new EntityManagerDialog((MarvusDataWindow)targetWindow.getSelf()).showDialog();
-			updateCB(nameOptions, database.entities.getData());
-			updateCB(categoryOption, database.categories.getData());
+			updateCB(nameOptions, database.getEntitiesTableController().getData());
+			updateCB(categoryOption, database.getCategoriesTableController().getData());
 		});
 		addMenuAndMenuItems(entityManager, b2, nameOptions, b4, categoryOption, valueFilterOptions, b5, dayOption, b1, showForMonth, b3, noteOptions);
 		masterPanel.simulateBorderLayout();
@@ -125,7 +125,7 @@ public class TableTab extends DataDisplayTab
 		{
 			string = SufuComponentTools.<String>extractComboboxValue(nameOptions);
 			if (string.equals("Custom"))
-				for (String name : database.entities.getData())
+				for (String name : database.getEntitiesTableController().getData())
 					currDataSet.removeIf(t -> t.getName().equals(name));
 			else
 				currDataSet.removeIf(t -> !t.getName().equals(string));
@@ -135,7 +135,7 @@ public class TableTab extends DataDisplayTab
 		{
 			string = SufuComponentTools.<String>extractComboboxValue(categoryOption);
 			if (string.equals("Custom"))
-				for (String name : database.categories.getData())
+				for (String name : database.getCategoriesTableController().getData())
 					currDataSet.removeIf(t -> t.getCategory().equals(name));
 			else
 				currDataSet.removeIf(t -> !t.getCategory().equals(string));

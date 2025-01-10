@@ -15,7 +15,7 @@ import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 1.97 - 12.10.2023
- * @version 12.12.2024
+ * @version 10.01.2025
  */
 public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 {
@@ -33,11 +33,11 @@ public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 
 	protected void createUI(JPanel arg0)
 	{
-		existingMacros = SufuFactory.newCombobox(database.entities.getData());
+		existingMacros = SufuFactory.newCombobox(database.getEntitiesTableController().getData());
 		name = SufuFactory.newTextField("");
 		name.setEnabled(false);
 		value = SufuFactory.newTextField("0");
-		category = SufuFactory.newCombobox(database.categories.getData());
+		category = SufuFactory.newCombobox(database.getCategoriesTableController().getData());
 		SufuGuiTools.addLabels(this, "Name:", null, "Category:", "Value:");
 		SufuGuiTools.addComponents(this, 1, 0, existingMacros, name, category, value);
 	}

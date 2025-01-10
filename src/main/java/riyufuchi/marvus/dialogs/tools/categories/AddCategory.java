@@ -14,7 +14,7 @@ import riyufuchi.sufuLib.records.SufuSimpleRow;
 /**
  * @author Riyufuchi
  * @since 1.97 - 12.10.2023
- * @version 24.12.2024
+ * @version 10.01.2025
  */
 public class AddCategory extends SufuDataDialog<SufuSimpleRow<String>>
 {
@@ -32,7 +32,7 @@ public class AddCategory extends SufuDataDialog<SufuSimpleRow<String>>
 
 	protected void createUI(JPanel panel)
 	{
-		categoriesCB = SufuFactory.newCombobox(database.categories.getRows());
+		categoriesCB = SufuFactory.newCombobox(database.getCategoriesTableController().getRows());
 		categoriesCB.setEnabled(false);
 		categoryInput = SufuFactory.newTextField("");
 		SufuGuiTools.addLabels(this, "Category:");

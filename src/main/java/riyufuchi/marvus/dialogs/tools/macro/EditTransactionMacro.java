@@ -14,7 +14,7 @@ import riyufuchi.sufuLib.records.SufuRowDB;
 /**
  * @author Riyufuchi
  * @since 29.11.2024
- * @version 12.12.2024
+ * @version 10.01.2025
  */
 public class EditTransactionMacro extends AddTransactionMacro
 {
@@ -25,7 +25,7 @@ public class EditTransactionMacro extends AddTransactionMacro
 	{
 		super(parentFrame, database);
 		this.setTitle("Edit Transaction Macro");
-		this.rows = MarvusTableUtils.selectMacroOrdered(database.macroTable);
+		this.rows = MarvusTableUtils.selectMacroOrdered(database.getMacrosTableController());
 		for (SufuRowDB<String, TransactionMacro> row : rows)
 			existingMacros.addItem(row.entity().name());
 		this.existingMacros.setSelectedIndex(0);
@@ -37,7 +37,7 @@ public class EditTransactionMacro extends AddTransactionMacro
 		super.createUI(arg0);
 		existingMacros.removeAllItems();
 		existingMacros.addActionListener(evt -> {
-			database.macroTable.getByID(SufuComponentTools.extractComboboxValue(existingMacros)).ifPresent(row -> {
+			database.getMacrosTableController().getByID(SufuComponentTools.extractComboboxValue(existingMacros)).ifPresent(row -> {
 				selectedRow = new SufuRowDB<>(row.name(), row);
 				name.setText(row.name());
 				SufuComponentTools.setSelectedItemGeneric(category, row.category());
@@ -58,7 +58,7 @@ public class EditTransactionMacro extends AddTransactionMacro
 		if (name.getText().isBlank() || value.getText().isBlank() || selectedRow == null)
 			return;
 		data = new TransactionMacro(name.getText(), SufuComponentTools.extractComboboxValue(category), value.getText());
-		database.macroTable.set(data.name(), data);
+		database.getMacrosTableController().set(data.name(), data);
 		closeDialog();
 	}
 }
