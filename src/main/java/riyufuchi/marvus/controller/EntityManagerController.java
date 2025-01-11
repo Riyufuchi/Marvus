@@ -5,18 +5,14 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusConfig;
-import riyufuchi.marvus.database.MarvusConnection;
+import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.database.MarvusDatabase;
-import riyufuchi.marvus.dialogs.tools.categories.AddCategory;
-import riyufuchi.marvus.dialogs.tools.categories.EditCategory;
 import riyufuchi.marvus.dialogs.tools.macro.AddTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.macro.DeleteTransactionMacro;
 import riyufuchi.marvus.dialogs.tools.macro.EditTransactionMacro;
-import riyufuchi.marvus.dialogs.tools.names.AddEntityName;
-import riyufuchi.marvus.dialogs.tools.names.EditEntityName;
-import riyufuchi.marvus.dialogs.tools.names.RemoveEntityName;
 import riyufuchi.marvusLib.database.MarvusDatabaseTable;
-import riyufuchi.marvusLib.enums.UserAction;
+import riyufuchi.marvusLib.enums.MarvusAction;
+import riyufuchi.marvusLib.gui.MarvusComboBoxDialog;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.files.SufuPersistence;
@@ -24,16 +20,19 @@ import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 import riyufuchi.sufuLib.records.SufuPair;
 import riyufuchi.sufuLib.records.SufuSimpleRow;
 
+/**
+ * @author riyufuchi
+ * @since ?
+ * @version 11.01.2025
+ */
 public class EntityManagerController
 {
-	private final String ENTITY_DIALOG_TITLE;
 	private final String DEFAULT_DIALOG_TEXT;
 	private JFrame parentFrame;
 	private MarvusDatabase database;
 
 	public EntityManagerController(JFrame appManager, MarvusDatabase database)
 	{
-		this.ENTITY_DIALOG_TITLE = "Entity name operation";
 		this.DEFAULT_DIALOG_TEXT = "%s %s was %s!";
 		this.parentFrame = appManager;
 		this.database = database;
@@ -53,7 +52,7 @@ public class EntityManagerController
 		return true;
 	}
 	
-	private void tableToFile(boolean result, String title, UserAction action, String path, MarvusDatabaseTable<String> table)
+	private void tableToFile(boolean result, String title, MarvusAction action, String path, MarvusDatabaseTable<String> table)
 	{
 		if (result)
 		{
@@ -70,33 +69,35 @@ public class EntityManagerController
 	
 	public void addEntityBtnEvt()
 	{
-		SufuPair<SufuSimpleRow<String>, SufuSimpleRow<String>> pair = new AddEntityName(parentFrame, database).showAndGet();
+		SufuPair<SufuSimpleRow<String>, SufuSimpleRow<String>> pair = 
+				new MarvusComboBoxDialog(parentFrame, MarvusTexts.NAME_DIALOG_TEXT, database.getEntitiesTableController(), MarvusAction.ADD).showAndGet();
 		if (pair == null)
 			return;
 		tableToFile(database.getEntitiesTableController().add(pair.item().entity()),
-			ENTITY_DIALOG_TITLE, UserAction.ADD,
+			MarvusTexts.NAME_DIALOG_TEXT.title(), MarvusAction.ADD,
 				MarvusConfig.ENTITY_TABLE_PATH, (MarvusDatabaseTable<String>) database.getEntitiesTableController());
 	}
 	
 	public void editEntityBtnEvt()
 	{
-		SufuPair<SufuSimpleRow<String>, SufuSimpleRow<String>> pair = new EditEntityName(parentFrame, database).showAndGet();
+		SufuPair<SufuSimpleRow<String>, SufuSimpleRow<String>> pair = 
+				new MarvusComboBoxDialog(parentFrame, MarvusTexts.NAME_DIALOG_TEXT, database.getEntitiesTableController(), MarvusAction.EDIT).showAndGet();
 		if (pair == null)
 			return;
-		boolean result = new MarvusConnection(database)
-			.updateAtribbute("Name", pair.index().entity(), pair.item().entity());
+		boolean result = database.updateAtribbute("Name", pair.index().entity(), pair.item().entity());
 		result = result && database.getEntitiesTableController().set(pair.index().id(), pair.item().entity());
-		tableToFile(result, ENTITY_DIALOG_TITLE, UserAction.EDIT,
+		tableToFile(result, MarvusTexts.NAME_DIALOG_TEXT.title(), MarvusAction.EDIT,
 					MarvusConfig.ENTITY_TABLE_PATH, (MarvusDatabaseTable<String>) database.getEntitiesTableController());
 	}
 	
 	public void removeEntityBtnEvt()
 	{
-		SufuPair<SufuSimpleRow<String>, SufuSimpleRow<String>> pair = new RemoveEntityName(parentFrame, database).showAndGet();
+		SufuPair<SufuSimpleRow<String>, SufuSimpleRow<String>> pair =
+				new MarvusComboBoxDialog(parentFrame, MarvusTexts.NAME_DIALOG_TEXT, database.getEntitiesTableController(), MarvusAction.DELETE).showAndGet();
 		if (pair == null)
 			return;
 		tableToFile(database.removeEntity(pair.index().id(), pair.item().id()),
-			ENTITY_DIALOG_TITLE, UserAction.DELETE,
+			MarvusTexts.NAME_DIALOG_TEXT.title(), MarvusAction.DELETE,
 				MarvusConfig.ENTITY_TABLE_PATH, (MarvusDatabaseTable<String>) database.getEntitiesTableController());
 	}
 	
@@ -104,36 +105,31 @@ public class EntityManagerController
 	
 	public void addCategoryBtnEvt()
 	{
-		SufuSimpleRow<String> categories = new AddCategory(parentFrame, database).showAndGet();
-		if (categories == null)
+		SufuPair<SufuSimpleRow<String>, SufuSimpleRow<String>> pair =
+				new MarvusComboBoxDialog(parentFrame, MarvusTexts.CATEGORY_DIALOG_TEXT, null, MarvusAction.ADD).showAndGet();
+		if (pair == null)
 			return;
-		database.getCategoriesTableController().add(categories.entity());
-		if (saveTableToFile(MarvusConfig.CATEGORY_TABLE_PATH, (MarvusDatabaseTable<String>) database.getCategoriesTableController()))
-			SufuDialogHelper.informationDialog(parentFrame, "Category successfuly added!", "Category operation");
-		
+		tableToFile(database.getCategoriesTableController().add(pair.item().entity()),
+			MarvusTexts.CATEGORY_DIALOG_TEXT.title(), MarvusAction.ADD, 
+				MarvusConfig.CATEGORY_TABLE_PATH, (MarvusDatabaseTable<String>) database.getCategoriesTableController());
 	}
 	
 	public void editCategoryBtnEvt()
 	{
-		SufuSimpleRow<String> categories = new EditCategory(parentFrame, database).showAndGet();
-		if (categories == null)
+		SufuPair<SufuSimpleRow<String>, SufuSimpleRow<String>> pair = new MarvusComboBoxDialog(parentFrame, MarvusTexts.CATEGORY_DIALOG_TEXT,
+				database.getCategoriesTableController(), MarvusAction.EDIT).showAndGet();
+		if (pair == null)
 			return;
-		database.getCategoriesTableController().set(categories.id(), categories.entity());
-		if (saveTableToFile(MarvusConfig.CATEGORY_TABLE_PATH, (MarvusDatabaseTable<String>) database.getCategoriesTableController()))
-			SufuDialogHelper.informationDialog(parentFrame, "Category successfuly edited!", "Category operation");
+		boolean result = database.updateAtribbute("Category", pair.index().entity(), pair.item().entity());
+		result = result && database.getCategoriesTableController().set(pair.index().id(), pair.item().entity());
+		tableToFile(result, 
+			MarvusTexts.CATEGORY_DIALOG_TEXT.title(), MarvusAction.EDIT,
+				MarvusConfig.CATEGORY_TABLE_PATH, (MarvusDatabaseTable<String>) database.getCategoriesTableController());
 	}
 	
 	public void removeCategoryBtnEvt()
 	{
-		SufuSimpleRow<String> category = new EditCategory(parentFrame, database).showAndGet();
-		if (category == null)
-			return;
-		if (SufuDialogHelper.booleanDialog(parentFrame, "Delete: " + category.entity(), "Are you sure?"))
-		{
-			database.getCategoriesTableController().remove(category.id());
-			if (saveTableToFile(MarvusConfig.CATEGORY_TABLE_PATH, (MarvusDatabaseTable<String>) database.getCategoriesTableController()))
-				SufuDialogHelper.informationDialog(parentFrame, "Category successfuly removed!", "Category operation");
-		}
+		SufuDialogHelper.notImplementedYetDialog(parentFrame);
 	}
 	
 	// Macros

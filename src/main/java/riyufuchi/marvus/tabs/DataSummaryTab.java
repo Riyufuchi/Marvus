@@ -3,10 +3,8 @@ package riyufuchi.marvus.tabs;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.database.MarvusConnection;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
-import riyufuchi.marvusLib.interfaces.MarvusQuerriable;
 import riyufuchi.marvusLib.records.MarvusCategoryStatistic;
 import riyufuchi.marvusLib.records.MarvusDataStatistics;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
@@ -15,7 +13,7 @@ import riyufuchi.sufuLib.gui.utils.SufuFactory;
 /**
  * @author riyufuchi
  * @since ?
- * @version 10.01.2025
+ * @version 11.01.2025
  */
 public class DataSummaryTab extends DataDisplayTab
 {
@@ -23,7 +21,6 @@ public class DataSummaryTab extends DataDisplayTab
 	private final String FORMAT;
 	private final int YEAR;
 	private int xIndex, yIndex;
-	private MarvusQuerriable con;
 	private MarvusDataStatistics ds;
 	private MarvusCategoryStatistic mcs;
 	private JComboBox<String> categoryOption;
@@ -35,13 +32,12 @@ public class DataSummaryTab extends DataDisplayTab
 		this.CAPTIONS = new String[]{"Transactions", "Income", "Spendings", "Outcome"};
 		this.FORMAT = "%.2f";
 		this.YEAR = year;
-		this.con = new MarvusConnection(database);
-		this.ds = con.createDataStatistics(YEAR);
+		this.ds = database.createDataStatistics(YEAR);
 		// UI
 		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTableController().getData()), evt -> refresh());
 		addMenuAndMenuItems(categoryOption);
 		addContentPanel();
-		this.mcs = con.createCategoryStatistic(SufuComponentTools.extractComboboxValue(categoryOption), YEAR);
+		this.mcs = database.createCategoryStatistic(SufuComponentTools.extractComboboxValue(categoryOption), YEAR);
 		this.category = SufuFactory.newTextFieldHeader(mcs.category());
 		resetValues();
 		this.yIndex = 1;
@@ -87,8 +83,8 @@ public class DataSummaryTab extends DataDisplayTab
 	{
 		clearPanel(contentPanel, 8);
 		resetValues();
-		ds = con.createDataStatistics(YEAR);
-		mcs = con.createCategoryStatistic(SufuComponentTools.extractComboboxValue(categoryOption), YEAR);
+		ds = database.createDataStatistics(YEAR);
+		mcs = database.createCategoryStatistic(SufuComponentTools.extractComboboxValue(categoryOption), YEAR);
 		category.setText(mcs.category());
 		displayData();
 	}

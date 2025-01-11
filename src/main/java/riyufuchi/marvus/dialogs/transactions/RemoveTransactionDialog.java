@@ -3,7 +3,7 @@ package riyufuchi.marvus.dialogs.transactions;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.enums.UserAction;
+import riyufuchi.marvusLib.enums.MarvusAction;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 
@@ -28,7 +28,7 @@ public class RemoveTransactionDialog extends EditTransactionDialog
 	{
 		if(SufuDialogHelper.booleanDialog(parentFrame, "Delete transaction number: " + getTransaction().getID() + "\n" + getTransaction().toString(), "Are you sure?"))
 		{
-			interfaceParentWindow.getController().setLastAction(new LastChange(UserAction.DELETE, getTransaction()));
+			interfaceParentWindow.getController().setLastAction(new LastChange(MarvusAction.DELETE, getTransaction()));
 			interfaceParentWindow.getController().getDatabase().remove(getTransaction());
 			interfaceParentWindow.getController().refresh();
 		}

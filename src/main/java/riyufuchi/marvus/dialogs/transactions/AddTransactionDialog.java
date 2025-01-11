@@ -14,7 +14,7 @@ import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Money;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
-import riyufuchi.marvusLib.enums.UserAction;
+import riyufuchi.marvusLib.enums.MarvusAction;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.general.SufuInputChecker;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
@@ -101,7 +101,7 @@ public class AddTransactionDialog extends SufuDialog
 				SufuInputChecker.checkDoubleFormat(money.getText()), currency.getText(), date.getText(), note.getText());
 		interfaceParentWindow.getController().getDatabase().add(t);
 		interfaceParentWindow.getController().refresh();
-		interfaceParentWindow.getController().setLastAction(new LastChange(UserAction.ADD, t));
+		interfaceParentWindow.getController().setLastAction(new LastChange(MarvusAction.ADD, t));
 	}
 
 	@Override

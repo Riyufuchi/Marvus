@@ -6,7 +6,7 @@ import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.enums.UserAction;
+import riyufuchi.marvusLib.enums.MarvusAction;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
 
@@ -76,7 +76,7 @@ public class EditTransactionDialog extends AddTransactionDialog
 		transaction.setNote(note.getText());
 		transaction.setCurrency(currency.getText());
 		((MarvusDataWindow)parentFrame).getController().refresh();
-		((MarvusDataWindow)parentFrame).getController().setLastAction(new LastChange(UserAction.EDIT, transaction));
+		((MarvusDataWindow)parentFrame).getController().setLastAction(new LastChange(MarvusAction.EDIT, transaction));
 	}
 	
 	public Transaction getTransaction()

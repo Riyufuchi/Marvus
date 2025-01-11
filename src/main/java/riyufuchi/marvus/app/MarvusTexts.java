@@ -1,8 +1,10 @@
 package riyufuchi.marvus.app;
 
+import riyufuchi.marvusLib.records.MarvusComboBoxDialogTexts;
+
 public class MarvusTexts
 {
-	public static final String VERSION = "2.6.4";
+	public static final String VERSION = "2.6.5";
 	public static final String APP_NAME =  "Marvus - " + VERSION;
 	// MENU BAR
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Legacy", "Window", "Help"};
@@ -17,10 +19,12 @@ public class MarvusTexts
 	public static final String[][] BUDGET_TABLE_MENU_ITEMS = {FILE, TRANSACTION, OVERVIEW_MODES, TOOLS, LEGACY, WINDOW, HELP};
 	// COMBO BOXES OPTION 
 	public static final String[] GROUP_BY_TIME_DETAIL = {"Name", "Category"}; 
-	// OTHER
+	// DIALOG TEXTS
 	public static final String ABOUT_MARVUS = "<html>This is finance manager.<br>"
 			+ "Version: " + VERSION + "<br>Created by Riyufuchi © 2021 - 2025."
 			+ "<br>My code is under respective license.</html>";
+	public static final MarvusComboBoxDialogTexts CATEGORY_DIALOG_TEXT = new MarvusComboBoxDialogTexts("Category name operation", "Old category:", "New category:");
+	public static final MarvusComboBoxDialogTexts NAME_DIALOG_TEXT = new MarvusComboBoxDialogTexts("Entity name operation", "Old name:", "New name:");
 	// DIALOG TEXTS
 	public static final String[] DATE_FORMAT_OPTIONS = {"dd.MM.yyyy", "MM.dd.yyyy"};
 	public static final String[] LOCAL_DATE_TIME_FORMAT_OPTIONS = {"dd.mm.yyyy", "MM.dd.yyyy"};

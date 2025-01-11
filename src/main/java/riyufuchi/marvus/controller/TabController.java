@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
-import riyufuchi.marvus.database.MarvusConnection;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
 import riyufuchi.marvus.dialogs.transactions.AddTransactionDialog;
@@ -30,7 +29,7 @@ import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation;
 import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
-import riyufuchi.marvusLib.enums.UserAction;
+import riyufuchi.marvusLib.enums.MarvusAction;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.files.SufuFileHelper;
 import riyufuchi.sufuLib.files.SufuPersistence;
@@ -40,7 +39,7 @@ import riyufuchi.sufuLib.interfaces.SufuTab;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 07.01.2025
+ * @version 11.01.2025
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -67,14 +66,13 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		this.prevMode = currentMode;
 		this.currentWorkFile = file;
 		this.quickOpened = false;
-		this.lastAction = new LastChange(UserAction.NONE, null);
+		this.lastAction = new LastChange(MarvusAction.NONE, null);
 		setFinancialYear(LocalDate.now().getYear());
 	}
 	
 	public void executeQuarry()
 	{
-		MarvusConnection con = new MarvusConnection(database);
-		if (con.updateAtribbute("Name", "Vinotéka", "Category", "Fun", "Alcohol"))
+		if (database.updateAtribbute("Name", "Vinotéka", "Category", "Fun", "Alcohol"))
 		{
 			SufuDialogHelper.informationDialog(controledWindow, "Success!", "SQL result");
 			refresh();
@@ -83,7 +81,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	
 	public void saveChanges()
 	{
-		if (lastAction.userAction() != UserAction.NONE && lastAction.transactionInQuestion() != null)
+		if (lastAction.userAction() != MarvusAction.NONE && lastAction.transactionInQuestion() != null)
 			if (SufuDialogHelper.booleanDialog(controledWindow, "Last action: " + lastAction.userAction().toString() + "\n" + lastAction.transactionInQuestion().toString(),
 					"Save unsaved actions?"))
 				saveDataToFile();
@@ -142,7 +140,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			MarvusIO.quickSave(controledWindow.getSelf(), currentWorkFile.getAbsolutePath(), database);
 		else
 			SufuDialogHelper.warningDialog(controledWindow.getSelf(), "No save destination found!", "No save destination");
-		setLastAction(new LastChange(UserAction.NONE, null));
+		setLastAction(new LastChange(MarvusAction.NONE, null));
 	}
 	
 	public void saveDataToFile()
@@ -162,7 +160,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		{
 			SufuDialogHelper.exceptionDialog(controledWindow.getSelf(), e);
 		}
-		setLastAction(new LastChange(UserAction.NONE, null));
+		setLastAction(new LastChange(MarvusAction.NONE, null));
 	}
 	
 	public void exportData()
