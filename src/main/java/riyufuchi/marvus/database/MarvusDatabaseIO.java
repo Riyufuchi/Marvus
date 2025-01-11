@@ -1,6 +1,7 @@
 package riyufuchi.marvus.database;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -8,13 +9,13 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDefaultTableValues;
-import riyufuchi.marvusLib.database.MarvusDatabaseTable;
 import riyufuchi.marvusLib.records.TransactionMacro;
+import riyufuchi.sufuLib.database.SufuAutoIncrement;
 import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.files.SufuFileHelper;
 import riyufuchi.sufuLib.files.SufuPersistence;
 import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
-
+import riyufuchi.sufuLib.interfaces.SufuDatabaseInterface;
 
 public class MarvusDatabaseIO
 {
@@ -25,31 +26,45 @@ public class MarvusDatabaseIO
 		this.parentFrame = parentFrame;
 	}
 	
-	public MarvusDatabaseTable<String> loadCategoryTable()
+	public <K extends Serializable, E extends Serializable> boolean saveTableToFile(String path, SufuDatabaseInterface<K, E> table)
 	{
 		try
 		{
-			return SufuPersistence.<MarvusDatabaseTable<String>>deserialize(MarvusConfig.CATEGORY_TABLE_PATH).getFirst();
+			SufuPersistence.serializeStructure(path, (SufuTableDB<K, E>)table);
+		}
+		catch (NullPointerException | IOException e)
+		{
+			SufuDialogHelper.exceptionDialog(parentFrame, e);
+			return false;
+		}
+		return true;
+	}
+	
+	public SufuTableDB<Integer, String> loadCategoryTable()
+	{
+		try
+		{
+			return SufuPersistence.<SufuTableDB<Integer, String>>deserialize(MarvusConfig.CATEGORY_TABLE_PATH).getFirst();
 		}
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e1)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e1);
-			return new MarvusDatabaseTable<String>(restoreTable(MarvusConfig.CATEGORY_FILE_PATH, MarvusDefaultTableValues.CATEGORY_ENUM));
+			return new SufuTableDB<>(restoreTable(MarvusConfig.CATEGORY_FILE_PATH, MarvusDefaultTableValues.CATEGORY_ENUM), new SufuAutoIncrement(0));
 		}
 	}
 	
 	// Entities
 	
-	public MarvusDatabaseTable<String> loadEntityTable()
+	public SufuTableDB<Integer, String> loadEntityTable()
 	{
 		try
 		{
-			return SufuPersistence.<MarvusDatabaseTable<String>>deserialize(MarvusConfig.ENTITY_TABLE_PATH).getFirst();
+			return SufuPersistence.<SufuTableDB<Integer, String>>deserialize(MarvusConfig.ENTITY_TABLE_PATH).getFirst();
 		}
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e1)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e1);
-			return new MarvusDatabaseTable<String>(restoreTable(MarvusConfig.ENTITY_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM));
+			return new SufuTableDB<>(restoreTable(MarvusConfig.ENTITY_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM), new SufuAutoIncrement(0));
 		}
 	}
 	

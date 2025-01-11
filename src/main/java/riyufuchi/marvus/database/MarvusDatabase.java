@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.FinancialCategory;
-import riyufuchi.marvusLib.database.MarvusDatabaseTable;
 import riyufuchi.marvusLib.database.MarvusMainTable;
 import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 import riyufuchi.marvusLib.records.MarvusCategoryStatistic;
@@ -22,7 +21,7 @@ import riyufuchi.marvusLib.records.YearOverview;
 import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.files.SufuPersistence;
 import riyufuchi.sufuLib.interfaces.IDatabase;
-import riyufuchi.sufuLib.interfaces.SufuITableDB;
+import riyufuchi.sufuLib.interfaces.SufuDatabaseInterface;
 import riyufuchi.sufuLib.time.SufuDateUtils;
 
 
@@ -35,10 +34,10 @@ import riyufuchi.sufuLib.time.SufuDateUtils;
  */
 public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseController
 {
-	private MarvusDatabaseIO mdbio;
+	private MarvusDatabaseIO databaseIO;
 	private SufuTableDB<String, TransactionMacro> macroTable;
-	private MarvusDatabaseTable<String> entities;
-	private MarvusDatabaseTable<String> categories;
+	private SufuTableDB<Integer, String> entities;
+	private SufuTableDB<Integer, String> categories;
 	
 	public MarvusDatabase()
 	{
@@ -48,10 +47,10 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	public MarvusDatabase(Consumer<String> errorHandler, JFrame frame)
 	{
 		super(errorHandler);
-		this.mdbio = new MarvusDatabaseIO(frame);
-		this.macroTable = mdbio.loadTransactionMacroTable();
-		this.entities = mdbio.loadEntityTable();
-		this.categories = mdbio.loadCategoryTable();
+		this.databaseIO = new MarvusDatabaseIO(frame);
+		this.macroTable = databaseIO.loadTransactionMacroTable();
+		this.entities = databaseIO.loadEntityTable();
+		this.categories = databaseIO.loadCategoryTable();
 	}
 	
 	public void createBackup()
@@ -69,17 +68,67 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 			errorHandler.accept(e.getLocalizedMessage());
 		}
 	}
+	
+	@Override
+	public boolean insertCategory(String category)
+	{
+		if (categories.add(category))
+			return databaseIO.saveTableToFile(MarvusConfig.CATEGORY_TABLE_PATH, categories);
+		return false;
+	}
+
+	@Override
+	public boolean insertEntity(String name)
+	{
+		if (entities.add(name))
+			return databaseIO.saveTableToFile(MarvusConfig.CATEGORY_TABLE_PATH, entities);
+		return false;
+	}
+	
+	@Override
+	public boolean updateCategory(int categoryID, String replacementCategory)
+	{
+		String oldValue = categories.getByID(categoryID).get();
+		if (categories.set(categoryID, replacementCategory))
+			databaseIO.saveTableToFile(MarvusConfig.CATEGORY_TABLE_PATH, categories);
+		else
+			return false;
+		return updateAtribbute("Category", oldValue, replacementCategory);
+	}
+
+	@Override
+	public boolean updateEntity(int nameID, String replacementName)
+	{
+		String oldValue = entities.getByID(nameID).get();
+		if (entities.set(nameID, replacementName))
+			databaseIO.saveTableToFile(MarvusConfig.ENTITY_TABLE_PATH, entities);
+		else
+			return false;
+		return updateAtribbute("Name", oldValue, replacementName);
+	}
 
 	@Override
 	public boolean removeCategory(int categoryID, int replacementCategoryID)
 	{
-		return false;
+		String oldValue = categories.getByID(categoryID).get();
+		String newValue = categories.getByID(replacementCategoryID).get();
+		if (categories.remove(categoryID))
+			databaseIO.saveTableToFile(MarvusConfig.ENTITY_TABLE_PATH, categories);
+		else
+			return false;
+		return updateAtribbute("Category", oldValue, newValue);
 	}
 
 	@Override
 	public boolean removeEntity(int nameID, int replacementNameID)
 	{
-		return false;
+		String oldValue = entities.getByID(nameID).get();
+		String newValue = entities.getByID(replacementNameID).get();
+		if (entities.remove(nameID))
+			databaseIO.saveTableToFile(MarvusConfig.ENTITY_TABLE_PATH, entities);
+		else
+			return false;
+		return updateAtribbute("Name", oldValue, newValue);
 	}
 	
 	@Override
@@ -187,7 +236,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	}
 
 	@Override
-	public SufuITableDB<String, TransactionMacro> getMacrosTableController()
+	public SufuDatabaseInterface<String, TransactionMacro> getMacrosTableController()
 	{
 		return macroTable;
 	}
@@ -199,13 +248,13 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	}
 
 	@Override
-	public IDatabase<String> getCategoriesTableController()
+	public SufuDatabaseInterface<Integer, String> getCategoriesTableController()
 	{
 		return categories;
 	}
 
 	@Override
-	public IDatabase<String> getEntitiesTableController()
+	public SufuDatabaseInterface<Integer, String> getEntitiesTableController()
 	{
 		return entities;
 	}

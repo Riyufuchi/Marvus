@@ -6,6 +6,7 @@ import javax.swing.JTextField;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.controller.EntityManagerController;
+import riyufuchi.marvusLib.enums.MarvusAction;
 import riyufuchi.sufuLib.gui.SufuDialogGeneric;
 import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
@@ -46,13 +47,13 @@ public class EntityManagerDialog extends SufuDialogGeneric<MarvusDataWindow>
 		fc = SufuFactory.newTextField(String.valueOf(parentFrame.getController().getFinancialYear()));
 		menuPane.add(fc);
 		
-		addEntityBtn = SufuFactory.newButton("Add entity", evt -> controller.addEntityBtnEvt());
-		editEntityBtn = SufuFactory.newButton("Edit entity", evt -> controller.editEntityBtnEvt());
-		removeEntityBtn = SufuFactory.newButton("Remove entity", evt -> controller.removeEntityBtnEvt());
+		addEntityBtn = SufuFactory.newButton("Add entity", evt -> controller.genericBtnEvt(controller.ENTITIES, MarvusAction.ADD));
+		editEntityBtn = SufuFactory.newButton("Edit entity", evt -> controller.genericBtnEvt(controller.ENTITIES, MarvusAction.EDIT));
+		removeEntityBtn = SufuFactory.newButton("Remove entity", evt -> controller.genericBtnEvt(controller.ENTITIES, MarvusAction.DELETE));
 		
-		addCategoryBtn = SufuFactory.newButton("Add category", evt -> controller.addCategoryBtnEvt());
-		editCategoryBtn = SufuFactory.newButton("Edit category", evt -> controller.editCategoryBtnEvt());
-		removeCategoryBtn = SufuFactory.newButton("Remove category", evt -> controller.removeCategoryBtnEvt());
+		addCategoryBtn = SufuFactory.newButton("Add category", evt -> controller.genericBtnEvt(controller.CATEGORIES, MarvusAction.ADD));
+		editCategoryBtn = SufuFactory.newButton("Edit category", evt -> controller.genericBtnEvt(controller.CATEGORIES, MarvusAction.EDIT));
+		removeCategoryBtn = SufuFactory.newButton("Remove category", evt -> controller.genericBtnEvt(controller.CATEGORIES, MarvusAction.DELETE));
 		
 		addMacroBtn = SufuFactory.newButton("Add macro", evt -> controller.addTransactionMacroBtnEvt());
 		editMacroBtn = SufuFactory.newButton("Edit macro", evt -> controller.editTransactionMacroBtnEvt());

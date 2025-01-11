@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import riyufuchi.marvus.database.MarvusDatabase;
+import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.gui.SufuDataDialog;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
@@ -15,23 +15,24 @@ import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 1.97 - 12.10.2023
- * @version 10.01.2025
+ * @version 11.01.2025
  */
 public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 {
 	protected JTextField name, value;
 	protected JComboBox<String> category, existingMacros;
-	protected MarvusDatabase database;
+	protected MarvusDatabaseController database;
 	
-	public AddTransactionMacro(JFrame parentFrame, MarvusDatabase database)
+	public AddTransactionMacro(JFrame parentFrame, MarvusDatabaseController database)
 	{
-		super("New Transaction Macro", parentFrame, DialogType.OK);
+		super("New Transaction Macro", parentFrame, DialogType.OK, false, false, false, null);
 		this.database = database;
-		createUI(getPane());
+		createInputs(getPane());
 		pack();
 	}
-
-	protected void createUI(JPanel arg0)
+	
+	@Override
+	protected void createInputs(JPanel arg0)
 	{
 		existingMacros = SufuFactory.newCombobox(database.getEntitiesTableController().getData());
 		name = SufuFactory.newTextField("");
@@ -40,12 +41,6 @@ public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
 		category = SufuFactory.newCombobox(database.getCategoriesTableController().getData());
 		SufuGuiTools.addLabels(this, "Name:", null, "Category:", "Value:");
 		SufuGuiTools.addComponents(this, 1, 0, existingMacros, name, category, value);
-	}
-	
-	@Override
-	protected void createInputs(JPanel arg0)
-	{
-		
 	}
 
 	@Override
