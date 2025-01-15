@@ -19,7 +19,7 @@ import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 18.12.2023
- * @version 15.01.2025
+ * @version 16.01.2025
  */
 public class MarvusUtils
 {
@@ -43,9 +43,9 @@ public class MarvusUtils
 	public static void fixCategory(JFrame frame, MarvusDatabase database)
 	{
 		if (SufuDialogHelper.booleanDialog(frame, "Set category automatically?", "Category fixing"))
-			database.stream()
-			.forEach(transaction -> database.getMacrosTableController().getByID(transaction.getName())
-					.ifPresent(tm -> transaction.setCategory(tm.category())));
+			database.getMacrosTable().getData()
+				.forEach(macro -> database.updateAtribbute("Name", macro.name(), "Category", "", macro.category()));
+
 	}
 	
 	public static void aboutMarvus(JFrame marvusWindow)

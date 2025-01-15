@@ -22,7 +22,7 @@ import riyufuchi.sufuLib.records.SufuPair;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 15.01.2025
+ * @version 16.01.2025
  */
 public class YearOverviewTab extends DataDisplayTab
 {
@@ -122,7 +122,7 @@ public class YearOverviewTab extends DataDisplayTab
 				SufuDialogHelper.exceptionDialog(targetWindow.getSelf(), e);
 				return;
 			}
-			yearOverviews.add(db.getYearOverview(db.assumeYear()));
+			yearOverviews.add(db.createYearOverview(db.assumeYear()));
 			targetWindow.refresh();
 		});
 	}

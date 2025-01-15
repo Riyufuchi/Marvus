@@ -25,7 +25,7 @@ import riyufuchi.sufuLib.records.SufuRow;
 /**
  * @author riyufuchi
  * @since ?
- * @version 15.01.2025
+ * @version 16.01.2025
  */
 public class EntityManagerController
 {
@@ -42,8 +42,8 @@ public class EntityManagerController
 	{
 		this.DEFAULT_DIALOG_TEXT = "%s %s was %s!";
 		this.MACRO_TITLE  = "Tranaction macro operation";
-		this.ENTITIES = new TargetTableInfo(MarvusTexts.NAME_DIALOG_TEXT, MarvusConfig.ENTITY_TABLE_PATH, database.getEntitiesTableController(), 1);
-		this.CATEGORIES = new TargetTableInfo(MarvusTexts.CATEGORY_DIALOG_TEXT, MarvusConfig.CATEGORY_TABLE_PATH, database.getCategoriesTableController(), 2);
+		this.ENTITIES = new TargetTableInfo(MarvusTexts.NAME_DIALOG_TEXT, MarvusConfig.ENTITY_TABLE_PATH, database.getEntitiesTable(), 1);
+		this.CATEGORIES = new TargetTableInfo(MarvusTexts.CATEGORY_DIALOG_TEXT, MarvusConfig.CATEGORY_TABLE_PATH, database.getCategoriesTable(), 2);
 		this.parentFrame = appManager;
 		this.database = database;
 		this.pair = null;
@@ -127,23 +127,23 @@ public class EntityManagerController
 	{
 		TransactionMacro tm = new AddTransactionMacro(parentFrame, database).showAndGet();
 		if (tm != null)
-			tableToFile(database.getMacrosTableController().add(tm.name(), tm),
-					MACRO_TITLE, MarvusAction.ADD, MarvusConfig.TRANSACTION_MACRO_TABLE_PATH, database.getMacrosTableController());
+			tableToFile(database.getMacrosTable().add(tm.name(), tm),
+					MACRO_TITLE, MarvusAction.ADD, MarvusConfig.TRANSACTION_MACRO_TABLE_PATH, database.getMacrosTable());
 	}
 	
 	public void editTransactionMacroBtnEvt()
 	{
 		TransactionMacro tm = new EditTransactionMacro(parentFrame, database).showAndGet();
 		if (tm != null)
-			tableToFile(database.getMacrosTableController().set(tm.name(), tm),
-					MACRO_TITLE, MarvusAction.EDIT, MarvusConfig.TRANSACTION_MACRO_TABLE_PATH, database.getMacrosTableController());
+			tableToFile(database.getMacrosTable().set(tm.name(), tm),
+					MACRO_TITLE, MarvusAction.EDIT, MarvusConfig.TRANSACTION_MACRO_TABLE_PATH, database.getMacrosTable());
 	}
 	
 	public void removeTransactionMacroBtnEvt()
 	{
 		TransactionMacro tm = new DeleteTransactionMacro(parentFrame, database).showAndGet();
 		if (tm != null && SufuDialogHelper.booleanDialog(parentFrame, "Delete macro for " + tm.name(), "Are you sure?"))
-			tableToFile(database.getMacrosTableController().delete(tm.name()),
-				MACRO_TITLE, MarvusAction.DELETE, MarvusConfig.TRANSACTION_MACRO_TABLE_PATH, database.getMacrosTableController());
+			tableToFile(database.getMacrosTable().delete(tm.name()),
+				MACRO_TITLE, MarvusAction.DELETE, MarvusConfig.TRANSACTION_MACRO_TABLE_PATH, database.getMacrosTable());
 	}
 }

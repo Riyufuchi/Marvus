@@ -30,7 +30,7 @@ import riyufuchi.sufuLib.time.SufuDateUtils;
  *
  * @author Riyufuchi
  * @since 16.05.2023
- * @version 15.01.2025
+ * @version 16.01.2025
  */
 public class AddTransactionDialog extends SufuDialogGeneric<JFrame>
 {
@@ -56,8 +56,8 @@ public class AddTransactionDialog extends SufuDialogGeneric<JFrame>
 	protected void createUI(JPanel pane)
 	{
 		getGBC(0, 0).weightx = 1.0;
-		nameBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getEntitiesTableController().getData()));
-		categoryBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTableController().getData()));
+		nameBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getEntitiesTable().getData()));
+		categoryBox = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTable().getData()));
 		name = SufuFactory.newTextField("");
 		money = SufuFactory.newTextField("");
 		date = SufuFactory.newButton(SufuDateUtils.nowDateString(), evt -> {
@@ -77,7 +77,7 @@ public class AddTransactionDialog extends SufuDialogGeneric<JFrame>
 				name.setEnabled(false);
 				name.setText(nameBox.getItemAt(nameBox.getSelectedIndex()));
 			}
-			database.getMacrosTableController().getByID(name.getText()).ifPresent(row -> {
+			database.getMacrosTable().getByID(name.getText()).ifPresent(row -> {
 				SufuComponentTools.setSelectedItemGeneric(categoryBox, row.category());
 				if (row.value().equals("0"))
 					money.setText("");
@@ -97,7 +97,7 @@ public class AddTransactionDialog extends SufuDialogGeneric<JFrame>
 	protected void onOK()
 	{
 		if (nameBox.getItemAt(nameBox.getSelectedIndex()).equals("Custom"))
-			database.getEntitiesTableController().add(name.getText());
+			database.getEntitiesTable().add(name.getText());
 		Transaction t = new Transaction(name.getText(), SufuComponentTools.<String>extractComboboxValue(categoryBox), 
 				SufuInputChecker.checkDoubleFormat(money.getText()), currency.getText(), date.getText(), note.getText());
 		interfaceParentWindow.getController().getDatabase().insertTransaction(t);

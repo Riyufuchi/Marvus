@@ -55,9 +55,9 @@ public class TableTab extends DataDisplayTab
 		super(targetWindow);
 		this.valueFilterOptions = SufuFactory.newCombobox(MarvusTexts.VALUE_OPTIONS, evt -> refresh());
 		this.showForMonth = SufuFactory.newCombobox(Month.values()); // This combobox must have selected value before action event is assigned otherwise displayed data are duped
-		this.nameOptions = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getEntitiesTableController().getData()), evt -> refresh());
+		this.nameOptions = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getEntitiesTable().getData()), evt -> refresh());
 		this.noteOptions = SufuFactory.newCombobox(MarvusTexts.NOTE_OPTIONS, evt -> refresh());
-		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTableController().getData()), evt -> refresh());
+		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTable().getData()), evt -> refresh());
 		this.orderByComboBox = SufuFactory.newCombobox(MarvusTransactionOrderBy.values(), evt -> {
 			dataSorter = MarvusDataComparation.compareBy(SufuComponentTools.extractComboboxValue(orderByComboBox));
 			refresh();
@@ -93,8 +93,8 @@ public class TableTab extends DataDisplayTab
 		});
 		this.entityManager = SufuFactory.newButton("Entity manager", evt -> { 
 			new EntityManagerDialog((MarvusDataWindow)targetWindow.getSelf()).showDialog();
-			updateCB(nameOptions, database.getEntitiesTableController().getData());
-			updateCB(categoryOption, database.getCategoriesTableController().getData());
+			updateCB(nameOptions, database.getEntitiesTable().getData());
+			updateCB(categoryOption, database.getCategoriesTable().getData());
 		});
 		addMenuAndMenuItems(entityManager, b2, nameOptions, b4, categoryOption, valueFilterOptions, b5, dayOption, b1, showForMonth, b3, noteOptions, orderByComboBox);
 		masterPanel.simulateBorderLayout();
@@ -135,7 +135,7 @@ public class TableTab extends DataDisplayTab
 		{
 			string = SufuComponentTools.<String>extractComboboxValue(nameOptions);
 			if (string.equals("Custom"))
-				for (String name : database.getEntitiesTableController().getData())
+				for (String name : database.getEntitiesTable().getData())
 					currDataSet.removeIf(t -> t.getName().equals(name));
 			else
 				currDataSet.removeIf(t -> !t.getName().equals(string));
@@ -145,7 +145,7 @@ public class TableTab extends DataDisplayTab
 		{
 			string = SufuComponentTools.<String>extractComboboxValue(categoryOption);
 			if (string.equals("Custom"))
-				for (String name : database.getCategoriesTableController().getData())
+				for (String name : database.getCategoriesTable().getData())
 					currDataSet.removeIf(t -> t.getCategory().equals(name));
 			else
 				currDataSet.removeIf(t -> !t.getCategory().equals(string));

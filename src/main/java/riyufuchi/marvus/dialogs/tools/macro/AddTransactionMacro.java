@@ -34,11 +34,11 @@ public class AddTransactionMacro extends SufuDataDialogGeneric<JFrame, Transacti
 	@Override
 	protected void createInputs(JPanel arg0)
 	{
-		existingMacros = SufuFactory.newCombobox(database.getEntitiesTableController().getData());
+		existingMacros = SufuFactory.newCombobox(database.getEntitiesTable().getData());
 		name = SufuFactory.newTextField("");
 		name.setEnabled(false);
 		value = SufuFactory.newTextField("0");
-		category = SufuFactory.newCombobox(database.getCategoriesTableController().getData());
+		category = SufuFactory.newCombobox(database.getCategoriesTable().getData());
 		SufuGuiTools.addLabels(this, "Name:", null, "Category:", "Value:");
 		SufuGuiTools.addComponents(this, 1, 0, existingMacros, name, category, value);
 	}

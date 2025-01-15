@@ -34,7 +34,7 @@ public class DataSummaryTab extends DataDisplayTab
 		this.YEAR = year;
 		this.ds = database.createDataStatistics(YEAR);
 		// UI
-		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTableController().getData()), evt -> refresh());
+		this.categoryOption = SufuFactory.newCombobox(MarvusTableUtils.selectOrdered(database.getCategoriesTable().getData()), evt -> refresh());
 		addMenuAndMenuItems(categoryOption);
 		addContentPanel();
 		this.mcs = database.createCategoryStatistic(SufuComponentTools.extractComboboxValue(categoryOption), YEAR);

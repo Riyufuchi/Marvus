@@ -32,7 +32,7 @@ public record FileInput(String fromFileType, LinkedList<?> data)
 			case MarvusConfig.MDB_EXT -> { return (MarvusDatabase)data.getFirst(); }
 			default -> {
 				MarvusDatabase database = new MarvusDatabase();
-				database.addAll((LinkedList<Transaction>)data);
+				database.insertAllTransactions((LinkedList<Transaction>)data);
 				return database;
 			}
 		}

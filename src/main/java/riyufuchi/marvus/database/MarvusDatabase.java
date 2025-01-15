@@ -1,6 +1,7 @@
 package riyufuchi.marvus.database;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Month;
@@ -34,12 +35,14 @@ import riyufuchi.sufuLib.time.SufuDateUtils;
  * @since 12.12.2024
  * @version 15.01.2025
  */
-public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseController
+public class MarvusDatabase implements MarvusDatabaseController, Serializable
 {
+	private static final long serialVersionUID = 10L;
 	private MarvusDatabaseIO databaseIO;
 	private SufuTableDB<String, TransactionMacro> macroTable;
 	private SufuTableDB<Integer, String> entities;
 	private SufuTableDB<Integer, String> categories;
+	private MarvusMainTable transactionTable;
 	
 	public MarvusDatabase()
 	{
@@ -48,7 +51,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	
 	public MarvusDatabase(Consumer<String> errorHandler, JFrame frame)
 	{
-		super(errorHandler);
+		this.transactionTable = new MarvusMainTable(errorHandler);
 		this.databaseIO = new MarvusDatabaseIO(frame);
 		this.macroTable = databaseIO.loadTransactionMacroTable();
 		this.entities = databaseIO.loadEntityTable();
@@ -69,7 +72,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 		}
 		catch (NullPointerException | IOException e)
 		{
-			errorHandler.accept(e.getLocalizedMessage());
+			transactionTable.getErrorHandler().accept(e.getLocalizedMessage());
 			return false;
 		}
 		return true;
@@ -78,7 +81,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	@Override
 	public boolean insertTransaction(Transaction transaction)
 	{
-		return add(transaction);
+		return transactionTable.add(transaction);
 	}
 	
 	@Override
@@ -100,7 +103,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	@Override
 	public boolean updateTransaction(Transaction transaction)
 	{
-		return set(transaction);
+		return transactionTable.set(transaction);
 	}
 	
 	@Override
@@ -128,7 +131,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	@Override
 	public boolean removeTransaction(Transaction transactionID)
 	{
-		return remove(transactionID);
+		return transactionTable.remove(transactionID);
 	}
 	
 	@Override
@@ -160,8 +163,8 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	{
 		switch (atr)
 		{
-			case "Name" -> stream().filter(t -> t.getName().equals(oldValue)).forEach(t -> t.setName(newValue));
-			case "Category" -> stream().filter(t -> t.getCategory().equals(oldValue)).forEach(t -> t.setCategory(newValue));
+			case "Name" -> transactionTable.stream().filter(t -> t.getName().equals(oldValue)).forEach(t -> t.setName(newValue));
+			case "Category" -> transactionTable.stream().filter(t -> t.getCategory().equals(oldValue)).forEach(t -> t.setCategory(newValue));
 			default -> { updateAll(createStreamFor(atr, oldValue), createPredicateFor("", ""), createConsumerFor(atr, newValue)); }
 		}
 		return true;
@@ -178,7 +181,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	
 	private Stream<Transaction> createStreamFor(String targetAttr, String whereValue)
 	{
-		return stream().filter(createPredicateFor(targetAttr, whereValue));
+		return transactionTable.stream().filter(createPredicateFor(targetAttr, whereValue));
 	}
 	
 	private Predicate<Transaction> createPredicateFor(String targetAttr, String whereValue)
@@ -212,7 +215,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	@Override
 	public MarvusDataStatistics createDataStatistics(int year)
 	{
-		final BigDecimal TOTAL_TRANSACTION = new BigDecimal(size());
+		final BigDecimal TOTAL_TRANSACTION = new BigDecimal(transactionTable.size());
 		final BigDecimal TWELVE = new BigDecimal(12);
 		BigDecimal numOfDays = new BigDecimal(365);
 		if (SufuDateUtils.isLeapYear(year))
@@ -221,7 +224,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 		BigDecimal avgYearTransactions = TOTAL_TRANSACTION.divide(TWELVE, 2, RoundingMode.HALF_UP);
 		BigDecimal avgMonthTransactions = TOTAL_TRANSACTION.divide(numOfDays, 2, RoundingMode.HALF_UP);
 		// Average income, outcome and total
-		MarvusYearOverview yo = getYearOverview(year);
+		MarvusYearOverview yo = transactionTable.getYearOverview(year);
 		BigDecimal avgIncome = yo.totalIncome().divide(TWELVE, 2, RoundingMode.HALF_UP);
 		BigDecimal avgSpendings = yo.totalSpendings().divide(TWELVE, 2, RoundingMode.HALF_UP);
 		BigDecimal avgTotal = yo.totalResult().divide(TWELVE, 2, RoundingMode.HALF_UP);
@@ -260,7 +263,7 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	}
 
 	@Override
-	public SufuIDatabase<String, TransactionMacro> getMacrosTableController()
+	public SufuIDatabase<String, TransactionMacro> getMacrosTable()
 	{
 		return macroTable;
 	}
@@ -268,17 +271,17 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	@Override
 	public SufuIDatabase<Integer, Transaction> getTransactionsTable()
 	{
-		return this;
+		return transactionTable;
 	}
 
 	@Override
-	public SufuIDatabase<Integer, String> getCategoriesTableController()
+	public SufuIDatabase<Integer, String> getCategoriesTable()
 	{
 		return categories;
 	}
 
 	@Override
-	public SufuIDatabase<Integer, String> getEntitiesTableController()
+	public SufuIDatabase<Integer, String> getEntitiesTable()
 	{
 		return entities;
 	}
@@ -286,36 +289,55 @@ public class MarvusDatabase extends MarvusMainTable implements MarvusDatabaseCon
 	@Override
 	public MarvusYearOverview createYearOverview(int year)
 	{
-		return super.getYearOverview(year);
+		return transactionTable.getYearOverview(year);
 	}
 
 	@Override
 	public LinkedList<FinancialCategory> getCategorizedMonthByNames(Month month)
 	{
-		return super.getCategorizedMonthByNames(month);
+		return transactionTable.getCategorizedMonthByNames(month);
 	}
 
 	@Override
 	public LinkedList<FinancialCategory> getCategorizedYearByCategories(int year)
 	{
-		return super.getCategorizedYearByCategories(year);
+		return transactionTable.getCategorizedYearByCategories(year);
 	}
 
 	@Override
 	public LinkedList<FinancialCategory> getCategorizedMonth(Month month)
 	{
-		return super.getCategorizedMonth(month);
+		return transactionTable.getCategorizedMonth(month);
 	}
 
 	@Override
 	public LinkedList<Transaction> getMonth(Month month)
 	{
-		return super.getMonth(month);
+		return transactionTable.getMonth(month);
 	}
 
 	@Override
 	public boolean insertAllTransactions(Collection<Transaction> transactionList)
 	{
-		return super.addAll(transactionList);
+		return transactionTable.addAll(transactionList);
+	}
+
+	@Override
+	public int assumeYear()
+	{
+		Transaction t = transactionTable.getByID(1).orElse(new Transaction());
+		if (t.getID() == -1)
+			return -1;
+		return t.getDate().getYear();
+	}
+	
+	public Stream<Transaction> stream()
+	{
+		return transactionTable.stream();
+	}
+
+	public void setErrorHandler(Consumer<String> object)
+	{
+		transactionTable.setErrorHandler(object);
 	}
 }

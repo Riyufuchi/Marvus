@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.records.SufuRow;
 /**
  * @author Riyufuchi
  * @since 29.11.2024
- * @version 11.01.2025
+ * @version 16.01.2025
  */
 public class EditTransactionMacro extends AddTransactionMacro
 {
@@ -31,14 +31,14 @@ public class EditTransactionMacro extends AddTransactionMacro
 		super.createInputs(arg0);
 		existingMacros.removeAllItems();
 		existingMacros.addActionListener(evt -> {
-			database.getMacrosTableController().getByID(SufuComponentTools.extractComboboxValue(existingMacros)).ifPresent(row -> {
+			database.getMacrosTable().getByID(SufuComponentTools.extractComboboxValue(existingMacros)).ifPresent(row -> {
 				selectedRow = new SufuRow<>(row.name(), row);
 				name.setText(row.name());
 				SufuComponentTools.setSelectedItemGeneric(category, row.category());
 				value.setText(row.value());
 			});
 		});
-		for (SufuRow<String, TransactionMacro> row : MarvusTableUtils.selectMacroOrdered(database.getMacrosTableController()))
+		for (SufuRow<String, TransactionMacro> row : MarvusTableUtils.selectMacroOrdered(database.getMacrosTable()))
 			existingMacros.addItem(row.entity().name());
 		this.existingMacros.setSelectedIndex(0);
 	}

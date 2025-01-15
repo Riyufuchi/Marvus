@@ -27,9 +27,7 @@ import riyufuchi.marvus.tabs.YearSummaryTab;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.dataUtils.MarvusDataComparation;
 import riyufuchi.marvusLib.enums.MarvusAction;
-import riyufuchi.marvusLib.enums.MarvusTransactionOrderBy;
 import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.files.SufuFileHelper;
@@ -324,7 +322,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			case MarvusDatabase mdbs -> {
 				// Because if database is loaded from serialization, comparator and errorHandler will be null
 				mdbs.setErrorHandler(s -> SufuDialogHelper.warningDialog(controledWindow, s, "Data error"));
-				mdbs.setComparator(MarvusDataComparation.compareFinancialCategory(MarvusTransactionOrderBy.NAME));
+				//mdbs.setComparator(MarvusDataComparation.compareFinancialCategory(MarvusTransactionOrderBy.NAME));
 			}
 			default -> {}
 		}
