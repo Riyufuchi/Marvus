@@ -1,17 +1,17 @@
 package riyufuchi.marvus.interfaces;
 
-import riyufuchi.marvus.database.MarvusDatabase;
+import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 
 /**
  * 
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 25.12.2023
+ * @version 15.01.2025
  */
 public interface IMarvusController
 {
 	// Setters
-	void setDatabase(MarvusDatabase md);
+	void setDatabase(MarvusDatabaseController md);
 	// Getters
-	MarvusDatabase getDatabase();
+	MarvusDatabaseController getDatabase();
 }

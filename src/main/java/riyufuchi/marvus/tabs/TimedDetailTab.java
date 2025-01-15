@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -17,6 +18,7 @@ import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.subTabs.TableDetail;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
+import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.FinancialCategory;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
@@ -29,7 +31,7 @@ import riyufuchi.sufuLib.general.SufuInterval;
  * 
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 06.01.2025
+ * @version 15.01.2025
  */
 public class TimedDetailTab extends DataDisplayTab
 {
@@ -121,7 +123,7 @@ public class TimedDetailTab extends DataDisplayTab
 		dataPane.add(SufuFactory.newTextFieldHeader(income.add(spendings).toString()));
 	}
 	
-	private LinkedList<FinancialCategory> selectAndGetCategorizedMonth(int month)
+	private LinkedList<FinancialCategory> selectAndGetCategorizedMonth(Month month)
 	{
 		if (sortByBox.getSelectedIndex() == 0)
 			return database.getCategorizedMonthByNames(month);
@@ -132,15 +134,15 @@ public class TimedDetailTab extends DataDisplayTab
 	{
 		categories.clear();
 		final Transaction BREAKER = new Transaction();
-		final int FINAL_MONTH = dateInerval.getMax().getMonthValue();
-		categories = selectAndGetCategorizedMonth(FINAL_MONTH);
+		final SufuInterval<Integer> interval = new SufuInterval<>(dateInerval.getMin().getMonthValue(), dateInerval.getMax().getMonthValue());
+		int month = interval.getMin();
 		Iterator<FinancialCategory> it_categories = null;
 		FinancialCategory financialCategoryHolder = null;
 		LinkedList<FinancialCategory> categorizedMonth = null;
 		// This loop takes categorized months and unite categories regardless the dates
-		for (int month = dateInerval.getMin().getMonthValue(); month <= FINAL_MONTH; month++)
+		do
 		{
-			categorizedMonth = selectAndGetCategorizedMonth(month);
+			categorizedMonth = selectAndGetCategorizedMonth(MarvusUtils.monthTable.getByID(month).get());
 			for (FinancialCategory financialCategory : categorizedMonth)
 			{
 				it_categories = categories.iterator();
@@ -157,10 +159,13 @@ public class TimedDetailTab extends DataDisplayTab
 				if (financialCategory.getFirst().getID() != -1)
 					categories.add(financialCategory);
 			}
-		}
+			month++;
+		} while (interval.isIn(month));
 		// Clear transactions
 		categories.stream().forEach(category -> category.removeIf(transaction -> dateInerval.isNotIn(transaction.getDate())));
 		// Clear empty categories
 		categories.removeIf(category -> category.isEmpty());
+		if (categories.isEmpty())
+			System.out.println("Huh?");
 	}
 }

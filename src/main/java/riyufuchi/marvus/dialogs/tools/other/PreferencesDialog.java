@@ -18,7 +18,7 @@ import riyufuchi.sufuLib.config.SufuLibConfig;
 import riyufuchi.sufuLib.enums.SufuAppTheme;
 import riyufuchi.sufuLib.files.SufuFileHelper;
 import riyufuchi.sufuLib.files.SufuPersistence;
-import riyufuchi.sufuLib.gui.SufuDialog;
+import riyufuchi.sufuLib.gui.SufuDialogGeneric;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
 import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
@@ -27,9 +27,9 @@ import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 14.07.2022
- * @version 12.09.2024
+ * @version 16.01.2025
  */
-public class PreferencesDialog extends SufuDialog
+public class PreferencesDialog extends SufuDialogGeneric<JFrame>
 {
 	private JComboBox<SufuAppTheme> themes;
 	private JComboBox<String> dateFormat, windowSize;

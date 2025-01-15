@@ -1,5 +1,6 @@
 package riyufuchi.marvus.utils;
 
+import java.time.Month;
 import java.util.function.Consumer;
 
 import javax.swing.JFrame;
@@ -10,16 +11,25 @@ import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.controller.TabController;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.sufuLib.database.SufuAutoIncrement;
+import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.gui.SufuFilePicker;
 import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 
 /**
  * @author Riyufuchi
  * @since 18.12.2023
- * @version 10.01.2025
+ * @version 15.01.2025
  */
 public class MarvusUtils
 {
+	public static final SufuTableDB<Integer, Month> monthTable = new SufuTableDB<Integer, Month>(new SufuAutoIncrement(0));
+	
+	static {
+		for (Month month : Month.values())
+			monthTable.add(month);
+	}
+	
 	private MarvusUtils() {}
 	
 	public static void createNewTab(MarvusDataWindow mdw)
@@ -47,6 +57,6 @@ public class MarvusUtils
 	{
 		if (controller.isOperationUnexucatable())
 			return;
-		consumer.accept(controller.getDatabase());
+		consumer.accept(controller.getDatabase().getTransactionsTable().getData());
 	}
 }

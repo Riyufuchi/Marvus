@@ -18,14 +18,14 @@ import riyufuchi.marvusLib.records.TransactionMacro;
 import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.files.SufuPersistence;
 import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
-import riyufuchi.sufuLib.interfaces.SufuDatabaseInterface;
+import riyufuchi.sufuLib.interfaces.SufuIDatabase;
 import riyufuchi.sufuLib.records.SufuPair;
 import riyufuchi.sufuLib.records.SufuRow;
 
 /**
  * @author riyufuchi
  * @since ?
- * @version 11.01.2025
+ * @version 15.01.2025
  */
 public class EntityManagerController
 {
@@ -36,7 +36,7 @@ public class EntityManagerController
 	private MarvusDatabaseController database;
 	private SufuPair<SufuRow<Integer, String>, SufuRow<Integer, String>> pair;
 	
-	public record TargetTableInfo(MarvusComboBoxDialogTexts texts, String path, SufuDatabaseInterface<Integer, String> tableController, int tableID) {};
+	public record TargetTableInfo(MarvusComboBoxDialogTexts texts, String path, SufuIDatabase<Integer, String> tableController, int tableID) {};
 	
 	public EntityManagerController(JFrame appManager, MarvusDatabaseController database)
 	{
@@ -49,7 +49,7 @@ public class EntityManagerController
 		this.pair = null;
 	}
 	
-	private <K extends Serializable, E extends Serializable> boolean saveTableToFile(String path, SufuDatabaseInterface<K, E> table)
+	private <K extends Serializable, E extends Serializable> boolean saveTableToFile(String path, SufuIDatabase<K, E> table)
 	{
 		try
 		{
@@ -63,7 +63,7 @@ public class EntityManagerController
 		return true;
 	}
 	
-	private <K extends Serializable, E extends Serializable> void tableToFile(boolean result, String title, MarvusAction action, String path, SufuDatabaseInterface<K, E> table)
+	private <K extends Serializable, E extends Serializable> void tableToFile(boolean result, String title, MarvusAction action, String path, SufuIDatabase<K, E> table)
 	{
 		if (result)
 		{
@@ -103,7 +103,7 @@ public class EntityManagerController
 	{
 		switch (action)
 		{
-			case ADD -> actionResult(database.insertCategory(pair.item().entity()), info.texts.title(), action);
+			case ADD -> actionResult(database.insertEntity(pair.item().entity()), info.texts.title(), action);
 			case EDIT -> actionResult(database.updateEntity(pair.index().id(), pair.item().entity()), info.texts.title(), action);
 			case DELETE -> actionResult(database.removeEntity(pair.index().id(), pair.item().id()), info.texts.title(), action);
 			default -> {}
@@ -112,18 +112,13 @@ public class EntityManagerController
 	
 	private void categoryMethodSwitch(TargetTableInfo info, MarvusAction action)
 	{
-		boolean result = false;
 		switch (action)
 		{
-			case ADD -> result = database.getCategoriesTableController().add(pair.item().entity());
-			case EDIT -> {
-				actionResult(database.updateCategory(pair.index().id(), pair.item().entity()), info.texts.title(), action);
-				return;
-			}
-			case DELETE -> SufuDialogHelper.notImplementedYetDialog(parentFrame);
+			case ADD -> actionResult(database.insertCategory(pair.item().entity()), info.texts.title(), action);
+			case EDIT -> actionResult(database.updateCategory(pair.index().id(), pair.item().entity()), info.texts.title(), action);
+			case DELETE -> actionResult(database.removeCategory(pair.index().id(), pair.item().id()), info.texts.title(), action);
 			default -> {}
 		}
-		tableToFile(result, info.texts.title(), action, info.path, info.tableController);
 	}
 	
 	// Macros
@@ -148,7 +143,7 @@ public class EntityManagerController
 	{
 		TransactionMacro tm = new DeleteTransactionMacro(parentFrame, database).showAndGet();
 		if (tm != null && SufuDialogHelper.booleanDialog(parentFrame, "Delete macro for " + tm.name(), "Are you sure?"))
-			tableToFile(database.getMacrosTableController().remove(tm.name()),
+			tableToFile(database.getMacrosTableController().delete(tm.name()),
 				MACRO_TITLE, MarvusAction.DELETE, MarvusConfig.TRANSACTION_MACRO_TABLE_PATH, database.getMacrosTableController());
 	}
 }

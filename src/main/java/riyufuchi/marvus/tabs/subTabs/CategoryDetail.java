@@ -11,14 +11,14 @@ import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.FinancialCategory;
-import riyufuchi.marvusLib.dataUtils.TransactionComparation;
-import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
+import riyufuchi.marvusLib.dataUtils.MarvusDataComparation;
+import riyufuchi.marvusLib.enums.MarvusTransactionOrderBy;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
 
 /**
  * @author riyufuchi
  * @since 19.08.2024
- * @version 31.12.2024
+ * @version 15.01.2025
  */
 public class CategoryDetail extends DataDisplayTab
 {
@@ -95,6 +95,6 @@ public class CategoryDetail extends DataDisplayTab
 			if(holder != null)
 				sortedCategory.add(holder);
 		}
-		Collections.sort(sortedCategory, TransactionComparation.compareFC(CompareMethod.By_name));
+		Collections.sort(sortedCategory, MarvusDataComparation.compareFinancialCategory(MarvusTransactionOrderBy.NAME));
 	}
 }

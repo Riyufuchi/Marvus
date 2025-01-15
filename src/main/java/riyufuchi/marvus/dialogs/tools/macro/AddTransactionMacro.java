@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 
 import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 import riyufuchi.marvusLib.records.TransactionMacro;
-import riyufuchi.sufuLib.gui.SufuDataDialog;
+import riyufuchi.sufuLib.gui.SufuDataDialogGeneric;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
 import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
@@ -15,9 +15,9 @@ import riyufuchi.sufuLib.gui.utils.SufuGuiTools;
 /**
  * @author Riyufuchi
  * @since 1.97 - 12.10.2023
- * @version 11.01.2025
+ * @version 16.01.2025
  */
-public class AddTransactionMacro extends SufuDataDialog<TransactionMacro>
+public class AddTransactionMacro extends SufuDataDialogGeneric<JFrame, TransactionMacro>
 {
 	protected JTextField name, value;
 	protected JComboBox<String> category, existingMacros;

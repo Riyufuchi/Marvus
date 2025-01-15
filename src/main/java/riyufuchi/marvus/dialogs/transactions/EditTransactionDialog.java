@@ -3,10 +3,10 @@ package riyufuchi.marvus.dialogs.transactions;
 import javax.swing.JPanel;
 
 import riyufuchi.marvus.app.MarvusDataWindow;
-import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.enums.MarvusAction;
+import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
 
@@ -15,13 +15,13 @@ import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
  * 
  * @author Riyufuchi
  * @since 11.05.2023
- * @version 07.01.2025
+ * @version 15.01.2025
  */
 public class EditTransactionDialog extends AddTransactionDialog
 {
 	private Transaction transaction;
 	
-	public EditTransactionDialog(MarvusTabbedFrame parentFrame, Transaction transaction, MarvusDatabase database)
+	public EditTransactionDialog(MarvusTabbedFrame parentFrame, Transaction transaction, MarvusDatabaseController database)
 	{
 		super(parentFrame, database);
 		this.transaction = transaction;

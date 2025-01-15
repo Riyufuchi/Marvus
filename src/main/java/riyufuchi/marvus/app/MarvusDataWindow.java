@@ -27,7 +27,7 @@ import riyufuchi.sufuLib.time.SufuDateUtils;
 /**
  * @author Riyufuchi
  * @since 18.04.2023
- * @version 01.01.2025
+ * @version 15.01.2025
  */
 public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> implements MarvusFrame, Fullscreenable<MarvusDataWindow>
 {
@@ -88,7 +88,6 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 				case "Refresh" -> jmc.setItemAction(item, KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK, event -> controller.refresh());
 				case "Backup" -> jmc.setItemAction(item, KeyEvent.VK_B, KeyEvent.CTRL_DOWN_MASK, event -> controller.createBackup());
 				// Data tools
-				case "Sort" -> jmc.setItemAction(item, e -> controller.sortData());
 				case "Execute quarry" -> jmc.setItemAction(item, e -> { controller.executeQuarry(); });
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(item,event -> MarvusUtils.consumeFunction(controller, TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));

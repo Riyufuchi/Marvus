@@ -4,12 +4,12 @@ import riyufuchi.marvusLib.records.MarvusComboBoxDialogTexts;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.6.6";
+	public static final String VERSION = "2.6.7";
 	public static final String APP_NAME =  "Marvus - " + VERSION;
 	// MENU BAR
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Legacy", "Window", "Help"};
 	public static final String[] FILE = {"New", "Open", "Save", "Save As...", "Import", "Export", "Exit"};
-	public static final String[] TRANSACTION = {"Add", "Backup", "Sort"};
+	public static final String[] TRANSACTION = {"Add", "Backup"};
 	public static final String[] OVERVIEW_MODES = {"Table list", "Categorized month list", "Uncategorized month list",
 			"Year summary", "Year overview", "Data summary", "Week detail", "Previous mode"};
 	public static final String[] TOOLS = {"Execute quarry", "Entity manager"};

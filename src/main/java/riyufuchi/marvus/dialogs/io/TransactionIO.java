@@ -12,7 +12,7 @@ import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 /**
  * @author Riyufuchi
  * @since 27.03.2023
- * @version 12.11.2024
+ * @version 15.01.2025
  */
 public class TransactionIO extends SufuFileChooserGeneric<MarvusDataWindow>
 {
@@ -27,7 +27,7 @@ public class TransactionIO extends SufuFileChooserGeneric<MarvusDataWindow>
 		path = addExtension(path);
 		try
 		{
-			if (MarvusIO.saveData(parentFrame, path, parentFrame.getController().getDatabase(), false))
+			if (MarvusIO.saveData(parentFrame, path, parentFrame.getController().getDatabase().getTransactionsTable().getData(), false))
 				SufuDialogHelper.informationDialog(parentFrame, "Succesfuly saved to:\n" + path, "Save progress");
 		}
 		catch (NullPointerException | IOException e)

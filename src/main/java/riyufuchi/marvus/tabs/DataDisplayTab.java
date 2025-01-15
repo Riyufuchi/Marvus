@@ -6,23 +6,23 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.transactions.EditTransactionDialog;
 import riyufuchi.marvus.dialogs.transactions.RemoveTransactionDialog;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Transaction;
+import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
 import riyufuchi.sufuLib.gui.utils.SufuGridPane;
 
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 11.12.2024
+ * @version 15.01.2025
  */
 public abstract class DataDisplayTab
 {
 	protected MarvusTabbedFrame targetWindow;
-	protected MarvusDatabase database;
+	protected MarvusDatabaseController database;
 	protected SufuGridPane masterPanel, contentPanel;
 	private JPanel menuPanel;
 	private DataDisplayTab ddt;
@@ -32,12 +32,12 @@ public abstract class DataDisplayTab
 		this(targetWindow, targetWindow.getController().getDatabase(), null);
 	}
 	
-	public DataDisplayTab(MarvusTabbedFrame targetWindow, MarvusDatabase mdb)
+	public DataDisplayTab(MarvusTabbedFrame targetWindow, MarvusDatabaseController mdb)
 	{
 		this(targetWindow, mdb, null);
 	}
 	
-	public DataDisplayTab(MarvusTabbedFrame targetWindow, MarvusDatabase mdb, DataDisplayTab parentTab)
+	public DataDisplayTab(MarvusTabbedFrame targetWindow, MarvusDatabaseController mdb, DataDisplayTab parentTab)
 	{
 		this.targetWindow = targetWindow;
 		this.database = mdb;
@@ -140,7 +140,7 @@ public abstract class DataDisplayTab
 	
 	// Setters
 	
-	public void setNewData(MarvusDatabase dataSource)
+	public void setNewData(MarvusDatabaseController dataSource)
 	{
 		this.database = dataSource;
 	}
@@ -163,7 +163,7 @@ public abstract class DataDisplayTab
 		return masterPanel;
 	}
 	
-	public MarvusDatabase getDataSource()
+	public MarvusDatabaseController getDataSource()
 	{
 		return database;
 	}

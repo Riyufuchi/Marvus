@@ -10,7 +10,7 @@ import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.utils.MarvusIO;
-import riyufuchi.marvusLib.records.YearOverview;
+import riyufuchi.marvusLib.records.MarvusYearOverview;
 import riyufuchi.sufuLib.files.SufuPersistence;
 import riyufuchi.sufuLib.general.SufuInterval;
 import riyufuchi.sufuLib.gui.SufuFilePicker;
@@ -22,14 +22,14 @@ import riyufuchi.sufuLib.records.SufuPair;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 06.01.2025
+ * @version 15.01.2025
  */
 public class YearOverviewTab extends DataDisplayTab
 {
 	private final int OFFSET;
 	private final int NUM_OF_GENENERATED_COLUMNS;
 	private final DecimalFormat DF;
-	private LinkedList<YearOverview> yearOverviews;
+	private LinkedList<MarvusYearOverview> yearOverviews;
 	private int yOffset;
 	private int year;
 	private LinkedList<SufuPair<String, SufuInterval<BigDecimal>>> intervals;
@@ -46,11 +46,12 @@ public class YearOverviewTab extends DataDisplayTab
 		this.yearOverviews = new LinkedList<>();
 		this.yearOverviews.add(null);
 		this.intervals = new LinkedList<>();
-		this.intervals.add(new SufuPair<>("Very Good", new SufuInterval<>(new BigDecimal(10000), null)));
+		this.intervals.add(new SufuPair<>("Excelent", new SufuInterval<>(new BigDecimal(15000), null)));
+		this.intervals.add(new SufuPair<>("Very Good", new SufuInterval<>(new BigDecimal(10000), new BigDecimal(14999))));
 		this.intervals.add(new SufuPair<>("Good", new SufuInterval<>(new BigDecimal(5000), new BigDecimal(9999))));
 		this.intervals.add(new SufuPair<>("OK", new SufuInterval<>(new BigDecimal(2500), new BigDecimal(4999))));
-		this.intervals.add(new SufuPair<>("Bad", new SufuInterval<>(new BigDecimal(500), new BigDecimal(2499))));
-		this.intervals.add(new SufuPair<>("Very Bad", new SufuInterval<>(null, new BigDecimal(499))));
+		this.intervals.add(new SufuPair<>("Bad", new SufuInterval<>(new BigDecimal(1000), new BigDecimal(2499))));
+		this.intervals.add(new SufuPair<>("Very Bad", new SufuInterval<>(null, new BigDecimal(999))));
 		// UI
 		addMenuAndMenuItems(SufuFactory.newButton("Add table", evt -> addTable()),
 				SufuFactory.newButton("Export to CSV", evt -> exportToCsv()));
@@ -67,7 +68,7 @@ public class YearOverviewTab extends DataDisplayTab
 	
 	private void exportToCsv()
 	{
-		YearOverview yo = yearOverviews.getFirst();
+		MarvusYearOverview yo = yearOverviews.getFirst();
 		LinkedList<String> rows = new LinkedList<>();
 		rows.add(buildTableHeaderCsv(String.valueOf(yo.year())));
 		rows.add(formarRow("Income", yo.income()));
@@ -132,7 +133,7 @@ public class YearOverviewTab extends DataDisplayTab
 		SufuTableTools.addColumnHeader(contentPanel, NUM_OF_GENENERATED_COLUMNS, 0, "YEAR TOTAL");
 	}
 	
-	private void buildTable(YearOverview yearOverview, int baseX, int baseY)
+	private void buildTable(MarvusYearOverview yearOverview, int baseX, int baseY)
 	{
 		if (yearOverview == null)
 		{
@@ -178,10 +179,10 @@ public class YearOverviewTab extends DataDisplayTab
 	@Override
 	public void refresh()
 	{
-		yearOverviews.set(0, database.getYearOverview(year));
+		yearOverviews.set(0, database.createYearOverview(year));
 		clearPanel(contentPanel, NUM_OF_GENENERATED_COLUMNS);
 		yOffset = 0;
-		for (YearOverview yearOverview : yearOverviews)
+		for (MarvusYearOverview yearOverview : yearOverviews)
 		{
 			buildTable(yearOverview, 0, yOffset);
 			yOffset += OFFSET;

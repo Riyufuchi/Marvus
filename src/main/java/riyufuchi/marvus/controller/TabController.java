@@ -27,9 +27,10 @@ import riyufuchi.marvus.tabs.YearSummaryTab;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.dataUtils.TransactionComparation;
-import riyufuchi.marvusLib.dataUtils.TransactionComparation.CompareMethod;
+import riyufuchi.marvusLib.dataUtils.MarvusDataComparation;
 import riyufuchi.marvusLib.enums.MarvusAction;
+import riyufuchi.marvusLib.enums.MarvusTransactionOrderBy;
+import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 import riyufuchi.marvusLib.records.LastChange;
 import riyufuchi.sufuLib.files.SufuFileHelper;
 import riyufuchi.sufuLib.files.SufuPersistence;
@@ -39,11 +40,11 @@ import riyufuchi.sufuLib.interfaces.SufuTab;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 11.01.2025
+ * @version 15.01.2025
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
-	private MarvusDatabase database;
+	private MarvusDatabaseController database;
 	private final MarvusDataWindow controledWindow;
 	private DataDisplayTab currentMode, prevMode, dummyMode;
 	private DataDisplayTab[] subTabs;
@@ -93,17 +94,10 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		refresh();
 	}
 	
-	public void sortData()
-	{
-		var result = SufuDialogHelper.<CompareMethod>optionDialog(controledWindow, "Choose sorting method", "Sorting method chooser", CompareMethod.values());
-		database.sortData(TransactionComparation.compareBy(result));
-		refresh();
-	}
-	
 	public void createBackup()
 	{
 		database.createBackup();
-		if(database.isEmpty())
+		if(database.getTransactionsTable().getCount() != 0)
 		{
 			SufuDialogHelper.warningDialog(controledWindow, "No data to backup", "Backup error");
 			return;
@@ -122,7 +116,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 			{
 				SufuDialogHelper.informationDialog(controledWindow, ("Created directory: " + path), "Backup directory created");
 			}
-			SufuPersistence.<Transaction>saveToCSV(path + currentWorkFile.getName(), database);
+			SufuPersistence.<Transaction>saveToCSV(path + currentWorkFile.getName(), database.getTransactionsTable().getData());
 		}
 		catch (NullPointerException | IOException e)
 		{
@@ -137,7 +131,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		if (isOperationUnexucatable()) // Prevents accidental data deletion
 			return;
 		if (currentWorkFile != null)
-			MarvusIO.quickSave(controledWindow.getSelf(), currentWorkFile.getAbsolutePath(), database);
+			MarvusIO.quickSave(controledWindow.getSelf(), currentWorkFile.getAbsolutePath(), database.getTransactionsTable().getData());
 		else
 			SufuDialogHelper.warningDialog(controledWindow.getSelf(), "No save destination found!", "No save destination");
 		setLastAction(new LastChange(MarvusAction.NONE, null));
@@ -154,7 +148,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		}
 		try
 		{
-			MarvusIO.saveData(controledWindow.getSelf(), currentWorkFile.getAbsolutePath(), database, false);
+			MarvusIO.saveData(controledWindow.getSelf(), currentWorkFile.getAbsolutePath(), database.getTransactionsTable().getData(), false);
 		}
 		catch (NullPointerException | IOException e)
 		{
@@ -196,7 +190,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		}
 		fi.setDataTo(this);
 		controledWindow.renameTab(currentWorkFile.getName());
-		database.getByID(1).ifPresent(transaction -> financialYear = transaction.getDate().getYear());
+		database.getTransactionsTable().getByID(1).ifPresent(transaction -> financialYear = transaction.getDate().getYear());
 		displayData();
 		quickOpened = true;
 		return true;
@@ -289,7 +283,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	 */
 	public boolean isOperationUnexucatable()
 	{
-		if(database.isEmpty())
+		if(database.getTransactionsTable().getCount() == 0)
 		{
 			SufuDialogHelper.warningDialog(controledWindow.getSelf(), "No data to work with!", "No data found");
 			return true;
@@ -314,20 +308,26 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	{
 		if (ddm == null)
 			return;
-		setDatabase(ddm.getDataSource());
+		setDatabase((MarvusDatabase)ddm.getDataSource());
 		ddm.setTargetWindow(this); // ddm have reference to old window
 		updateDataDisplayMode(ddm);
 	}
 	
 	@Override
-	public void setDatabase(MarvusDatabase database)
+	public void setDatabase(MarvusDatabaseController database)
 	{
 		this.database = database;
 		currentMode.setNewData(this.database);
 		prevMode.setNewData(this.database);
-		// Because if database is loaded from serialization, comparator and errorHandler will be null
-		this.database.setErrorHandler(s -> SufuDialogHelper.warningDialog(controledWindow, s, "Data error"));
-		this.database.setComparator(TransactionComparation.compareFC(CompareMethod.By_name));
+		switch (database)
+		{
+			case MarvusDatabase mdbs -> {
+				// Because if database is loaded from serialization, comparator and errorHandler will be null
+				mdbs.setErrorHandler(s -> SufuDialogHelper.warningDialog(controledWindow, s, "Data error"));
+				mdbs.setComparator(MarvusDataComparation.compareFinancialCategory(MarvusTransactionOrderBy.NAME));
+			}
+			default -> {}
+		}
 	}
 	
 	public void setFinancialYear(int financialYear)
@@ -339,7 +339,6 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	{
 		this.lastAction = ls;
 	}
-	
 
 	
 	// GETTERS
@@ -354,7 +353,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		return financialYear;
 	}
 	
-	public MarvusDatabase getDatabase()
+	public MarvusDatabaseController getDatabase()
 	{
 		return database;
 	}

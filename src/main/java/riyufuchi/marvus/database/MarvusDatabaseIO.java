@@ -15,7 +15,7 @@ import riyufuchi.sufuLib.database.SufuTableDB;
 import riyufuchi.sufuLib.files.SufuFileHelper;
 import riyufuchi.sufuLib.files.SufuPersistence;
 import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
-import riyufuchi.sufuLib.interfaces.SufuDatabaseInterface;
+import riyufuchi.sufuLib.interfaces.SufuIDatabase;
 
 public class MarvusDatabaseIO
 {
@@ -26,7 +26,7 @@ public class MarvusDatabaseIO
 		this.parentFrame = parentFrame;
 	}
 	
-	public <K extends Serializable, E extends Serializable> boolean saveTableToFile(String path, SufuDatabaseInterface<K, E> table)
+	public <K extends Serializable, E extends Serializable> boolean saveTableToFile(String path, SufuIDatabase<K, E> table)
 	{
 		try
 		{
