@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.dataUtils.FinancialCategory;
+import riyufuchi.marvusLib.dataUtils.FinancialCategorySafe;
 import riyufuchi.marvusLib.database.MarvusMainTable;
 import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
 import riyufuchi.marvusLib.records.MarvusCategoryStatistic;
@@ -27,13 +27,12 @@ import riyufuchi.sufuLib.files.SufuPersistence;
 import riyufuchi.sufuLib.interfaces.SufuIDatabase;
 import riyufuchi.sufuLib.time.SufuDateUtils;
 
-
 /**
  * This class doesn't represent actual connection to database, just "simulates" it
  * 
  * @author Riyufuchi
  * @since 12.12.2024
- * @version 15.01.2025
+ * @version 17.01.2025
  */
 public class MarvusDatabase implements MarvusDatabaseController, Serializable
 {
@@ -241,8 +240,8 @@ public class MarvusDatabase implements MarvusDatabaseController, Serializable
 	@Override
 	public MarvusCategoryStatistic createCategoryStatistic(String category, int year)
 	{
-		FinancialCategory theOne = null;
-		for (FinancialCategory financialCategory : getCategorizedYearByCategories(year))
+		FinancialCategorySafe theOne = null;
+		for (FinancialCategorySafe financialCategory : getCategorizedYearByCategories(year))
 		{
 			if (financialCategory.getCategory().equals(category))
 			{
@@ -293,19 +292,19 @@ public class MarvusDatabase implements MarvusDatabaseController, Serializable
 	}
 
 	@Override
-	public LinkedList<FinancialCategory> getCategorizedMonthByNames(Month month)
+	public LinkedList<FinancialCategorySafe> getCategorizedMonthByNames(Month month)
 	{
 		return transactionTable.getCategorizedMonthByNames(month);
 	}
 
 	@Override
-	public LinkedList<FinancialCategory> getCategorizedYearByCategories(int year)
+	public LinkedList<FinancialCategorySafe> getCategorizedYearByCategories(int year)
 	{
 		return transactionTable.getCategorizedYearByCategories(year);
 	}
 
 	@Override
-	public LinkedList<FinancialCategory> getCategorizedMonth(Month month)
+	public LinkedList<FinancialCategorySafe> getCategorizedMonth(Month month)
 	{
 		return transactionTable.getCategorizedMonth(month);
 	}

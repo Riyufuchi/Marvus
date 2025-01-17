@@ -92,6 +92,7 @@ public class MarvusDataWindow extends SufuWindowTabbedGeneric<TabController> imp
 				// Tools
 				case "Month outcome" -> jmc.setItemAction(item,event -> MarvusUtils.consumeFunction(controller, TransactionCalculations.incomeToSpendings(this, SufuDateUtils.showMonthChooser(this))));
 				case "Entity manager" -> jmc.setItemAction(item, event -> new EntityManagerDialog(this).showDialog());
+				case "Create invoice" -> jmc.setItemAction(item, event -> controller.onCreateInvoice());
 				// Data handling
 				case "Add" -> jmc.setItemAction(item, KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK, event -> controller.addNewTransaction());
 				// Display modes

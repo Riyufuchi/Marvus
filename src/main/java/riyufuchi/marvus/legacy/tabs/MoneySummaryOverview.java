@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.legacy.data.MoneySum;
-import riyufuchi.marvus.tabs.DataDisplayTab;
+import riyufuchi.marvus.tabs.utils.DataDisplayTab;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
 

@@ -17,7 +17,7 @@ import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.legacy.data.MoneySum;
 import riyufuchi.marvus.legacy.tabs.MoneySummaryOverview;
 import riyufuchi.marvus.legacy.utils.MarvusLegacyHelper;
-import riyufuchi.marvus.tabs.DataDisplayTab;
+import riyufuchi.marvus.tabs.utils.DataDisplayTab;
 import riyufuchi.marvusLib.dataStorage.MarvusDataBox;
 import riyufuchi.sufuLib.gui.ErrorWindow;
 import riyufuchi.sufuLib.gui.SufuWindow;

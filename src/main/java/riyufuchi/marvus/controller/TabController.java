@@ -7,23 +7,25 @@ import java.time.LocalDate;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.dialogs.io.TransactionIO;
-import riyufuchi.marvus.dialogs.transactions.AddTransactionDialog;
+import riyufuchi.marvus.dialogs.transactions.TransactionDialog;
 import riyufuchi.marvus.interfaces.IMarvusController;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.records.FileInput;
-import riyufuchi.marvus.tabs.CategorizedMonthListTab;
-import riyufuchi.marvus.tabs.DataDisplayTab;
-import riyufuchi.marvus.tabs.DataSummaryTab;
-import riyufuchi.marvus.tabs.TableTab;
-import riyufuchi.marvus.tabs.TimedDetailTab;
-import riyufuchi.marvus.tabs.UncategorizedMonthListTab;
-import riyufuchi.marvus.tabs.YearOverviewTab;
-import riyufuchi.marvus.tabs.YearSummaryTab;
+import riyufuchi.marvus.tabs.toolTabs.InvoiceToolTab;
+import riyufuchi.marvus.tabs.utils.DataDisplayTab;
+import riyufuchi.marvus.tabs.viewTabs.CategorizedMonthListTab;
+import riyufuchi.marvus.tabs.viewTabs.DataSummaryTab;
+import riyufuchi.marvus.tabs.viewTabs.TableTab;
+import riyufuchi.marvus.tabs.viewTabs.TimedDetailTab;
+import riyufuchi.marvus.tabs.viewTabs.UncategorizedMonthListTab;
+import riyufuchi.marvus.tabs.viewTabs.YearOverviewTab;
+import riyufuchi.marvus.tabs.viewTabs.YearSummaryTab;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.marvusLib.data.Transaction;
@@ -38,7 +40,7 @@ import riyufuchi.sufuLib.interfaces.SufuTab;
 /**
  * @author Riyufuchi
  * @since 25.12.2023
- * @version 15.01.2025
+ * @version 17.01.2025
  */
 public class TabController implements IMarvusController, MarvusTabbedFrame, SufuTab
 {
@@ -50,6 +52,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	private File currentWorkFile;
 	private boolean quickOpened;
 	private LastChange lastAction;
+	private JScrollPane scrollPane;
 	
 	public TabController(MarvusDataWindow controledWindow)
 	{
@@ -62,6 +65,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		this.controledWindow = controledWindow;
 		this.subTabs = new DataDisplayTab[7]; // Num of tabs in riyufuchi.marvus.tabs package
 		this.currentMode = subTabs[0] = new TableTab(this);
+		this.scrollPane = new JScrollPane();
 		this.prevMode = currentMode;
 		this.currentWorkFile = file;
 		this.quickOpened = false;
@@ -88,8 +92,32 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	
 	public void addNewTransaction()
 	{
-		new AddTransactionDialog(this, database).showDialog();
-		refresh();
+		Transaction t = new TransactionDialog(controledWindow, database, MarvusAction.ADD).showAndGet();
+		if (t != null && database.insertTransaction(t))
+		{
+			lastAction = new LastChange(MarvusAction.ADD, t);
+			refresh();
+		}
+	}
+	
+	public void editTransaction(Transaction t)
+	{
+		Transaction t2 = new TransactionDialog(controledWindow, database, MarvusAction.ADD, t).showAndGet();
+		if (t2 != null && database.updateTransaction(t2))
+		{
+			lastAction = new LastChange(MarvusAction.EDIT, t2);
+			refresh();
+		}
+	}
+	
+	public void deleteTransaction(Transaction t)
+	{
+		Transaction t2 = new TransactionDialog(controledWindow, database, MarvusAction.DELETE, t).showAndGet();
+		if (t2 != null && database.removeTransaction(t2))
+		{
+			lastAction = new LastChange(MarvusAction.DELETE, t2);
+			refresh();
+		}
 	}
 	
 	public void createBackup()
@@ -188,7 +216,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		}
 		fi.setDataTo(this);
 		controledWindow.renameTab(currentWorkFile.getName());
-		database.getTransactionsTable().getByID(1).ifPresent(transaction -> financialYear = transaction.getDate().getYear());
+		financialYear = database.assumeYear();
 		displayData();
 		quickOpened = true;
 		return true;
@@ -249,22 +277,27 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	{
 		if (isOperationUnexucatable())
 			return;
-		controledWindow.setPane(currentMode.getTabsPanel());
 		currentMode.refresh();
-		controledWindow.refreshWindow();
+		scrollPane.setViewportView(currentMode.getTabsPanel()); // Also revalidates
+		controledWindow.setPane(scrollPane);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void displayData()
 	{
-		controledWindow.setPane(currentMode.getTabsPanel());
 		currentMode.prepareUI();
 		currentMode.displayData(); // Displays data
-		controledWindow.refreshWindow();
+		scrollPane.setViewportView(currentMode.getTabsPanel());
+		controledWindow.setPane(scrollPane);
 	}
 	
 	// On methods
+	
+	public void onCreateInvoice()
+	{
+		updateDataDisplayMode(new InvoiceToolTab(this));
+	}
 	
 	@Override
 	public boolean onClose()

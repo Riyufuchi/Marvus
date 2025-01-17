@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
-import riyufuchi.marvus.tabs.DataDisplayTab;
+import riyufuchi.marvus.tabs.utils.DataDisplayTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
 import riyufuchi.sufuLib.gui.utils.SufuTableTools;

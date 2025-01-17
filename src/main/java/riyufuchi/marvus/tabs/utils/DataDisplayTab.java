@@ -1,4 +1,4 @@
-package riyufuchi.marvus.tabs;
+package riyufuchi.marvus.tabs.utils;
 
 import java.awt.event.MouseEvent;
 
@@ -6,8 +6,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import riyufuchi.marvus.dialogs.transactions.EditTransactionDialog;
-import riyufuchi.marvus.dialogs.transactions.RemoveTransactionDialog;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.interfaces.MarvusDatabaseController;
@@ -17,7 +15,7 @@ import riyufuchi.sufuLib.gui.utils.SufuGridPane;
 /**
  * @author Riyufuchi
  * @since 1.67
- * @version 15.01.2025
+ * @version 17.01.2025
  */
 public abstract class DataDisplayTab
 {
@@ -57,6 +55,15 @@ public abstract class DataDisplayTab
 	{}
 	
 	/**
+	 * This method creates only menu panel
+	 */
+	public void addMenuPanel()
+	{
+		menuPanel = SufuFactory.newFlowPane();
+		masterPanel.add(menuPanel, masterPanel.getGBC(0, 0));
+	}
+	
+	/**
 	 * This method creates menuPanel and adds it to master pane to y = 0 and also adds components to it
 	 * 
 	 * @param comps
@@ -65,6 +72,12 @@ public abstract class DataDisplayTab
 	{
 		menuPanel = SufuFactory.newFlowPane();
 		masterPanel.add(menuPanel, masterPanel.getGBC(0, 0));
+		for (JComponent c : comps)
+			menuPanel.add(c);
+	}
+	
+	public void addMenuItems(JComponent ... comps)
+	{
 		for (JComponent c : comps)
 			menuPanel.add(c);
 	}
@@ -110,11 +123,11 @@ public abstract class DataDisplayTab
 	{
 		if(SwingUtilities.isLeftMouseButton(mEvt))
 		{
-			new EditTransactionDialog(targetWindow, t, database).showDialog();
+			targetWindow.getController().editTransaction(t);
 		}
 		else if (SwingUtilities.isRightMouseButton(mEvt))
 		{
-			new RemoveTransactionDialog(targetWindow, t, database).showDialog();
+			targetWindow.getController().deleteTransaction(t);
 		}
 	}
 	

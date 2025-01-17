@@ -1,4 +1,4 @@
-package riyufuchi.marvus.tabs;
+package riyufuchi.marvus.tabs.viewTabs;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -17,10 +17,11 @@ import javax.swing.JPanel;
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.subTabs.TableDetail;
+import riyufuchi.marvus.tabs.utils.DataDisplayTab;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
 import riyufuchi.marvus.utils.MarvusUtils;
 import riyufuchi.marvusLib.data.Transaction;
-import riyufuchi.marvusLib.dataUtils.FinancialCategory;
+import riyufuchi.marvusLib.dataUtils.FinancialCategorySafe;
 import riyufuchi.sufuLib.gui.SufuDatePicker;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
@@ -31,13 +32,13 @@ import riyufuchi.sufuLib.general.SufuInterval;
  * 
  * @author Riyufuchi
  * @since 18.06.2024
- * @version 15.01.2025
+ * @version 17.01.2025
  */
 public class TimedDetailTab extends DataDisplayTab
 {
 	private JButton dateFrom, dateTo;
 	private JComboBox<String> sortByBox;
-	private LinkedList<FinancialCategory> categories;
+	private LinkedList<FinancialCategorySafe> categories;
 	private JPanel dataPane, menuPane, datePane;
 	private Point p;
 	private SufuInterval<LocalDateTime> dateInerval;
@@ -101,7 +102,7 @@ public class TimedDetailTab extends DataDisplayTab
 		BigDecimal holder = null;
 		int x = 0;
 		int y = 0;
-		for (FinancialCategory cat : categories)
+		for (FinancialCategorySafe cat : categories)
 		{
 			holder = cat.getSum();
 			dataPane.add(SufuFactory.newButton(cat.getCategory(), MarvusGuiUtils.encodeCords(x, y), evt -> {
@@ -123,7 +124,7 @@ public class TimedDetailTab extends DataDisplayTab
 		dataPane.add(SufuFactory.newTextFieldHeader(income.add(spendings).toString()));
 	}
 	
-	private LinkedList<FinancialCategory> selectAndGetCategorizedMonth(Month month)
+	private LinkedList<FinancialCategorySafe> selectAndGetCategorizedMonth(Month month)
 	{
 		if (sortByBox.getSelectedIndex() == 0)
 			return database.getCategorizedMonthByNames(month);
@@ -136,14 +137,14 @@ public class TimedDetailTab extends DataDisplayTab
 		final Transaction BREAKER = new Transaction();
 		final SufuInterval<Integer> interval = new SufuInterval<>(dateInerval.getMin().getMonthValue(), dateInerval.getMax().getMonthValue());
 		int month = interval.getMin();
-		Iterator<FinancialCategory> it_categories = null;
-		FinancialCategory financialCategoryHolder = null;
-		LinkedList<FinancialCategory> categorizedMonth = null;
+		Iterator<FinancialCategorySafe> it_categories = null;
+		FinancialCategorySafe financialCategoryHolder = null;
+		LinkedList<FinancialCategorySafe> categorizedMonth = null;
 		// This loop takes categorized months and unite categories regardless the dates
 		do
 		{
 			categorizedMonth = selectAndGetCategorizedMonth(MarvusUtils.monthTable.getByID(month).get());
-			for (FinancialCategory financialCategory : categorizedMonth)
+			for (FinancialCategorySafe financialCategory : categorizedMonth)
 			{
 				it_categories = categories.iterator();
 				while (it_categories.hasNext())
@@ -165,7 +166,5 @@ public class TimedDetailTab extends DataDisplayTab
 		categories.stream().forEach(category -> category.removeIf(transaction -> dateInerval.isNotIn(transaction.getDate())));
 		// Clear empty categories
 		categories.removeIf(category -> category.isEmpty());
-		if (categories.isEmpty())
-			System.out.println("Huh?");
 	}
 }

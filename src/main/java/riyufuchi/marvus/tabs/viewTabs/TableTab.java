@@ -1,7 +1,5 @@
-package riyufuchi.marvus.tabs;
+package riyufuchi.marvus.tabs.viewTabs;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -13,19 +11,15 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.table.TableRowSorter;
-
 import riyufuchi.marvus.app.MarvusDataWindow;
 import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.dialogs.tools.other.EntityManagerDialog;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
+import riyufuchi.marvus.tabs.utils.BasicTableTab;
 import riyufuchi.marvusLib.data.Transaction;
 import riyufuchi.marvusLib.dataUtils.MarvusDataComparation;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
-import riyufuchi.marvusLib.database.TransactionTableModel;
 import riyufuchi.marvusLib.enums.MarvusTransactionOrderBy;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
@@ -35,7 +29,7 @@ import riyufuchi.sufuLib.gui.utils.SufuFactory;
  * @since 14.11.2024
  * @version 15.01.2025
  */
-public class TableTab extends DataDisplayTab
+public class TableTab extends BasicTableTab
 {
 	private JComboBox<Month> showForMonth;
 	private JComboBox<String> valueFilterOptions, nameOptions, noteOptions, categoryOption;
@@ -43,10 +37,6 @@ public class TableTab extends DataDisplayTab
 	private JSpinner dayOption;
 	private JCheckBox b1, b2, b3, b4, b5;
 	private JButton entityManager;
-	private LinkedList<Transaction> currDataSet;
-	private TransactionTableModel model;
-	private JTable table;
-	private TableRowSorter<TransactionTableModel> sorter;
 	private Comparator<Transaction> dataSorter;
 	private String string;
 	
@@ -73,32 +63,13 @@ public class TableTab extends DataDisplayTab
 		SufuComponentTools.centerComboboxList(valueFilterOptions, showForMonth);
 		SufuComponentTools.setSelectedItem(showForMonth, LocalDateTime.now().getMonth());
 		this.showForMonth.addActionListener(evt -> refresh());
-		this.currDataSet = new LinkedList<>();
 		this.string = "";
-		this.model = new TransactionTableModel(currDataSet);
-		this.sorter = new TableRowSorter<>(model);
-		this.table = SufuFactory.newTable(model);
-		this.table.setRowSorter(sorter);
-		this.table.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				int row = table.rowAtPoint(e.getPoint());
-				if (row >= 0) // Ensure a valid cell/row was clicked
-				{
-					showExtednedInfo(model.getTransactionAt(table.convertRowIndexToModel(row)), e);
-				}
-			}
-		});
 		this.entityManager = SufuFactory.newButton("Entity manager", evt -> { 
 			new EntityManagerDialog((MarvusDataWindow)targetWindow.getSelf()).showDialog();
 			updateCB(nameOptions, database.getEntitiesTable().getData());
 			updateCB(categoryOption, database.getCategoriesTable().getData());
 		});
-		addMenuAndMenuItems(entityManager, b2, nameOptions, b4, categoryOption, valueFilterOptions, b5, dayOption, b1, showForMonth, b3, noteOptions, orderByComboBox);
-		masterPanel.simulateBorderLayout();
-		masterPanel.add(new JScrollPane(table), masterPanel.getGBC(0, 1));
+		addMenuItems(entityManager, b2, nameOptions, b4, categoryOption, valueFilterOptions, b5, dayOption, b1, showForMonth, b3, noteOptions, orderByComboBox);
 	}
 	
 	private void updateCB(JComboBox<String> cb, List<String> data)
@@ -179,19 +150,9 @@ public class TableTab extends DataDisplayTab
 	// Overrides
 
 	@Override
-	public void displayData()
-	{
-		refresh();
-	}
-
-	@Override
 	public void refresh()
 	{
 		filterData();
-		model = new TransactionTableModel(currDataSet);
-		sorter = new TableRowSorter<>(model);
-		table.setModel(model);
-		table.setRowSorter(sorter);
-		SufuComponentTools.resizeColumnWidths(table);
+		super.refresh();
 	}
 }

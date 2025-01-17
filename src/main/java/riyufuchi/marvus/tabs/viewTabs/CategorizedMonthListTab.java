@@ -1,4 +1,4 @@
-package riyufuchi.marvus.tabs;
+package riyufuchi.marvus.tabs.viewTabs;
 
 import java.awt.event.ActionEvent;
 import java.time.Month;
@@ -9,8 +9,9 @@ import javax.swing.JButton;
 
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.subTabs.CategoryDetail;
+import riyufuchi.marvus.tabs.utils.DataDisplayTab;
 import riyufuchi.marvus.utils.MarvusGuiUtils;
-import riyufuchi.marvusLib.dataUtils.FinancialCategory;
+import riyufuchi.marvusLib.dataUtils.FinancialCategorySafe;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
 import riyufuchi.sufuLib.gui.utils.SufuTableTools;
 
@@ -18,8 +19,8 @@ public class CategorizedMonthListTab extends DataDisplayTab
 {
 	protected final Month[] months;
 	protected int y;
-	protected FinancialCategory fc;
-	protected LinkedList<LinkedList<FinancialCategory>> categorizedMonths;
+	protected FinancialCategorySafe fc;
+	protected LinkedList<LinkedList<FinancialCategorySafe>> categorizedMonths;
 	private String point;
 	
 	public CategorizedMonthListTab(MarvusTabbedFrame targetWindow)
@@ -51,7 +52,7 @@ public class CategorizedMonthListTab extends DataDisplayTab
 		displayData();
 	}
 	
-	protected void createDataTable(Iterator<FinancialCategory> it, Month month)
+	protected void createDataTable(Iterator<FinancialCategorySafe> it, Month month)
 	{
 		while (it.hasNext())
 		{

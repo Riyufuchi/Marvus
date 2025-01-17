@@ -4,7 +4,7 @@ import riyufuchi.marvusLib.records.MarvusComboBoxDialogTexts;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.6.8";
+	public static final String VERSION = "2.6.9";
 	public static final String APP_NAME =  "Marvus - " + VERSION;
 	// MENU BAR
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Legacy", "Window", "Help"};
@@ -12,7 +12,7 @@ public class MarvusTexts
 	public static final String[] TRANSACTION = {"Add", "Backup"};
 	public static final String[] OVERVIEW_MODES = {"Table list", "Categorized month list", "Uncategorized month list",
 			"Year summary", "Year overview", "Data summary", "Week detail", "Previous mode"};
-	public static final String[] TOOLS = {"Execute quarry", "Entity manager"};
+	public static final String[] TOOLS = {"Execute quarry", "Entity manager", "Create invoice"};
 	public static final String[] LEGACY = {"Month outcome"};
 	public static final String[] WINDOW = {"Preferences", "Fullscreen", "Refresh"};
 	public static final String[] HELP = {"About", "About SufuLib", "About MarvusLib", "License"};

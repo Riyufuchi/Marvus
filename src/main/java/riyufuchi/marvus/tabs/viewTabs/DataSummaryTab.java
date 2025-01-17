@@ -1,9 +1,10 @@
-package riyufuchi.marvus.tabs;
+package riyufuchi.marvus.tabs.viewTabs;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
+import riyufuchi.marvus.tabs.utils.DataDisplayTab;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
 import riyufuchi.marvusLib.records.MarvusCategoryStatistic;
 import riyufuchi.marvusLib.records.MarvusDataStatistics;

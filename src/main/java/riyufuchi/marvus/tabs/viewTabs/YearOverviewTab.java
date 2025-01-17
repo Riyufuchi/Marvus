@@ -1,4 +1,4 @@
-package riyufuchi.marvus.tabs;
+package riyufuchi.marvus.tabs.viewTabs;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import riyufuchi.marvus.app.MarvusConfig;
 import riyufuchi.marvus.database.MarvusDatabase;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
+import riyufuchi.marvus.tabs.utils.DataDisplayTab;
 import riyufuchi.marvus.utils.MarvusIO;
 import riyufuchi.marvusLib.records.MarvusYearOverview;
 import riyufuchi.sufuLib.files.SufuPersistence;
