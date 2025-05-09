@@ -23,7 +23,7 @@ import riyufuchi.sufuLib.records.SufuPair;
 /**
  * @author Riyufuchi
  * @since 1.66 - 05.09.2023
- * @version 16.01.2025
+ * @version 10.03.2025
  */
 public class YearOverviewTab extends DataDisplayTab
 {
@@ -48,11 +48,11 @@ public class YearOverviewTab extends DataDisplayTab
 		this.yearOverviews.add(null);
 		this.intervals = new LinkedList<>();
 		this.intervals.add(new SufuPair<>("Excelent", new SufuInterval<>(new BigDecimal(15000), null)));
-		this.intervals.add(new SufuPair<>("Very Good", new SufuInterval<>(new BigDecimal(10000), new BigDecimal(14999))));
-		this.intervals.add(new SufuPair<>("Good", new SufuInterval<>(new BigDecimal(5000), new BigDecimal(9999))));
-		this.intervals.add(new SufuPair<>("OK", new SufuInterval<>(new BigDecimal(2500), new BigDecimal(4999))));
-		this.intervals.add(new SufuPair<>("Bad", new SufuInterval<>(new BigDecimal(1000), new BigDecimal(2499))));
-		this.intervals.add(new SufuPair<>("Very Bad", new SufuInterval<>(null, new BigDecimal(999))));
+		this.intervals.add(new SufuPair<>("Very Good", new SufuInterval<>(new BigDecimal(10000), new BigDecimal(14999.99))));
+		this.intervals.add(new SufuPair<>("Good", new SufuInterval<>(new BigDecimal(5000), new BigDecimal(9999.99))));
+		this.intervals.add(new SufuPair<>("OK", new SufuInterval<>(new BigDecimal(2500), new BigDecimal(4999.99))));
+		this.intervals.add(new SufuPair<>("Bad", new SufuInterval<>(new BigDecimal(1000), new BigDecimal(2499.99))));
+		this.intervals.add(new SufuPair<>("Very Bad", new SufuInterval<>(null, new BigDecimal(999.99))));
 		// UI
 		addMenuAndMenuItems(SufuFactory.newButton("Add table", evt -> addTable()),
 				SufuFactory.newButton("Export to CSV", evt -> exportToCsv()));

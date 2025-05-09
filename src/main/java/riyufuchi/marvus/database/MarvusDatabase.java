@@ -32,7 +32,7 @@ import riyufuchi.sufuLib.time.SufuDateUtils;
  * 
  * @author Riyufuchi
  * @since 12.12.2024
- * @version 17.01.2025
+ * @version 09.05.2025
  */
 public class MarvusDatabase implements MarvusDatabaseController, Serializable
 {
@@ -95,7 +95,7 @@ public class MarvusDatabase implements MarvusDatabaseController, Serializable
 	public boolean insertEntity(String name)
 	{
 		if (entities.add(name))
-			return databaseIO.saveTableToFile(MarvusConfig.CATEGORY_TABLE_PATH, entities);
+			return databaseIO.saveTableToFile(MarvusConfig.ENTITY_TABLE_PATH, entities);
 		return false;
 	}
 	

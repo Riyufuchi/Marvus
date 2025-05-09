@@ -22,12 +22,13 @@ import riyufuchi.marvusLib.dataUtils.MarvusDataComparation;
 import riyufuchi.marvusLib.database.MarvusTableUtils;
 import riyufuchi.marvusLib.enums.MarvusTransactionOrderBy;
 import riyufuchi.sufuLib.gui.utils.SufuComponentTools;
+import riyufuchi.sufuLib.gui.utils.SufuDialogHelper;
 import riyufuchi.sufuLib.gui.utils.SufuFactory;
 
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 15.01.2025
+ * @version 01.31.2025
  */
 public class TableTab extends BasicTableTab
 {
@@ -62,7 +63,12 @@ public class TableTab extends BasicTableTab
 		SufuComponentTools.disableAll(nameOptions, noteOptions, categoryOption, dayOption);
 		SufuComponentTools.centerComboboxList(valueFilterOptions, showForMonth);
 		SufuComponentTools.setSelectedItem(showForMonth, LocalDateTime.now().getMonth());
-		this.showForMonth.addActionListener(evt -> refresh());
+		this.showForMonth.addActionListener(evt -> 
+		{
+			refresh();
+			if (currDataSet.isEmpty())
+				SufuDialogHelper.warningDialog(targetWindow.getSelf(), "No data to display for " + SufuComponentTools.extractComboboxValue(showForMonth).toString() + "!", "Data fetch result");
+		});
 		this.string = "";
 		this.entityManager = SufuFactory.newButton("Entity manager", evt -> { 
 			new EntityManagerDialog((MarvusDataWindow)targetWindow.getSelf()).showDialog();

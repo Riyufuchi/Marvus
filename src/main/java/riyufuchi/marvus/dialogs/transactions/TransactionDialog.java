@@ -108,6 +108,7 @@ public class TransactionDialog extends SufuDataDialogGeneric<JFrame, Transaction
 	private void createDeleteUI(JPanel pane)
 	{
 		createEditUI(pane);
+		SufuComponentTools.disableAll(nameBox, categoryBox, money, date, note, currency);
 	}
 	
 	// Overrides
@@ -175,7 +176,7 @@ public class TransactionDialog extends SufuDataDialogGeneric<JFrame, Transaction
 
 	private void onOkDelete()
 	{
-		data = null;
+		data = transaction;
 		closeDialog();
 	}
 }

@@ -102,7 +102,7 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	
 	public void editTransaction(Transaction t)
 	{
-		Transaction t2 = new TransactionDialog(controledWindow, database, MarvusAction.ADD, t).showAndGet();
+		Transaction t2 = new TransactionDialog(controledWindow, database, MarvusAction.EDIT, t).showAndGet();
 		if (t2 != null && database.updateTransaction(t2))
 		{
 			lastAction = new LastChange(MarvusAction.EDIT, t2);
@@ -113,17 +113,20 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 	public void deleteTransaction(Transaction t)
 	{
 		Transaction t2 = new TransactionDialog(controledWindow, database, MarvusAction.DELETE, t).showAndGet();
-		if (t2 != null && database.removeTransaction(t2))
-		{
-			lastAction = new LastChange(MarvusAction.DELETE, t2);
-			refresh();
-		}
+		if (t2 == null)
+			return;
+		if (SufuDialogHelper.booleanDialog(controledWindow,t2.toString(), "Delete transaction " + t.getID()))
+			if (database.removeTransaction(t2))
+			{
+				lastAction = new LastChange(MarvusAction.DELETE, t2);
+				refresh();
+			}
 	}
 	
 	public void createBackup()
 	{
 		database.createBackup();
-		if(database.getTransactionsTable().getCount() != 0)
+		if(database.getTransactionsTable().getCount() == 0)
 		{
 			SufuDialogHelper.warningDialog(controledWindow, "No data to backup", "Backup error");
 			return;
@@ -133,9 +136,9 @@ public class TabController implements IMarvusController, MarvusTabbedFrame, Sufu
 		String path = currentWorkFile.getParentFile().getAbsolutePath() + "/backups/" + LocalDate.now() + "/";
 		try
 		{
-			if(SufuFileHelper.checkDirectory(path))
+			if (SufuFileHelper.checkDirectory(path))
 			{
-				if(!SufuDialogHelper.booleanDialog(controledWindow, "Are you really sure?\nThis action will overwrite existing backups.", "Backup creation"))
+				if (!SufuDialogHelper.booleanDialog(controledWindow, "Are you really sure?\nThis action will overwrite existing backups.", "Backup creation"))
 					return;
 			}
 			else
