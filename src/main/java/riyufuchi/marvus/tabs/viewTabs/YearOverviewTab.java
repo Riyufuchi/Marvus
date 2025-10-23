@@ -47,12 +47,13 @@ public class YearOverviewTab extends DataDisplayTab
 		this.yearOverviews = new LinkedList<>();
 		this.yearOverviews.add(null);
 		this.intervals = new LinkedList<>();
-		this.intervals.add(new SufuPair<>("Excelent", new SufuInterval<>(new BigDecimal(15000), null)));
-		this.intervals.add(new SufuPair<>("Very Good", new SufuInterval<>(new BigDecimal(10000), new BigDecimal(14999.99))));
-		this.intervals.add(new SufuPair<>("Good", new SufuInterval<>(new BigDecimal(5000), new BigDecimal(9999.99))));
-		this.intervals.add(new SufuPair<>("OK", new SufuInterval<>(new BigDecimal(2500), new BigDecimal(4999.99))));
-		this.intervals.add(new SufuPair<>("Bad", new SufuInterval<>(new BigDecimal(1000), new BigDecimal(2499.99))));
-		this.intervals.add(new SufuPair<>("Very Bad", new SufuInterval<>(null, new BigDecimal(999.99))));
+		this.intervals.add(new SufuPair<>("Excelent", new SufuInterval<>(new BigDecimal(20000), null)));
+		this.intervals.add(new SufuPair<>("Very Good", new SufuInterval<>(new BigDecimal(15000), new BigDecimal(19999.99))));
+		this.intervals.add(new SufuPair<>("Good", new SufuInterval<>(new BigDecimal(10000), new BigDecimal(14999.99))));
+		this.intervals.add(new SufuPair<>("OK", new SufuInterval<>(new BigDecimal(5000), new BigDecimal(9999.99))));
+		this.intervals.add(new SufuPair<>("Bad", new SufuInterval<>(new BigDecimal(2500), new BigDecimal(4999.99))));
+		this.intervals.add(new SufuPair<>("Very Bad", new SufuInterval<>(new BigDecimal(1000), new BigDecimal(2499.99))));
+		this.intervals.add(new SufuPair<>("!!!", new SufuInterval<>(null, new BigDecimal(999.99))));
 		// UI
 		addMenuAndMenuItems(SufuFactory.newButton("Add table", evt -> addTable()),
 				SufuFactory.newButton("Export to CSV", evt -> exportToCsv()));
