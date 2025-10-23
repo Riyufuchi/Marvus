@@ -4,7 +4,7 @@ import riyufuchi.marvusLib.records.MarvusComboBoxDialogTexts;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.7.0 - beta 3";
+	public static final String VERSION = "2.7.0 - beta 4";
 	public static final String APP_NAME =  "Marvus - " + VERSION;
 	// MENU BAR
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Legacy", "Window", "Help"};
