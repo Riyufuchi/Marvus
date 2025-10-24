@@ -18,9 +18,9 @@ import riyufuchi.sufuLib.gui.utils.SufuFactory;
 /**
  * @author riyufuchi
  * @since est. pre. 17.01.2025
- * @version 23.10.2025
+ * @version 24.10.2025
  */
-public class YearSummaryTab extends DataDisplayTab
+public final class YearSummaryTab extends DataDisplayTab
 {
 	// UI
 	private JSpinner columnHeightSpinner;
@@ -45,10 +45,13 @@ public class YearSummaryTab extends DataDisplayTab
 	{
 		int y = 0;
 		int x = 0;
+		int id = 0;
 		for(FinancialCategorySafe category : list)
 		{
-			contentPanel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(y), evt -> btnDataReference(evt)), masterPanel.getGBC(x, y));
-			contentPanel.add(SufuFactory.newTextFieldHeader(category.getSum().toPlainString()), masterPanel.getGBC(x + 1, y++));
+			contentPanel.add(SufuFactory.newButton(category.getCategory(), String.valueOf(id), evt -> btnDataReference(evt)), contentPanel.getGBC(x, y));
+			contentPanel.add(SufuFactory.newTextFieldHeader(category.getSum().toPlainString()), contentPanel.getGBC(x + 1, y));
+			y++;
+			id++;
 			if (y % (int)columnHeightSpinner.getValue() == 0)
 			{
 				y = 0;
@@ -68,6 +71,6 @@ public class YearSummaryTab extends DataDisplayTab
 	
 	private void btnDataReference(ActionEvent e)
 	{
-		targetWindow.updateDataDisplayMode(new CategoryDetail(targetWindow, list.get(Integer.valueOf(((JButton)e.getSource()).getName()) - 1), this));
+		targetWindow.updateDataDisplayMode(new CategoryDetail(targetWindow, list.get(Integer.valueOf(((JButton)e.getSource()).getName())), this));
 	}
 }
