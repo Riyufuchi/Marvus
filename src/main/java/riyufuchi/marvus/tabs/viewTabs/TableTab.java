@@ -28,7 +28,7 @@ import riyufuchi.sufuLib.gui.utils.SufuFactory;
 /**
  * @author riyufuchi
  * @since 14.11.2024
- * @version 01.31.2025
+ * @version 24.10.2025
  */
 public class TableTab extends BasicTableTab
 {
@@ -136,12 +136,13 @@ public class TableTab extends BasicTableTab
 				currDataSet.removeIf(t -> !t.getNote().isBlank());
 		}
 
-		if (valueFilterOptions.isEnabled() && valueFilterOptions.getSelectedIndex() > 0)
+		if (valueFilterOptions.isEnabled())
 		{
-			if (valueFilterOptions.getSelectedIndex() == 1)
-				currDataSet.removeIf(t -> t.getValue().compareTo(BigDecimal.ZERO) <= 0);
-			else if (valueFilterOptions.getSelectedIndex() == 2)
-				currDataSet.removeIf(t -> t.getValue().compareTo(BigDecimal.ZERO) >= 0);
+			switch (valueFilterOptions.getSelectedIndex())
+			{
+				case 1 -> currDataSet.removeIf(t -> t.getValue().compareTo(BigDecimal.ZERO) <= 0);
+				case 2 -> currDataSet.removeIf(t -> t.getValue().compareTo(BigDecimal.ZERO) >= 0);
+			}
 		}
 		
 		currDataSet.sort(dataSorter);

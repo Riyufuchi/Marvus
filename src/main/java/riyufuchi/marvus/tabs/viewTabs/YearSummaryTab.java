@@ -1,12 +1,15 @@
 package riyufuchi.marvus.tabs.viewTabs;
 
 import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 
+import riyufuchi.marvus.app.MarvusTexts;
 import riyufuchi.marvus.interfaces.MarvusTabbedFrame;
 import riyufuchi.marvus.tabs.subTabs.CategoryDetail;
 import riyufuchi.marvus.tabs.utils.DataDisplayTab;
@@ -24,6 +27,7 @@ public final class YearSummaryTab extends DataDisplayTab
 {
 	// UI
 	private JSpinner columnHeightSpinner;
+	private JComboBox<String> valueFilterOptions;
 	// Data
 	private LinkedList<FinancialCategorySafe> list;
 	private final int YEAR;
@@ -36,7 +40,8 @@ public final class YearSummaryTab extends DataDisplayTab
 		Collections.sort(list, MarvusDataComparation.compareFinancialCategorySafe(MarvusTransactionOrderBy.CATEGORY));
 		// UI
 		this.columnHeightSpinner = SufuFactory.newSpinner(10, 5, 255, 5, evt -> refresh());
-		addMenuAndMenuItems(columnHeightSpinner);
+		this.valueFilterOptions = SufuFactory.newCombobox(MarvusTexts.VALUE_OPTIONS, evt -> refresh());
+		addMenuAndMenuItems(columnHeightSpinner, valueFilterOptions);
 		addContentPanel();
 	}
 
@@ -65,8 +70,18 @@ public final class YearSummaryTab extends DataDisplayTab
 	{
 		contentPanel.removeAll();
 		list = database.getCategorizedYearByCategories(YEAR);
+		filterData();
 		Collections.sort(list, MarvusDataComparation.compareFinancialCategorySafe(MarvusTransactionOrderBy.CATEGORY));
 		displayData();
+	}
+	
+	private void filterData()
+	{
+		switch (valueFilterOptions.getSelectedIndex())
+		{
+			case 1 -> list.removeIf(t -> t.getSum().compareTo(BigDecimal.ZERO) <= 0);
+			case 2 -> list.removeIf(t -> t.getSum().compareTo(BigDecimal.ZERO) >= 0);
+		}
 	}
 	
 	private void btnDataReference(ActionEvent e)
