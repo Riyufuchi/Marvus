@@ -4,7 +4,7 @@ import riyufuchi.marvusLib.records.MarvusComboBoxDialogTexts;
 
 public class MarvusTexts
 {
-	public static final String VERSION = "2.7.0 - beta 6";
+	public static final String VERSION = "2.7.1";
 	public static final String APP_NAME =  "Marvus - " + VERSION;
 	// MENU BAR
 	public static final String[] BUDGET_TABLE_MENU = {"File", "Transaction", "Overview mode", "Tools", "Legacy", "Window", "Help"};
@@ -18,7 +18,8 @@ public class MarvusTexts
 	public static final String[] HELP = {"About", "About SufuLib", "About MarvusLib", "License"};
 	public static final String[][] BUDGET_TABLE_MENU_ITEMS = {FILE, TRANSACTION, OVERVIEW_MODES, TOOLS, LEGACY, WINDOW, HELP};
 	// COMBO BOXES OPTION 
-	public static final String[] GROUP_BY_TIME_DETAIL = {"Name", "Category"}; 
+	public static final String[] GROUP_BY_TIME_DETAIL = {"Name", "Category"};
+	public static final String[] SORT_CATEGORY = {"Name", "Lowest to highest", "Highest to lowest"};
 	// DIALOG TEXTS
 	public static final String ABOUT_MARVUS = "<html>This is finance manager.<br>"
 			+ "Version: " + VERSION + "<br>Created by Riyufuchi © 2021 - 2025."
