@@ -49,7 +49,9 @@ public class MarvusDatabaseIO
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e1)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e1);
-			return new SufuTableDB<>(restoreTable(MarvusConfig.CATEGORY_FILE_PATH, MarvusDefaultTableValues.CATEGORY_ENUM), new SufuAutoIncrement(0));
+			var table = new SufuTableDB<>(restoreTable(MarvusConfig.CATEGORY_FILE_PATH, MarvusDefaultTableValues.CATEGORY_ENUM), new SufuAutoIncrement(0));
+			this.<Integer, String>saveTableToFile(MarvusConfig.CATEGORY_TABLE_PATH, table);
+			return table;
 		}
 	}
 	
@@ -64,7 +66,9 @@ public class MarvusDatabaseIO
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e1)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e1);
-			return new SufuTableDB<>(restoreTable(MarvusConfig.ENTITY_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM), new SufuAutoIncrement(0));
+			var table = new SufuTableDB<>(restoreTable(MarvusConfig.ENTITY_FILE_PATH, MarvusDefaultTableValues.ENTITY_NAME_ENUM), new SufuAutoIncrement(0));
+			this.<Integer, String>saveTableToFile(MarvusConfig.ENTITY_TABLE_PATH, table);
+			return table;
 		}
 	}
 	
@@ -95,7 +99,9 @@ public class MarvusDatabaseIO
 		catch (ClassNotFoundException | NullPointerException | ClassCastException | IOException e1)
 		{
 			SufuDialogHelper.exceptionDialog(parentFrame, e1);
-			return new SufuTableDB<>(restoreTransactionMacro(), e -> { return e.name(); });
+			var table = new SufuTableDB<>(restoreTransactionMacro(), e -> { return e.name(); });
+			this.<String, TransactionMacro>saveTableToFile(MarvusConfig.TRANSACTION_MACRO_TABLE_PATH, table);
+			return table;
 		}
 	}
 	

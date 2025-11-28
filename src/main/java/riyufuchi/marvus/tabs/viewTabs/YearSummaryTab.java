@@ -21,14 +21,13 @@ import riyufuchi.sufuLib.gui.utils.SufuFactory;
 /**
  * @author riyufuchi
  * @since est. pre. 17.01.2025
- * @version 24.10.2025
+ * @version 27.10.2025
  */
 public final class YearSummaryTab extends DataDisplayTab
 {
 	// UI
 	private JSpinner columnHeightSpinner;
-	private JComboBox<String> valueFilterOptions;
-	private JComboBox<String> orderByComboBox;
+	private JComboBox<String> valueFilterOptions, orderByComboBox;
 	// Data
 	private LinkedList<FinancialCategorySafe> list;
 	private final int YEAR;
