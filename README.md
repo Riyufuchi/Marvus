@@ -1,7 +1,8 @@
 # Marvus
 
 ## About
-This is simple application for managing finances. This application use my private proprietary library, that I don't just share, so this code is
+
+This is simple application in Java Swing (This application **requires Java 21**) for managing finances. This application use my private proprietary library, that I don't just share, so this code is
 just for showcase.
 
 This project is continuing in my older project and it was started on: Apr 29, 2022.
